@@ -3,10 +3,10 @@
 class MyConsole
 {
 public:
-	void test();
 	/*
 	MyConsole();
 	~MyConsole();
 	*/
+	void test();
 };
 #endif
