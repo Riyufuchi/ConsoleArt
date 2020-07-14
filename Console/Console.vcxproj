@@ -23,6 +23,7 @@
     <ProjectGuid>{15A972BC-D45E-4EE6-94F4-7C768EE95ED5}</ProjectGuid>
     <RootNamespace>Console</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <ProjectName>ConsoleArt</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -116,6 +117,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MainSource.cpp" />
+    <ClCompile Include="MyConsole.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyConsole.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
