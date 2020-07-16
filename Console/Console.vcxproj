@@ -122,7 +122,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MainSource.cpp" />
-    <ClCompile Include="MyConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyConsole.h" />

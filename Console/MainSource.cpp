@@ -20,8 +20,7 @@ int main(int argc, char **argv)
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;
 	MyConsole c;
-	c.test();
-	c.setConsole();
+	c.ConstructConsole(800, 600, 12, 12);
 	std::cout << "\x1b[32;1mHello\x1b[0m\n";
 	std::cout << "\x1b[31;1mBye\x1b[0m\n";
 	cin.get();

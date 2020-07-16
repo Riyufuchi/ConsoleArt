@@ -18,9 +18,6 @@
     <ClCompile Include="MainSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyConsole.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyConsole.h">
