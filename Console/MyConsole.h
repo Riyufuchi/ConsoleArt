@@ -136,12 +136,13 @@ constexpr SDL_Color colour_lookup[] =
 	SDL_Color{ 255,255,0,255 },  // E
 	SDL_Color{ 255,255,255,255 },// F
 };
-
+/*
 struct CHAR_INFO
 {
 	unsigned short glyph;
 	short colour;
 };
+*/
 #pragma endregion
 
 class MyConsole
