@@ -8,5 +8,6 @@ public:
 	~MyConsole();
 	*/
 	void test();
+	void setConsole();
 };
 #endif
