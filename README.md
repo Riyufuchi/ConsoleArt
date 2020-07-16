@@ -1,2 +1,2 @@
-# Portal subtittle screen in console
-In this project I'm trying to recreate subtitle screen from Portal in console and also exploring console capabilities.
+# ConsoleArt
+In this project I'll be experimating and I'll use it also for "relaxation".
