@@ -4,6 +4,12 @@ class Image
 private:
 	//const char* INPUT_FILENAME = "ban hammer.png";
 	char* fileName;
+	int bitsPerPixel;
+	int rowSize;
+	int pixelArraySize;
+	unsigned char bmpFileHeader[14];
+	unsigned int pixelArrayOffset;
+	unsigned char bmpInfoHeader[40];
 	unsigned char* imgData;
 	int imgWidth;
 	int imgHeight;
@@ -11,8 +17,8 @@ private:
 	{
 		char* name;
 		unsigned char* data;
-		const int width;
-		const int height;
+	    int width;
+		int height;
 	};
 	struct Pixel 
 	{
