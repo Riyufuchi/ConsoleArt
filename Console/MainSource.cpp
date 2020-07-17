@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <string>
 #include "MyConsole.h"
 
 using namespace std;
@@ -18,8 +19,10 @@ int main(int argc, char **argv)
 {	
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;
-	MyConsole c;
-	c.test();
+	MyConsole mc(800, 600, 4, 4);
+	mc.setRGBTextColor(255, 105, 180);
+	mc.setTextColor(mc.D_BLUE);
+	mc.test();
 	cin.get();
 	return 0;
 }
