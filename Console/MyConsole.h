@@ -14,6 +14,7 @@ class MyConsole
 private:
 	int screenWidth;
 	int screenHeight;
+	wchar_t *screen;
 	std::wstring name;
 	HANDLE console;
 public:
@@ -24,10 +25,12 @@ public:
 		D_PINK = 5,
 		L_PINK = 13
 	};
-	MyConsole(int width, int height, int fontW, int fontH);
+	MyConsole(int width, int height);
+	MyConsole();
 	void test();
+	void start();
 	void setTextColor(COLORS);
-	void setRGBTextColor(int  r, int g, int b);
+	void setBGColor(int  r, int g, int b);
 	~MyConsole();
 };
 #endif
