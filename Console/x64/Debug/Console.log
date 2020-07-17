@@ -1,3 +1,9 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Console.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  MainSource.cpp
-  Console.vcxproj -> D:\Files\Programming\C++ Visual Studio\ConsoleArt\x64\Debug\ConsoleArt.exe
+  Image.cpp
+d:\files\programming\c++ visual studio\consoleart\console\image.h(22): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  d:\files\programming\c++ visual studio\consoleart\console\image.h(22): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+d:\files\programming\c++ visual studio\consoleart\console\image.cpp(8): warning C4101: 'i': unreferenced local variable
+d:\files\programming\c++ visual studio\consoleart\console\image.cpp(52): warning C4566: character represented by universal-character-name '\u2588' cannot be represented in the current code page (1250)
+d:\files\programming\c++ visual studio\consoleart\console\image.cpp(54): error C2131: expression did not evaluate to a constant
+  d:\files\programming\c++ visual studio\consoleart\console\image.cpp(54): note: failure was caused by a read of a variable outside its lifetime
+  d:\files\programming\c++ visual studio\consoleart\console\image.cpp(54): note: see usage of 'a'

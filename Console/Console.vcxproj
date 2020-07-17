@@ -121,10 +121,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="MyConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Image.h" />
     <ClInclude Include="MyConsole.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
