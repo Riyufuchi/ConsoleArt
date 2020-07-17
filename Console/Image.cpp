@@ -32,7 +32,7 @@ void Image::readBMP()
 	pixelArrayOffset = *array_offset_ptr;
 	if (bmpFileHeader[11] != 0 || bmpFileHeader[12] != 0 || bmpFileHeader[13] != 0) 
 	{
-		std::cerr << "You probably need to fix something. bmp.h(" << __LINE__ << ")\n";
+		std::cerr << "You probably need to fix something. (" << __LINE__ << ")\n";
 	}
 	//unsigned char m_bmpInfoHeader[40];
 	for (int i = 0; i < 40; i++) 
@@ -40,10 +40,14 @@ void Image::readBMP()
 		inf >> hex >> a;
 		bmpInfoHeader[i] = a;
 	}
+	/*
 	int * width_ptr = (int*)(bmpInfoHeader + 4);
 	int * height_ptr = (int*)(bmpInfoHeader + 8);
 	imgWidth = *width_ptr;
 	imgHeight = *height_ptr;
+	*/
+	imgWidth = 100;
+	imgHeight = 100;
 	printf("W: %i, H: %i", imgWidth, imgHeight);
 
 	bitsPerPixel =bmpInfoHeader[14];
@@ -55,7 +59,7 @@ void Image::readBMP()
 	if (compressionMethod != 0) 
 	{
 		cerr << "There's some compression stuff going on that we might not be able to deal with.\n";
-		cerr << "Comment out offending lines to continue anyways. bpm.h line: " << __LINE__ << "\n";
+		cerr << "Comment out offending lines to continue anyways. line: " << __LINE__ << "\n";
 	}
 	rowSize = int(floor((bitsPerPixel*imgWidth + 31.) / 32)) * 4;
 	pixelArraySize = rowSize * abs(imgHeight);
@@ -100,10 +104,23 @@ Image::Pixel Image::getPixel(int x, int y)
 	p.green = imgData[3 * (x * imgWidth + y) + 1];
 	p.blue = imgData[3 * (x * imgWidth + y) + 2];
 	*/
-	p.red = (unsigned int)(imgData[rowSize*y + 3 * x + 2]);
-	p.green = (unsigned int)(imgData[rowSize*y + 3 * x + 1]);
-	p.blue = (unsigned int)(imgData[rowSize*y + 3 * x + 0]);
+	p.red = (imgData[rowSize*y + 3 * x + 2]);
+	p.green = (imgData[rowSize*y + 3 * x + 1]);
+	p.blue = (imgData[rowSize*y + 3 * x + 0]);
 	return p;
+}
+
+int Image::getRed(int x, int y)
+{
+	return imgData[rowSize*y + 3 * x + 2];
+}
+int Image::getGreen(int x, int y)
+{
+	return imgData[rowSize*y + 3 * x + 1];
+}
+int Image::getBlue(int x, int y)
+{
+	return imgData[rowSize*y + 3 * x + 0];
 }
 
 Image::Image(char* filename)
@@ -112,7 +129,7 @@ Image::Image(char* filename)
 	readBMP();
 }
 
-void Image::imgToASCII()
+Image::AsciiPicture Image::imgToASCII()
 {
 	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
@@ -121,14 +138,14 @@ void Image::imgToASCII()
 	double podR = 0.2989;
 	double podG = 0.5866;
 	double podB = 0.1145;
-	double brightness;
+	int brightness;
 	int x = 0;
 	int y = 0;
 	int index = 0;
 	while (true)
 	{
-		Pixel pix = getPixel(x, y);
-		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
+		//Pixel pix = getPixel(x, y);
+		brightness = (getRed(x, y) * podR + getGreen(x, y) * podG + getBlue(x, y) * podB);
 		if (x != imgWidth - 1)
 		{
 			if (brightness > 25)
@@ -210,6 +227,9 @@ void Image::imgToASCII()
 		}
 		x++;
 	}
+	AsciiPicture ap;
+	ap.apa = a;
+	return ap;
 }
 
 Image::ImgProps Image::getImgProperties()

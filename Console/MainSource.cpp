@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include "Image.h"
 #include "MyConsole.h"
 
 using namespace std;
@@ -8,7 +9,7 @@ using namespace std;
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 17.07.2020
+* Last Edit: 18.07.2020
 * Created By: Riyufuchi
 *
 */
@@ -20,6 +21,12 @@ int main(int argc, char **argv)
 	MyConsole mc;
 	mc.setTextColor(mc.HOT_PINK);
 	mc.test();
+	Image img((char*)"image.bmp");
+	std::string* a = img.imgToASCII().apa;
+	for (int i = 0; i < 100; i++)
+	{
+		cout << a[i] + "\n";
+	}
 	cin.get();
 	return 0;
 }

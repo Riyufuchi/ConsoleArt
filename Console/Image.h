@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 class Image
 {
 private:
@@ -13,6 +14,10 @@ private:
 	unsigned char* imgData;
 	int imgWidth;
 	int imgHeight;
+	struct AsciiPicture
+	{
+		std::string* apa;
+	};
 	struct ImgProps
 	{
 		char* name;
@@ -25,14 +30,17 @@ private:
 		int red;
 		int green;
 		int blue;
-		int rgb[];
+		//int rgb[];
 	};
 	void readBMP();
 public:
 	Image(char* filename);
-	void imgToASCII();
+	AsciiPicture imgToASCII();
 	ImgProps getImgProperties();
 	Pixel getPixel(int x, int y);
+	int getRed(int x, int y);
+	int getGreen(int x, int y);
+	int getBlue(int x, int y);
 	~Image();
 };
 
