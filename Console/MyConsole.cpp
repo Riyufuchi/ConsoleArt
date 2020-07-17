@@ -1,9 +1,12 @@
 #include "MyConsole.h"
 MyConsole::MyConsole()
 {
-	console = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	//DWORD d = ff69b4;
-	SetTextColor((HDC)console, RGB(255, 105, 180));
+	CONSOLE_SCREEN_BUFFER_INFOEX info;
+	info.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfoEx(hConsole, &info);
+	info.ColorTable[1] = RGB(255, 105, 180); //HotPink
+	SetConsoleScreenBufferInfoEx(hConsole, &info);
 }
 MyConsole::MyConsole(int width, int height)
 {
@@ -16,7 +19,6 @@ MyConsole::MyConsole(int width, int height)
 }
 void MyConsole::start()
 {
-	//SetTextColor(GetDC((HWND)console), RGB(255, 105, 180));
 	DWORD bytesWritten = 0;
 	while (1)
 	{
@@ -27,12 +29,7 @@ void MyConsole::start()
 }
 void MyConsole::setBGColor(int r, int g, int b)
 {
-	CONSOLE_SCREEN_BUFFER_INFOEX info;
-	info.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfoEx(hConsole, &info);
-	info.ColorTable[1] = RGB(r, g, b);
-	SetConsoleScreenBufferInfoEx(hConsole, &info);
+
 }
 void MyConsole::setTextColor(MyConsole::COLORS color)
 {

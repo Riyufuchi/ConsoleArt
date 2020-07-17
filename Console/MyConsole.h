@@ -20,10 +20,7 @@ private:
 public:
 	enum COLORS
 	{
-		D_BLUE = 1,
-		D_GREEN = 2,
-		D_PINK = 5,
-		L_PINK = 13
+		HOT_PINK = 1,
 	};
 	MyConsole(int width, int height);
 	MyConsole();

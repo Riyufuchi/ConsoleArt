@@ -19,11 +19,9 @@ int main(int argc, char **argv)
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;
 	MyConsole mc;
-	mc.setBGColor(255, 105, 180);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
-	//mc.setTextColor(mc.D_BLUE);
+	mc.setTextColor(mc.HOT_PINK);
+	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
 	mc.test();
-	//mc.start();
 	cin.get();
 	return 0;
 }
