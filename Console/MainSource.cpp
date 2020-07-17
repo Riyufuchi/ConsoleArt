@@ -23,5 +23,5 @@ int main(int argc, char **argv)
 	c.test();
 	c.ConstructConsole(800, 600, 12, 12);
 	cin.get();
-	//return 0;
+	return 0;
 }

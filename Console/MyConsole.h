@@ -1,15 +1,6 @@
 #ifndef __MYCONSOLE_H__
 #define __MYCONSOLE_H__
-#include <stdio.h>
-#include <iostream>
-#include <chrono>
-#include <vector>
-#include <list>
-#include <thread>
-#include <atomic>
-#include <condition_variable>
-#include <fstream>
-#include <string>
+
 
 /*
 * Copyright Header
@@ -25,18 +16,8 @@
 #define _UNICODE
 #endif
 
-#define __STDC_LIB_EXT1__ 
-#define __STDC_WANT_LIB_EXT1__ 1
-#define _CRT_SECURE_NO_WARNINGS
 
-//You need to have SLD installed  https://www.libsdl.org/download-2.0.php;
-#ifdef _WIN32
-//#pragma comment(lib, "Dll/SDL2.dll")
-#include <SDL.h>
-#else
-#include <SDL2/SDL.h>
-#endif
-#undef main
+
 
 #pragma region EnumsEtc.
 enum COLOUR
@@ -268,6 +249,7 @@ public:
 		memset(bufScreen[0], 0, screenWidth*screenHeight * sizeof(CHAR_INFO));
 		memset(bufScreen[1], 0, screenWidth*screenHeight * sizeof(CHAR_INFO));
 		currentBuffer = 0;
+		m_bAtomActive = true;
 		return 1;
 	}
 	void test()

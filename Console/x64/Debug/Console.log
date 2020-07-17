@@ -64,5 +64,5 @@ d:\files\programming\c++ visual studio\consoleart\console\myconsole.h(109): warn
   c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winuser.h(582): note: see previous definition of 'VK_F12'
 d:\files\programming\c++ visual studio\consoleart\console\myconsole.h(110): warning C4005: 'VK_MENU': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winuser.h(494): note: see previous definition of 'VK_MENU'
-d:\files\programming\c++ visual studio\consoleart\console\myconsole.h(140): error C2371: 'CHAR_INFO': redefinition; different basic types
-  c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\wincontypes.h(149): note: see declaration of 'CHAR_INFO'
+MainSource.obj : error LNK2001: unresolved external symbol "protected: static struct std::atomic<bool> MyConsole::m_bAtomActive" (?m_bAtomActive@MyConsole@@1U?$atomic@_N@std@@A)
+D:\Files\Programming\C++ Visual Studio\ConsoleArt\x64\Debug\ConsoleArt.exe : fatal error LNK1120: 1 unresolved externals
