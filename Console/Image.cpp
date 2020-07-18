@@ -1,9 +1,18 @@
 ﻿#include "Image.h"
 
+/*
+* Copyright Header
+*
+* Created On: 17.07.2020
+* Last Edit: 18.07.2020
+* Created By: Riyufuchi
+*
+*/
+
 void Image::readBMP()
 {
 	using namespace std;
-	ifstream inf(fileName, ios::in);
+	ifstream inf(filename, ios::in);
 	if (inf) 
 	{
 		inf.read((char*)&file_header, sizeof(file_header));
@@ -21,7 +30,7 @@ void Image::readBMP()
 			}
 			else
 			{
-				cerr << "Warning! The file \"" << fileName << "\" does not seem to contain bit mask information\n";
+				cerr << "Warning! The file \"" << filename << "\" does not seem to contain bit mask information\n";
 				throw std::runtime_error("Error! Unrecognized file format.");
 			}
 		}
@@ -59,108 +68,12 @@ void Image::readBMP()
 			}
 			file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 		}
-		cout << "Img loaded: " << fileName << "\n";
-		//imgPixels = (int)imgData.data();
+		cout << "Img successfully loaded: " << filename << "\n";
 	}
 	else
 	{
-		cerr << "Unable to open file: " << fileName << "\n";
+		cerr << "Unable to open file: " << filename << "\n";
 	}
-	/*
-	int a;
-	for (int i = 0; i < bmp_info_header.height * bmp_info_header.width; i++)
-	{
-		inf >> a;
-		imgData[i] = a;
-	}
-	*/
-	//Old code
-	/*
-	//unsigned char m_bmpFileHeader[14];file_header.file_size = file_header.offset_data;
-	unsigned char a;
-	for (int i = 0; i < 14; i++) 
-	{
-		inf >> hex >> a;
-		bmpFileHeader[i] = a;
-	}
-	if (bmpFileHeader[0] != 'B' || bmpFileHeader[1] != 'M') 
-	{
-		cerr << "Your info header might be different!\nIt should start with 'BM'.\n";
-	}
-	/*
-		THE FOLLOWING LINE ONLY WORKS IF THE OFFSET IS 1 BYTE!!!!! (it can be 4 bytes max)
-		That should be fixed now.
-		old line was
-		m_pixelArrayOffset = m_bmpFileHeader[10];
-	*/
-	/*
-	unsigned int * array_offset_ptr = (unsigned int *)(bmpFileHeader + 10);
-	pixelArrayOffset = *array_offset_ptr;
-	if (bmpFileHeader[11] != 0 || bmpFileHeader[12] != 0 || bmpFileHeader[13] != 0) 
-	{
-		std::cerr << "You probably need to fix something. (" << __LINE__ << ")\n";
-	}
-	//unsigned char m_bmpInfoHeader[40];
-	for (int i = 0; i < 40; i++) 
-	{
-		inf >> hex >> a;
-		bmpInfoHeader[i] = a;
-	}
-	/*
-	int * width_ptr = (int*)(bmpInfoHeader + 4);
-	int * height_ptr = (int*)(bmpInfoHeader + 8);
-	imgWidth = *width_ptr;
-	imgHeight = *height_ptr;
-	*/
-	/*
-	imgWidth = 100;
-	imgHeight = 100;
-	printf("W: %i, H: %i", imgWidth, imgHeight);
-
-	bitsPerPixel =bmpInfoHeader[14];
-	if (bitsPerPixel != 24) 
-	{
-		cerr << "This program is for 24bpp files. Your bmp is not that\n";
-	}
-	int compressionMethod =bmpInfoHeader[16];
-	if (compressionMethod != 0) 
-	{
-		cerr << "There's some compression stuff going on that we might not be able to deal with.\n";
-		cerr << "Comment out offending lines to continue anyways. line: " << __LINE__ << "\n";
-	}
-	rowSize = int(floor((bitsPerPixel*imgWidth + 31.) / 32)) * 4;
-	pixelArraySize = rowSize * abs(imgHeight);
-	imgData = new unsigned char[pixelArraySize];
-	inf.seekg(pixelArrayOffset, ios::beg);
-	for (int i = 0; i < pixelArraySize; i++) 
-	{
-		inf >> hex >> a;
-		imgData[i] = a;
-	}
-	/*
-	//FILE* f = fopen(fileName, "rb");
-	std::ifstream f(fileName);
-	unsigned char info[54];
-	// read the 54-byte header
-	fread(info, sizeof(unsigned char), 54, (FILE*)f);
-	// extract image height and width from header
-	imgWidth = *(int*)&info[18];
-	imgHeight = *(int*)&info[22];
-	// allocate 3 bytes per pixel
-	int size = 3 * imgWidth * imgHeight;
-	unsigned char* data = new unsigned char[size];
-	// read the rest of the data at once
-	fread(data, sizeof(unsigned char), size, f);
-	fclose(f);
-	for (i = 0; i < size; i += 3)
-	{
-		// flip the order of every 3 bytes
-		unsigned char tmp = data[i];
-		data[i] = data[i + 2];
-		data[i + 2] = tmp;
-	}
-	*/
-	//imgData = data;
 }
 
 void Image::check_color_header(BMPColorHeader & bmp_color_header)
@@ -189,11 +102,6 @@ uint32_t Image::make_stride_aligned(uint32_t align_stride)
 Image::Pixel Image::getPixel(int x, int y)
 {
 	Pixel p;
-	/*
-	p.red = imgData[3 * (x * imgWidth + y)];
-	p.green = imgData[3 * (x * imgWidth + y) + 1];
-	p.blue = imgData[3 * (x * imgWidth + y) + 2];
-	*/
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	p.red = (imgData[channels * (y * bmp_info_header.width + x) + 2]);
 	if (p.red < 0)
@@ -235,13 +143,13 @@ int Image::getBlue(int x, int y)
 
 Image::Image(const char* filename)
 {
-	fileName = filename;
+	this->filename = filename;
 	readBMP();
 }
 
 Image::AsciiPicture Image::imgToASCII()
 {
-	std::string AsciiChars[] { "FF", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
+	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
 	const int h = bmp_info_header.height;
 	std::string* a = new std::string[h];
@@ -256,13 +164,6 @@ Image::AsciiPicture Image::imgToASCII()
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		//std::cout << "X: " << x << "\n";
-		/*
-		std::cout << "Y: " << y << "\n";
-		std::cout << "Red: " << getRed(x, y) << "\n";
-		std::cout << "Green: " << getGreen(x, y) << "\n";
-		std::cout << "Blue: " << getBlue(x, y) << "\n";
-		*/
 		if (x > 0)
 		{
 			if (brightness > 25)
@@ -333,8 +234,8 @@ Image::AsciiPicture Image::imgToASCII()
 		}
 		else
 		{
-			a[y] = line + "\n";
-			std::cout << line << "\n";
+			//a[y] = line + "\n";
+			std::wcout << line.c_str() << "\n";
 			line = "";
 			y++;
 			if (y > bmp_info_header.height - 1)
@@ -344,21 +245,10 @@ Image::AsciiPicture Image::imgToASCII()
 			x = bmp_info_header.width;
 		}
 		x--;
-		//std::cout << "X: " << x << "\n";
 	}
 	AsciiPicture ap;
 	ap.apa = a;
 	return ap;
-}
-
-Image::ImgProps Image::getImgProperties()
-{
-	ImgProps ip;
-	//ip.name = fileName;
-	//ip.data = imgData;
-	ip.width = imgWidth;
-	ip.height = imgHeight;
-	return ip;
 }
 
 Image::~Image()

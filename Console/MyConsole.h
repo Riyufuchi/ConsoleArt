@@ -2,12 +2,16 @@
 #define _MYCONSOLE_H_
 #include <iostream>
 #include <Windows.h>
-#include <chrono>
-#include <vector>
-#include <list>
-#include <thread>
-#include <atomic>
-#include <condition_variable>
+
+/*
+* Copyright Header
+*
+* Created On: 13.07.2020
+* Last Edit: 18.07.2020
+* Created By: Riyufuchi
+*
+*/
+
 using namespace std;
 class MyConsole
 {

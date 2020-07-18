@@ -1,4 +1,12 @@
 #include "MyConsole.h"
+/*
+* Copyright Header
+*
+* Created On: 13.07.2020
+* Last Edit: 18.07.2020
+* Created By: Riyufuchi
+*
+*/
 MyConsole::MyConsole()
 {
 	CONSOLE_SCREEN_BUFFER_INFOEX info;
@@ -24,7 +32,7 @@ void MyConsole::start()
 	{
 
 		screen[screenWidth * screenHeight - 1] = '\0';
-		WriteConsoleOutputCharacter(console, (LPCSTR)screen, screenWidth * screenHeight, { 0, 0 }, &bytesWritten);
+		WriteConsoleOutputCharacter(console, (LPCWSTR)screen, screenWidth * screenHeight, { 0, 0 }, &bytesWritten);
 	}
 }
 void MyConsole::setBGColor(int r, int g, int b)
@@ -38,13 +46,6 @@ void MyConsole::setTextColor(MyConsole::COLORS color)
 void MyConsole::test()
 {
 	std::cout << "Test" << std::endl;
-	/*
-	for (int i = 0; i < 256; i++)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
-		std::cout << "Test = %d\n" << i << std::endl;
-	}
-	*/
 }
 MyConsole::~MyConsole()
 {

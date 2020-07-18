@@ -1,23 +1,31 @@
-#pragma once
+#ifndef  _IMAGE_H_
+#define _IMAGE_H_
 #include <iostream>
 #include <string>
 #include<vector>
 #include <fstream>
 
+/*
+* Copyright Header
+*
+* Created On: 17.07.2020
+* Last Edit: 18.07.2020
+* Created By: Riyufuchi
+*
+*/
+
 class Image
 {
 private:
-	const char* fileName;
-	int bitsPerPixel;
-	int rowSize;
-	int pixelArraySize;
-	unsigned char bmpFileHeader[14];
-	unsigned int pixelArrayOffset;
-	unsigned char bmpInfoHeader[40];
+	const char* filename;
+	//int bitsPerPixel;
+	//int rowSize;
+	//int pixelArraySize;
+	//unsigned char bmpFileHeader[14];
+	//unsigned int pixelArrayOffset;
+	//unsigned char bmpInfoHeader[40];
 	std::vector<char> imgData;
-	std::vector<int> imgPixels;
-	int imgWidth;
-	int imgHeight;
+	//std::vector<int> imgPixels;
 	uint32_t row_stride;
 	#pragma pack(push, 1)
 	struct BMPFileHeader
@@ -79,11 +87,11 @@ private:
 public:
 	Image(const char* filename);
 	AsciiPicture imgToASCII();
-	ImgProps getImgProperties();
+	//ImgProps getImgProperties();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
 	int getGreen(int x, int y);
 	int getBlue(int x, int y);
 	~Image();
 };
-
+#endif

@@ -14,22 +14,15 @@ using namespace std;
 *
 */
 
-int main(int argc, char **argv)
+int wmain(int argc, char **argv)
 {	
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;
 	MyConsole mc;
 	mc.setTextColor(mc.HOT_PINK);
-	//mc.test();
 	Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
 	cin.get();
 	std::string* a = img.imgToASCII().apa;
-	/*
-	for (int i = 0; i < 100; i++)
-	{
-		cout << a[i];
-	}
-	*/
 	cin.get();
 	return 0;
 }
