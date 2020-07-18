@@ -249,20 +249,21 @@ Image::AsciiPicture Image::imgToASCII()
 	double podG = 0.5866;
 	double podB = 0.1145;
 	int brightness;
-	int x = 0;
+	int x = bmp_info_header.width;
 	int y = 0;
 	int index = 0;
 	while (true)
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		/*std::cout << "X: " << x << "\n";
+		//std::cout << "X: " << x << "\n";
+		/*
 		std::cout << "Y: " << y << "\n";
 		std::cout << "Red: " << getRed(x, y) << "\n";
 		std::cout << "Green: " << getGreen(x, y) << "\n";
 		std::cout << "Blue: " << getBlue(x, y) << "\n";
 		*/
-		if (x != bmp_info_header.width - 1)
+		if (x > 0)
 		{
 			if (brightness > 25)
 			{
@@ -340,9 +341,9 @@ Image::AsciiPicture Image::imgToASCII()
 			{
 				break;
 			}
-			x = 0;
+			x = bmp_info_header.width;
 		}
-		x++;
+		x--;
 		//std::cout << "X: " << x << "\n";
 	}
 	AsciiPicture ap;
