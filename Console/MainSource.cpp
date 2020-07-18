@@ -22,11 +22,14 @@ int main(int argc, char **argv)
 	mc.setTextColor(mc.HOT_PINK);
 	//mc.test();
 	Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
+	cin.get();
 	std::string* a = img.imgToASCII().apa;
+	/*
 	for (int i = 0; i < 100; i++)
 	{
-		cout << a[i] + "\n";
+		cout << a[i];
 	}
+	*/
 	cin.get();
 	return 0;
 }

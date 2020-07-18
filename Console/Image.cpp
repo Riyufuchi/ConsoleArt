@@ -195,16 +195,32 @@ Image::Pixel Image::getPixel(int x, int y)
 	p.blue = imgData[3 * (x * imgWidth + y) + 2];
 	*/
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	p.red = (int)imgData[channels * (y * bmp_info_header.width + x) + 2];
-	p.green = (int)imgData[channels * (y * bmp_info_header.width + x) + 1];
-	p.blue = (int)imgData[channels * (y * bmp_info_header.width + x) + 0];
+	p.red = (imgData[channels * (y * bmp_info_header.width + x) + 2]);
+	if (p.red < 0)
+	{
+		p.red *= -1;
+	}
+	p.green = imgData[channels * (y * bmp_info_header.width + x) + 1];
+	if (p.green < 0)
+	{
+		p.green *= -1;
+	}
+	p.blue = imgData[channels * (y * bmp_info_header.width + x) + 0];
+	if (p.blue < 0)
+	{
+		p.blue *= -1;
+	}
 	return p;
 }
 
 int Image::getRed(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 2])-48);
+	if((int)imgData[channels * (y * bmp_info_header.width + x) + 2] < 0)
+	{
+		return imgData[channels * (y * bmp_info_header.width + x) + 2] * -1;
+	}
+	return (int)imgData[channels * (y * bmp_info_header.width + x) + 2];
 }
 int Image::getGreen(int x, int y)
 {
@@ -238,8 +254,14 @@ Image::AsciiPicture Image::imgToASCII()
 	int index = 0;
 	while (true)
 	{
-		//Pixel pix = getPixel(x, y);
-		brightness = (getRed(x, y) * podR + getGreen(x, y) * podG + getBlue(x, y) * podB);
+		Pixel pix = getPixel(x, y);
+		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
+		/*std::cout << "X: " << x << "\n";
+		std::cout << "Y: " << y << "\n";
+		std::cout << "Red: " << getRed(x, y) << "\n";
+		std::cout << "Green: " << getGreen(x, y) << "\n";
+		std::cout << "Blue: " << getBlue(x, y) << "\n";
+		*/
 		if (x != bmp_info_header.width - 1)
 		{
 			if (brightness > 25)
@@ -306,12 +328,12 @@ Image::AsciiPicture Image::imgToASCII()
 			{
 				index = 0;
 			}
-			std::cout << "Index: " << index << "\n";
 			line = line + AsciiChars[index];
 		}
 		else
 		{
-			a[y] = line;
+			a[y] = line + "\n";
+			std::cout << line << "\n";
 			line = "";
 			y++;
 			if (y > bmp_info_header.height - 1)
