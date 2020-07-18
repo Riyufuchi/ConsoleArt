@@ -14,7 +14,7 @@ using namespace std;
 *
 */
 
-int wmain(int argc, char **argv)
+int main(int argc, char **argv)
 {	
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;

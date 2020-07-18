@@ -235,7 +235,7 @@ Image::AsciiPicture Image::imgToASCII()
 		else
 		{
 			//a[y] = line + "\n";
-			std::wcout << line.c_str() << "\n";
+			std::cout << line.c_str() << "\n";
 			line = "";
 			y++;
 			if (y > bmp_info_header.height - 1)

@@ -32,7 +32,7 @@ void MyConsole::start()
 	{
 
 		screen[screenWidth * screenHeight - 1] = '\0';
-		WriteConsoleOutputCharacter(console, (LPCWSTR)screen, screenWidth * screenHeight, { 0, 0 }, &bytesWritten);
+		WriteConsoleOutputCharacter(console, (LPCSTR)screen, screenWidth * screenHeight, { 0, 0 }, &bytesWritten);
 	}
 }
 void MyConsole::setBGColor(int r, int g, int b)
