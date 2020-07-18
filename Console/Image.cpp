@@ -61,7 +61,14 @@ void Image::readBMP()
 		}
 		file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 	}
-
+	/*
+	int a;
+	for (int i = 0; i < bmp_info_header.height * bmp_info_header.width; i++)
+	{
+		inf >> a;
+		imgData[i] = a;
+	}
+	*/
 	//Old code
 	/*
 	//unsigned char m_bmpFileHeader[14];file_header.file_size = file_header.offset_data;
@@ -184,25 +191,28 @@ Image::Pixel Image::getPixel(int x, int y)
 	*/
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	p.red = imgData[channels * (y * bmp_info_header.width + x) + 2];
-	p.green = (imgData[rowSize*y + 3 * x + 1]);
-	p.blue = (imgData[rowSize*y + 3 * x + 0]);
+	p.green = imgData[channels * (y * bmp_info_header.width + x) + 1];
+	p.blue = imgData[channels * (y * bmp_info_header.width + x) + 0];
 	return p;
 }
 
 int Image::getRed(int x, int y)
 {
-	return imgData[rowSize*y + 3 * x + 2];
+	uint32_t channels = bmp_info_header.bit_count / 8;
+	return imgData[channels * (y * bmp_info_header.width + x) + 2];
 }
 int Image::getGreen(int x, int y)
 {
-	return imgData[rowSize*y + 3 * x + 1];
+	uint32_t channels = bmp_info_header.bit_count / 8;
+	return imgData[channels * (y * bmp_info_header.width + x) + 1];
 }
 int Image::getBlue(int x, int y)
 {
-	return imgData[rowSize*y + 3 * x + 0];
+	uint32_t channels = bmp_info_header.bit_count / 8;
+	return imgData[channels * (y * bmp_info_header.width + x) + 0];
 }
 
-Image::Image(char* filename)
+Image::Image(const char* filename)
 {
 	fileName = filename;
 	readBMP();
@@ -218,8 +228,8 @@ Image::AsciiPicture Image::imgToASCII()
 	double podG = 0.5866;
 	double podB = 0.1145;
 	int brightness;
-	int x = 0;
-	int y = 0;
+	int x = 1;
+	int y = 1;
 	int index = 0;
 	while (true)
 	{
@@ -314,8 +324,8 @@ Image::AsciiPicture Image::imgToASCII()
 Image::ImgProps Image::getImgProperties()
 {
 	ImgProps ip;
-	ip.name = fileName;
-	ip.data = imgData;
+	//ip.name = fileName;
+	//ip.data = imgData;
 	ip.width = imgWidth;
 	ip.height = imgHeight;
 	return ip;

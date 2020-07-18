@@ -20,8 +20,8 @@ int main(int argc, char **argv)
 	cout << "Let's make some practise for the 'big game'." << endl;
 	MyConsole mc;
 	mc.setTextColor(mc.HOT_PINK);
-	mc.test();
-	Image img((char*)"image.bmp");
+	//mc.test();
+	Image img("img.bmp");
 	std::string* a = img.imgToASCII().apa;
 	for (int i = 0; i < 100; i++)
 	{
