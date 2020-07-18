@@ -3,63 +3,68 @@
 void Image::readBMP()
 {
 	using namespace std;
-	ifstream inf(fileName, ios_base::binary);
-	if (!inf) 
+	ifstream inf(fileName, ios::in);
+	if (inf) 
 	{
-		cerr << "Unable to open file: " << fileName << "\n";
-	}
-	inf.read((char*)&file_header, sizeof(file_header));
-	if (file_header.file_type != 0x4D42)
-	{
-		throw runtime_error("Error: Unecognized fromtat.");
-	}
-	inf.read((char*)&bmp_info_header, sizeof(bmp_info_header));
-	if (bmp_info_header.bit_count == 32)
-	{
-		if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
+		inf.read((char*)&file_header, sizeof(file_header));
+		if (file_header.file_type != 0x4D42)
 		{
-			inf.read((char*)&bmp_color_header, sizeof(bmp_color_header));
-			check_color_header(bmp_color_header);
+			throw runtime_error("Error: Unecognized fromtat.");
+		}
+		inf.read((char*)&bmp_info_header, sizeof(bmp_info_header));
+		if (bmp_info_header.bit_count == 32)
+		{
+			if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
+			{
+				inf.read((char*)&bmp_color_header, sizeof(bmp_color_header));
+				check_color_header(bmp_color_header);
+			}
+			else
+			{
+				cerr << "Warning! The file \"" << fileName << "\" does not seem to contain bit mask information\n";
+				throw std::runtime_error("Error! Unrecognized file format.");
+			}
+		}
+		inf.seekg(file_header.offset_data, inf.beg);
+		if (bmp_info_header.bit_count == 32)
+		{
+			bmp_info_header.size = sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
+			file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
 		}
 		else
 		{
-			cerr << "Warning! The file \"" << fileName << "\" does not seem to contain bit mask information\n";
-			throw std::runtime_error("Error! Unrecognized file format.");
+			bmp_info_header.size = sizeof(BMPInfoHeader);
+			file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader);
 		}
-	}
-	inf.seekg(file_header.offset_data, inf.beg);
-	if (bmp_info_header.bit_count == 32)
-	{
-		bmp_info_header.size = sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
-		file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
-	}
-	else
-	{
-		bmp_info_header.size = sizeof(BMPInfoHeader);
-		file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader);
-	}
-	file_header.file_size = file_header.offset_data;
-	if (bmp_info_header.height < 0)
-	{
-		throw std::runtime_error("The program can treat only BMP images with the origin in the bottom left corner!");
-	}
-	imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
-	if (bmp_info_header.width % 4 == 0)
-	{
-		inf.read((char*)imgData.data(), imgData.size());
-		file_header.file_size += imgData.size();
-	}
-	else
-	{
-		row_stride = bmp_info_header.width * bmp_info_header.bit_count / 8;
-		uint32_t new_stride = make_stride_aligned(4);
-		vector<uint8_t> padding_row(new_stride - row_stride);
-		for (int y = 0; y < bmp_info_header.height; ++y)
+		file_header.file_size = file_header.offset_data;
+		if (bmp_info_header.height < 0)
 		{
-			inf.read((char*)(imgData.data() + row_stride * y), row_stride);
-			inf.read((char*)padding_row.data(), padding_row.size());
+			throw std::runtime_error("The program can treat only BMP images with the origin in the bottom left corner!");
 		}
-		file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
+		imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
+		if (bmp_info_header.width % 4 == 0)
+		{
+			inf.read((char*)imgData.data(), imgData.size());
+			file_header.file_size += imgData.size();
+		}
+		else
+		{
+			row_stride = bmp_info_header.width * bmp_info_header.bit_count / 8;
+			uint32_t new_stride = make_stride_aligned(4);
+			vector<uint8_t> padding_row(new_stride - row_stride);
+			for (int y = 0; y < bmp_info_header.height; ++y)
+			{
+				inf.read((char*)(imgData.data() + row_stride * y), row_stride);
+				inf.read((char*)padding_row.data(), padding_row.size());
+			}
+			file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
+		}
+		cout << "Img loaded: " << fileName << "\n";
+		//imgPixels = (int)imgData.data();
+	}
+	else
+	{
+		cerr << "Unable to open file: " << fileName << "\n";
 	}
 	/*
 	int a;
@@ -190,26 +195,26 @@ Image::Pixel Image::getPixel(int x, int y)
 	p.blue = imgData[3 * (x * imgWidth + y) + 2];
 	*/
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	p.red = imgData[channels * (y * bmp_info_header.width + x) + 2];
-	p.green = imgData[channels * (y * bmp_info_header.width + x) + 1];
-	p.blue = imgData[channels * (y * bmp_info_header.width + x) + 0];
+	p.red = (int)imgData[channels * (y * bmp_info_header.width + x) + 2];
+	p.green = (int)imgData[channels * (y * bmp_info_header.width + x) + 1];
+	p.blue = (int)imgData[channels * (y * bmp_info_header.width + x) + 0];
 	return p;
 }
 
 int Image::getRed(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return imgData[channels * (y * bmp_info_header.width + x) + 2];
+	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 2])-48);
 }
 int Image::getGreen(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return imgData[channels * (y * bmp_info_header.width + x) + 1];
+	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 1])-48);
 }
 int Image::getBlue(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return imgData[channels * (y * bmp_info_header.width + x) + 0];
+	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 0])-48);
 }
 
 Image::Image(const char* filename)
@@ -220,22 +225,22 @@ Image::Image(const char* filename)
 
 Image::AsciiPicture Image::imgToASCII()
 {
-	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
+	std::string AsciiChars[] { "FF", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
-	const int h = imgHeight;
+	const int h = bmp_info_header.height;
 	std::string* a = new std::string[h];
 	double podR = 0.2989;
 	double podG = 0.5866;
 	double podB = 0.1145;
 	int brightness;
-	int x = 1;
-	int y = 1;
+	int x = 0;
+	int y = 0;
 	int index = 0;
 	while (true)
 	{
 		//Pixel pix = getPixel(x, y);
 		brightness = (getRed(x, y) * podR + getGreen(x, y) * podG + getBlue(x, y) * podB);
-		if (x != imgWidth - 1)
+		if (x != bmp_info_header.width - 1)
 		{
 			if (brightness > 25)
 			{
@@ -301,6 +306,7 @@ Image::AsciiPicture Image::imgToASCII()
 			{
 				index = 0;
 			}
+			std::cout << "Index: " << index << "\n";
 			line = line + AsciiChars[index];
 		}
 		else
@@ -308,13 +314,14 @@ Image::AsciiPicture Image::imgToASCII()
 			a[y] = line;
 			line = "";
 			y++;
-			if (y > imgHeight - 1)
+			if (y > bmp_info_header.height - 1)
 			{
 				break;
 			}
 			x = 0;
 		}
 		x++;
+		//std::cout << "X: " << x << "\n";
 	}
 	AsciiPicture ap;
 	ap.apa = a;

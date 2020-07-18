@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	MyConsole mc;
 	mc.setTextColor(mc.HOT_PINK);
 	//mc.test();
-	Image img("img.bmp");
+	Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
 	std::string* a = img.imgToASCII().apa;
 	for (int i = 0; i < 100; i++)
 	{

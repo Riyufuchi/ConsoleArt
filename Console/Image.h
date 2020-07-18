@@ -14,7 +14,8 @@ private:
 	unsigned char bmpFileHeader[14];
 	unsigned int pixelArrayOffset;
 	unsigned char bmpInfoHeader[40];
-	std::vector<int> imgData;
+	std::vector<char*> imgData;
+	std::vector<int> imgPixels;
 	int imgWidth;
 	int imgHeight;
 	uint32_t row_stride;
