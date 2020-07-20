@@ -124,10 +124,12 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="MyConsole.cpp" />
+    <ClCompile Include="MyUnixConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Image.h" />
     <ClInclude Include="MyConsole.h" />
+    <ClInclude Include="MyUnixConsole.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -19,22 +19,28 @@ int main(int argc, char **argv)
 {
 	cout << "Hello world, it's living time." << endl;
 	cout << "Let's make some practise for the 'big game'." << endl;
+	//For Windows
+	/*/
 	MyConsole mc;
 	mc.setTextColor(mc.HOT_PINK);
 	Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
 	cout << "Press Enter to continue..." << endl;
 	cin.get();
 	cout << "Processing image..." << endl;
-	//img.writeImgToASCII();
+	img.writeImgToASCII();
+	*/
 	//For Unix-like systems
 	MyUnixConsole muc;
+	Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
+	cout << "Press Enter to continue..." << endl;
+	cin.get();
+	cout << "Processing image..." << endl;
 	img.getAsciiImg();
 	for(int i = 0; i < 300; i++)
 	{
 		muc.writeText(img.apa[i]);
 	}
-	muc.writeText("Finished");
-	//muc.writeText("a");
+	cin.get();
 	cin.get();
 	return 0;
 }
