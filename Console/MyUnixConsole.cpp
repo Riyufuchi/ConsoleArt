@@ -1,52 +1,45 @@
-#include "MyConsole.h"
+#include "MyUnixConsole.h"
 /*
 * Copyright Header
 *
-* Created On: 13.07.2020
-* Last Edit: 18.07.2020
+* Created On: 20.07.2020
+* Last Edit: 20.07.2020
 * Created By: Riyufuchi
 *
 */
-MyConsole::MyConsole()
+MyUnixConsole::MyUnixConsole()
 {
-	CONSOLE_SCREEN_BUFFER_INFOEX info;
-	info.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfoEx(hConsole, &info);
-	info.ColorTable[1] = RGB(255, 105, 180); //HotPink
-	SetConsoleScreenBufferInfoEx(hConsole, &info);
+	mainColor.red = 255;
+	mainColor.green = 105;
+	mainColor.blue = 180;
 }
-MyConsole::MyConsole(int width, int height)
+void MyUnixConsole::setColorText(int r, int g, int b, const char * text)
 {
-	//Create Screen Buffer
-	screenWidth = width;
-	screenHeight = height;
-	screen = new wchar_t[screenWidth*screenHeight];
-	console = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	SetConsoleActiveScreenBuffer(console);
+	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + r + ';' + g  + ';' + b + 'm' + text + '\e[m';
+	printf(t + '\n');
 }
-void MyConsole::start()
+void MyUnixConsole::setColorText(Color a, const char * text)
 {
-	DWORD bytesWritten = 0;
-	while (1)
-	{
-
-		screen[screenWidth * screenHeight - 1] = '\0';
-		WriteConsoleOutputCharacter(console, (LPCSTR)screen, screenWidth * screenHeight, { 0, 0 }, &bytesWritten);
-	}
+	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + a.red + ';' + a.green + ';' + a.blue + 'm' + text + '\e[m';
+	printf(t + '\n');
 }
-void MyConsole::setBGColor(int r, int g, int b)
+void MyUnixConsole::writeText(const char * text)
 {
-
+	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + mainColor.red + ';' + mainColor.green + ';' + mainColor.blue + 'm' + text + '\e[m';
+	printf(t);
 }
-void MyConsole::setTextColor(MyConsole::COLORS color)
+void MyUnixConsole::setMainTextColor(MyUnixConsole::Color a)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	mainColor = a;
 }
-void MyConsole::test()
+MyUnixConsole::Color MyUnixConsole::setColor(int r, int g, int b)
 {
-	std::cout << "Test" << std::endl;
+	Color a;
+	a.red = r;
+	a.green = g;
+	a.blue = b;
+	return a;
 }
-MyConsole::~MyConsole()
+MyUnixConsole::~MyUnixConsole()
 {
 }

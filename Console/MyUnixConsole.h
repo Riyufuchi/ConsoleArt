@@ -1,37 +1,34 @@
-#ifndef  _MYCONSOLE_H_
-#define _MYCONSOLE_H_
+#ifndef  _MYUNXCONSOLE_H_
+#define _MYUNIXCONSOLE_H_
 #include <iostream>
-#include <Windows.h>
 
 /*
 * Copyright Header
 *
-* Created On: 13.07.2020
-* Last Edit: 18.07.2020
+* Created On: 20.07.2020
+* Last Edit: 20.07.2020
 * Created By: Riyufuchi
 *
 */
 
 using namespace std;
-class MyConsole
+class MyUnixConsole
 {
 private:
-	int screenWidth;
-	int screenHeight;
-	wchar_t *screen;
-	std::wstring name;
-	HANDLE console;
-public:
-	enum COLORS
+	struct Color
 	{
-		HOT_PINK = 1,
+		int red;
+		int blue;
+		int green;
 	};
-	MyConsole(int width, int height);
-	MyConsole();
-	void test();
-	void start();
-	void setTextColor(COLORS);
-	void setBGColor(int  r, int g, int b);
-	~MyConsole();
+	Color mainColor;
+public:
+	MyUnixConsole();
+	void setMainTextColor(Color a);
+	Color setColor(int  r, int g, int b);
+	void setColorText(Color a, const char* text);
+	void writeText(const char * text);
+	void setColorText(int  r, int g, int b, const char* text);
+	~MyUnixConsole();
 };
 #endif
