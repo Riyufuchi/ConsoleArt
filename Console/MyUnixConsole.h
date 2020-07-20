@@ -1,6 +1,7 @@
 #ifndef  _MYUNXCONSOLE_H_
 #define _MYUNIXCONSOLE_H_
 #include <iostream>
+#include <sstream>
 
 /*
 * Copyright Header
@@ -27,7 +28,7 @@ public:
 	void setMainTextColor(Color a);
 	Color setColor(int  r, int g, int b);
 	void setColorText(Color a, const char* text);
-	void writeText(const char * text);
+	void writeText(string text);
 	void setColorText(int  r, int g, int b, const char* text);
 	~MyUnixConsole();
 };

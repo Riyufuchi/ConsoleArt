@@ -15,18 +15,24 @@ MyUnixConsole::MyUnixConsole()
 }
 void MyUnixConsole::setColorText(int r, int g, int b, const char * text)
 {
-	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + r + ';' + g  + ';' + b + 'm' + text + '\e[m';
-	printf(t + '\n');
+	ostringstream t;
+	t << "\e[38;2;" << r << ";" << g << ";" << b << "m" << text << "\e[m";
+	string str(t.str());
+	cout << str << endl;
 }
 void MyUnixConsole::setColorText(Color a, const char * text)
 {
-	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + a.red + ';' + a.green + ';' + a.blue + 'm' + text + '\e[m';
-	printf(t + '\n');
+	ostringstream t;
+	t << "\e[38;2;" << a.red << ";" << a.green << ";" << a.blue << "m" << text << "\e[m";
+	string str(t.str());
+	cout << str << endl;
 }
-void MyUnixConsole::writeText(const char * text)
+void MyUnixConsole::writeText(string text)
 {
-	const char* t = '\e[0m' + '\e' + '[38' + ';2;' + mainColor.red + ';' + mainColor.green + ';' + mainColor.blue + 'm' + text + '\e[m';
-	printf(t);
+	ostringstream t;
+	t << "\e[38;2;" << mainColor.red << ";" << mainColor.green << ";" << mainColor.blue << "m" << text << "\e[m";
+	string str(t.str());
+	cout << str << endl;
 }
 void MyUnixConsole::setMainTextColor(MyUnixConsole::Color a)
 {

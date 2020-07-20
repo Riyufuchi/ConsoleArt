@@ -235,7 +235,7 @@ void Image::writeImgToASCII()
 		else
 		{
 			//a[y] = line + "\n";
-			std::cout << line.c_str() << "\n";
+			std::cout << line << "\n";
 			line = "";
 			y++;
 			if (y > bmp_info_header.height - 1)
@@ -248,9 +248,105 @@ void Image::writeImgToASCII()
 	}
 }
 
-AsciiPicture Image::getAsciiImg()
+void Image::getAsciiImg()
 {
-	return AsciiPicture();
+	std::string AsciiChars[]{ "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
+	std::string line = "";
+	const int h = bmp_info_header.height;
+	apa = new std::string[h];
+	double podR = 0.2989;
+	double podG = 0.5866;
+	double podB = 0.1145;
+	int brightness;
+	int x = bmp_info_header.width;
+	int y = 0;
+	int index = 0;
+	while (true)
+	{
+		Pixel pix = getPixel(x, y);
+		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
+		if (x > 0)
+		{
+			if (brightness > 25)
+			{
+				if (brightness > 50)
+				{
+					if (brightness > 75)
+					{
+						if (brightness > 100)
+						{
+							if (brightness > 125)
+							{
+								if (brightness > 150)
+								{
+									if (brightness > 175)
+									{
+										if (brightness > 200)
+										{
+											if (brightness > 225)
+											{
+												index = 9;
+											}
+											else
+											{
+												index = 8;
+											}
+										}
+										else
+										{
+											index = 7;
+										}
+									}
+									else
+									{
+										index = 6;
+									}
+								}
+								else
+								{
+									index = 5;
+								}
+							}
+							else
+							{
+								index = 4;
+							}
+						}
+						else
+						{
+							index = 3;
+						}
+					}
+					else
+					{
+						index = 2;
+					}
+				}
+				else
+				{
+					index = 1;
+				}
+			}
+			else
+			{
+				index = 0;
+			}
+			line = line + AsciiChars[index];
+		}
+		else
+		{
+			apa[y] = line;
+			//std::cout << line << "\n";
+			line = "";
+			y++;
+			if (y > bmp_info_header.height - 1)
+			{
+				break;
+			}
+			x = bmp_info_header.width;
+		}
+		x--;
+	}
 }
 
 Image::~Image()

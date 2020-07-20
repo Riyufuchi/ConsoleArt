@@ -19,7 +19,6 @@ class Image
 private:
 	const char* filename;
 	std::vector<char> imgData;
-	//std::vector<int> imgPixels;
 	uint32_t row_stride;
 	#pragma pack(push, 1)
 	struct BMPFileHeader
@@ -54,17 +53,6 @@ private:
 		uint32_t unused[16]{0};                // Unused data for sRGB color space
 	};
 	#pragma pack(pop)
-	struct AsciiPicture
-	{
-		std::string* apa;
-	};
-	struct ImgProps
-	{
-		char* name;
-		unsigned char* data;
-	    int width;
-		int height;
-	};
 	struct Pixel 
 	{
 		int red;
@@ -79,9 +67,10 @@ private:
 	uint32_t make_stride_aligned(uint32_t align_stride);
 	void readBMP();
 public:
+	std::string* apa;
 	Image(const char* filename);
 	void writeImgToASCII();
-	AsciiPicture getAsciiImg();
+	void getAsciiImg();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
 	int getGreen(int x, int y);
