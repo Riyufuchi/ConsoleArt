@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 18.07.2020
+* Last Edit: 20.07.2020
 * Created By: Riyufuchi
 *
 */
@@ -18,12 +18,6 @@ class Image
 {
 private:
 	const char* filename;
-	//int bitsPerPixel;
-	//int rowSize;
-	//int pixelArraySize;
-	//unsigned char bmpFileHeader[14];
-	//unsigned int pixelArrayOffset;
-	//unsigned char bmpInfoHeader[40];
 	std::vector<char> imgData;
 	//std::vector<int> imgPixels;
 	uint32_t row_stride;
@@ -86,8 +80,8 @@ private:
 	void readBMP();
 public:
 	Image(const char* filename);
-	AsciiPicture imgToASCII();
-	//ImgProps getImgProperties();
+	void writeImgToASCII();
+	AsciiPicture getAsciiImg();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
 	int getGreen(int x, int y);

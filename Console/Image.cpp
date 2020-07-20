@@ -147,7 +147,7 @@ Image::Image(const char* filename)
 	readBMP();
 }
 
-Image::AsciiPicture Image::imgToASCII()
+void Image::writeImgToASCII()
 {
 	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
@@ -246,9 +246,11 @@ Image::AsciiPicture Image::imgToASCII()
 		}
 		x--;
 	}
-	AsciiPicture ap;
-	ap.apa = a;
-	return ap;
+}
+
+AsciiPicture Image::getAsciiImg()
+{
+	return AsciiPicture();
 }
 
 Image::~Image()
