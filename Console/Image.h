@@ -53,6 +53,12 @@ private:
 		uint32_t unused[16]{0};                // Unused data for sRGB color space
 	};
 	#pragma pack(pop)
+	struct BMPInfo
+	{
+		const char* name;
+		int width;
+		int height;
+	};
 	struct Pixel 
 	{
 		int red;
@@ -69,6 +75,7 @@ private:
 public:
 	std::string* apa;
 	Image(const char* filename);
+	BMPInfo getBmpInfo();
 	void writeImgToASCII();
 	void getAsciiImg();
 	Pixel getPixel(int x, int y);

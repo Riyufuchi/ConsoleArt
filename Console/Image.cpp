@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 18.07.2020
+* Last Edit: 20.07.2020
 * Created By: Riyufuchi
 *
 */
@@ -147,12 +147,19 @@ Image::Image(const char* filename)
 	readBMP();
 }
 
+Image::BMPInfo Image::getBmpInfo()
+{
+	BMPInfo a;
+	a.name = this->filename;
+	a.width = bmp_info_header.width;
+	a.height = bmp_info_header.height;
+	return BMPInfo();
+}
+
 void Image::writeImgToASCII()
 {
 	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
-	const int h = bmp_info_header.height;
-	std::string* a = new std::string[h];
 	double podR = 0.2989;
 	double podG = 0.5866;
 	double podB = 0.1145;
@@ -234,7 +241,6 @@ void Image::writeImgToASCII()
 		}
 		else
 		{
-			//a[y] = line + "\n";
 			std::cout << line << "\n";
 			line = "";
 			y++;
