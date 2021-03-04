@@ -350,6 +350,7 @@ void Image::getAsciiImg()
 				break;
 			}
 			x = bmp_info_header.width;
+			std::cout << y << "/" << bmp_info_header.height << std::endl;
 		}
 		x--;
 	}
@@ -357,4 +358,5 @@ void Image::getAsciiImg()
 
 Image::~Image()
 {
+	delete apa;
 }
