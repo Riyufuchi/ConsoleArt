@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 20.07.2020
+* Last Edit: 01.06.2021
 * Created By: Riyufuchi
 *
 */
@@ -18,7 +18,7 @@ void Image::readBMP()
 		inf.read((char*)&file_header, sizeof(file_header));
 		if (file_header.file_type != 0x4D42)
 		{
-			throw runtime_error("Error: Unecognized fromtat.");
+			throw runtime_error("Error: Unrecognized format");
 		}
 		inf.read((char*)&bmp_info_header, sizeof(bmp_info_header));
 		if (bmp_info_header.bit_count == 32)
@@ -31,7 +31,7 @@ void Image::readBMP()
 			else
 			{
 				cerr << "Warning! The file \"" << filename << "\" does not seem to contain bit mask information\n";
-				throw std::runtime_error("Error! Unrecognized file format.");
+				throw std::runtime_error("Error! Unrecognized file format");
 			}
 		}
 		inf.seekg(file_header.offset_data, inf.beg);
@@ -167,75 +167,23 @@ void Image::writeImgToASCII()
 	int x = bmp_info_header.width;
 	int y = 0;
 	int index = 0;
-	while (true)
+	int brightnessDif = 25;
+	while (y < bmp_info_header.height - 1)
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x > 0)
 		{
-			if (brightness > 25)
+			for (int i = 0; i < 10; i++)
 			{
-				if (brightness > 50)
+				if (brightness < brightnessDif)
 				{
-					if (brightness > 75)
-					{
-						if (brightness > 100)
-						{
-							if (brightness > 125)
-							{
-								if (brightness > 150)
-								{
-									if (brightness > 175)
-									{
-										if (brightness > 200)
-										{
-											if (brightness > 225)
-											{
-												index = 9;
-											}
-											else
-											{
-												index = 8;
-											}
-										}
-										else
-										{
-											index = 7;
-										}
-									}
-									else
-									{
-										index = 6;
-									}
-								}
-								else
-								{
-									index = 5;
-								}
-							}
-							else
-							{
-								index = 4;
-							}
-						}
-						else
-						{
-							index = 3;
-						}
-					}
-					else
-					{
-						index = 2;
-					}
+					index = i;
+					brightnessDif = 25;
+					break;
 				}
-				else
-				{
-					index = 1;
-				}
-			}
-			else
-			{
-				index = 0;
+				brightnessDif += 25;
+				
 			}
 			line = line + AsciiChars[index];
 		}
@@ -244,10 +192,6 @@ void Image::writeImgToASCII()
 			std::cout << line << "\n";
 			line = "";
 			y++;
-			if (y > bmp_info_header.height - 1)
-			{
-				break;
-			}
 			x = bmp_info_header.width;
 		}
 		x--;
@@ -267,75 +211,22 @@ void Image::getAsciiImg()
 	int x = bmp_info_header.width;
 	int y = 0;
 	int index = 0;
-	while (true)
+	int brightnessDif = 25;
+	while (y < bmp_info_header.height - 1)
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x > 0)
 		{
-			if (brightness > 25)
+			for (int i = 0; i < 9; i++)
 			{
-				if (brightness > 50)
+				if (brightness < brightnessDif)
 				{
-					if (brightness > 75)
-					{
-						if (brightness > 100)
-						{
-							if (brightness > 125)
-							{
-								if (brightness > 150)
-								{
-									if (brightness > 175)
-									{
-										if (brightness > 200)
-										{
-											if (brightness > 225)
-											{
-												index = 9;
-											}
-											else
-											{
-												index = 8;
-											}
-										}
-										else
-										{
-											index = 7;
-										}
-									}
-									else
-									{
-										index = 6;
-									}
-								}
-								else
-								{
-									index = 5;
-								}
-							}
-							else
-							{
-								index = 4;
-							}
-						}
-						else
-						{
-							index = 3;
-						}
-					}
-					else
-					{
-						index = 2;
-					}
+					index = i;
+					brightnessDif = 25;
+					break;
 				}
-				else
-				{
-					index = 1;
-				}
-			}
-			else
-			{
-				index = 0;
+				brightnessDif += 25;
 			}
 			line = line + AsciiChars[index];
 		}
