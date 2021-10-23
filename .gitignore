@@ -3,7 +3,7 @@ x64
 *.sln
 *.vcxproj
 *.vcxproj.filters
-*.vcxproj.users
+*.vcxproj.user
 *.aps
 *.rc
 
