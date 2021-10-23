@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 01.06.2021
+* Last Edit: 20.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -13,7 +13,7 @@ void Image::readBMP()
 {
 	using namespace std;
 	ifstream inf(filename, ios::in);
-	if (inf) 
+	if (inf)
 	{
 		inf.read((char*)&file_header, sizeof(file_header));
 		if (file_header.file_type != 0x4D42)
@@ -153,7 +153,7 @@ Image::BMPInfo Image::getBmpInfo()
 	a.name = this->filename;
 	a.width = bmp_info_header.width;
 	a.height = bmp_info_header.height;
-	return BMPInfo();
+	return a;
 }
 
 void Image::writeImgToASCII()
@@ -164,15 +164,15 @@ void Image::writeImgToASCII()
 	double podG = 0.5866;
 	double podB = 0.1145;
 	int brightness;
-	int x = bmp_info_header.width;
+	int x = 0;
 	int y = 0;
 	int index = 0;
 	int brightnessDif = 25;
-	while (y < bmp_info_header.height - 1)
+	while (y < bmp_info_header.height)
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		if (x > 0)
+		if (x < bmp_info_header.width)
 		{
 			for (int i = 0; i < 10; i++)
 			{
@@ -183,7 +183,7 @@ void Image::writeImgToASCII()
 					break;
 				}
 				brightnessDif += 25;
-				
+
 			}
 			line = line + AsciiChars[index];
 		}
@@ -192,9 +192,9 @@ void Image::writeImgToASCII()
 			std::cout << line << "\n";
 			line = "";
 			y++;
-			x = bmp_info_header.width;
+			x = 0;
 		}
-		x--;
+		x++;
 	}
 }
 
@@ -208,15 +208,15 @@ void Image::getAsciiImg()
 	double podG = 0.5866;
 	double podB = 0.1145;
 	int brightness;
-	int x = bmp_info_header.width;
+	int x = 0;
 	int y = 0;
 	int index = 0;
 	int brightnessDif = 25;
-	while (y < bmp_info_header.height - 1)
+	do
 	{
 		Pixel pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		if (x > 0)
+		if (x < bmp_info_header.width)
 		{
 			for (int i = 0; i < 9; i++)
 			{
@@ -236,15 +236,11 @@ void Image::getAsciiImg()
 			//std::cout << line << "\n";
 			line = "";
 			y++;
-			if (y > bmp_info_header.height - 1)
-			{
-				break;
-			}
-			x = bmp_info_header.width;
+			x = 0;
 			std::cout << y << "/" << bmp_info_header.height << std::endl;
 		}
-		x--;
-	}
+		x++;
+	} while (y < bmp_info_header.height);
 }
 
 Image::~Image()
