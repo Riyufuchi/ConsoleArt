@@ -6,6 +6,9 @@ x64
 *.vcxproj.user
 *.aps
 *.rc
+*.lua
+
+face
 
 # Prerequisites
 *.d

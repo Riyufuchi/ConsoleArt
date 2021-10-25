@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 20.07.2020
+* Last Edit: 25.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -18,6 +18,9 @@ class Image
 {
 private:
 	const char* filename;
+	const double podR = 0.2989;
+	const double podG = 0.5866;
+	const double podB = 0.1145;
 	std::vector<char> imgData;
 	uint32_t row_stride;
 	#pragma pack(push, 1)
@@ -59,7 +62,7 @@ private:
 		int width;
 		int height;
 	};
-	struct Pixel 
+	struct Pixel
 	{
 		int red;
 		int green;

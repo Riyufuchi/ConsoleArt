@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 20.10.2021
+* Last Edit: 25.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -160,9 +160,6 @@ void Image::writeImgToASCII()
 {
 	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
-	double podR = 0.2989;
-	double podG = 0.5866;
-	double podB = 0.1145;
 	int brightness;
 	int x = 0;
 	int y = 0;
@@ -204,9 +201,6 @@ void Image::getAsciiImg()
 	std::string line = "";
 	const int h = bmp_info_header.height;
 	apa = new std::string[h];
-	double podR = 0.2989;
-	double podG = 0.5866;
-	double podB = 0.1145;
 	int brightness;
 	int x = 0;
 	int y = 0;

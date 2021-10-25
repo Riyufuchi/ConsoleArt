@@ -1,5 +1,5 @@
-#ifndef  _MYUNXCONSOLE_H_
-#define _MYUNIXCONSOLE_H_
+#ifndef  _UNXCONSOLE_H_
+#define _UNIXCONSOLE_H_
 #include <iostream>
 #include <sstream>
 
@@ -7,13 +7,12 @@
 * Copyright Header
 *
 * Created On: 20.07.2020
-* Last Edit: 20.07.2020
+* Last Edit: 25.10.2021
 * Created By: Riyufuchi
 *
 */
 
-using namespace std;
-class MyUnixConsole
+class UnixConsole
 {
 private:
 	struct Color
@@ -24,12 +23,12 @@ private:
 	};
 	Color mainColor;
 public:
-	MyUnixConsole();
+	UnixConsole();
 	void setMainTextColor(Color a);
 	Color setColor(int  r, int g, int b);
 	void setColorText(Color a, const char* text);
-	void writeText(string text);
+	void writeText(std::string text);
 	void setColorText(int  r, int g, int b, const char* text);
-	~MyUnixConsole();
+	~UnixConsole();
 };
 #endif
