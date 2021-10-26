@@ -8,7 +8,7 @@
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 25.10.2021
+* Last Edit: 26.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -28,15 +28,19 @@ int main(int argc, char **argv)
 	img.writeImgToASCII();
 	*/
 	//For Unix-like systems
-	UnixConsole muc;
-	Image img("/home/riyufuchi/Downloads/skynet2.bmp");
+	UnixConsole uc;
+	Image img("/home/riyufuchi/Downloads/Wild_Card.bmp");
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
-	img.getAsciiImg();
-	for(int i = img.getBmpInfo().height - 1; i > -1; i--)
+
+	img.imgToArray(); //Convert image to chars and save it in array
+	for(int i = 0; i < img.getBmpInfo().height; i++) //Outputing converted image
 	{
-		muc.writeText(img.apa[i]);
+		uc.writeText(img.apa[i]);
 	}
+
+	img.convertToASCII(); //Converts image and outputs it line by line
+
 	return 0;
 }

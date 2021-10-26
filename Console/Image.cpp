@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 25.10.2021
+* Last Edit: 26.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -144,6 +144,7 @@ int Image::getBlue(int x, int y)
 Image::Image(const char* filename)
 {
 	this->filename = filename;
+	setCharSet(CHAR_SETS::DETAILED_INVERTED);
 	readBMP();
 }
 
@@ -156,88 +157,98 @@ Image::BMPInfo Image::getBmpInfo()
 	return a;
 }
 
-void Image::writeImgToASCII()
+void Image::setCharSet(CHAR_SETS choice)
 {
-	std::string AsciiChars[] { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
+	switch (choice)
+	{
+		case BASIC: charSet = "█#@%=+:-. "; charSetSize = 10; break; //Basic - Classic
+		case PRECISE:  charSet = "█▒#@%=+*:-. "; charSetSize = 12; break; //Precise - Classic
+		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; charSetSize = 15; break; //More Precise - Classic
+		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; charSetSize = 15; break; //More Precise - Inverted
+	}
+}
+
+void Image::convertToASCII()
+{
 	std::string line = "";
 	int brightness;
 	int x = 0;
-	int y = 0;
-	int index = 0;
-	int brightnessDif = 25;
-	while (y < bmp_info_header.height)
+	int y = bmp_info_header.height;
+	int brightnessDif = 17;
+	Pixel pix;
+	int i = 0;
+	while (y > -1)
 	{
-		Pixel pix = getPixel(x, y);
+		pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x < bmp_info_header.width)
 		{
-			for (int i = 0; i < 10; i++)
+			for (i = 0; i < charSetSize; i++)
 			{
 				if (brightness < brightnessDif)
 				{
-					index = i;
-					brightnessDif = 25;
+					brightnessDif = 17;
 					break;
 				}
-				brightnessDif += 25;
-
+				brightnessDif += 17;
 			}
-			line = line + AsciiChars[index];
+			line = line + charSet[i] + charSet[i];
 		}
 		else
 		{
 			std::cout << line << "\n";
 			line = "";
-			y++;
+			y--;
 			x = 0;
 		}
 		x++;
 	}
 }
 
-void Image::getAsciiImg()
+void Image::imgToArray()
 {
-	std::string AsciiChars[]{ "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	std::string line = "";
 	const int h = bmp_info_header.height;
 	apa = new std::string[h];
-	int brightness;
+	int brightness = 0;
 	int x = 0;
-	int y = 0;
+	int y = h;
+	Pixel pix;
+	int i = 0;
+	int brightnessDif = 17;
 	int index = 0;
-	int brightnessDif = 25;
-	do
+	while (y > 0)
 	{
-		Pixel pix = getPixel(x, y);
+		pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x < bmp_info_header.width)
 		{
-			for (int i = 0; i < 9; i++)
+			for (i = 0; i < 15; i++)
 			{
 				if (brightness < brightnessDif)
 				{
-					index = i;
-					brightnessDif = 25;
+					brightnessDif = 17;
 					break;
 				}
-				brightnessDif += 25;
+				brightnessDif += 17;
 			}
-			line = line + AsciiChars[index];
+			line = line + charSet[i] + charSet[i];
 		}
 		else
 		{
-			apa[y] = line;
+			apa[index] = line;
+			index++;
 			//std::cout << line << "\n";
 			line = "";
-			y++;
+			y--;
 			x = 0;
 			std::cout << y << "/" << bmp_info_header.height << std::endl;
 		}
 		x++;
-	} while (y < bmp_info_header.height);
+	}
 }
 
 Image::~Image()
 {
-	delete apa;
+	delete apa, charSet;
 }

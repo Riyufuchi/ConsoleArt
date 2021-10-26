@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 25.10.2021
+* Last Edit: 26.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -75,12 +75,28 @@ private:
 	void check_color_header(BMPColorHeader &bmp_color_header);
 	uint32_t make_stride_aligned(uint32_t align_stride);
 	void readBMP();
+	std::string charSet;
+	int charSetSize;
 public:
+	enum CHAR_SETS
+	{
+		BASIC,
+		PRECISE,
+		DETAILED,
+		DETAILED_INVERTED
+	};
+	//std::vector<std:string> basic ({ "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " });
+	//std::string basic[10] = { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
+	//std::string precise[12] = { "██", "▒▒", "##", "@@", "%%", "==", "++", "**", "::", "--", "..", "  " };
+  //std::string precise2x[15] = { "██", "▓▓", "▒▒", "░░","##","@@", "%%", "xx", "==", "++", "**", "::", "--", "..", "  " };
+	//std::string precise2xI[15] = {"  ", "..", "--", "::", "**", "++", "==", "xx", "%%", "@@", "##", "░░", "▒▒", "▓▓", "██"};
+	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
 	std::string* apa;
 	Image(const char* filename);
 	BMPInfo getBmpInfo();
-	void writeImgToASCII();
-	void getAsciiImg();
+	void setCharSet(enum CHAR_SETS);
+	void convertToASCII();
+	void imgToArray();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
 	int getGreen(int x, int y);
