@@ -144,6 +144,7 @@ int Image::getBlue(int x, int y)
 Image::Image(const char* filename)
 {
 	this->filename = filename;
+	this->brightness = 0;
 	setCharSet(CHAR_SETS::DETAILED_INVERTED);
 	readBMP();
 }
@@ -161,22 +162,21 @@ void Image::setCharSet(CHAR_SETS choice)
 {
 	switch (choice)
 	{
-		case BASIC: charSet = "█#@%=+:-. "; charSetSize = 10; break; //Basic - Classic
-		case PRECISE:  charSet = "█▒#@%=+*:-. "; charSetSize = 12; break; //Precise - Classic
-		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; charSetSize = 15; break; //More Precise - Classic
-		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; charSetSize = 15; break; //More Precise - Inverted
+		case BASIC: charSet = "█#@%=+:-. "; charSetSize = 10; brightnessDif = 25; break; //Basic - Classic
+		case PRECISE:  charSet = "█▒#@%=+*:-. "; charSetSize = 12; brightnessDif = 22; break; //Precise - Classic
+		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; charSetSize = 15; brightnessDif = 17; break; //More Precise - Classic
+		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; charSetSize = 15; brightnessDif = 17; break; //More Precise - Inverted
 	}
 }
 
 void Image::convertToASCII()
 {
 	std::string line = "";
-	int brightness;
 	int x = 0;
 	int y = bmp_info_header.height;
-	int brightnessDif = 17;
 	Pixel pix;
 	int i = 0;
+	const int defbrightnessDif = brightnessDif;
 	while (y > -1)
 	{
 		pix = getPixel(x, y);
@@ -187,10 +187,10 @@ void Image::convertToASCII()
 			{
 				if (brightness < brightnessDif)
 				{
-					brightnessDif = 17;
+					brightnessDif = defbrightnessDif;
 					break;
 				}
-				brightnessDif += 17;
+				brightnessDif += defbrightnessDif;
 			}
 			line = line + charSet[i] + charSet[i];
 		}
@@ -210,27 +210,26 @@ void Image::imgToArray()
 	std::string line = "";
 	const int h = bmp_info_header.height;
 	apa = new std::string[h];
-	int brightness = 0;
 	int x = 0;
 	int y = h;
 	Pixel pix;
 	int i = 0;
-	int brightnessDif = 17;
 	int index = 0;
+	const int defbrightnessDif = brightnessDif;
 	while (y > 0)
 	{
 		pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x < bmp_info_header.width)
 		{
-			for (i = 0; i < 15; i++)
+			for (i = 0; i < charSetSize; i++)
 			{
 				if (brightness < brightnessDif)
 				{
-					brightnessDif = 17;
+					brightnessDif = defbrightnessDif;
 					break;
 				}
-				brightnessDif += 17;
+				brightnessDif += defbrightnessDif;
 			}
 			line = line + charSet[i] + charSet[i];
 		}

@@ -76,7 +76,7 @@ private:
 	uint32_t make_stride_aligned(uint32_t align_stride);
 	void readBMP();
 	std::string charSet;
-	int charSetSize;
+	int charSetSize, brightness, brightnessDif;
 public:
 	enum CHAR_SETS
 	{
