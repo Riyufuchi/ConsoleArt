@@ -17,7 +17,6 @@
 class Image
 {
 private:
-	const char* filename;
 	const double podR = 0.2989;
 	const double podG = 0.5866;
 	const double podB = 0.1145;
@@ -78,6 +77,7 @@ private:
 	std::string charSet;
 	int charSetSize, brightness, brightnessDif;
 public:
+	const char* filename;
 	enum CHAR_SETS
 	{
 		BASIC,
