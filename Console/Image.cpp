@@ -72,8 +72,8 @@ void Image::readBMP()
 	}
 	else
 	{
-		cerr << "Unable to open file: " << filename << "\n";
-		filename = NULL;
+		cerr << "Unable to open file: " << filename << endl;;
+		this->filename = "NULL";
 	}
 }
 
@@ -146,6 +146,7 @@ Image::Image(const char* filename)
 {
 	this->filename = filename;
 	this->brightness = 0;
+	this->apa = NULL;
 	setCharSet(CHAR_SETS::DETAILED_INVERTED);
 	readBMP();
 }
@@ -168,6 +169,11 @@ void Image::setCharSet(CHAR_SETS choice)
 		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; charSetSize = 15; brightnessDif = 17; break; //More Precise - Classic
 		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; charSetSize = 15; brightnessDif = 17; break; //More Precise - Inverted
 	}
+}
+
+const char* Image::getFilename()
+{
+	return filename;
 }
 
 void Image::convertToASCII()
@@ -250,6 +256,10 @@ void Image::imgToArray()
 
 Image::~Image()
 {
-	 delete[] apa;
-	 apa = NULL;
+	if(apa != NULL)
+	{
+		delete[] apa;
+		apa = NULL;
+	}
+	std::cout << "Image class destructed" << std::endl;
 }

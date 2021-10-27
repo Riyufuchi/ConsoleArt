@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "Image.h"
+#include "ConsoleUtility.h"
 //#include "MyConsole.h" //When compiling for unix-like systems, get rid of this line
 #include "UnixConsole.h"
 
@@ -27,7 +28,7 @@ Image loadImage()
 
 void linuxVersion(Image img)
 {
-	if(img.filename != NULL)
+	if(img.getFilename() != std::string("NULL"))
 	{
 		UnixConsole uc;
 		std::cout << "Press Enter to continue..." << std::endl;
@@ -60,26 +61,15 @@ void forWindows(Image img)
 	*/
 }
 
-bool repeat()
-{
-	std::string choice;
-	std::cout << "Again? [Y/n]: ";
-	getline(std::cin, choice);
-	if(choice == "y" || choice == "Y" || choice == "")
-	{
-		return true;
-	}
-	return false;
-}
-
-
 int main(int argc, char **argv)
 {
 	//cout << "Hello world, it's living time." << endl;
 	//cout << "Let's make some practise for the 'big game'." << endl;
+	ConsoleUtility cu;
+	cu.header("Image to ASCII converter");
 	do
 	{
 		linuxVersion(loadImage());
-	}while(repeat());
+	}while(cu.repeat());
 	return 0;
 }

@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 26.10.2021
+* Last Edit: 27.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -17,6 +17,7 @@
 class Image
 {
 private:
+	const char* filename;
 	const double podR = 0.2989;
 	const double podG = 0.5866;
 	const double podB = 0.1145;
@@ -77,7 +78,6 @@ private:
 	std::string charSet;
 	int charSetSize, brightness, brightnessDif;
 public:
-	const char* filename;
 	enum CHAR_SETS
 	{
 		BASIC,
@@ -101,6 +101,7 @@ public:
 	int getRed(int x, int y);
 	int getGreen(int x, int y);
 	int getBlue(int x, int y);
+	const char* getFilename();
 	~Image();
 };
 #endif
