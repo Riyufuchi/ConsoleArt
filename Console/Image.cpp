@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 26.10.2021
+* Last Edit: 27.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -73,6 +73,7 @@ void Image::readBMP()
 	else
 	{
 		cerr << "Unable to open file: " << filename << "\n";
+		filename = NULL;
 	}
 }
 
@@ -249,5 +250,6 @@ void Image::imgToArray()
 
 Image::~Image()
 {
-	delete apa, charSet;
+	 delete[] apa;
+	 apa = NULL;
 }
