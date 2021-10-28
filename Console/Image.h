@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 27.10.2021
+* Last Edit: 28.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -76,7 +76,7 @@ private:
 	uint32_t make_stride_aligned(uint32_t align_stride);
 	void readBMP();
 	std::string charSet;
-	int charSetSize, brightness, brightnessDif;
+	int brightness, brightnessDif, x, y;
 public:
 	enum CHAR_SETS
 	{

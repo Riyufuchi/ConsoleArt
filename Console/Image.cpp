@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 27.10.2021
+* Last Edit: 28.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -164,10 +164,10 @@ void Image::setCharSet(CHAR_SETS choice)
 {
 	switch (choice)
 	{
-		case BASIC: charSet = "█#@%=+:-. "; charSetSize = 10; brightnessDif = 25; break; //Basic - Classic
-		case PRECISE:  charSet = "█▒#@%=+*:-. "; charSetSize = 12; brightnessDif = 22; break; //Precise - Classic
-		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; charSetSize = 15; brightnessDif = 17; break; //More Precise - Classic
-		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; charSetSize = 15; brightnessDif = 17; break; //More Precise - Inverted
+		case BASIC: charSet = "█#@%=+:-. "; brightnessDif = 25; break; //Basic - Classic
+		case PRECISE:  charSet = "█▒#@%=+*:-. "; brightnessDif = 22; break; //Precise - Classic
+		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; brightnessDif = 17; break; //More Precise - Classic
+		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; brightnessDif = 17; break; //More Precise - Inverted
 	}
 }
 
@@ -179,10 +179,11 @@ const char* Image::getFilename()
 void Image::convertToASCII()
 {
 	std::string line = "";
-	int x = 0;
-	int y = bmp_info_header.height;
+	x = 0;
+	y = bmp_info_header.height;
 	Pixel pix;
 	int i = 0;
+	const int charSetSize = charSet.size();
 	const int defbrightnessDif = brightnessDif;
 	while (y > -1)
 	{
@@ -217,12 +218,13 @@ void Image::imgToArray()
 	std::string line = "";
 	const int h = bmp_info_header.height;
 	apa = new std::string[h];
-	int x = 0;
-	int y = h;
+	x = 0;
+	y = h;
 	Pixel pix;
 	int i = 0;
 	int index = 0;
 	const int defbrightnessDif = brightnessDif;
+	const int charSetSize = charSet.size();
 	while (y > 0)
 	{
 		pix = getPixel(x, y);
@@ -248,7 +250,7 @@ void Image::imgToArray()
 			line = "";
 			y--;
 			x = 0;
-			std::cout << y << "/" << bmp_info_header.height << std::endl;
+			std::cout << index << "/" << bmp_info_header.height << std::endl;
 		}
 		x++;
 	}

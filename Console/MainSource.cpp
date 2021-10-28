@@ -10,7 +10,7 @@
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 27.10.2021
+* Last Edit: 28.10.2021
 * Created By: Riyufuchi
 *
 */
@@ -41,6 +41,10 @@ void linuxVersion(Image img)
 			uc.writeText(img.apa[i]);
 		}
 		img.convertToASCII(); //Converts image and outputs it line by line
+	}
+	else
+	{
+		std::cin.get();
 	}
 }
 
