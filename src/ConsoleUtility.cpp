@@ -15,11 +15,7 @@ bool ConsoleUtility::repeat()
 	std::string choice;
 	std::cout << "Again? [Y/n]: ";
 	getline(std::cin, choice);
-	if(choice == "y" || choice == "Y" || choice == "")
-	{
-		return true;
-	}
-	return false;
+	return (choice == "y" || choice == "Y" || choice == "");
 }
 
 int ConsoleUtility::getIntSafe()
@@ -46,11 +42,11 @@ int ConsoleUtility::getIntSafe(int min, int max)
  		if (!std::cin.fail())
 		{
 			if(x >= min && x <= max)
-					break;
+				break;
 		}
 		std::cin.clear();
 		std::cin.ignore(10000,'\n');
-		std::cout << "Bad entry!\nEnter a number (" << min << " - " << max << "):";
+		std::cout << "Bad entry!\nEnter a number (" << min << " - " << max << "): ";
 	}
 	return x;
 }

@@ -14,9 +14,6 @@
 * Created By: Riyufuchi
 *
 */
-
-//ConsoleUtility cu;
-
 Image loadImage()
 {
 	std::cout << "Image name, without type (only .bmp images)" << std::endl;
@@ -52,7 +49,8 @@ void linuxVersion(Image img)
 		std::cin.get();
 		std::cout << "Processing image..." << std::endl;
 		img.imgToArray(); //Convert image to chars and save it in array
-		for(int i = 0; i < img.getBmpInfo().height; i++) //Outputting converted image
+		int height = img.getBmpInfo().height;
+		for(int i = 0; i < height; i++) //Outputting converted image
 		{
 			uc.writeText(img.apa[i]);
 		}
