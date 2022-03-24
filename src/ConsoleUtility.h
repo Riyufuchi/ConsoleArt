@@ -16,10 +16,10 @@ private:
 
 public:
 	ConsoleUtility();
-  static bool repeat();
+	static bool repeat();
 	static int getIntSafe();
 	static int getIntSafe(int min, int max);
-  static void header(std::string);
+	static void header(std::string);
 	~ConsoleUtility();
 };
 #endif

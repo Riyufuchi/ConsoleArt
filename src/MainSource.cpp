@@ -27,7 +27,9 @@ Image loadImage()
 	Image img((path.append(imgName)).c_str());
 	return img;
 }
-
+/*
+ * Create a simple menu
+ */
 int charSetMenu()
 {
 	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█" };
@@ -50,7 +52,7 @@ void linuxVersion(Image img)
 		std::cin.get();
 		std::cout << "Processing image..." << std::endl;
 		img.imgToArray(); //Convert image to chars and save it in array
-		for(int i = 0; i < img.getBmpInfo().height; i++) //Outputing converted image
+		for(int i = 0; i < img.getBmpInfo().height; i++) //Outputting converted image
 		{
 			uc.writeText(img.apa[i]);
 		}
@@ -81,9 +83,6 @@ void forWindows(Image img)
 
 int main(int argc, char **argv)
 {
-	//cout << "Hello world, it's living time." << endl;
-	//cout << "Let's make some practise for the 'big game'." << endl;
-	//ConsoleUtility cu;
 	ConsoleUtility::header("Image to ASCII converter");
 	do
 	{

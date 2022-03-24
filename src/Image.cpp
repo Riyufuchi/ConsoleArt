@@ -26,7 +26,8 @@ void Image::readBMP()
 			if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
 			{
 				inf.read((char*)&bmp_color_header, sizeof(bmp_color_header));
-				check_color_header(bmp_color_header);
+				if (check_color_header(bmp_color_header))
+					throw runtime_error("An error has occurred");
 			}
 			else
 			{
@@ -68,26 +69,29 @@ void Image::readBMP()
 			}
 			file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 		}
-		cout << "Img successfully loaded: " << filename << "\n";
+		cout << "Image successfully loaded: " << filename << "\n";
 	}
 	else
 	{
-		cerr << "Unable to open file: " << filename << endl;;
+		cerr << "Unable to open file: " << filename << endl;
 		this->filename = "NULL";
 	}
 }
 
-void Image::check_color_header(BMPColorHeader & bmp_color_header)
+bool Image::check_color_header(BMPColorHeader & bmp_color_header)
 {
 	BMPColorHeader expected_color_header;
 	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask || expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
 	{
-		throw std::runtime_error("Unexpected color mask format! The program expects the pixel data to be in the BGRA format");
+		std::cerr << "Unexpected color mask format! The program expects the pixel data to be in the BGRA format\n";
+		return true;
 	}
 	if (expected_color_header.color_space_type != bmp_color_header.color_space_type)
 	{
-		throw std::runtime_error("Unexpected color space type! The program expects sRGB values");
+		std::cerr << "Unexpected color space type! The program expects sRGB values\n";
+		return true;
 	}
+	return false;
 }
 
 uint32_t Image::make_stride_aligned(uint32_t align_stride)
@@ -148,7 +152,14 @@ Image::Image(const char* filename)
 	this->brightness = 0;
 	this->apa = NULL;
 	setCharSet(CHAR_SETS::DETAILED_INVERTED);
-	readBMP();
+	try
+	{
+		readBMP();
+	}
+	catch (std::runtime_error &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 Image::BMPInfo Image::getBmpInfo()
@@ -173,6 +184,7 @@ void Image::setCharSet(int choice)
 		case PRECISE:  charSet = "█▒#@%=+*:-. "; brightnessDif = 22; break; //Precise - Classic
 		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; brightnessDif = 17; break; //More Precise - Classic
 		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; brightnessDif = 17; break; //More Precise - Inverted
+		default: std::cerr << "Input error, default settings applied.\n"; charSet = " .-:*+=x%@#░▒▓█"; brightnessDif = 17; break;
 	}
 }
 

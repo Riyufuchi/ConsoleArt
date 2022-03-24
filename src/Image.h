@@ -72,7 +72,7 @@ private:
 	BMPFileHeader file_header;
 	BMPInfoHeader bmp_info_header;
 	BMPColorHeader bmp_color_header;
-	void check_color_header(BMPColorHeader &bmp_color_header);
+	bool check_color_header(BMPColorHeader &bmp_color_header);
 	uint32_t make_stride_aligned(uint32_t align_stride);
 	void readBMP();
 	std::string charSet;
@@ -88,7 +88,7 @@ public:
 	//std::vector<std:string> basic ({ "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " });
 	//std::string basic[10] = { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
 	//std::string precise[12] = { "██", "▒▒", "##", "@@", "%%", "==", "++", "**", "::", "--", "..", "  " };
-  //std::string precise2x[15] = { "██", "▓▓", "▒▒", "░░","##","@@", "%%", "xx", "==", "++", "**", "::", "--", "..", "  " };
+	//std::string precise2x[15] = { "██", "▓▓", "▒▒", "░░","##","@@", "%%", "xx", "==", "++", "**", "::", "--", "..", "  " };
 	//std::string precise2xI[15] = {"  ", "..", "--", "::", "**", "++", "==", "xx", "%%", "@@", "##", "░░", "▒▒", "▓▓", "██"};
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
 	std::string* apa;

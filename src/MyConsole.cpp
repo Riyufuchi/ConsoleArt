@@ -9,8 +9,8 @@
 */
 MyConsole::MyConsole()
 {
-	CONSOLE_SCREEN_BUFFER_INFOEX info;
-	info.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
+	CONSOLE_SCREEN_BUFFER_INFOEX info; // @suppress("Type cannot be resolved")
+	info.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX); // @suppress("Field cannot be resolved")
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfoEx(hConsole, &info);
 	info.ColorTable[1] = RGB(255, 105, 180); //HotPink

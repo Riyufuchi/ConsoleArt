@@ -1,7 +1,7 @@
 #ifndef  _MYCONSOLE_H_
 #define _MYCONSOLE_H_
 #include <iostream>
-#include <Windows.h>
+//#include <Windows.h>
 
 /*
 * Copyright Header
@@ -20,7 +20,7 @@ private:
 	int screenHeight;
 	wchar_t *screen;
 	std::wstring name;
-	HANDLE console;
+	HANDLE console; // @suppress("Type cannot be resolved")
 public:
 	enum COLORS
 	{

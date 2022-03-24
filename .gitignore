@@ -5,6 +5,15 @@ face
 lua542
 bin
 
+# Eclipse
+.cproject
+.autotools
+.project
+Release
+Debug
+.settings
+
+
 # Visual studio
 .vs
 x64
