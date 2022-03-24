@@ -6,7 +6,7 @@
 
 /* Copyright Header
 * Created On: 27.10.2021
-* Last Edit: 27.10.2021
+* Last Edit: 24.03.2022
 * Created By: Riyufuchi
 */
 
@@ -16,8 +16,10 @@ private:
 
 public:
 	ConsoleUtility();
-  bool repeat();
-  void header(std::string);
+  static bool repeat();
+	static int getIntSafe();
+	static int getIntSafe(int min, int max);
+  static void header(std::string);
 	~ConsoleUtility();
 };
 #endif

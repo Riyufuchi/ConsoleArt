@@ -1,6 +1,10 @@
 *.lua
 face
 
+#Folders
+lua542
+bin
+
 # Visual studio
 .vs
 x64

@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 28.10.2021
+* Last Edit: 24.03.2022
 * Created By: Riyufuchi
 *
 */
@@ -95,6 +95,7 @@ public:
 	Image(const char* filename);
 	BMPInfo getBmpInfo();
 	void setCharSet(enum CHAR_SETS);
+	void setCharSet(int choice);
 	void convertToASCII();
 	void imgToArray();
 	Pixel getPixel(int x, int y);

@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 28.10.2021
+* Last Edit: 24.03.2022
 * Created By: Riyufuchi
 *
 */
@@ -162,6 +162,11 @@ Image::BMPInfo Image::getBmpInfo()
 
 void Image::setCharSet(CHAR_SETS choice)
 {
+	setCharSet((int)choice);
+}
+
+void Image::setCharSet(int choice)
+{
 	switch (choice)
 	{
 		case BASIC: charSet = "█#@%=+:-. "; brightnessDif = 25; break; //Basic - Classic
@@ -184,6 +189,7 @@ void Image::convertToASCII()
 	Pixel pix;
 	int i = 0;
 	const int charSetSize = charSet.size();
+	//const int charSetSize = sizeof(charSet) / sizeof(charSet[0]);
 	const int defbrightnessDif = brightnessDif;
 	while (y > -1)
 	{
