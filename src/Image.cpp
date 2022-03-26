@@ -15,17 +15,16 @@ void Image::readBMP()
 	ifstream inf(filename, ios::in);
 	if (inf)
 	{
-		inf.read((char*)&file_header, sizeof(file_header));
 		if (file_header.file_type != 0x4D42)
 		{
 			throw runtime_error("Error: Unrecognized format");
 		}
-		inf.read((char*)&bmp_info_header, sizeof(bmp_info_header));
+		inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
 		if (bmp_info_header.bit_count == 32)
 		{
 			if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
 			{
-				inf.read((char*)&bmp_color_header, sizeof(bmp_color_header));
+				inf.read(reinterpret_cast<char*>(&bmp_color_header), sizeof(bmp_color_header));
 				if (check_color_header(bmp_color_header))
 					throw runtime_error("An error has occurred");
 			}
@@ -54,7 +53,7 @@ void Image::readBMP()
 		imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
 		if (bmp_info_header.width % 4 == 0)
 		{
-			inf.read((char*)imgData.data(), imgData.size());
+			inf.read(reinterpret_cast<char*>(imgData.data()), imgData.size());
 			file_header.file_size += imgData.size();
 		}
 		else
@@ -64,8 +63,8 @@ void Image::readBMP()
 			vector<uint8_t> padding_row(new_stride - row_stride);
 			for (int y = 0; y < bmp_info_header.height; ++y)
 			{
-				inf.read((char*)(imgData.data() + row_stride * y), row_stride);
-				inf.read((char*)padding_row.data(), padding_row.size());
+				inf.read(reinterpret_cast<char*>(imgData.data() + row_stride * y), row_stride);
+				inf.read(reinterpret_cast<char*>(padding_row.data()), padding_row.size());
 			}
 			file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 		}
@@ -129,21 +128,21 @@ Image::Pixel Image::getPixel(int x, int y)
 int Image::getRed(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	if((int)imgData[channels * (y * bmp_info_header.width + x) + 2] < 0)
+	if (static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]) < 0)
 	{
 		return imgData[channels * (y * bmp_info_header.width + x) + 2] * -1;
 	}
-	return (int)imgData[channels * (y * bmp_info_header.width + x) + 2];
+	return static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]);
 }
 int Image::getGreen(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 1])-48);
+	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 1]) - 48);
 }
 int Image::getBlue(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return (int)((imgData[channels * (y * bmp_info_header.width + x) + 0])-48);
+	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]) - 48);
 }
 
 Image::Image(const char* filename)
@@ -173,7 +172,7 @@ Image::BMPInfo Image::getBmpInfo()
 
 void Image::setCharSet(CHAR_SETS choice)
 {
-	setCharSet((int)choice);
+	setCharSet(static_cast<int>(choice));
 }
 
 void Image::setCharSet(int choice)
