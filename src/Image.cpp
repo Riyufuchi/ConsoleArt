@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 24.03.2022
+* Last Edit: 31.03.2022
 * Created By: Riyufuchi
 *
 */
@@ -15,6 +15,7 @@ void Image::readBMP()
 	ifstream inf(filename, ios::in);
 	if (inf)
 	{
+		inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header));
 		if (file_header.file_type != 0x4D42)
 		{
 			throw runtime_error("Error: Unrecognized format");
@@ -179,11 +180,11 @@ void Image::setCharSet(int choice)
 {
 	switch (choice)
 	{
-		case BASIC: charSet = "█#@%=+:-. "; brightnessDif = 25; break; //Basic - Classic
-		case PRECISE:  charSet = "█▒#@%=+*:-. "; brightnessDif = 22; break; //Precise - Classic
-		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; brightnessDif = 17; break; //More Precise - Classic
-		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; brightnessDif = 17; break; //More Precise - Inverted
-		default: std::cerr << "Input error, default settings applied.\n"; charSet = " .-:*+=x%@#░▒▓█"; brightnessDif = 17; break;
+		case BASIC: charSet = "█#@%=+:-. "; brightnessDiff = 25; break; //Basic - Classic
+		case PRECISE:  charSet = "█▒#@%=+*:-. "; brightnessDiff = 22; break; //Precise - Classic
+		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; brightnessDiff = 17; break; //More Precise - Classic
+		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; brightnessDiff = 17; break; //More Precise - Inverted
+		default: std::cerr << "Input error, default settings applied.\n"; charSet = " .-:*+=x%@#░▒▓█"; brightnessDiff = 17; break;
 	}
 }
 
@@ -192,45 +193,27 @@ const char* Image::getFilename()
 	return filename;
 }
 
-void Image::convertToASCII()
+std::string Image::getLine(int index)
 {
-	std::string line = "";
-	x = 0;
-	y = bmp_info_header.height;
-	Pixel pix;
-	int i = 0;
-	const int charSetSize = charSet.size();
-	//const int charSetSize = sizeof(charSet) / sizeof(charSet[0]);
-	const int defbrightnessDif = brightnessDif;
-	while (y > -1)
+	//if((index > 0) && (index < bmp_info_header.height))
+		return apa[index];
+	//return " ";
+}
+
+void Image::outputAsciiImage()
+{
+	if(apa == NULL)
 	{
-		pix = getPixel(x, y);
-		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		if (x < bmp_info_header.width)
-		{
-			for (i = 0; i < charSetSize; i++)
-			{
-				if (brightness < brightnessDif)
-				{
-					brightnessDif = defbrightnessDif;
-					break;
-				}
-				brightnessDif += defbrightnessDif;
-			}
-			line = line + charSet[i] + charSet[i];
-		}
-		else
-		{
-			std::cout << line << "\n";
-			line = "";
-			y--;
-			x = 0;
-		}
-		x++;
+		convertToASCII();
+	}
+	const int height = bmp_info_header.height;
+	for(int i = 0; i < height; i++)
+	{
+		std::cout << apa[i] << "\n";
 	}
 }
 
-void Image::imgToArray()
+void Image::convertToASCII()
 {
 	std::string line = "";
 	const int h = bmp_info_header.height;
@@ -240,7 +223,7 @@ void Image::imgToArray()
 	Pixel pix;
 	int i = 0;
 	int index = 0;
-	const int defbrightnessDif = brightnessDif;
+	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
 	const int charSetSize = charSet.size();
 	while (y > 0)
 	{
@@ -250,12 +233,12 @@ void Image::imgToArray()
 		{
 			for (i = 0; i < charSetSize; i++)
 			{
-				if (brightness < brightnessDif)
+				if (brightness < brightnessDiff)
 				{
-					brightnessDif = defbrightnessDif;
+					brightnessDiff = defbrightnessDif;
 					break;
 				}
-				brightnessDif += defbrightnessDif;
+				brightnessDiff += defbrightnessDif;
 			}
 			line = line + charSet[i] + charSet[i];
 		}

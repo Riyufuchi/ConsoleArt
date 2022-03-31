@@ -48,13 +48,15 @@ void linuxVersion(Image img)
 		std::cin.get();
 		std::cin.get();
 		std::cout << "Processing image..." << std::endl;
-		img.imgToArray(); //Convert image to chars and save it in array
-		int height = img.getBmpInfo().height;
-		for(int i = 0; i < height; i++) //Outputting converted image
+		img.convertToASCII(); //Converts image to chars and save it in array
+		//Explicit outputting of converted image
+		const int height = img.getBmpInfo().height;
+		for(int i = 0; i < height; i++)
 		{
-			uc.writeText(img.apa[i]);
+			uc.writeText(img.getLine(i));
 		}
-		//img.convertToASCII(); //Converts image and outputs it line by line
+		//Implicit:
+		img.outputAsciiImage();
 	}
 	else
 	{
