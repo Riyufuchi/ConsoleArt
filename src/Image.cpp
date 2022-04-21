@@ -216,29 +216,29 @@ void Image::outputAsciiImage()
 void Image::convertToASCII()
 {
 	std::string line = "";
-	const int h = bmp_info_header.height;
-	apa = new std::string[h];
+	const int HEIGHT = bmp_info_header.height;
+	apa = new std::string[HEIGHT];
 	x = 0;
-	y = h;
+	y = HEIGHT;
 	Pixel pix;
 	int i = 0;
 	int index = 0;
 	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
-	const int charSetSize = charSet.size();
+	const int CHARSET_SIZE = charSet.size();
 	while (y > 0)
 	{
 		pix = getPixel(x, y);
 		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
 		if (x < bmp_info_header.width)
 		{
-			for (i = 0; i < charSetSize; i++)
+			for (i = 0; i < CHARSET_SIZE; i++)
 			{
 				if (brightness < brightnessDiff)
 				{
-					brightnessDiff = defbrightnessDif;
+					brightnessDiff = DEF_BRIGHTNESS_DIFF;
 					break;
 				}
-				brightnessDiff += defbrightnessDif;
+				brightnessDiff += DEF_BRIGHTNESS_DIFF;
 			}
 			line = line + charSet[i] + charSet[i];
 		}

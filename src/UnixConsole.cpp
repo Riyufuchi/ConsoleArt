@@ -9,14 +9,19 @@
 */
 UnixConsole::UnixConsole()
 {
+	mainColor.red = 0;
+	mainColor.green = 215;
+	mainColor.blue = 0;
 	/*
 	mainColor.red = 255;
 	mainColor.green = 105;
 	mainColor.blue = 180;
 	*/
+	/*
 	mainColor.red = 160;
 	mainColor.green = 0;
 	mainColor.blue = 255;
+	*/
 }
 void UnixConsole::setColorText(int r, int g, int b, const char * text)
 {
@@ -39,11 +44,11 @@ void UnixConsole::writeText(std::string text)
 	//std::string str(t.str());
 	std::cout << t.str() << std::endl;
 }
-void UnixConsole::setMainTextColor(UnixConsole::Color a)
+void UnixConsole::setMainTextColor(Color a)
 {
 	mainColor = a;
 }
-UnixConsole::Color UnixConsole::setColor(int r, int g, int b)
+UnixConsole::Color UnixConsole::setColor(short int r, short int g, short int b)
 {
 	Color a;
 	a.red = r;
