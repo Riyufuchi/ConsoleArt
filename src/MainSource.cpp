@@ -10,13 +10,13 @@
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 24.03.2021
+* Last Edit: 08.11.2022
 * Created By: Riyufuchi
 *
 */
 Image loadImage()
 {
-	std::cout << "Image name, without type (only .bmp images)" << std::endl;
+	std::cout << "Image name without file extension (only .bmp images):" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	imgName.append(".bmp");
@@ -49,6 +49,16 @@ void linuxVersion(Image img)
 		std::cin.get();
 		std::cout << "Processing image..." << std::endl;
 		img.convertToASCII(); //Converts image to chars and save it in array
+		if (ConsoleUtility::yesNo("Custom color [Y/n]: "))
+		{
+			std::cout << "Red: ";
+			int red = ConsoleUtility::getIntSafe(0, 255);
+			std::cout << "Green: ";
+			int green = ConsoleUtility::getIntSafe(0, 255);
+			std::cout << "Blue: ";
+			int blue = ConsoleUtility::getIntSafe(0, 255);
+			uc.setMainTextColor(uc.setColor(red, green, blue));
+		}
 		//Explicit outputting of converted image
 		const int height = img.getBmpInfo().height;
 		for(int i = 0; i < height; i++)
@@ -56,12 +66,9 @@ void linuxVersion(Image img)
 			uc.writeText(img.getLine(i));
 		}
 		//Implicit:
-		img.outputAsciiImage();
+		//img.outputAsciiImage();
 	}
-	else
-	{
-		std::cin.get();
-	}
+	std::cin.get(); //Catch enter character - if not, user will press enter anyway
 }
 
 /*

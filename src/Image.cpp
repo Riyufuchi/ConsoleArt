@@ -4,7 +4,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 31.03.2022
+* Last Edit: 08.11.2022
 * Created By: Riyufuchi
 *
 */
@@ -151,7 +151,7 @@ Image::Image(const char* filename)
 	this->filename = filename;
 	this->brightness = 0;
 	this->apa = NULL;
-	setCharSet(CHAR_SETS::DETAILED_INVERTED);
+	setCharSet(CHAR_SETS::BASIC);
 	try
 	{
 		readBMP();
@@ -180,11 +180,71 @@ void Image::setCharSet(int choice)
 {
 	switch (choice)
 	{
-		case BASIC: charSet = "█#@%=+:-. "; brightnessDiff = 25; break; //Basic - Classic
-		case PRECISE:  charSet = "█▒#@%=+*:-. "; brightnessDiff = 22; break; //Precise - Classic
-		case DETAILED: charSet = "█▓▒░#@%x=+*:-. "; brightnessDiff = 17; break; //More Precise - Classic
-		case DETAILED_INVERTED: charSet = " .-:*+=x%@#░▒▓█"; brightnessDiff = 17; break; //More Precise - Inverted
-		default: std::cerr << "Input error, default settings applied.\n"; charSet = " .-:*+=x%@#░▒▓█"; brightnessDiff = 17; break;
+		case BASIC:
+			chars.push_back("██");//"▓▓");
+			chars.push_back("##");
+			chars.push_back("@@");
+			chars.push_back("%%");
+			chars.push_back("==");
+			chars.push_back("++");
+			chars.push_back("::");
+			chars.push_back("--");
+			chars.push_back("..");
+			chars.push_back("  ");
+			brightnessDiff = 255 / chars.size();
+		break;
+		case PRECISE:
+			chars.push_back("██");
+			chars.push_back("▒▒");
+			chars.push_back("##");
+			chars.push_back("@@");
+			chars.push_back("%%");
+			chars.push_back("==");
+			chars.push_back("++");
+			chars.push_back("**");
+			chars.push_back("::");
+			chars.push_back("--");
+			chars.push_back("..");
+			chars.push_back("  ");
+			brightnessDiff = 22;
+		break;
+		case DETAILED:
+			chars.push_back("██");
+			chars.push_back("▓▓");
+			chars.push_back("▒▒");
+			chars.push_back("░░");
+			chars.push_back("##");
+			chars.push_back("@@");
+			chars.push_back("%%");
+			chars.push_back("xx");
+			chars.push_back("==");
+			chars.push_back("++");
+			chars.push_back("**");
+			chars.push_back("::");
+			chars.push_back("--");
+			chars.push_back("..");
+			chars.push_back("  ");
+			//brightnessDiff = 17;
+			brightnessDiff = 255 / chars.size();
+		break;
+		case DETAILED_INVERTED:
+		{
+			setCharSet(CHAR_SETS::DETAILED);
+			std::vector<std::string> newChars;
+			const int NUM_OF_CHARS = chars.size() - 1;
+			int selectIndex = NUM_OF_CHARS;
+			for(int i = 0; i < NUM_OF_CHARS; i++)
+			{
+				newChars.push_back(chars.at(selectIndex));
+				selectIndex--;
+			}
+			chars = newChars;
+			break;
+		}
+		default:
+			setCharSet(CHAR_SETS::BASIC);
+			std::cerr << "Input error, default settings applied.\n";
+		break;
 	}
 }
 
@@ -203,14 +263,10 @@ std::string Image::getLine(int index)
 void Image::outputAsciiImage()
 {
 	if(apa == NULL)
-	{
 		convertToASCII();
-	}
 	const int height = bmp_info_header.height;
 	for(int i = 0; i < height; i++)
-	{
 		std::cout << apa[i] << "\n";
-	}
 }
 
 void Image::convertToASCII()
@@ -218,13 +274,13 @@ void Image::convertToASCII()
 	std::string line = "";
 	const int HEIGHT = bmp_info_header.height;
 	apa = new std::string[HEIGHT];
-	x = 0;
-	y = HEIGHT;
+	int x = 0;
+	int y = HEIGHT;
 	Pixel pix;
 	int i = 0;
 	int index = 0;
 	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
-	const int CHARSET_SIZE = charSet.size();
+	const int CHARSET_SIZE = chars.size();
 	while (y > 0)
 	{
 		pix = getPixel(x, y);
@@ -240,7 +296,8 @@ void Image::convertToASCII()
 				}
 				brightnessDiff += DEF_BRIGHTNESS_DIFF;
 			}
-			line = line + charSet[i] + charSet[i];
+			//line = line + charSet[i] + charSet[i];
+			line = line + chars.at(i);
 		}
 		else
 		{

@@ -9,7 +9,7 @@
 * Copyright Header
 *
 * Created On: 17.07.2020
-* Last Edit: 31.03.2022
+* Last Edit: 08.11.2022
 * Created By: Riyufuchi
 *
 */
@@ -23,9 +23,8 @@ private:
 	const double podB = 0.1145;
 	int brightness;
 	int brightnessDiff;
-	int x, y;
+	std::vector<std::string> chars;
 	std::vector<char> imgData;
-	std::string charSet;
 	std::string* apa;
 	uint32_t row_stride;
 	#pragma pack(push, 1)
@@ -88,11 +87,6 @@ public:
 		DETAILED,
 		DETAILED_INVERTED
 	};
-	//std::vector<std:string> basic ({ "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " });
-	//std::string basic[10] = { "██", "##", "@@", "%%", "==", "++", "::", "--", "..", "  " };
-	//std::string precise[12] = { "██", "▒▒", "##", "@@", "%%", "==", "++", "**", "::", "--", "..", "  " };
-	//std::string precise2x[15] = { "██", "▓▓", "▒▒", "░░","##","@@", "%%", "xx", "==", "++", "**", "::", "--", "..", "  " };
-	//std::string precise2xI[15] = {"  ", "..", "--", "::", "**", "++", "==", "xx", "%%", "@@", "##", "░░", "▒▒", "▓▓", "██"};
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
 	Image(const char* filename);
 	void setCharSet(enum CHAR_SETS);

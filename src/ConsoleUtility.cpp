@@ -2,7 +2,7 @@
 
 /* Copyright Header
 * Created On: 27.10.2021
-* Last Edit: 24.03.2022
+* Last Edit: 08.11.2022
 * Created By: Riyufuchi
 */
 
@@ -10,12 +10,18 @@ ConsoleUtility::ConsoleUtility()
 {
 }
 
-bool ConsoleUtility::repeat()
+bool ConsoleUtility::yesNo(const char* text)
 {
 	std::string choice;
-	std::cout << "Again? [Y/n]: ";
+	std::cout << text;
 	getline(std::cin, choice);
+	//std::cin.ignore(); //clears buffer
 	return (choice == "y" || choice == "Y" || choice == "");
+}
+
+bool ConsoleUtility::repeat()
+{
+	return yesNo("Again? [Y/n] ");
 }
 
 int ConsoleUtility::getIntSafe()
@@ -26,9 +32,9 @@ int ConsoleUtility::getIntSafe()
 		std::cin >> x;
 		if (!std::cin.fail())
 			break;
-		std::cin.clear();
-		std::cin.ignore(10000,'\n');
-		std::cout << "Bad input!\nEnter a number: ";
+		//std::cin.clear();
+		//std::cin.ignore(10000,'\n');
+		std::cerr << "Bad input, enter a number: ";
 	}
 	return x;
 }
@@ -38,17 +44,12 @@ int ConsoleUtility::getIntSafe(int min, int max)
 	int x = 0;
 	while(true)
 	{
- 		std::cin >> x;
- 		if (!std::cin.fail())
-		{
-			if(x >= min && x <= max)
-				break;
-		}
-		std::cin.clear();
-		std::cin.ignore(10000,'\n');
-		std::cout << "Bad entry!\nEnter a number (" << min << " - " << max << "): ";
+		x = getIntSafe();
+		if(x >= min && x <= max)
+			return x;
+		else
+			std::cout << "Enter a number in range " << min << " - " << max << ": ";
 	}
-	return x;
 }
 
 void ConsoleUtility::header(std::string text)
