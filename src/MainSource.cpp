@@ -1,27 +1,26 @@
 #include <stdio.h>
 #include <iostream>
-#include <string>
+#include <string.h>
 #include "Image.h"
 #include "ConsoleUtility.h"
-//#include "MyConsole.h" //When compiling for unix-like systems, get rid of these files
 #include "UnixConsole.h"
 
 /*
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 08.11.2022
+* Last Edit: 14.11.2022
 * Created By: Riyufuchi
 *
 */
-Image loadImage()
+
+Image loadImage(std::string defaultPath)
 {
 	std::cout << "Image name without file extension (only .bmp images):" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	imgName.append(".bmp");
-	std::string path = "/home/riyufuchi/Pictures/toAscii/";
-	Image img((path.append(imgName)).c_str());
+	Image img((defaultPath.append(imgName)).c_str());
 	return img;
 }
 /*
@@ -71,29 +70,41 @@ void linuxVersion(Image img)
 	std::cin.get(); //Catch enter character - if not, user will press enter anyway
 }
 
-/*
-void forWindows(Image img)
+int main(int argc, char** argv)
 {
-	if(img.filename != NULL)
+	ConsoleUtility::header("\v    Image to ASCII converter V1.0\v   ");
+	std::string path = "";
+	if(argc == 1) //First argument is always app name
 	{
-		MyConsole mc;
-		mc.setTextColor(mc.HOT_PINK);
-		//Image img("D:/Files/Programming/C++ Visual Studio/ConsoleArt/x64/Debug/img.bmp");
-		cout << "Press Enter to continue..." << endl;
-		cin.get();
-		std::cin.get();
-		cout << "Processing image..." << endl;
-		img.writeImgToASCII();
+		std::cout << "Loading files in app folder selected.\n";
 	}
-}
-*/
+	else if(!strcmp(argv[1], "-man")) //if argc isn't 1, than check for manual
+	{
+		std::cout << "Argument" << "Action\n";
+		std::cout << "empty arguments" << "path same as for executable";
+		std::cout << "-p --path" << "path to img folder";
+		return 0; //manual was displayed and app is closed
+	}
+	else if (argc < 3) //3 is number of required arguments, if it less and not manual argument, input is invalid
+	{
+		std::cerr << "Invalid or unknown arguments inputed.\nUse -man for help.\n";
+		return 1;
+	}
+	else if(!strcmp(argv[1], "-p") || !strcmp(argv[1], "-path"))
+	{
+		//std::string path2{argv[2]};
+		path = reinterpret_cast<const char*>((argv[2]));
+		std::cout << "Path " << path << " selected.\n";
+	}
+	else
+	{
+		std::cerr << "Invalid or unknown arguments inputed.\nUse -man for help.\n";
+		return 1;
+	}
 
-int main(int argc, char **argv)
-{
-	ConsoleUtility::header("Image to ASCII converter");
 	do
 	{
-		linuxVersion(loadImage());
+		linuxVersion(loadImage(path));
 	}while(ConsoleUtility::repeat());
 	return 0;
 }
