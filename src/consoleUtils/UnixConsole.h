@@ -1,16 +1,15 @@
+//============================================================================
+// Name        : UnixConsole
+// Author      : Riyufuchi
+// Created on  : 20.07.2020
+// Last Edit   : 15.11.2022
+// Description : This class contains methods for working with a Linux console
+//============================================================================
+
 #ifndef  _UNXCONSOLE_H_
 #define _UNIXCONSOLE_H_
 #include <iostream>
 #include <sstream>
-
-/*
-* Copyright Header
-*
-* Created On: 20.07.2020
-* Last Edit: 25.10.2021
-* Created By: Riyufuchi
-*
-*/
 
 class UnixConsole
 {

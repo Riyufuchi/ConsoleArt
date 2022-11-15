@@ -27,12 +27,12 @@ private:
 public:
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
 	enum CHAR_SETS
-		{
-			BASIC,
-			PRECISE,
-			DETAILED,
-			DETAILED_INVERTED
-		};
+	{
+		BASIC,
+		PRECISE,
+		DETAILED,
+		DETAILED_INVERTED
+	};
 	//ImageBMP is a reference not a pointer
 	AsciiConverter(ImageBMP& img);
 	void convertToASCII();

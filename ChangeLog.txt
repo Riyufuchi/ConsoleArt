@@ -1,4 +1,0 @@
-13/07/2020: Project started
-14/07/2020: Added MyConsole class
-18/07/2020: Fully working base version created
-20/07/2020: Added support for Unix-like systems

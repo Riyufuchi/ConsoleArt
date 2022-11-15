@@ -70,10 +70,8 @@ public:
 		int red;
 		int green;
 		int blue;
-		//int rgb[];
 	};
 	ImageBMP(const char* filename);
-	//void imgToArray();
 	BMPInfo getBmpInfo();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
