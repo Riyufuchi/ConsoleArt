@@ -14,7 +14,7 @@
 *
 */
 
-class Image
+class ImageBMP
 {
 private:
 	const char* filename;
@@ -88,7 +88,7 @@ public:
 		DETAILED_INVERTED
 	};
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
-	Image(const char* filename);
+	ImageBMP(const char* filename);
 	void setCharSet(enum CHAR_SETS);
 	void setCharSet(int choice);
 	void convertToASCII();
@@ -101,6 +101,6 @@ public:
 	int getBlue(int x, int y);
 	std::string getLine(int index);
 	const char* getFilename();
-	~Image();
+	~ImageBMP();
 };
 #endif

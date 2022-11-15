@@ -2,7 +2,7 @@
 
 /* Copyright Header
 * Created On: 27.10.2021
-* Last Edit: 08.11.2022
+* Last Edit: 15.11.2022
 * Created By: Riyufuchi
 */
 
@@ -61,6 +61,15 @@ void ConsoleUtility::header(std::string text)
 		line += "-";
 	}
 	std::cout << line << "\n" << text << "\n" << line << std::endl;
+}
+
+int ConsoleUtility::basicMenu(int lenght, const char* menu[])
+{
+	for(int i = 0; i < lenght; i++)
+	{
+		printf("%d. %s \n", i + 1, menu[i]);
+	}
+	return (getIntSafe(1, lenght) - 1);
 }
 
 ConsoleUtility::~ConsoleUtility()

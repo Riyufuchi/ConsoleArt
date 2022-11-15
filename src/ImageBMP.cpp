@@ -1,5 +1,4 @@
-﻿#include "Image.h"
-
+﻿#include "ImageBMP.h"
 /*
 * Copyright Header
 *
@@ -9,7 +8,7 @@
 *
 */
 
-void Image::readBMP()
+void ImageBMP::readBMP()
 {
 	using namespace std;
 	ifstream inf(filename, ios::in);
@@ -78,7 +77,7 @@ void Image::readBMP()
 	}
 }
 
-bool Image::check_color_header(BMPColorHeader & bmp_color_header)
+bool ImageBMP::check_color_header(BMPColorHeader & bmp_color_header)
 {
 	BMPColorHeader expected_color_header;
 	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask || expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
@@ -94,7 +93,7 @@ bool Image::check_color_header(BMPColorHeader & bmp_color_header)
 	return false;
 }
 
-uint32_t Image::make_stride_aligned(uint32_t align_stride)
+uint32_t ImageBMP::make_stride_aligned(uint32_t align_stride)
 {
 	uint32_t new_stride = row_stride;
 	while (new_stride % align_stride != 0)
@@ -104,7 +103,7 @@ uint32_t Image::make_stride_aligned(uint32_t align_stride)
 	return new_stride;
 }
 
-Image::Pixel Image::getPixel(int x, int y)
+ImageBMP::Pixel ImageBMP::getPixel(int x, int y)
 {
 	Pixel p;
 	uint32_t channels = bmp_info_header.bit_count / 8;
@@ -126,7 +125,7 @@ Image::Pixel Image::getPixel(int x, int y)
 	return p;
 }
 
-int Image::getRed(int x, int y)
+int ImageBMP::getRed(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	if (static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]) < 0)
@@ -135,18 +134,18 @@ int Image::getRed(int x, int y)
 	}
 	return static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]);
 }
-int Image::getGreen(int x, int y)
+int ImageBMP::getGreen(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 1]) - 48);
 }
-int Image::getBlue(int x, int y)
+int ImageBMP::getBlue(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]) - 48);
 }
 
-Image::Image(const char* filename)
+ImageBMP::ImageBMP(const char* filename)
 {
 	this->filename = filename;
 	this->brightness = 0;
@@ -162,7 +161,7 @@ Image::Image(const char* filename)
 	}
 }
 
-Image::BMPInfo Image::getBmpInfo()
+ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 {
 	BMPInfo a;
 	a.name = this->filename;
@@ -171,12 +170,12 @@ Image::BMPInfo Image::getBmpInfo()
 	return a;
 }
 
-void Image::setCharSet(CHAR_SETS choice)
+void ImageBMP::setCharSet(CHAR_SETS choice)
 {
 	setCharSet(static_cast<int>(choice));
 }
 
-void Image::setCharSet(int choice)
+void ImageBMP::setCharSet(int choice)
 {
 	switch (choice)
 	{
@@ -248,19 +247,19 @@ void Image::setCharSet(int choice)
 	}
 }
 
-const char* Image::getFilename()
+const char* ImageBMP::getFilename()
 {
 	return filename;
 }
 
-std::string Image::getLine(int index)
+std::string ImageBMP::getLine(int index)
 {
 	//if((index > 0) && (index < bmp_info_header.height))
 		return apa[index];
 	//return " ";
 }
 
-void Image::outputAsciiImage()
+void ImageBMP::outputAsciiImage()
 {
 	if(apa == NULL)
 		convertToASCII();
@@ -269,7 +268,7 @@ void Image::outputAsciiImage()
 		std::cout << apa[i] << "\n";
 }
 
-void Image::convertToASCII()
+void ImageBMP::convertToASCII()
 {
 	std::string line = "";
 	const int HEIGHT = bmp_info_header.height;
@@ -313,7 +312,7 @@ void Image::convertToASCII()
 	}
 }
 
-Image::~Image()
+ImageBMP::~ImageBMP()
 {
 	if(apa != NULL)
 	{

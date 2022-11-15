@@ -1,48 +1,49 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
-#include "Image.h"
 #include "ConsoleUtility.h"
+#include "ImageBMP.h"
 #include "UnixConsole.h"
 
 /*
 * Copyright Header
 *
 * Created On: 13.07.2020
-* Last Edit: 14.11.2022
+* Last Edit: 15.11.2022
 * Created By: Riyufuchi
 *
 */
 
-Image loadImage(std::string defaultPath)
+ImageBMP loadImage(std::string defaultPath)
 {
 	std::cout << "Image name without file extension (only .bmp images):" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	imgName.append(".bmp");
-	Image img((defaultPath.append(imgName)).c_str());
+	ImageBMP img((defaultPath.append(imgName)).c_str());
 	return img;
 }
-/*
- * Create a simple menu
- */
-int charSetMenu()
+
+template <size_t N> void print(const char* (&a)[N])
 {
-	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█" };
-	const int lenght = sizeof(menuItems)/sizeof(menuItems[0]);
-	for(int i = 0; i < lenght; i++)
+	for (const char* e : a)
 	{
-		printf("%d. %s \n", i + 1, menuItems[i]);
+		std::cout << e << std::endl;
 	}
-	return (ConsoleUtility::getIntSafe(1, lenght) - 1);
 }
 
-void linuxVersion(Image img)
+int menuDelegation()
+{
+	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█" };
+	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+}
+
+void linuxVersion(ImageBMP img)
 {
 	if(img.getFilename() != std::string("NULL"))
 	{
 		UnixConsole uc;
-		img.setCharSet(charSetMenu());
+		img.setCharSet(menuDelegation());
 		std::cout << "Press Enter to continue..." << std::endl;
 		std::cin.get();
 		std::cin.get();
