@@ -1,12 +1,25 @@
-﻿#include "ImageBMP.h"
-/*
-* Copyright Header
-*
-* Created On: 17.07.2020
-* Last Edit: 08.11.2022
-* Created By: Riyufuchi
-*
-*/
+﻿//============================================================================
+// Name        : ImageBMP
+// Author      : Riyufuchi
+// Created on  : 17.07.2020
+// Last Edit   : 15.11.2022
+// Description : This class loads UNCOMPRESSED bitmap image
+//============================================================================
+
+#include "ImageBMP.h"
+
+ImageBMP::ImageBMP(const char* filename)
+{
+	this->filename = filename;
+	try
+	{
+		readBMP();
+	}
+	catch (std::runtime_error &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
 
 void ImageBMP::readBMP()
 {
@@ -145,22 +158,6 @@ int ImageBMP::getBlue(int x, int y)
 	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]) - 48);
 }
 
-ImageBMP::ImageBMP(const char* filename)
-{
-	this->filename = filename;
-	this->brightness = 0;
-	this->apa = NULL;
-	setCharSet(CHAR_SETS::BASIC);
-	try
-	{
-		readBMP();
-	}
-	catch (std::runtime_error &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-}
-
 ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 {
 	BMPInfo a;
@@ -170,154 +167,12 @@ ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 	return a;
 }
 
-void ImageBMP::setCharSet(CHAR_SETS choice)
-{
-	setCharSet(static_cast<int>(choice));
-}
-
-void ImageBMP::setCharSet(int choice)
-{
-	switch (choice)
-	{
-		case BASIC:
-			chars.push_back("██");//"▓▓");
-			chars.push_back("##");
-			chars.push_back("@@");
-			chars.push_back("%%");
-			chars.push_back("==");
-			chars.push_back("++");
-			chars.push_back("::");
-			chars.push_back("--");
-			chars.push_back("..");
-			chars.push_back("  ");
-			brightnessDiff = 255 / chars.size();
-		break;
-		case PRECISE:
-			chars.push_back("██");
-			chars.push_back("▒▒");
-			chars.push_back("##");
-			chars.push_back("@@");
-			chars.push_back("%%");
-			chars.push_back("==");
-			chars.push_back("++");
-			chars.push_back("**");
-			chars.push_back("::");
-			chars.push_back("--");
-			chars.push_back("..");
-			chars.push_back("  ");
-			brightnessDiff = 22;
-		break;
-		case DETAILED:
-			chars.push_back("██");
-			chars.push_back("▓▓");
-			chars.push_back("▒▒");
-			chars.push_back("░░");
-			chars.push_back("##");
-			chars.push_back("@@");
-			chars.push_back("%%");
-			chars.push_back("xx");
-			chars.push_back("==");
-			chars.push_back("++");
-			chars.push_back("**");
-			chars.push_back("::");
-			chars.push_back("--");
-			chars.push_back("..");
-			chars.push_back("  ");
-			//brightnessDiff = 17;
-			brightnessDiff = 255 / chars.size();
-		break;
-		case DETAILED_INVERTED:
-		{
-			setCharSet(CHAR_SETS::DETAILED);
-			std::vector<std::string> newChars;
-			const int NUM_OF_CHARS = chars.size() - 1;
-			int selectIndex = NUM_OF_CHARS;
-			for(int i = 0; i < NUM_OF_CHARS; i++)
-			{
-				newChars.push_back(chars.at(selectIndex));
-				selectIndex--;
-			}
-			chars = newChars;
-			break;
-		}
-		default:
-			setCharSet(CHAR_SETS::BASIC);
-			std::cerr << "Input error, default settings applied.\n";
-		break;
-	}
-}
-
 const char* ImageBMP::getFilename()
 {
 	return filename;
 }
 
-std::string ImageBMP::getLine(int index)
-{
-	//if((index > 0) && (index < bmp_info_header.height))
-		return apa[index];
-	//return " ";
-}
-
-void ImageBMP::outputAsciiImage()
-{
-	if(apa == NULL)
-		convertToASCII();
-	const int height = bmp_info_header.height;
-	for(int i = 0; i < height; i++)
-		std::cout << apa[i] << "\n";
-}
-
-void ImageBMP::convertToASCII()
-{
-	std::string line = "";
-	const int HEIGHT = bmp_info_header.height;
-	apa = new std::string[HEIGHT];
-	int x = 0;
-	int y = HEIGHT;
-	Pixel pix;
-	int i = 0;
-	int index = 0;
-	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
-	const int CHARSET_SIZE = chars.size();
-	while (y > 0)
-	{
-		pix = getPixel(x, y);
-		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
-		if (x < bmp_info_header.width)
-		{
-			for (i = 0; i < CHARSET_SIZE; i++)
-			{
-				if (brightness < brightnessDiff)
-				{
-					brightnessDiff = DEF_BRIGHTNESS_DIFF;
-					break;
-				}
-				brightnessDiff += DEF_BRIGHTNESS_DIFF;
-			}
-			//line = line + charSet[i] + charSet[i];
-			line = line + chars.at(i);
-		}
-		else
-		{
-			apa[index] = line;
-			index++;
-			//std::cout << line << "\n";
-			line = "";
-			y--;
-			x = 0;
-			std::cout << index << "/" << bmp_info_header.height << std::endl;
-		}
-		x++;
-	}
-}
-
 ImageBMP::~ImageBMP()
 {
-	if(apa != NULL)
-	{
-		delete[] apa;
-		apa = NULL;
-	}
-	std::cout << "Image class destructed" << std::endl;
+	std::cout << "Image class with: " << filename << " destructed successfully" << std::endl;
 }

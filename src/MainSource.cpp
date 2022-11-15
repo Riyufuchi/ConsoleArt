@@ -1,18 +1,18 @@
+//============================================================================
+// Name        : MainSource.cpp
+// Author      : Riyufuchi
+// Created on  : 13.07.2020
+// Last Edit   : 15.11.2022
+// Description : This program main
+//============================================================================
+
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
 #include "ConsoleUtility.h"
 #include "ImageBMP.h"
 #include "UnixConsole.h"
-
-/*
-* Copyright Header
-*
-* Created On: 13.07.2020
-* Last Edit: 15.11.2022
-* Created By: Riyufuchi
-*
-*/
+#include "imgUtils/AsciiConverter.h"
 
 ImageBMP loadImage(std::string defaultPath)
 {
@@ -22,14 +22,6 @@ ImageBMP loadImage(std::string defaultPath)
 	imgName.append(".bmp");
 	ImageBMP img((defaultPath.append(imgName)).c_str());
 	return img;
-}
-
-template <size_t N> void print(const char* (&a)[N])
-{
-	for (const char* e : a)
-	{
-		std::cout << e << std::endl;
-	}
 }
 
 int menuDelegation()
@@ -43,12 +35,15 @@ void linuxVersion(ImageBMP img)
 	if(img.getFilename() != std::string("NULL"))
 	{
 		UnixConsole uc;
-		img.setCharSet(menuDelegation());
+		AsciiConverter ac(img);
+		ac.setCharSet(menuDelegation());
+		//img.setCharSet(menuDelegation());
 		std::cout << "Press Enter to continue..." << std::endl;
 		std::cin.get();
 		std::cin.get();
 		std::cout << "Processing image..." << std::endl;
-		img.convertToASCII(); //Converts image to chars and save it in array
+		ac.convertToASCII();
+		//img.convertToASCII(); //Converts image to chars and save it in array
 		if (ConsoleUtility::yesNo("Custom color [Y/n]: "))
 		{
 			std::cout << "Red: ";
@@ -63,7 +58,7 @@ void linuxVersion(ImageBMP img)
 		const int height = img.getBmpInfo().height;
 		for(int i = 0; i < height; i++)
 		{
-			uc.writeText(img.getLine(i));
+			uc.writeText(ac.getLine(i));
 		}
 		//Implicit:
 		//img.outputAsciiImage();

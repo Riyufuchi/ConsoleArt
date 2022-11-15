@@ -1,3 +1,11 @@
+//============================================================================
+// Name        : ImageBMP
+// Author      : Riyufuchi
+// Created on  : 17.07.2020
+// Last Edit   : 15.11.2022
+// Description : This class loads UNCOMPRESSED bitmap image
+//============================================================================
+
 #ifndef  _IMAGE_H_
 #define _IMAGE_H_
 #include <iostream>
@@ -5,27 +13,11 @@
 #include <vector>
 #include <fstream>
 
-/*
-* Copyright Header
-*
-* Created On: 17.07.2020
-* Last Edit: 08.11.2022
-* Created By: Riyufuchi
-*
-*/
-
 class ImageBMP
 {
 private:
 	const char* filename;
-	const double podR = 0.2989;
-	const double podG = 0.5866;
-	const double podB = 0.1145;
-	int brightness;
-	int brightnessDiff;
-	std::vector<std::string> chars;
 	std::vector<char> imgData;
-	std::string* apa;
 	uint32_t row_stride;
 	#pragma pack(push, 1)
 	struct BMPFileHeader
@@ -60,6 +52,13 @@ private:
 		uint32_t unused[16]{0};                // Unused data for sRGB color space
 	};
 	#pragma pack(pop)
+	BMPFileHeader file_header;
+	BMPInfoHeader bmp_info_header;
+	BMPColorHeader bmp_color_header;
+	void readBMP();
+	bool check_color_header(BMPColorHeader &bmp_color_header);
+	uint32_t make_stride_aligned(uint32_t align_stride);
+public:
 	struct BMPInfo
 	{
 		const char* name;
@@ -73,33 +72,13 @@ private:
 		int blue;
 		//int rgb[];
 	};
-	BMPFileHeader file_header;
-	BMPInfoHeader bmp_info_header;
-	BMPColorHeader bmp_color_header;
-	void readBMP();
-	bool check_color_header(BMPColorHeader &bmp_color_header);
-	uint32_t make_stride_aligned(uint32_t align_stride);
-public:
-	enum CHAR_SETS
-	{
-		BASIC,
-		PRECISE,
-		DETAILED,
-		DETAILED_INVERTED
-	};
-	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
 	ImageBMP(const char* filename);
-	void setCharSet(enum CHAR_SETS);
-	void setCharSet(int choice);
-	void convertToASCII();
-	void outputAsciiImage();
 	//void imgToArray();
 	BMPInfo getBmpInfo();
 	Pixel getPixel(int x, int y);
 	int getRed(int x, int y);
 	int getGreen(int x, int y);
 	int getBlue(int x, int y);
-	std::string getLine(int index);
 	const char* getFilename();
 	~ImageBMP();
 };

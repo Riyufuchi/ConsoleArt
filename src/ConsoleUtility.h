@@ -1,14 +1,16 @@
-#ifndef  _CONSOLEUTILITY_H_
+//============================================================================
+// Name        : ConsoleUtility
+// Author      : Riyufuchi
+// Created on  : 27.10.2021
+// Last Edit   : 15.11.2022
+// Description : This class provide functionality for basic console IO
+//============================================================================
+
+#ifndef _CONSOLEUTILITY_H_
 #define _CONSOLEUTILITY_H_
 
 #include <string.h>
 #include <iostream>
-
-/* Copyright Header
-* Created On: 27.10.2021
-* Last Edit: 15.11.2022
-* Created By: Riyufuchi
-*/
 
 class ConsoleUtility
 {
