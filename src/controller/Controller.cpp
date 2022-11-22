@@ -76,7 +76,7 @@ void Controller::linuxVersion(ImageBMP image)
 		int green = ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtility::getIntSafe(0, 255);
-		uc.setMainTextColor(uc.setColor(red, green, blue));
+		uc.setTextColor(uc.newColor(red, green, blue));
 		std::cin.get(); //Catch enter character
 	}
 	//Explicit outputting of converted image

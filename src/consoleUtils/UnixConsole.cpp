@@ -26,25 +26,25 @@ void UnixConsole::writeText(std::string text)
 	t << "\e[38;2;" << mainColor.red << ";" << mainColor.green << ";" << mainColor.blue << "m" << text << "\e[m";
 	std::cout << t.str() << std::endl;
 }
-void UnixConsole::writeText(Color c, const char* text)
+void UnixConsole::writeText(Color color, const char* text)
 {
-	writeText(c.red, c.green, c.blue, text);
+	writeText(color.red, color.green, color.blue, text);
 }
 void UnixConsole::writeText(const char* text)
 {
 	writeText(mainColor.red, mainColor.green, mainColor.blue, text);
 }
-void UnixConsole::setMainTextColor(Color a)
+void UnixConsole::setTextColor(Color color)
 {
-	mainColor = a;
+	mainColor = color;
 }
-UnixConsole::Color UnixConsole::setColor(short int r, short int g, short int b)
+UnixConsole::Color UnixConsole::newColor(short int r, short int g, short int b)
 {
-	Color a;
-	a.red = r;
-	a.green = g;
-	a.blue = b;
-	return a;
+	Color color;
+	color.red = r;
+	color.green = g;
+	color.blue = b;
+	return color;
 }
 UnixConsole::~UnixConsole()
 {
