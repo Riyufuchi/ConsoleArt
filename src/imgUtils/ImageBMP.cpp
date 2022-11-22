@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 15.11.2022
+// Last Edit   : 22.11.2022
 // Description : This class loads UNCOMPRESSED bitmap image
 //============================================================================
 
@@ -170,6 +170,12 @@ ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 const char* ImageBMP::getFilename()
 {
 	return filename;
+}
+
+//Needs better implementation, but it is good for now
+bool ImageBMP::isLoaded()
+{
+	return filename != std::string("NULL");
 }
 
 ImageBMP::~ImageBMP()

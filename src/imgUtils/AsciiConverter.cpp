@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 15.11.2022
+// Last Edit   : 22.11.2022
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -25,6 +25,7 @@ void AsciiConverter::setCharSet(CHAR_SETS choice)
 
 void AsciiConverter::setCharSet(int choice)
 {
+	chars.clear();
 	switch (choice)
 	{
 		case BASIC:
@@ -78,12 +79,10 @@ void AsciiConverter::setCharSet(int choice)
 		{
 			setCharSet(CHAR_SETS::DETAILED);
 			std::vector<std::string> newChars;
-			const int NUM_OF_CHARS = chars.size() - 1;
-			int selectIndex = NUM_OF_CHARS;
-			for(int i = 0; i < NUM_OF_CHARS; i++)
+			const int MAX = chars.size() - 1;
+			for(int i = MAX; i >= 0; i--)
 			{
-				newChars.push_back(chars.at(selectIndex));
-				selectIndex--;
+				newChars.push_back(chars.at(i));
 			}
 			chars = newChars;
 			break;
@@ -127,7 +126,7 @@ void AsciiConverter::convertToASCII()
 	while (y > 0)
 	{
 		pix = sourceImg.getPixel(x, y);
-		brightness = (pix.red * podR + pix.green * podG + pix.blue * podB);
+		brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
 		if (x < imgInfo.width)
 		{
 			for (i = 0; i < CHARSET_SIZE; i++)

@@ -2,7 +2,7 @@
 // Name        : UnixConsole
 // Author      : Riyufuchi
 // Created on  : 20.07.2020
-// Last Edit   : 15.11.2022
+// Last Edit   : 22.11.2022
 // Description : This class contains methods for working with a Linux console
 //============================================================================
 
@@ -23,11 +23,12 @@ private:
 	Color mainColor;
 public:
 	UnixConsole();
+	void writeText(const char* text);
+	void writeText(std::string text);
+	void writeText(Color a, const char* text);
+	void writeText(int  r, int g, int b, const char* text);
 	void setMainTextColor(Color a);
 	Color setColor(short int r, short int g, short int b);
-	void setColorText(Color a, const char* text);
-	void writeText(std::string text);
-	void setColorText(int  r, int g, int b, const char* text);
 	~UnixConsole();
 };
 #endif

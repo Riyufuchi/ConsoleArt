@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 15.11.2022
+// Last Edit   : 22.11.2022
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -11,14 +11,14 @@
 
 #include <vector>
 #include <string.h>
-#include "../ImageBMP.h"
+#include "ImageBMP.h"
 
 class AsciiConverter
 {
 private:
-	const double podR = 0.2989;
-	const double podG = 0.5866;
-	const double podB = 0.1145;
+	const double RED_PART = 0.2989;
+	const double GREEN_PART = 0.5866;
+	const double BLUE_PART = 0.1145;
 	int brightness;
 	int brightnessDiff;
 	std::vector<std::string> chars; //char set for conversion

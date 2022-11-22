@@ -1,8 +1,8 @@
 //============================================================================
-// Name        : AsciiConverter.cpp
+// Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 15.11.2022
+// Last Edit   : 22.11.2022
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -12,7 +12,7 @@
 #include <string>
 //#include "../ImageBMP.h"
 #include "../consoleUtils/ConsoleUtility.h"
-#include "../consoleUtils//UnixConsole.h"
+#include "../consoleUtils/UnixConsole.h"
 #include "../imgUtils/AsciiConverter.h"
 
 class Controller
@@ -23,7 +23,9 @@ private:
 	int createMenu();
 	void linuxVersion(ImageBMP img);
 public:
+	Controller();
 	Controller(std::string path);
+	void configure(int argc, char** argv);
 	void run();
 	~Controller();
 };

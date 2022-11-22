@@ -2,8 +2,8 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 15.11.2022
-// Description : This program main
+// Last Edit   : 22.11.2022
+// Description : This is programs main
 //============================================================================
 
 #include <stdio.h>
@@ -12,47 +12,51 @@
 #include "consoleUtils/ConsoleUtility.h"
 #include "controller/Controller.h"
 
-int createManual()
+enum BootAction
+{
+	ABORT,
+	DISPLAY_MANUAL,
+	CONFIGURE,
+	CONTINUE
+};
+
+BootAction createManual()
 {
 	std::cout << "Argument" << "Action\n";
 	std::cout << "empty arguments" << " path same as for executable";
 	std::cout << "-p --path" << " path to img folder";
-	return 0; //manual was displayed and app is closed
+	return BootAction::DISPLAY_MANUAL;
 }
 
-int printError()
+BootAction printError()
 {
 	std::cerr << "Invalid or unknown arguments inputed.\nUse -man for help.\n";
-	return 1;
+	return BootAction::ABORT;
+}
+
+BootAction checkArgs(int argc, char** argv, int reqArgNum)
+{
+	if(argc == 1)
+		return BootAction::CONTINUE;
+	if(argc > 2) //First argument is always app name if argc != 1, than check for manual
+		if(!strcmp(argv[1], "-man"))
+			return createManual();
+	if(argc < reqArgNum && argc != 1) //If argc is less than minimum and it is not one, arguments are invalid
+		return printError();
+	return BootAction::CONFIGURE;
 }
 
 int main(int argc, char** argv)
 {
 	ConsoleUtility::header("\v    Image to ASCII converter V1.0\v   ");
-	std::string path = "";
-	if(argc == 1) //First argument is always app name
+	Controller con;
+	switch(checkArgs(argc, argv, 3))
 	{
-		std::cout << "Loading files in app folder selected.\n";
+		case ABORT: return 1;
+		case CONTINUE: break;
+		case CONFIGURE: con.configure(argc, argv); break;
+		case DISPLAY_MANUAL: return 0;
 	}
-	else if(!strcmp(argv[1], "-man")) //if argc isn't 1, than check for manual
-	{
-		return createManual();
-	}
-	else if (argc < 3) //3 is number of required arguments, if it less and not manual argument, input is invalid
-	{
-		return printError();
-	}
-	else if(!strcmp(argv[1], "-p") || !strcmp(argv[1], "-path"))
-	{
-		//std::string path2{argv[2]};
-		path = reinterpret_cast<const char*>((argv[2]));
-		std::cout << "Selected path: " << path << "\n";
-	}
-	else
-	{
-		return printError();
-	}
-	Controller con(path);
 	con.run();
 	return 0;
 }
