@@ -22,6 +22,21 @@ public:
 	static bool yesNo(const char* text);
 	static int getIntSafe();
 	static int getIntSafe(int min, int max);
+	template <typename T> static T getInput()
+	{
+		T x = 0;
+		while(true)
+		{
+			std::cin >> x;
+			if (!std::cin.fail())
+				break;
+			std::cerr << "Bad input.\n";
+			std::cout << "Input again: ";
+			std::cin.clear();
+			std::cin.ignore(10,'\n');
+		}
+		return x;
+	}
 	static void header(std::string);
 	static int basicMenu(int lenght, const char* menu[]);
 	~ConsoleUtility();

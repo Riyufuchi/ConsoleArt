@@ -34,9 +34,9 @@ int ConsoleUtility::getIntSafe()
 		std::cin >> x;
 		if (!std::cin.fail())
 			break;
-		//std::cin.clear();
-		//std::cin.ignore(10000,'\n');
 		std::cerr << "Bad input, enter a number: ";
+		std::cin.clear();
+		std::cin.ignore(10,'\n');
 	}
 	return x;
 }

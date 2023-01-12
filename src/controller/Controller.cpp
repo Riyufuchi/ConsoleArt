@@ -23,7 +23,7 @@ void Controller::configure(int argc, char** argv)
 	{
 		std::string path;//{argv[2]};
 		path = reinterpret_cast<const char*>((argv[2]));
-		std::cout << "Selected path: " << path << "\n";
+		std::cout << "Workspace path: " << path << "\n";
 		paths.push_back(path);
 	}
 }
@@ -45,7 +45,7 @@ int Controller::createMenu()
 
 ImageBMP Controller::loadImage(std::string path)
 {
-	std::cout << "Image name without file extension (only .bmp images):" << std::endl;
+	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	imgName.append(".bmp");
