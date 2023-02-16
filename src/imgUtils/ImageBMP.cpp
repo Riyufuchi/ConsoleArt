@@ -2,8 +2,8 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 22.11.2022
-// Description : This class loads UNCOMPRESSED bitmap image
+// Last Edit   : 16.02.2023
+// Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
 #include "ImageBMP.h"
@@ -120,42 +120,27 @@ ImageBMP::Pixel ImageBMP::getPixel(int x, int y)
 {
 	Pixel p;
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	p.red = (imgData[channels * (y * bmp_info_header.width + x) + 2]);
-	if (p.red < 0)
-	{
-		p.red *= -1;
-	}
-	p.green = imgData[channels * (y * bmp_info_header.width + x) + 1];
-	if (p.green < 0)
-	{
-		p.green *= -1;
-	}
-	p.blue = imgData[channels * (y * bmp_info_header.width + x) + 0];
-	if (p.blue < 0)
-	{
-		p.blue *= -1;
-	}
+	int posiotion = channels * (y * bmp_info_header.width + x);
+	p.red = imgData[posiotion + 2];
+	p.green = imgData[posiotion + 1];
+	p.blue = imgData[posiotion]; // + 0
 	return p;
 }
 
 int ImageBMP::getRed(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	if (static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]) < 0)
-	{
-		return imgData[channels * (y * bmp_info_header.width + x) + 2] * -1;
-	}
 	return static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]);
 }
 int ImageBMP::getGreen(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 1]) - 48);
+	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 1]));
 }
 int ImageBMP::getBlue(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]) - 48);
+	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]));
 }
 
 ImageBMP::BMPInfo ImageBMP::getBmpInfo()

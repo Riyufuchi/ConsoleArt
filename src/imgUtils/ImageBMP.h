@@ -2,8 +2,8 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 22.11.2022
-// Description : This class loads UNCOMPRESSED bitmap image
+// Last Edit   : 16.02.2023
+// Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
 #ifndef  _IMAGE_H_
@@ -50,7 +50,7 @@ private:
 		};
 	#pragma pack(pop)
 	const char* filename;
-	std::vector<char> imgData;
+	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
 	BMPFileHeader file_header;
 	BMPInfoHeader bmp_info_header;
@@ -67,9 +67,9 @@ public:
 	};
 	struct Pixel
 	{
-		int red;
-		int green;
-		int blue;
+		uint8_t red;
+		uint8_t green;
+		uint8_t blue;
 	};
 	ImageBMP(const char* filename);
 	BMPInfo getBmpInfo();

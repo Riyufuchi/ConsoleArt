@@ -1,9 +1,7 @@
-*.lua
-face
-
 #Folders
 lua542
 bin
+test
 
 # Eclipse
 .cproject
@@ -12,7 +10,6 @@ bin
 Release
 Debug
 .settings
-
 
 # Visual studio
 .vs

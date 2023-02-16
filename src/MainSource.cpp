@@ -53,10 +53,11 @@ int main(int argc, char** argv)
 	switch(checkArgs(argc, argv, 3))
 	{
 		case ABORT: return 1;
-		case CONTINUE: break;
-		case CONFIGURE: con.configure(argc, argv); break;
+		case CONTINUE: goto start;
+		case CONFIGURE: goto conf;
 		case DISPLAY_MANUAL: return 0;
 	}
-	con.run();
+	conf: con.configure(argc, argv);
+	start: con.run();
 	return 0;
 }
