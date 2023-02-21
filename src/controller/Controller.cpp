@@ -61,13 +61,8 @@ void Controller::linuxVersion(ImageBMP image)
 	UnixConsole uc;
 	AsciiConverter ac(image);
 	ac.setCharSet(createMenu());
+	std::cin.get();
 	//img.setCharSet(menuDelegation());
-	std::cout << "Press Enter to continue..." << std::endl;
-	std::cin.get();
-	std::cin.get();
-	std::cout << "Processing image..." << std::endl;
-	ac.convertToASCII();
-	//img.convertToASCII(); //Converts image to chars and save it in array
 	if (ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
 		std::cout << "Red: ";
@@ -79,6 +74,11 @@ void Controller::linuxVersion(ImageBMP image)
 		uc.setTextColor(uc.newColor(red, green, blue));
 		std::cin.get(); //Catch enter character
 	}
+	std::cout << "Press Enter to continue..." << std::endl;
+	std::cin.get();
+	std::cout << "Processing image..." << std::endl;
+	ac.convertToASCII();
+	//img.convertToASCII(); //Converts image to chars and save it in array
 	//Explicit outputting of converted image
 	const int height = image.getBmpInfo().height;
 	for(int i = 0; i < height; i++)

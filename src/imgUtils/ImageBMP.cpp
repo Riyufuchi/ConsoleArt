@@ -18,6 +18,7 @@ ImageBMP::ImageBMP(const char* filename)
 	catch (std::runtime_error &e)
 	{
 		std::cerr << e.what() << std::endl;
+		this->filename = "NULL";
 	}
 }
 
@@ -29,9 +30,7 @@ void ImageBMP::readBMP()
 	{
 		inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header));
 		if (file_header.file_type != 0x4D42)
-		{
 			throw runtime_error("Error: Unrecognized format");
-		}
 		inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
 		if (bmp_info_header.bit_count == 32)
 		{
@@ -43,7 +42,7 @@ void ImageBMP::readBMP()
 			}
 			else
 			{
-				cerr << "Warning! The file \"" << filename << "\" does not seem to contain bit mask information\n";
+				cerr << "Warning! The file " << filename << " does not seem to contain bit mask information\n";
 				throw std::runtime_error("Error! Unrecognized file format");
 			}
 		}
@@ -60,9 +59,7 @@ void ImageBMP::readBMP()
 		}
 		file_header.file_size = file_header.offset_data;
 		if (bmp_info_header.height < 0)
-		{
 			throw std::runtime_error("The program can treat only BMP images with the origin in the bottom left corner!");
-		}
 		imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
 		if (bmp_info_header.width % 4 == 0)
 		{
@@ -81,13 +78,12 @@ void ImageBMP::readBMP()
 			}
 			file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 		}
-		cout << "Image successfully loaded: " << filename << "\n";
 	}
 	else
 	{
-		cerr << "Unable to open file: " << filename << endl;
-		this->filename = "NULL";
+		throw std::runtime_error("Unable to open file");
 	}
+	cout << "Image successfully loaded: " << filename << "\n";
 }
 
 bool ImageBMP::check_color_header(BMPColorHeader & bmp_color_header)
@@ -129,18 +125,15 @@ ImageBMP::Pixel ImageBMP::getPixel(int x, int y)
 
 int ImageBMP::getRed(int x, int y)
 {
-	uint32_t channels = bmp_info_header.bit_count / 8;
-	return static_cast<int>(imgData[channels * (y * bmp_info_header.width + x) + 2]);
+	return static_cast<int>(imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]);
 }
 int ImageBMP::getGreen(int x, int y)
 {
-	uint32_t channels = bmp_info_header.bit_count / 8;
-	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 1]));
+	return static_cast<int>((imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 1]));
 }
 int ImageBMP::getBlue(int x, int y)
 {
-	uint32_t channels = bmp_info_header.bit_count / 8;
-	return static_cast<int>((imgData[channels * (y * bmp_info_header.width + x) + 0]));
+	return static_cast<int>((imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x)]));
 }
 
 ImageBMP::BMPInfo ImageBMP::getBmpInfo()

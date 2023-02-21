@@ -48,7 +48,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum)
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    Image to ASCII converter V1.0\v   ");
+	ConsoleUtility::header("\v    Image to ASCII converter V1.2\v   ");
 	Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{

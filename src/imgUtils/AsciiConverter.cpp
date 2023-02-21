@@ -72,8 +72,7 @@ void AsciiConverter::setCharSet(int choice)
 			chars.push_back("--");
 			chars.push_back("..");
 			chars.push_back("  ");
-			//brightnessDiff = 17;
-			brightnessDiff = 255 / chars.size();
+			brightnessDiff = 255 / chars.size();//17;
 		break;
 		case DETAILED_INVERTED:
 		{
@@ -122,7 +121,7 @@ void AsciiConverter::convertToASCII()
 	int i = 0;
 	int index = 0;
 	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
-	const int CHARSET_SIZE = chars.size();
+	const int CHARSET_SIZE = chars.size() - 1;
 	while (y > 0)
 	{
 		pix = sourceImg.getPixel(x, y);
