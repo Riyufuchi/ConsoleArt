@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 16.02.2023
+// Last Edit   : 27.02.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -74,9 +74,10 @@ public:
 	ImageBMP(const char* filename);
 	BMPInfo getBmpInfo();
 	Pixel getPixel(int x, int y);
-	int getRed(int x, int y);
-	int getGreen(int x, int y);
-	int getBlue(int x, int y);
+	uint8_t getRed(int x, int y);
+	uint8_t getGreen(int x, int y);
+	uint8_t getBlue(int x, int y);
+	uint8_t getAplha(int x, int y);
 	const char* getFilename();
 	bool isLoaded();
 	~ImageBMP();

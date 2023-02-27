@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 22.11.2022
+// Last Edit   : 27.02.2023
 // Description : This is programs main
 //============================================================================
 
@@ -48,7 +48,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum)
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    Image to ASCII converter V1.2\v   ");
+	ConsoleUtility::header("\v    Image to ASCII converter V0.1.18\v   ");
 	Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{
