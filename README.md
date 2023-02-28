@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>Ubuntu 22.04.1 LTS</td>
-    <td>g++ 11.3.0</td>
+    <td>g++ 12.2.0</td>
   </tr>
   <tr>
     <td colspan="2" style="text-align: center;">This table might not be up-to date</td>
