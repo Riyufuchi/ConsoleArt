@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 27.02.2023
+// Last Edit   : 03.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -23,36 +23,35 @@ ImageBMP::ImageBMP(const char* filename)
 }
 
 /*
- * TODO: Remove using namespace std
  * TODO: Rewrite it to more readable form
  * TODO: Add comments
  */
 void ImageBMP::readBMP()
 {
 	std::ifstream inf(filename, std::ios::in);
-	if(!inf)
+	if (!inf)
 		throw std::runtime_error("Unable to open file");
-	//Uncommented code
-	inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header));
+	//Basic file info
+	inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header)); //Reads and fill our file_header strut with data
 	if (file_header.file_type != 0x4D42)
 		throw std::runtime_error("Error: Unrecognized format");
-	//Messy code
-	using namespace std;
+	//BMP info and colors
 	inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
 	if (bmp_info_header.bit_count == 32)
 	{
 		if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
 		{
 			inf.read(reinterpret_cast<char*>(&bmp_color_header), sizeof(bmp_color_header));
-			if (check_color_header(bmp_color_header))
-				throw runtime_error("An error has occurred");
+			if (checkColorHeader(bmp_color_header))
+				throw std::runtime_error("An error has occurred");
 		}
 		else
 		{
-			cerr << "Warning! The file " << filename << " does not seem to contain bit mask information\n";
+			std::cerr << "Warning! The file " << filename << " does not seem to contain bit mask information\n";
 			throw std::runtime_error("Error! Unrecognized file format");
 		}
 	}
+	//Messy code
 	inf.seekg(file_header.offset_data, inf.beg);
 	if (bmp_info_header.bit_count == 32)
 	{
@@ -77,7 +76,7 @@ void ImageBMP::readBMP()
 	{
 		row_stride = bmp_info_header.width * bmp_info_header.bit_count / 8;
 		uint32_t new_stride = make_stride_aligned(4);
-		vector<uint8_t> padding_row(new_stride - row_stride);
+		std::vector<uint8_t> padding_row(new_stride - row_stride);
 		for (int y = 0; y < bmp_info_header.height; ++y)
 		{
 			inf.read(reinterpret_cast<char*>(imgData.data() + row_stride * y), row_stride);
@@ -85,10 +84,10 @@ void ImageBMP::readBMP()
 		}
 		file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 	}
-	cout << "Image successfully loaded: " << filename << "\n";
+	std::cout << "Image successfully loaded: " << filename << "\n";
 }
 
-bool ImageBMP::check_color_header(BMPColorHeader & bmp_color_header)
+bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
 {
 	BMPColorHeader expected_color_header;
 	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask || expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
@@ -127,15 +126,15 @@ ImageBMP::Pixel ImageBMP::getPixel(int x, int y)
 
 uint8_t ImageBMP::getRed(int x, int y)
 {
-	return static_cast<int>(imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]);
+	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(imgData[x])
 }
 uint8_t ImageBMP::getGreen(int x, int y)
 {
-	return static_cast<int>((imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 1]));
+	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 1];
 }
 uint8_t ImageBMP::getBlue(int x, int y)
 {
-	return static_cast<int>((imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x)]));
+	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x)];
 }
 
 uint8_t ImageBMP::getAplha(int x, int y)
@@ -145,7 +144,6 @@ uint8_t ImageBMP::getAplha(int x, int y)
 		return imgData[channels * (y * bmp_info_header.width + x) + 3];
 	else
 		return 255;
-	return 0;
 }
 
 ImageBMP::BMPInfo ImageBMP::getBmpInfo()
@@ -162,7 +160,7 @@ const char* ImageBMP::getFilename()
 	return filename;
 }
 
-//Needs better implementation, but it is good for now
+//NOTE: Needs better implementation, but it is good for now
 bool ImageBMP::isLoaded()
 {
 	return filename != std::string("NULL");

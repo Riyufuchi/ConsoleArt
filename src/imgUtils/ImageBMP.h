@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 27.02.2023
+// Last Edit   : 03.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -56,7 +56,7 @@ private:
 	BMPInfoHeader bmp_info_header;
 	BMPColorHeader bmp_color_header;
 	void readBMP();
-	bool check_color_header(BMPColorHeader &bmp_color_header);
+	bool checkColorHeader(BMPColorHeader &bmp_color_header);
 	uint32_t make_stride_aligned(uint32_t align_stride);
 public:
 	struct BMPInfo

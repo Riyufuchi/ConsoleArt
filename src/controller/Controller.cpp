@@ -2,13 +2,13 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 22.11.2022
+// Last Edit   : 03.03.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
 #include "Controller.h"
 
-Controller::Controller() : Controller("")
+Controller::Controller() : Controller("") //Calls constructor with parameter to construct class
 {
 }
 
@@ -17,23 +17,25 @@ Controller::Controller(std::string path)
 	paths.push_back(path);
 }
 
+//NOTE: This will need a little rework, if more application arguments would be expected
 void Controller::configure(int argc, char** argv)
 {
-	if(!strcmp(argv[1], "-p") || !strcmp(argv[1], "-path"))
+	if(!strcmp(argv[1], "-p") || !strcmp(argv[1], "--path"))
 	{
-		std::string path;//{argv[2]};
-		path = reinterpret_cast<const char*>((argv[2]));
-		std::cout << "Workspace path: " << path << "\n";
+		std::string path = reinterpret_cast<const char*>((argv[2])); //or std::string path{argv[2]};
+		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
+			path.append("/");
 		paths.push_back(path);
 	}
 }
 
+//TODO: Add option to reuse previous image
 void Controller::run()
 {
 	int pathID = paths.size() - 1;
 	do
 	{
-		linuxVersion(loadImage(paths.at(pathID)));
+		linuxVersion(loadImage(&paths.at(pathID)));
 	}while(ConsoleUtility::repeat());
 }
 
@@ -43,27 +45,25 @@ int Controller::createMenu()
 	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 
-ImageBMP Controller::loadImage(std::string path)
+ImageBMP* Controller::loadImage(std::string* path)
 {
 	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
-	imgName.append(".bmp");
-	ImageBMP img((path.append(imgName)).c_str());
 	std::cin.get(); //Clears enter from console
-	return img;
+	return new ImageBMP(path->append(imgName.append(".bmp")).c_str());
+	//ImageBMP img((path.append(imgName)).c_str()); return img;
 }
 
-void Controller::linuxVersion(ImageBMP image)
+void Controller::linuxVersion(ImageBMP* image)
 {
-	if(!image.isLoaded())
+	if(image == nullptr || !image->isLoaded())
 		return;
 	UnixConsole uc;
 	AsciiConverter ac(image);
 	ac.setCharSet(createMenu());
 	std::cin.get();
-	//img.setCharSet(menuDelegation());
-	if (ConsoleUtility::yesNo("Custom color [Y/n]: "))
+	if(ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
 		std::cout << "Red: ";
 		int red = ConsoleUtility::getIntSafe(0, 255);
@@ -77,17 +77,16 @@ void Controller::linuxVersion(ImageBMP image)
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
-	ac.convertToASCII();
-	//img.convertToASCII(); //Converts image to chars and save it in array
-	//Explicit outputting of converted image
-	const int height = image.getBmpInfo().height;
+	ac.convertToASCII(); //Converts image to chars and save it in array
+	const int height = image->getBmpInfo().height;
 	for(int i = 0; i < height; i++)
 	{
 		uc.writeText(ac.getLine(i));
 	}
-	//Implicit: img.outputAsciiImage();
+	delete image;
 }
 
 Controller::~Controller()
 {
+	std::cout << "Controller " << "destructed" << std::endl;
 }

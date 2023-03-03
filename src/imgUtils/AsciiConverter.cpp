@@ -2,14 +2,14 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 22.11.2022
+// Last Edit   : 03.03.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
 
 #include "AsciiConverter.h"
 
-AsciiConverter::AsciiConverter(ImageBMP& img): sourceImg(img)
+AsciiConverter::AsciiConverter(ImageBMP* img): sourceImg(img)
 {
 	this->sourceImg = img;
 	this->brightness = 0;
@@ -39,7 +39,6 @@ void AsciiConverter::setCharSet(int choice)
 			chars.push_back("--");
 			chars.push_back("..");
 			chars.push_back("  ");
-			brightnessDiff = 255 / chars.size();
 		break;
 		case PRECISE:
 			chars.push_back("██");
@@ -54,7 +53,6 @@ void AsciiConverter::setCharSet(int choice)
 			chars.push_back("--");
 			chars.push_back("..");
 			chars.push_back("  ");
-			brightnessDiff = 22;
 		break;
 		case DETAILED:
 			chars.push_back("██");
@@ -72,7 +70,6 @@ void AsciiConverter::setCharSet(int choice)
 			chars.push_back("--");
 			chars.push_back("..");
 			chars.push_back("  ");
-			brightnessDiff = 255 / chars.size();//17;
 		break;
 		case DETAILED_INVERTED:
 		{
@@ -91,6 +88,7 @@ void AsciiConverter::setCharSet(int choice)
 			std::cerr << "Input error, default settings applied.\n";
 		break;
 	}
+	brightnessDiff = 255 / chars.size();
 }
 
 std::string AsciiConverter::getLine(int index)
@@ -102,6 +100,8 @@ std::string AsciiConverter::getLine(int index)
 
 void AsciiConverter::outputAsciiImage()
 {
+	if(!sourceImg->isLoaded())
+		return;
 	if(ASCII_image == NULL)
 		convertToASCII();
 	const int height = ASCII_image->size();
@@ -112,21 +112,21 @@ void AsciiConverter::outputAsciiImage()
 void AsciiConverter::convertToASCII()
 {
 	std::string line = "";
-	ImageBMP::BMPInfo imgInfo = sourceImg.getBmpInfo();
-	const int HEIGHT = imgInfo.height;
-	ASCII_image = new std::string[HEIGHT];
+	ImageBMP::Pixel pix;
+	const int HEIGHT = sourceImg->getBmpInfo().height;
+	const int WIDTH = sourceImg->getBmpInfo().width;
 	int x = 0;
 	int y = HEIGHT;
-	ImageBMP::Pixel pix;
 	int i = 0;
 	int index = 0;
 	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
 	const int CHARSET_SIZE = chars.size() - 1;
+	ASCII_image = new std::string[HEIGHT];
 	while (y > 0)
 	{
-		pix = sourceImg.getPixel(x, y);
+		pix = sourceImg->getPixel(x, y);
 		brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
-		if (x < imgInfo.width)
+		if (x < WIDTH)
 		{
 			for (i = 0; i < CHARSET_SIZE; i++)
 			{
@@ -148,7 +148,7 @@ void AsciiConverter::convertToASCII()
 			line = "";
 			y--;
 			x = 0;
-			std::cout << index << "/" << imgInfo.height << std::endl;
+			std::cout << index << "/" << HEIGHT << std::endl;
 		}
 		x++;
 	}
@@ -161,4 +161,5 @@ AsciiConverter::~AsciiConverter()
 		delete[] ASCII_image;
 		ASCII_image = NULL;
 	}
+	std::cout << "AsciiConverter destructed" << std::endl;
 }
