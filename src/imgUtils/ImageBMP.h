@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 03.03.2023
+// Last Edit   : 05.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -19,7 +19,7 @@ private:
 	#pragma pack(push, 1)
 		struct BMPFileHeader
 		{
-			uint16_t file_type{0x4D42};          // File type always BM which is 0x4D42
+			uint16_t file_type{0x4D42};          // File type - bitmap is 0x4D42
 			uint32_t file_size{0};               // Size of the file (in bytes)
 			uint16_t reserved1{0};               // Reserved, always 0
 			uint16_t reserved2{0};               // Reserved, always 0
@@ -49,7 +49,7 @@ private:
 			uint32_t unused[16]{0};                // Unused data for sRGB color space
 		};
 	#pragma pack(pop)
-	const char* filename;
+	std::string filename;
 	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
 	BMPFileHeader file_header;
@@ -57,11 +57,11 @@ private:
 	BMPColorHeader bmp_color_header;
 	void readBMP();
 	bool checkColorHeader(BMPColorHeader &bmp_color_header);
-	uint32_t make_stride_aligned(uint32_t align_stride);
+	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
 	struct BMPInfo
 	{
-		const char* name;
+		std::string name;
 		int width;
 		int height;
 	};
@@ -71,14 +71,14 @@ public:
 		uint8_t green;
 		uint8_t blue;
 	};
-	ImageBMP(const char* filename);
+	ImageBMP(std::string filename);
 	BMPInfo getBmpInfo();
 	Pixel getPixel(int x, int y);
 	uint8_t getRed(int x, int y);
 	uint8_t getGreen(int x, int y);
 	uint8_t getBlue(int x, int y);
 	uint8_t getAplha(int x, int y);
-	const char* getFilename();
+	std::string getFilename();
 	bool isLoaded();
 	~ImageBMP();
 };

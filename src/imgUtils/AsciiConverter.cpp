@@ -2,14 +2,14 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 03.03.2023
+// Last Edit   : 05.03.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
 
 #include "AsciiConverter.h"
 
-AsciiConverter::AsciiConverter(ImageBMP* img): sourceImg(img)
+AsciiConverter::AsciiConverter(ImageBMP& img): sourceImg(img)
 {
 	this->sourceImg = img;
 	this->brightness = 0;
@@ -100,7 +100,7 @@ std::string AsciiConverter::getLine(int index)
 
 void AsciiConverter::outputAsciiImage()
 {
-	if(!sourceImg->isLoaded())
+	if(!sourceImg.isLoaded())
 		return;
 	if(ASCII_image == NULL)
 		convertToASCII();
@@ -113,8 +113,8 @@ void AsciiConverter::convertToASCII()
 {
 	std::string line = "";
 	ImageBMP::Pixel pix;
-	const int HEIGHT = sourceImg->getBmpInfo().height;
-	const int WIDTH = sourceImg->getBmpInfo().width;
+	const int HEIGHT = sourceImg.getBmpInfo().height;
+	const int WIDTH = sourceImg.getBmpInfo().width;
 	int x = 0;
 	int y = HEIGHT;
 	int i = 0;
@@ -124,7 +124,7 @@ void AsciiConverter::convertToASCII()
 	ASCII_image = new std::string[HEIGHT];
 	while (y > 0)
 	{
-		pix = sourceImg->getPixel(x, y);
+		pix = sourceImg.getPixel(x, y);
 		brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
 		if (x < WIDTH)
 		{

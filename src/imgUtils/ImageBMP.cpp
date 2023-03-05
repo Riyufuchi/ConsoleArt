@@ -2,20 +2,20 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 03.03.2023
+// Last Edit   : 05.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
 #include "ImageBMP.h"
 
-ImageBMP::ImageBMP(const char* filename)
+ImageBMP::ImageBMP(std::string filename)
 {
 	this->filename = filename;
 	try
 	{
 		readBMP();
 	}
-	catch (std::runtime_error &e)
+	catch (std::runtime_error& e)
 	{
 		std::cerr << e.what() << std::endl;
 		this->filename = "NULL";
@@ -75,7 +75,7 @@ void ImageBMP::readBMP()
 	else
 	{
 		row_stride = bmp_info_header.width * bmp_info_header.bit_count / 8;
-		uint32_t new_stride = make_stride_aligned(4);
+		uint32_t new_stride = makeStrideAligned(4);
 		std::vector<uint8_t> padding_row(new_stride - row_stride);
 		for (int y = 0; y < bmp_info_header.height; ++y)
 		{
@@ -84,7 +84,7 @@ void ImageBMP::readBMP()
 		}
 		file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 	}
-	std::cout << "Image successfully loaded: " << filename << "\n";
+	std::cout << "Image: " << getFilename() << " successfully loaded\n";
 }
 
 bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
@@ -103,7 +103,7 @@ bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
 	return false;
 }
 
-uint32_t ImageBMP::make_stride_aligned(uint32_t align_stride)
+uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 {
 	uint32_t new_stride = row_stride;
 	while (new_stride % align_stride != 0)
@@ -149,16 +149,35 @@ uint8_t ImageBMP::getAplha(int x, int y)
 ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 {
 	BMPInfo a;
-	a.name = this->filename;
+	a.name = getFilename();
 	a.width = bmp_info_header.width;
 	a.height = bmp_info_header.height;
 	return a;
 }
 
-const char* ImageBMP::getFilename()
+std::string ImageBMP::getFilename()
 {
-	return filename;
+	return filename.substr(filename.find_last_of('/') + 1, filename.length() + 1);
 }
+
+/*const char* ImageBMP::getFilename()
+{
+	int i = 0;
+	while (filename[i] != '\0')
+			++i;
+	int x = i;
+	for (; x > 0; x--)
+		if(filename[x] == '/')
+			break;
+	char* name = new char[i + 1];
+	for(int y = 0; y < i; y++)
+	{
+		name[y] = filename[x];
+		++x;
+	}
+	name[x++] = '\0';
+	return name;
+}*/
 
 //NOTE: Needs better implementation, but it is good for now
 bool ImageBMP::isLoaded()
@@ -168,5 +187,5 @@ bool ImageBMP::isLoaded()
 
 ImageBMP::~ImageBMP()
 {
-	std::cout << "Image class with: " << filename << " destructed successfully" << std::endl;
+	std::cout << "Image class with: " << getFilename() << " destructed successfully" << std::endl;
 }
