@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 05.03.2023
+// Last Edit   : 06.03.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -54,14 +54,8 @@ ImageBMP Controller::loadImage(std::string path)
 	return ImageBMP (path + imgName.append(".bmp"));
 }
 
-void Controller::linuxVersion(ImageBMP image)
+void Controller::confConsoleColor(UnixConsole& unxConsole)
 {
-	if(!image.isLoaded())
-		return;
-	UnixConsole uc;
-	AsciiConverter ac(image);
-	ac.setCharSet(createMenu());
-	std::cin.get();
 	if(ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
 		std::cout << "Red: ";
@@ -70,15 +64,26 @@ void Controller::linuxVersion(ImageBMP image)
 		int green = ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtility::getIntSafe(0, 255);
-		uc.setTextColor(uc.newColor(red, green, blue));
+		unxConsole.setTextColor(unxConsole.newColor(red, green, blue));
 		std::cin.get(); //Catch enter character
 	}
+}
+
+void Controller::linuxVersion(ImageBMP image)
+{
+	if(!image.isLoaded())
+		return;
+	UnixConsole uc;
+	AsciiConverter ac(image);
+	ac.setCharSet(createMenu());
+	std::cin.get();
+	confConsoleColor(uc);
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII(); //Converts image to chars and save it in array
-	const int height = image.getBmpInfo().height;
-	for(int i = 0; i < height; i++)
+	const int HEIGHT = image.getBmpInfo().height - 1;
+	for(int i = HEIGHT; i >= 0; i--)
 	{
 		uc.writeText(ac.getLine(i));
 	}

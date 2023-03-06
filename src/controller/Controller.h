@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 05.03.2023
+// Last Edit   : 06.03.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -20,9 +20,10 @@ class Controller
 private:
 	std::string workspacePath;
 	std::vector<ImageBMP> bmpImages;
+	void linuxVersion(ImageBMP image);
+	void confConsoleColor(UnixConsole& unxConsole);
 	ImageBMP loadImage(std::string path);
 	int createMenu();
-	void linuxVersion(ImageBMP image);
 public:
 	Controller();
 	Controller(std::string path);

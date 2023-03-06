@@ -2,7 +2,7 @@
 // Name        : UnixConsole
 // Author      : Riyufuchi
 // Created on  : 20.07.2020
-// Last Edit   : 22.11.2022
+// Last Edit   : 06.03.2023
 // Description : This class contains methods for working with a Linux console
 //============================================================================
 
@@ -14,17 +14,17 @@ UnixConsole::UnixConsole()
 	mainColor.green = 195;
 	mainColor.blue = 221;
 }
-void UnixConsole::writeText(int r, int g, int b, const char* text)
+void UnixConsole::writeText(short int r, short int g, short int b, const char* text)
 {
 	std::ostringstream t;
-	t << "\e[38;2;" << r << ";" << g << ";" << b << "m" << text << "\e[m";
-	std::cout << t.str() << std::endl;
+	t << "\e[38;2;" << r << ";" << g << ";" << b << "m" << text << "\e[m\n";
+	std::cout << t.str();
 }
 void UnixConsole::writeText(std::string text)
 {
 	std::ostringstream t;
-	t << "\e[38;2;" << mainColor.red << ";" << mainColor.green << ";" << mainColor.blue << "m" << text << "\e[m";
-	std::cout << t.str() << std::endl;
+	t << "\e[38;2;" << mainColor.red << ";" << mainColor.green << ";" << mainColor.blue << "m" << text << "\e[m\n";
+	std::cout << t.str();
 }
 void UnixConsole::writeText(Color color, const char* text)
 {

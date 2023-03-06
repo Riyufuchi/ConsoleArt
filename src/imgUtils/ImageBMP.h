@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 05.03.2023
+// Last Edit   : 06.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -19,8 +19,8 @@ private:
 	#pragma pack(push, 1)
 		struct BMPFileHeader
 		{
-			uint16_t file_type{0x4D42};          // File type - bitmap is 0x4D42
-			uint32_t file_size{0};               // Size of the file (in bytes)
+			uint16_t file_type{0x4D42}; // File type - bitmap is 0x4D42
+			uint32_t file_size{0}; // Size of the file (in bytes)
 			uint16_t reserved1{0};               // Reserved, always 0
 			uint16_t reserved2{0};               // Reserved, always 0
 			uint32_t offset_data{0};             // Start position of pixel data (bytes from the beginning of the file)
@@ -55,7 +55,9 @@ private:
 	BMPFileHeader file_header;
 	BMPInfoHeader bmp_info_header;
 	BMPColorHeader bmp_color_header;
+	//Procedures
 	void readBMP();
+	//Functions
 	bool checkColorHeader(BMPColorHeader &bmp_color_header);
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
@@ -64,6 +66,7 @@ public:
 		std::string name;
 		int width;
 		int height;
+		//int sizeInBytes;
 	};
 	struct Pixel
 	{

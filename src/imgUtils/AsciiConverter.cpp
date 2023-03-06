@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 05.03.2023
+// Last Edit   : 06.03.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -93,7 +93,7 @@ void AsciiConverter::setCharSet(int choice)
 
 std::string AsciiConverter::getLine(int index)
 {
-	//if((index > 0) && (index < bmp_info_header.height))
+	//if((index >= 0) && (index < bmp_info_header.height))
 		return ASCII_image[index];
 	//return " ";
 }
@@ -104,8 +104,8 @@ void AsciiConverter::outputAsciiImage()
 		return;
 	if(ASCII_image == NULL)
 		convertToASCII();
-	const int height = ASCII_image->size();
-	for(int i = 0; i < height; i++)
+	const int height = sourceImg.getBmpInfo().height - 1;
+	for(int i = height; i >= 0; i--)
 		std::cout << ASCII_image[i] << "\n";
 }
 
@@ -116,41 +116,31 @@ void AsciiConverter::convertToASCII()
 	const int HEIGHT = sourceImg.getBmpInfo().height;
 	const int WIDTH = sourceImg.getBmpInfo().width;
 	int x = 0;
-	int y = HEIGHT;
-	int i = 0;
+	int charID = 0;
 	int index = 0;
 	const int DEF_BRIGHTNESS_DIFF = brightnessDiff;
 	const int CHARSET_SIZE = chars.size() - 1;
 	ASCII_image = new std::string[HEIGHT];
-	while (y > 0)
+	for(int y = 0; y < HEIGHT; y++)
 	{
-		pix = sourceImg.getPixel(x, y);
-		brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
-		if (x < WIDTH)
+		for (x = 0; x < WIDTH; x++)
 		{
-			for (i = 0; i < CHARSET_SIZE; i++)
+			pix = sourceImg.getPixel(x, y);
+			brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
+			for (charID = 0; charID <= CHARSET_SIZE; charID++)
 			{
-				if (brightness < brightnessDiff)
+				if (brightness <= brightnessDiff)
 				{
 					brightnessDiff = DEF_BRIGHTNESS_DIFF;
 					break;
 				}
 				brightnessDiff += DEF_BRIGHTNESS_DIFF;
 			}
-			//line = line + charSet[i] + charSet[i];
-			line = line + chars.at(i);
+			line.append(chars.at(charID));
 		}
-		else
-		{
-			ASCII_image[index] = line;
-			index++;
-			//std::cout << line << "\n";
-			line = "";
-			y--;
-			x = 0;
-			std::cout << index << "/" << HEIGHT << std::endl;
-		}
-		x++;
+		ASCII_image[index] = line;
+		index++;
+		line = "";
 	}
 }
 
