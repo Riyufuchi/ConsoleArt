@@ -2,7 +2,7 @@
 // Name        : ConsoleUtility
 // Author      : Riyufuchi
 // Created on  : 27.10.2021
-// Last Edit   : 15.11.2022
+// Last Edit   : 08.03.2023
 // Description : This class provide functionality for basic console IO
 //============================================================================
 
@@ -32,6 +32,7 @@ int ConsoleUtility::getIntSafe()
 	while(true)
 	{
 		std::cin >> x;
+		std::cin.get();
 		if (!std::cin.fail())
 			break;
 		std::cerr << "Bad input, enter a number: ";
@@ -71,7 +72,8 @@ int ConsoleUtility::basicMenu(int lenght, const char* menu[])
 	{
 		printf("%d. %s \n", i + 1, menu[i]);
 	}
-	return (getIntSafe(1, lenght) - 1);
+	int result = getIntSafe(1, lenght) - 1;
+	return result;
 }
 
 ConsoleUtility::~ConsoleUtility()

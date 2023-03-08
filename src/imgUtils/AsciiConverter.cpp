@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 06.03.2023
+// Last Edit   : 07.03.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -88,7 +88,7 @@ void AsciiConverter::setCharSet(int choice)
 			std::cerr << "Input error, default settings applied.\n";
 		break;
 	}
-	brightnessDiff = 255 / chars.size();
+	brightnessDiff = std::ceil(255.0 / chars.size()); //NOTE: Changing brightnessDiff from int to double would also work
 }
 
 std::string AsciiConverter::getLine(int index)
@@ -136,12 +136,14 @@ void AsciiConverter::convertToASCII()
 				}
 				brightnessDiff += DEF_BRIGHTNESS_DIFF;
 			}
-			line.append(chars.at(charID));
+			line.append(chars[charID]);
 		}
 		ASCII_image[index] = line;
 		index++;
 		line = "";
+		std::cout << "#";
 	}
+	std::cout << "\nDone!" << std::endl;
 }
 
 AsciiConverter::~AsciiConverter()
