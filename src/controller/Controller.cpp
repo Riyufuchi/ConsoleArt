@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 07.03.2023
+// Last Edit   : 09.03.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -32,28 +32,27 @@ void Controller::configure(int argc, char** argv)
 
 void Controller::run()
 {
-	do
+	menu: do
 	{
 		switch(actionMenu())
 		{
 			case 0: linuxVersion(loadImage(workspacePath)); break;
 			case 1: linuxVersion(selectImage()); break;
-			case 2: confConsoleColor(); break;
-			case 3: goto exit;
+			case 2: confConsoleColor(); goto menu; break;
+			case 3: return;
 		}
 	}while(ConsoleUtility::repeat());
-	exit: return;
 }
 
 int Controller::actionMenu()
 {
-	const char* menuItems[] = { "Load image", "Select image", "Configure console color", "Exit application 🚪"};
+	const char* menuItems[] = { "Load image", "Select image", "Configure console color", "Exit application"};
 	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 
 int Controller::createMenu()
 {
-	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█" };
+	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED" };
 	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 

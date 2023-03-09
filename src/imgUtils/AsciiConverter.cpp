@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 07.03.2023
+// Last Edit   : 09.03.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -71,24 +71,37 @@ void AsciiConverter::setCharSet(int choice)
 			chars.push_back("..");
 			chars.push_back("  ");
 		break;
+		case BASIC_INVERTED:
+			setCharSet(CHAR_SETS::BASIC);
+			invertCharSet();
+		break;
+		case PRECISE_INVERTED:
+			setCharSet(CHAR_SETS::PRECISE);
+			invertCharSet();
+		break;
 		case DETAILED_INVERTED:
 		{
 			setCharSet(CHAR_SETS::DETAILED);
-			std::vector<std::string> newChars;
-			const int MAX = chars.size() - 1;
-			for(int i = MAX; i >= 0; i--)
-			{
-				newChars.push_back(chars.at(i));
-			}
-			chars = newChars;
+			invertCharSet();
 			break;
 		}
 		default:
 			setCharSet(CHAR_SETS::BASIC);
-			std::cerr << "Input error, default settings applied.\n";
+			std::cerr << "Input error - applied default settings\n";
 		break;
 	}
 	brightnessDiff = std::ceil(255.0 / chars.size()); //NOTE: Changing brightnessDiff from int to double would also work
+}
+
+void AsciiConverter::invertCharSet()
+{
+	std::vector<std::string> newChars;
+	const int MAX = chars.size() - 1;
+	for(int i = MAX; i >= 0; i--)
+	{
+		newChars.push_back(chars.at(i));
+	}
+	chars = newChars;
 }
 
 std::string AsciiConverter::getLine(int index)

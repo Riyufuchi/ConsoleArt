@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 05.03.2023
+// Last Edit   : 09.03.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -32,9 +32,11 @@ void ImageBMP::readBMP()
 	if (!inf)
 		throw std::runtime_error("Unable to open file");
 	//Basic file info
-	inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header)); //Reads and fill our file_header strut with data
+	inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header)); //Reads and fill our file_header struct with data
 	if (file_header.file_type != 0x4D42)
+	{
 		throw std::runtime_error("Error: Unrecognized format");
+	}
 	//BMP info and colors
 	inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
 	if (bmp_info_header.bit_count == 32)
@@ -43,15 +45,13 @@ void ImageBMP::readBMP()
 		{
 			inf.read(reinterpret_cast<char*>(&bmp_color_header), sizeof(bmp_color_header));
 			if (checkColorHeader(bmp_color_header))
-				throw std::runtime_error("An error has occurred");
+				throw std::runtime_error("An error has occurred"); //checkColorHeader prints addional information
 		}
 		else
 		{
-			std::cerr << "Warning! The file " << filename << " does not seem to contain bit mask information\n";
-			throw std::runtime_error("Error! Unrecognized file format");
+			throw std::runtime_error("Error: The file doesn't seem to contain bit mask information\n");
 		}
 	}
-	//Messy code
 	inf.seekg(file_header.offset_data, inf.beg);
 	if (bmp_info_header.bit_count == 32)
 	{
@@ -64,8 +64,6 @@ void ImageBMP::readBMP()
 		file_header.offset_data = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader);
 	}
 	file_header.file_size = file_header.offset_data;
-	if (bmp_info_header.height < 0)
-		throw std::runtime_error("The program can treat only BMP images with the origin in the bottom left corner!");
 	imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
 	if (bmp_info_header.width % 4 == 0)
 	{
@@ -84,13 +82,17 @@ void ImageBMP::readBMP()
 		}
 		file_header.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
 	}
+	//Data checking
+	if (bmp_info_header.height < 0) //Check for image orientation
+			throw std::runtime_error("TThe program can work only with BMP images with the origin in the bottom left corner!");
 	std::cout << "Image: " << getFilename() << " successfully loaded\n";
 }
 
 bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
 {
 	BMPColorHeader expected_color_header;
-	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask || expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
+	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask ||
+			expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
 	{
 		std::cerr << "Unexpected color mask format! The program expects the pixel data to be in the BGRA format\n";
 		return true;
