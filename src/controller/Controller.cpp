@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 09.03.2023
+// Last Edit   : 12.03.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -34,7 +34,7 @@ void Controller::run()
 {
 	menu: do
 	{
-		switch(actionMenu())
+		switch(MenuUtils::actionMenu())
 		{
 			case 0: linuxVersion(loadImage(workspacePath)); break;
 			case 1: linuxVersion(selectImage()); break;
@@ -42,18 +42,6 @@ void Controller::run()
 			case 3: return;
 		}
 	}while(ConsoleUtility::repeat());
-}
-
-int Controller::actionMenu()
-{
-	const char* menuItems[] = { "Load image", "Select image", "Configure console color", "Exit application"};
-	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
-}
-
-int Controller::createMenu()
-{
-	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED" };
-	return ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 
 ImageBMP Controller::selectImage()
@@ -101,11 +89,11 @@ void Controller::linuxVersion(ImageBMP image)
 	if(!image.isLoaded())
 		return;
 	AsciiConverter ac(image);
-	ac.setCharSet(createMenu());
+	ac.setCharSet(MenuUtils::charSetMenu());
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
-	ac.convertToASCII(); //Converts image to chars and save it in array
+	ac.convertToASCII();
 	const int HEIGHT = image.getBmpInfo().height - 1;
 	for(int i = HEIGHT; i >= 0; i--)
 	{

@@ -24,7 +24,7 @@ public:
 	static int getIntSafe(int min, int max);
 	template <typename T> static T getInput()
 	{
-		T x = 0;
+		T x;
 		while(true)
 		{
 			std::cin >> x;

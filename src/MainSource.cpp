@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 06.03.2023
+// Last Edit   : 12.03.2023
 // Description : This is programs main
 //============================================================================
 
@@ -38,17 +38,17 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum)
 {
 	if(argc == 1)
 		return BootAction::CONTINUE;
-	if(argc > 2) //First argument is always app name if argc != 1, than check for manual
-		if(!strcmp(argv[1], "-man"))
-			return createManual();
-	if(argc < reqArgNum && argc != 1) //If argc is less than minimum and it is not one, arguments are invalid
+	else if(!strcmp(argv[1], "-man")) //First argument is always app name if argc != 1, than check for manual
+		return createManual();
+	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
 		return printError();
-	return BootAction::CONFIGURE;
+	else
+		return BootAction::CONFIGURE;
 }
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    Image to ASCII converter V1.22\v   ");
+	ConsoleUtility::header("\v    ConsoleArt V1.22\v   ");
 	Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{
