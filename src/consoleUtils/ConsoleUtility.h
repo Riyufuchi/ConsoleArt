@@ -2,8 +2,7 @@
 // Name        : ConsoleUtility
 // Author      : Riyufuchi
 // Created on  : 27.10.2021
-// Last Edit   : 08.03.2023
-// Description : This class provide functionality for basic console IO
+// Last Edit   : 16.03.2023
 //============================================================================
 
 #ifndef _CONSOLEUTILITY_H_
@@ -12,6 +11,9 @@
 #include <string.h>
 #include <iostream>
 
+/**
+ * This class helps with console interactions
+ */
 class ConsoleUtility
 {
 private:
@@ -40,6 +42,7 @@ public:
 	}
 	static void header(std::string);
 	static int basicMenu(int lenght, const char* menu[]);
+	static void createManual(std::string* args, int lenght);
 	~ConsoleUtility();
 };
 #endif

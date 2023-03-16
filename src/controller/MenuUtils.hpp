@@ -5,8 +5,8 @@
 // Last Edit   : 10.03.2023
 // Description : Methods for menus in CLI
 //============================================================================
-#ifndef _MenuUtility_HPP_
-#define _MenuUtility_HPP_
+#ifndef _MenuUtils_HPP_
+#define _MenuUtils_HPP_
 
 #include "../consoleUtils/ConsoleUtility.h"
 

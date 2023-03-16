@@ -6,7 +6,7 @@
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
-#ifndef  _IMAGE_H_
+#ifndef _IMAGE_H_
 #define _IMAGE_H_
 #include <iostream>
 #include <string>

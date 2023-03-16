@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 12.03.2023
+// Last Edit   : 16.03.2023
 // Description : This is programs main
 //============================================================================
 
@@ -20,11 +20,32 @@ enum BootAction
 	CONTINUE
 };
 
+BootAction checkArgs(int argc, char** argv, int reqArgNum);
+
+int main(int argc, char** argv)
+{
+	ConsoleUtility::header("\v    ConsoleArt V1.22\v   ");
+	Controller con;
+	switch(checkArgs(argc, argv, 3))
+	{
+		case ABORT: return 1;
+		case CONTINUE: goto start;
+		case CONFIGURE: goto conf;
+		case DISPLAY_MANUAL: return 0;
+	}
+	conf: con.configure(argc, argv);
+	start: con.run();
+	return 0;
+}
+
 BootAction createManual()
 {
-	std::cout << "Argument" << "Action\n";
-	std::cout << "empty arguments" << " path same as for executable";
-	std::cout << "-p --path" << " path to img folder";
+	std::cout << "Manual\n";
+	std::string args[3];
+	args[0] = "Arguments| Actions";
+	args[1] = "none| in same directory as executable";
+	args[2] = "-p --path| specify workspace";
+	ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	return BootAction::DISPLAY_MANUAL;
 }
 
@@ -44,20 +65,4 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum)
 		return printError();
 	else
 		return BootAction::CONFIGURE;
-}
-
-int main(int argc, char** argv)
-{
-	ConsoleUtility::header("\v    ConsoleArt V1.22\v   ");
-	Controller con;
-	switch(checkArgs(argc, argv, 3))
-	{
-		case ABORT: return 1;
-		case CONTINUE: goto start;
-		case CONFIGURE: goto conf;
-		case DISPLAY_MANUAL: return 0;
-	}
-	conf: con.configure(argc, argv);
-	start: con.run();
-	return 0;
 }
