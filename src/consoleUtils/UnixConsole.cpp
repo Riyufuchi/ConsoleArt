@@ -14,11 +14,10 @@ UnixConsole::UnixConsole()
 	mainColor.green = 195;
 	mainColor.blue = 221;
 }
+//TODO: Find out most efficient method (printf, just cout, ostringstream)
 void UnixConsole::writeText(short int r, short int g, short int b, const char* text)
 {
-	std::ostringstream t;
-	t << "\e[38;2;" << r << ";" << g << ";" << b << "m" << text << "\e[m\n";
-	std::cout << t.str();
+	std::cout << "\e[38;2;" << r << ";" << g << ";" << b << "m" << text << "\e[m\n";
 }
 void UnixConsole::writeText(std::string text)
 {

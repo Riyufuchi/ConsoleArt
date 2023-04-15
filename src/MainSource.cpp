@@ -24,7 +24,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    ConsoleArt V1.22\v   ");
+	ConsoleUtility::header("\v    ConsoleArt V1.27\v   ");
 	Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{

@@ -17,16 +17,18 @@ Controller::Controller(std::string path)
 	this->workspacePath = path;
 }
 
-//NOTE: This will need a little rework, if more application arguments would be expected
 void Controller::configure(int argc, char** argv)
 {
-	if(!strcmp(argv[1], "-p") || !strcmp(argv[1], "--path"))
+	for(int i = 1; i < argc; i++)
 	{
-		std::string path = reinterpret_cast<const char*>((argv[2])); //or std::string path{argv[2]};
-		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
-			path.append("/");
-		workspacePath = path;
-		std::cout << "Workspace path: " << workspacePath << std::endl;
+		if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
+		{
+			std::string path = reinterpret_cast<const char*>((argv[2])); //or std::string path{argv[2]};
+			if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
+				path.append("/");
+			workspacePath = path;
+			std::cout << "Workspace path: " << workspacePath << std::endl;
+		}
 	}
 }
 

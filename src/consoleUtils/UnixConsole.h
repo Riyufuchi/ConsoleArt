@@ -11,6 +11,8 @@
 #include <iostream>
 #include <sstream>
 
+//TODO: Add writeTextLine(std::string)
+//TODO: Keep only useful overloads
 class UnixConsole
 {
 public:

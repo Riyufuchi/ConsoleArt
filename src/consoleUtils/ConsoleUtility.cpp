@@ -102,7 +102,7 @@ void ConsoleUtility::createManual(std::string* args, int lenght)
 		xIndex = 0;
 		while(args[y][xIndex] != '|')
 		{
-			std::cout << args[y][xIndex]; //printf("%c", args[y][x]);
+			std::cout << args[y][xIndex];
 			xIndex++;
 		}
 		for(lineTmp = xIndex; lineTmp < columnWidth; lineTmp++)
