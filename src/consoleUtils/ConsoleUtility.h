@@ -2,7 +2,7 @@
 // Name        : ConsoleUtility
 // Author      : Riyufuchi
 // Created on  : 27.10.2021
-// Last Edit   : 16.03.2023
+// Last Edit   : 13.10.2023
 //============================================================================
 
 #ifndef _CONSOLEUTILITY_H_
@@ -14,6 +14,8 @@
 /**
  * This class helps with console interactions
  */
+namespace ConsoleUtils
+{
 class ConsoleUtility
 {
 private:
@@ -45,4 +47,5 @@ public:
 	static void createManual(std::string* args, int lenght);
 	~ConsoleUtility();
 };
+}
 #endif

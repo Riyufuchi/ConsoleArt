@@ -7,6 +7,7 @@
 //============================================================================
 
 #include "UnixConsole.h"
+using namespace ConsoleUtils;
 
 UnixConsole::UnixConsole()
 {
@@ -36,14 +37,6 @@ void UnixConsole::writeText(const char* text)
 void UnixConsole::setTextColor(Color color)
 {
 	mainColor = color;
-}
-UnixConsole::Color UnixConsole::newColor(short int r, short int g, short int b)
-{
-	Color color;
-	color.red = r;
-	color.green = g;
-	color.blue = b;
-	return color;
 }
 UnixConsole::~UnixConsole()
 {

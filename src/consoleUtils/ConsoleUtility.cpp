@@ -2,10 +2,11 @@
 // Name        : ConsoleUtility
 // Author      : Riyufuchi
 // Created on  : 27.10.2021
-// Last Edit   : 16.03.2023
+// Last Edit   : 13.10.2023
 //============================================================================
 
 #include "ConsoleUtility.h"
+using namespace ConsoleUtils;
 
 ConsoleUtility::ConsoleUtility()
 {

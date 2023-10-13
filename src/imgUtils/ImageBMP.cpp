@@ -1,9 +1,11 @@
 ﻿//============================================================================
 // Name        : ImageBMP
 // Author      : Riyufuchi
-// Created on  : 17.07.2020
-// Last Edit   : 09.03.2023
-// Description : This class loads uncompressed 24 or 32 bit bitmap image
+// Created on  : July 17, 2020
+// Last Edited : October 13, 2023
+// Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
+//               It provides functionality to read BMP files, including the file header, BMP information,
+//               and color data. The image must have the origin in the bottom left corner.
 //============================================================================
 
 #include "ImageBMP.h"
@@ -52,7 +54,7 @@ void ImageBMP::readBMP()
 			throw std::runtime_error("Error: The file doesn't seem to contain bit mask information\n");
 		}
 	}
-	inf.seekg(file_header.offset_data, inf.beg);
+	inf.seekg(file_header.offset_data, inf.beg); // Position the stream at the beginning of the image data
 	if (bmp_info_header.bit_count == 32)
 	{
 		bmp_info_header.size = sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);
@@ -88,15 +90,21 @@ void ImageBMP::readBMP()
 	std::cout << "Image: " << getFilename() << " successfully loaded\n";
 }
 
+// This function checks if the provided BMPColorHeader matches the expected color format
 bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
 {
-	BMPColorHeader expected_color_header;
-	if (expected_color_header.red_mask != bmp_color_header.red_mask || expected_color_header.blue_mask != bmp_color_header.blue_mask ||
-			expected_color_header.green_mask != bmp_color_header.green_mask || expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
+	BMPColorHeader expected_color_header; // Create an expected BMPColorHeader with default values
+	// Compare the color masks (red, blue, green, and alpha) in the provided header
+	// with the expected header. If any mask differs, it's an unexpected format.
+	if (expected_color_header.red_mask != bmp_color_header.red_mask ||
+		expected_color_header.blue_mask != bmp_color_header.blue_mask ||
+		expected_color_header.green_mask != bmp_color_header.green_mask ||
+		expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
 	{
 		std::cerr << "Unexpected color mask format! The program expects the pixel data to be in the BGRA format\n";
 		return true;
 	}
+	// Compare the color space type in the provided header with the expected type (sRGB).
 	if (expected_color_header.color_space_type != bmp_color_header.color_space_type)
 	{
 		std::cerr << "Unexpected color space type! The program expects sRGB values\n";

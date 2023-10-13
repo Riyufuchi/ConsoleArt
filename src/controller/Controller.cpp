@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 12.03.2023
+// Last Edit   : 13.10.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -88,7 +88,7 @@ void Controller::confConsoleColor()
 
 void Controller::linuxVersion(ImageBMP image)
 {
-	if(!image.isLoaded())
+	if (!image) //if (!image.isLoaded())
 		return;
 	AsciiConverter ac(image);
 	ac.setCharSet(MenuUtils::charSetMenu());

@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 12.03.2023
+// Last Edit   : 13.10.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -15,6 +15,8 @@
 #include "../consoleUtils/UnixConsole.h"
 #include "../imgUtils/AsciiConverter.h"
 #include "MenuUtils.hpp"
+
+using namespace ConsoleUtils;
 
 //TODO: Make this into abstract or base class for LinuxController and WindowsController
 class Controller
