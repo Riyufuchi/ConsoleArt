@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
-#include "consoleUtils/ConsoleUtility.h"
+#include "inc/ConsoleUtility.h"
 #include "controller/Controller.h"
 
 enum BootAction
@@ -24,7 +24,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    ConsoleArt V1.27\v   ");
+	ConsoleUtility::header("\v    ConsoleArt V1.87\v   ");
 	Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{

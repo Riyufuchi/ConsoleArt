@@ -8,7 +8,7 @@
 #ifndef _MenuUtils_HPP_
 #define _MenuUtils_HPP_
 
-#include "../consoleUtils/ConsoleUtility.h"
+#include "../inc/ConsoleUtility.h"
 
 class MenuUtils
 {

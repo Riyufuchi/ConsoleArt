@@ -11,8 +11,8 @@
 
 #include <string>
 #include "../imgUtils/ImageBMP.h"
-#include "../consoleUtils/ConsoleUtility.h"
-#include "../consoleUtils/UnixConsole.h"
+#include "../inc/ConsoleUtility.h"
+#include "../inc/UnixConsole.h"
 #include "../imgUtils/AsciiConverter.h"
 #include "MenuUtils.hpp"
 

@@ -2,6 +2,7 @@
 lua542
 bin
 test
+libs
 
 # Eclipse
 .cproject

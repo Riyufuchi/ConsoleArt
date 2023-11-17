@@ -12,7 +12,6 @@
 #include <sstream>
 
 #include "IConsole.hpp"
-
 namespace ConsoleUtils
 {
 //TODO: Add writeTextLine(std::string)
