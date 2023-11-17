@@ -30,7 +30,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 ## Compilation
 
 - Don't forget to compile this project with required libraries
-    - [ConsoleLib](link_soon)
+    - [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib)
 
 ## Project guide
 
