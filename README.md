@@ -2,7 +2,7 @@
 
 - [About](#about)
 - [Compilation](#compilation)
-- [Project guide](#project guide)
+- [Project guide](#project-guide)
 - [Donate](#donate)
 
 ## About
@@ -30,7 +30,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 ## Compilation
 
 - Don't forget to compile this project with required libraries
-    - [ConsoleLib](link soon)
+    - [ConsoleLib](link_soon)
 
 ## Project guide
 
