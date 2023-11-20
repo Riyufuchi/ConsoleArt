@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 13.10.2023
+// Last Edit   : 20.11.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -13,7 +13,11 @@
 #include <vector>
 #include <fstream>
 
-class ImageBMP
+#include "../images/Image.h"
+
+namespace Images
+{
+class ImageBMP : public Image
 {
 private:
 	#pragma pack(push, 1)
@@ -49,7 +53,6 @@ private:
 			uint32_t unused[16]{0}; //Unused data for sRGB color space
 		};
 	#pragma pack(pop)
-	std::string filename;
 	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
 	BMPFileHeader file_header;
@@ -61,10 +64,6 @@ private:
 	bool checkColorHeader(BMPColorHeader &bmp_color_header);
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
-	explicit operator bool() const
-	{
-		return filename != std::string("NULL");
-	}
 	struct BMPInfo
 	{
 		std::string name;
@@ -81,12 +80,11 @@ public:
 	ImageBMP(std::string filename);
 	BMPInfo getBmpInfo();
 	Pixel getPixel(int x, int y);
-	uint8_t getRed(int x, int y);
-	uint8_t getGreen(int x, int y);
-	uint8_t getBlue(int x, int y);
-	uint8_t getAplha(int x, int y);
-	std::string getFilename();
-	bool isLoaded();
+	uint8_t getRed(int x, int y) override;
+	uint8_t getGreen(int x, int y) override;
+	uint8_t getBlue(int x, int y) override;
+	uint8_t getAplha(int x, int y) override;
 	~ImageBMP();
 };
+}
 #endif

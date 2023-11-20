@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 09.03.2023
+// Last Edit   : 20.11.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -24,7 +24,7 @@ private:
 	int brightnessDiff;
 	std::vector<std::string> chars; //char set for conversion
 	std::string* ASCII_image;
-	ImageBMP& sourceImg;
+	Images::ImageBMP& sourceImg;
 	void invertCharSet();
 public:
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
@@ -37,7 +37,7 @@ public:
 		BASIC_INVERTED,
 		PRECISE_INVERTED
 	};
-	AsciiConverter(ImageBMP& img);
+	AsciiConverter(Images::ImageBMP& img);
 	//Procedures
 	void convertToASCII();
 	void outputAsciiImage();

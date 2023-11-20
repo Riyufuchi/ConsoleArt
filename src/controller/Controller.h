@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 13.10.2023
+// Last Edit   : 20.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -14,6 +14,7 @@
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
 #include "../imgUtils/AsciiConverter.h"
+#include "../inc/Colors.h"
 #include "MenuUtils.hpp"
 
 using namespace ConsoleUtils;
@@ -23,12 +24,12 @@ class Controller
 {
 private:
 	std::string workspacePath;
-	std::vector<ImageBMP> bmpImages;
+	std::vector<Images::ImageBMP> bmpImages;
 	UnixConsole unxConsole;
-	void linuxVersion(ImageBMP image);
+	void linuxVersion(Images::ImageBMP image);
 	void confConsoleColor();
-	ImageBMP selectImage();
-	ImageBMP loadImage(std::string path);
+	Images::ImageBMP selectImage();
+	Images::ImageBMP loadImage(std::string path);
 public:
 	Controller();
 	Controller(std::string path);

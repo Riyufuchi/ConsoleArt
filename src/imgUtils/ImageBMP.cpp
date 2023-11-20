@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : July 17, 2020
-// Last Edited : October 13, 2023
+// Last Edited : 20.11.2023
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -10,9 +10,10 @@
 
 #include "ImageBMP.h"
 
-ImageBMP::ImageBMP(std::string filename)
+namespace Images
 {
-	this->filename = filename;
+ImageBMP::ImageBMP(std::string filename) : Image(filename)
+{
 	try
 	{
 		readBMP();
@@ -164,38 +165,8 @@ ImageBMP::BMPInfo ImageBMP::getBmpInfo()
 	a.height = bmp_info_header.height;
 	return a;
 }
-
-std::string ImageBMP::getFilename()
-{
-	return filename.substr(filename.find_last_of('/') + 1, filename.length() + 1);
-}
-
-/*const char* ImageBMP::getFilename()
-{
-	int i = 0;
-	while (filename[i] != '\0')
-			++i;
-	int x = i;
-	for (; x > 0; x--)
-		if(filename[x] == '/')
-			break;
-	char* name = new char[i + 1];
-	for(int y = 0; y < i; y++)
-	{
-		name[y] = filename[x];
-		++x;
-	}
-	name[x++] = '\0';
-	return name;
-}*/
-
-//NOTE: Needs better implementation, but it is good for now
-bool ImageBMP::isLoaded()
-{
-	return filename != std::string("NULL");
-}
-
 ImageBMP::~ImageBMP()
 {
 	std::cout << "Image class with: " << getFilename() << " destructed successfully" << std::endl;
+}
 }

@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 13.10.2023
+// Last Edit   : 20.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -46,10 +46,11 @@ void Controller::run()
 	}while(ConsoleUtility::repeat());
 }
 
-ImageBMP Controller::selectImage()
+Images::ImageBMP Controller::selectImage()
 {
 	if(bmpImages.empty())
 	{
+		//std::string a = "No images are loaded!";
 		unxConsole.writeText(255, 255, 0, "No images are loaded!");
 		return loadImage(workspacePath);
 	}
@@ -63,13 +64,13 @@ ImageBMP Controller::selectImage()
 	return bmpImages.at(ConsoleUtility::getIntSafe(1, bmpImages.size()) - 1);
 }
 
-ImageBMP Controller::loadImage(std::string path)
+Images::ImageBMP Controller::loadImage(std::string path)
 {
 	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); //Clears enter from console
-	return ImageBMP (path + imgName.append(".bmp"));
+	return Images::ImageBMP (path + imgName.append(".bmp"));
 }
 
 void Controller::confConsoleColor()
@@ -82,11 +83,11 @@ void Controller::confConsoleColor()
 		int green = ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtility::getIntSafe(0, 255);
-		unxConsole.setTextColor(unxConsole.newColor(red, green, blue));
+		unxConsole.setTextColor(Colors::newColor(red, green, blue));
 	}
 }
 
-void Controller::linuxVersion(ImageBMP image)
+void Controller::linuxVersion(Images::ImageBMP image)
 {
 	if (!image) //if (!image.isLoaded())
 		return;

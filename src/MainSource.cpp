@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 16.03.2023
+// Last Edit   : 20.11.2023
 // Description : This is programs main
 //============================================================================
 
@@ -11,6 +11,8 @@
 #include <string.h>
 #include "inc/ConsoleUtility.h"
 #include "controller/Controller.h"
+
+#include "inc/UnixConsole.h"
 
 enum BootAction
 {
@@ -41,10 +43,11 @@ int main(int argc, char** argv)
 BootAction createManual()
 {
 	std::cout << "Manual\n";
-	std::string args[3];
+	std::string args[4];
 	args[0] = "Arguments| Actions";
-	args[1] = "none| in same directory as executable";
-	args[2] = "-p --path| specify workspace";
+	args[1] = "none| Workspace in same directory as executable";
+	args[2] = "-p --path| Specify workspace folder";
+	args[3] = "--colorTest| Print colored text for testing";
 	ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	return BootAction::DISPLAY_MANUAL;
 }
@@ -55,12 +58,22 @@ BootAction printError()
 	return BootAction::ABORT;
 }
 
+BootAction colorTest()
+{
+	UnixConsole uc;
+	for (int i = 0; i < Colors::ColorPallete::COLOR_COUNT; ++i)
+	uc.writeText(Colors::getColor(static_cast<Colors::ColorPallete>(i)), "Test");
+	return BootAction::DISPLAY_MANUAL;
+}
+
 BootAction checkArgs(int argc, char** argv, int reqArgNum)
 {
 	if(argc == 1)
 		return BootAction::CONTINUE;
 	else if(!strcmp(argv[1], "-man")) //First argument is always app name if argc != 1, than check for manual
 		return createManual();
+	else if(!strcmp(argv[1], "--colorTest")) //First argument is always app name if argc != 1, than check for manual
+			return colorTest();
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
 		return printError();
 	else
