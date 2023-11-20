@@ -10,6 +10,8 @@
 
 #include "../inc/ConsoleUtility.h"
 
+namespace ConsoleArt
+{
 class MenuUtils
 {
 private:
@@ -34,5 +36,6 @@ public:
 	{
 	}
 };
+}
 
 #endif

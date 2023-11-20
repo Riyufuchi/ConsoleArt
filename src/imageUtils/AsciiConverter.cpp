@@ -6,8 +6,10 @@
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
-#include "AsciiConverter.h"
+#include "../imageUtils/AsciiConverter.h"
 
+namespace ImageUtils
+{
 AsciiConverter::AsciiConverter(Images::ImageBMP& img): sourceImg(img)
 {
 	this->sourceImg = img;
@@ -169,4 +171,5 @@ AsciiConverter::~AsciiConverter()
 		ASCII_image = NULL;
 	}
 	std::cout << "AsciiConverter destructed" << std::endl;
+}
 }

@@ -6,8 +6,10 @@
 // Description : This class is controller for a main app functionality
 //============================================================================
 
-#include "Controller.h"
+#include "../consoleArt/Controller.h"
 
+namespace ConsoleArt
+{
 Controller::Controller() : Controller("") //Calls constructor with parameter to construct class
 {
 }
@@ -91,7 +93,7 @@ void Controller::linuxVersion(Images::ImageBMP image)
 {
 	if (!image) //if (!image.isLoaded())
 		return;
-	AsciiConverter ac(image);
+	ImageUtils::AsciiConverter ac(image);
 	ac.setCharSet(MenuUtils::charSetMenu());
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
@@ -115,4 +117,5 @@ void Controller::linuxVersion(Images::ImageBMP image)
 Controller::~Controller()
 {
 	std::cout << "Controller " << "destructed" << std::endl;
+}
 }

@@ -12,8 +12,10 @@
 #include <vector>
 #include <cmath>
 #include <string.h>
-#include "ImageBMP.h"
+#include "../images/ImageBMP.h"
 
+namespace ImageUtils
+{
 class AsciiConverter
 {
 private:
@@ -48,4 +50,5 @@ public:
 	std::string getLine(int index);
 	~AsciiConverter();
 };
+}
 #endif

@@ -10,15 +10,18 @@
 #define _Controller_H_
 
 #include <string>
-#include "../imgUtils/ImageBMP.h"
+
+#include "../consoleArt/MenuUtils.hpp"
+#include "../images/ImageBMP.h"
+#include "../imageUtils/AsciiConverter.h"
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
-#include "../imgUtils/AsciiConverter.h"
 #include "../inc/Colors.h"
-#include "MenuUtils.hpp"
 
 using namespace ConsoleUtils;
 
+namespace ConsoleArt
+{
 //TODO: Make this into abstract or base class for LinuxController and WindowsController
 class Controller
 {
@@ -37,4 +40,5 @@ public:
 	void run();
 	~Controller();
 };
+}
 #endif
