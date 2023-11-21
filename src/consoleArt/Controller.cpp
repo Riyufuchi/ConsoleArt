@@ -97,7 +97,26 @@ Images::ImageBMP Controller::loadImage(std::string path)
 
 void Controller::confConsoleColor()
 {
-	if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
+	if (ConsoleUtils::ConsoleUtility::yesNo("Select color [Y/n]: "))
+	{
+		const char* colorPalleteNames[] = {
+			"HAUNTED",
+			"UNIQUE",
+			"STRANGE",
+			"UNUSUAL",
+			"COLLECTORS",
+			"VALVE_VIOLET",
+			"COMMUNITY"
+		};
+		int max = ConsoleUtils::Colors::ColorPallete::COLOR_COUNT;
+		for (int i = 0; i < max; ++i)
+		{
+			std::cout << i << ". ";
+			unxConsole.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), colorPalleteNames[i]);
+		}
+		unxConsole.setTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(0, max - 1))));
+	}
+	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
 		std::cout << "Red: ";
 		int red = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);

@@ -10,9 +10,8 @@
 
 namespace ImageUtils
 {
-AsciiConverter::AsciiConverter(Images::ImageBMP& img): sourceImg(img)
+AsciiConverter::AsciiConverter(Images::Image& img) : sourceImg(img)
 {
-	this->sourceImg = img;
 	this->brightness = 0;
 	this->brightnessDiff = 0;
 	this->ASCII_image = NULL;
@@ -128,8 +127,10 @@ void AsciiConverter::outputAsciiImage()
  */
 void AsciiConverter::convertToASCII()
 {
+	if (!sourceImg)
+		return;
 	std::string line = "";
-	Images::ImageBMP::Pixel pix;
+	Images::Image::Pixel pix;
 	const int HEIGHT = sourceImg.getImageInfo().height;
 	const int WIDTH = sourceImg.getImageInfo().width;
 	int x = 0;
