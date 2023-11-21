@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 20.11.2023
+// Last Edit   : 21.11.2023
 // Description : This is programs main
 //============================================================================
 
@@ -26,7 +26,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::header("\v    ConsoleArt V1.91\v   ");
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.91\v   ");
 	ConsoleArt::Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{
@@ -48,7 +48,7 @@ BootAction createManual()
 	args[1] = "none| Workspace in same directory as executable";
 	args[2] = "-p --path| Specify workspace folder";
 	args[3] = "--colorTest| Print colored text for testing";
-	ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
+	ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	return BootAction::DISPLAY_MANUAL;
 }
 
@@ -60,9 +60,9 @@ BootAction printError()
 
 BootAction colorTest()
 {
-	UnixConsole uc;
-	for (int i = 0; i < Colors::ColorPallete::COLOR_COUNT; ++i)
-	uc.writeText(Colors::getColor(static_cast<Colors::ColorPallete>(i)), "Test");
+	ConsoleUtils::UnixConsole uc;
+	for (int i = 0; i < ConsoleUtils::Colors::ColorPallete::COLOR_COUNT; ++i)
+	uc.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), "Test");
 	return BootAction::DISPLAY_MANUAL;
 }
 

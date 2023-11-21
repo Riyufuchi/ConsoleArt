@@ -2,18 +2,18 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 20.11.2023
+// Last Edit   : 21.11.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
-#ifndef _IMAGE_H_
-#define _IMAGE_H_
+#ifndef _IMAGEBMP_H_
+#define _IMAGEBMP_H_
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 
-#include "../images/Image.h"
+#include "Image.h"
 
 namespace Images
 {
@@ -28,7 +28,7 @@ private:
 			uint16_t reserved1{0};
 			uint16_t reserved2{0}; //Reserved - always 0
 			uint32_t offset_data{0}; //Bytes from the beginning of the file
-		};
+		} file_header;
 		struct BMPInfoHeader
 		{
 			uint32_t size{0}; //Size of this header in bytes
@@ -55,7 +55,6 @@ private:
 	#pragma pack(pop)
 	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
-	BMPFileHeader file_header;
 	BMPInfoHeader bmp_info_header;
 	BMPColorHeader bmp_color_header;
 	//Procedures
@@ -64,22 +63,9 @@ private:
 	bool checkColorHeader(BMPColorHeader &bmp_color_header);
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
-	struct BMPInfo
-	{
-		std::string name;
-		int width;
-		int height;
-		//int sizeInBytes;
-	};
-	struct Pixel
-	{
-		uint8_t red;
-		uint8_t green;
-		uint8_t blue;
-	};
 	ImageBMP(std::string filename);
-	BMPInfo getBmpInfo();
-	Pixel getPixel(int x, int y);
+	ImageInfo getImageInfo() override;
+	Pixel getPixel(int x, int y) override;
 	uint8_t getRed(int x, int y) override;
 	uint8_t getGreen(int x, int y) override;
 	uint8_t getBlue(int x, int y) override;

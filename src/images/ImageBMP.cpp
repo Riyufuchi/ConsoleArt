@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : July 17, 2020
-// Last Edited : 20.11.2023
+// Last Edited : 21.11.2023
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -157,12 +157,13 @@ uint8_t ImageBMP::getAplha(int x, int y)
 		return 255;
 }
 
-ImageBMP::BMPInfo ImageBMP::getBmpInfo()
+Image::ImageInfo ImageBMP::getImageInfo()
 {
-	BMPInfo a;
+	ImageInfo a;
 	a.name = getFilename();
 	a.width = bmp_info_header.width;
 	a.height = bmp_info_header.height;
+	a.file_type = file_header.file_type;
 	return a;
 }
 ImageBMP::~ImageBMP()

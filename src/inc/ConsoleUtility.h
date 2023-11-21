@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include <iostream>
+#include <filesystem>
 
 /**
  * This class helps with console interactions
@@ -45,6 +46,7 @@ public:
 	static void header(std::string);
 	static int basicMenu(int lenght, const char* menu[]);
 	static void createManual(std::string* args, int lenght);
+	static void listFilesInFolder(std::string workspacePath);
 	~ConsoleUtility();
 };
 }

@@ -2,11 +2,11 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 20.11.2023
+// Last Edit   : 21.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
-#include "../consoleArt/Controller.h"
+#include "Controller.h"
 
 namespace ConsoleArt
 {
@@ -42,28 +42,48 @@ void Controller::run()
 		{
 			case 0: linuxVersion(loadImage(workspacePath)); break;
 			case 1: linuxVersion(selectImage()); break;
-			case 2: confConsoleColor(); goto menu; break;
-			case 3: return;
+			case 2: {
+				/*std::string command = "cd ";
+				command += workspacePath;
+				command += " && ";
+				command += "ls";
+				system(command.c_str());*/
+				ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath);
+			}
+				goto menu;
+				break;
+			case 3: confConsoleColor(); goto menu; break;
+			case 4: return;
 		}
-	}while(ConsoleUtility::repeat());
+	}while(ConsoleUtils::ConsoleUtility::repeat());
 }
 
 Images::ImageBMP Controller::selectImage()
 {
-	if(bmpImages.empty())
+	if(images.empty())
 	{
-		//std::string a = "No images are loaded!";
 		unxConsole.writeText(255, 255, 0, "No images are loaded!");
 		return loadImage(workspacePath);
 	}
 	std::cout << "Currently loaded images:" << std::endl;
-	int max = bmpImages.size();
-	int index = 0;
-	for(; index < max; index++) //or for(ImageBMP img : bmpImages)
+	int max = images.size();
+	for(int index = 0; index < max; index++) //or for(ImageBMP img : bmpImages)
 	{
-		std::cout << index + 1 << ". " << bmpImages[index].getFilename() << std::endl;
+		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
-	return bmpImages.at(ConsoleUtility::getIntSafe(1, bmpImages.size()) - 1);
+
+	int selectedIndex = ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1;
+	Images::Image* selectedImageBase = images[selectedIndex];
+
+	if (auto bmpImage = dynamic_cast<Images::ImageBMP*>(selectedImageBase))
+	{
+		return *bmpImage;
+	}
+	else
+	{
+		unxConsole.writeText(255, 0, 0, "Selected image is not of type ImageBMP!");
+		return Images::ImageBMP("nullPtr.bmp");
+	}
 }
 
 Images::ImageBMP Controller::loadImage(std::string path)
@@ -77,15 +97,15 @@ Images::ImageBMP Controller::loadImage(std::string path)
 
 void Controller::confConsoleColor()
 {
-	if(ConsoleUtility::yesNo("Custom color [Y/n]: "))
+	if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
 		std::cout << "Red: ";
-		int red = ConsoleUtility::getIntSafe(0, 255);
+		int red = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Green: ";
-		int green = ConsoleUtility::getIntSafe(0, 255);
+		int green = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
-		int blue = ConsoleUtility::getIntSafe(0, 255);
-		unxConsole.setTextColor(Colors::newColor(red, green, blue));
+		int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
+		unxConsole.setTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
 	}
 }
 
@@ -99,19 +119,19 @@ void Controller::linuxVersion(Images::ImageBMP image)
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII();
-	const int HEIGHT = image.getBmpInfo().height - 1;
+	const int HEIGHT = image.getImageInfo().height - 1;
 	for(int i = HEIGHT; i >= 0; i--)
 	{
 		unxConsole.writeText(ac.getLine(i));
 	}
-	if(!bmpImages.empty())
+	if(!images.empty())
 	{
-		int maxIndex = bmpImages.size();
+		int maxIndex = images.size();
 		for(int i = 0; i < maxIndex; i++)
-			if(bmpImages[i].getFilename() == image.getFilename())
+			if(images[i]->getFilename() == image.getFilename())
 				return;
 	}
-	bmpImages.push_back(image);
+	images.push_back(new Images::ImageBMP((image)));
 }
 
 Controller::~Controller()

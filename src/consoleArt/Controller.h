@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 20.11.2023
+// Last Edit   : 21.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -10,6 +10,7 @@
 #define _Controller_H_
 
 #include <string>
+#include <iostream>
 
 #include "../consoleArt/MenuUtils.hpp"
 #include "../images/ImageBMP.h"
@@ -18,17 +19,16 @@
 #include "../inc/UnixConsole.h"
 #include "../inc/Colors.h"
 
-using namespace ConsoleUtils;
-
 namespace ConsoleArt
 {
 //TODO: Make this into abstract or base class for LinuxController and WindowsController
+//TODO: Replace ImageBMP with Image reference
 class Controller
 {
 private:
 	std::string workspacePath;
-	std::vector<Images::ImageBMP> bmpImages;
-	UnixConsole unxConsole;
+	std::vector<Images::Image*> images;
+	ConsoleUtils::UnixConsole unxConsole;
 	void linuxVersion(Images::ImageBMP image);
 	void confConsoleColor();
 	Images::ImageBMP selectImage();
