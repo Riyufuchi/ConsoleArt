@@ -22,6 +22,10 @@ public:
 		COLLECTORS,
 		VALVE_VIOLET,
 		COMMUNITY,
+		PINK_AS_HELL,
+		AUSTRALIUM_GOLD,
+		No_216_190_216,
+		SMARAGDINE,
 		COLOR_COUNT  // This can be used to determine the size of the enum
 	};
 	typedef struct Color // This way, there is no need to cast, because uint8_t would be treated as char not numerical value
@@ -30,6 +34,20 @@ public:
 		short int blue;
 		short int green;
 	} tColor;
+	static constexpr const char* colorPaletteNames[] =
+	{
+		"HAUNTED",
+		"UNIQUE",
+		"STRANGE",
+		"UNUSUAL",
+		"COLLECTORS",
+		"VALVE_VIOLET",
+		"COMMUNITY",
+		"PINK_AS_HELL",
+		"AUSTRALIUM_GOLD",
+		"No_216_190_216",
+		"SMARAGDINE"
+	};
 	Colors();
 	virtual ~Colors();
 	static Color getColor(ColorPallete color);

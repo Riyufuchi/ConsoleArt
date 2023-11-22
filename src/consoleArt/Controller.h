@@ -19,6 +19,8 @@
 #include "../inc/UnixConsole.h"
 #include "../inc/Colors.h"
 
+#include <memory>
+
 namespace ConsoleArt
 {
 //TODO: Make this into abstract or base class for LinuxController and WindowsController
@@ -27,17 +29,20 @@ class Controller
 {
 private:
 	std::string workspacePath;
-	std::vector<Images::Image*> images;
+	std::vector<std::unique_ptr<Images::Image>> images;
+	//std::vector<Images::Image*> images;
 	ConsoleUtils::UnixConsole unxConsole;
-	void linuxVersion(Images::ImageBMP image);
+	void linuxVersion(Images::Image* image);
 	void confConsoleColor();
-	Images::ImageBMP selectImage();
-	Images::ImageBMP loadImage(std::string path);
+	void loadAllImages();
+	Images::Image* selectImage();
+	Images::Image* loadImage(std::string path);
 public:
 	Controller();
 	Controller(std::string path);
 	void configure(int argc, char** argv);
 	void run();
+	void addImage(std::unique_ptr<Images::Image> image);
 	~Controller();
 };
 }

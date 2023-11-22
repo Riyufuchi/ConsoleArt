@@ -10,7 +10,7 @@
 
 namespace ImageUtils
 {
-AsciiConverter::AsciiConverter(Images::Image& img) : sourceImg(img)
+AsciiConverter::AsciiConverter(Images::Image*& img) : sourceImg(img)
 {
 	this->brightness = 0;
 	this->brightnessDiff = 0;
@@ -113,11 +113,11 @@ std::string AsciiConverter::getLine(int index)
 
 void AsciiConverter::outputAsciiImage()
 {
-	if(!sourceImg.isLoaded())
+	if(!sourceImg->isLoaded())
 		return;
 	if(ASCII_image == NULL)
 		convertToASCII();
-	const int height = sourceImg.getImageInfo().height - 1;
+	const int height = sourceImg->getImageInfo().height - 1;
 	for(int i = height; i >= 0; i--)
 		std::cout << ASCII_image[i] << "\n";
 }
@@ -131,8 +131,8 @@ void AsciiConverter::convertToASCII()
 		return;
 	std::string line = "";
 	Images::Image::Pixel pix;
-	const int HEIGHT = sourceImg.getImageInfo().height;
-	const int WIDTH = sourceImg.getImageInfo().width;
+	const int HEIGHT = sourceImg->getImageInfo().height;
+	const int WIDTH = sourceImg->getImageInfo().width;
 	int x = 0;
 	int charID = 0;
 	int index = 0;
@@ -143,7 +143,7 @@ void AsciiConverter::convertToASCII()
 	{
 		for (x = 0; x < WIDTH; x++)
 		{
-			pix = sourceImg.getPixel(x, y);
+			pix = sourceImg->getPixel(x, y);
 			brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
 			for (charID = 0; charID <= CHARSET_SIZE; charID++)
 			{

@@ -19,20 +19,22 @@ enum BootAction
 	ABORT,
 	DISPLAY_MANUAL,
 	CONFIGURE,
-	CONTINUE
+	CONTINUE,
+	TEST
 };
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.91\v   ");
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.94\v   ");
 	ConsoleArt::Controller con;
 	switch(checkArgs(argc, argv, 3))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
 		case CONFIGURE: goto conf;
+		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
 	}
 	conf: con.configure(argc, argv);
@@ -43,11 +45,12 @@ int main(int argc, char** argv)
 BootAction createManual()
 {
 	std::cout << "Manual\n";
-	std::string args[4];
+	std::string args[5];
 	args[0] = "Arguments| Actions";
 	args[1] = "none| Workspace in same directory as executable";
 	args[2] = "-p --path| Specify workspace folder";
 	args[3] = "--colorTest| Print colored text for testing";
+	args[4] = "--loadAll| Loads all files/images in workspace (must be after --path)";
 	ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	return BootAction::DISPLAY_MANUAL;
 }
@@ -62,8 +65,8 @@ BootAction colorTest()
 {
 	ConsoleUtils::UnixConsole uc;
 	for (int i = 0; i < ConsoleUtils::Colors::ColorPallete::COLOR_COUNT; ++i)
-	uc.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), "Test");
-	return BootAction::DISPLAY_MANUAL;
+	uc.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+	return BootAction::TEST;
 }
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum)

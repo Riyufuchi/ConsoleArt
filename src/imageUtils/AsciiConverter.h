@@ -12,6 +12,7 @@
 #include <vector>
 #include <cmath>
 #include <string.h>
+#include <memory>
 #include "../images/Image.h"
 
 namespace ImageUtils
@@ -26,7 +27,7 @@ private:
 	int brightnessDiff;
 	std::vector<std::string> chars; //char set for conversion
 	std::string* ASCII_image;
-	Images::Image& sourceImg;
+	Images::Image*& sourceImg;
 	void invertCharSet();
 public:
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
@@ -39,7 +40,7 @@ public:
 		BASIC_INVERTED,
 		PRECISE_INVERTED
 	};
-	AsciiConverter(Images::Image& img);
+	AsciiConverter(Images::Image*& img);
 	//Procedures
 	void convertToASCII();
 	void outputAsciiImage();

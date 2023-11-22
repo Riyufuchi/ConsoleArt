@@ -25,12 +25,33 @@ void Controller::configure(int argc, char** argv)
 	{
 		if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
 		{
-			std::string path = reinterpret_cast<const char*>((argv[2])); //or std::string path{argv[2]};
+			std::string path = reinterpret_cast<const char*>((argv[i + 1])); //or std::string path{argv[2]};
 			if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
 				path.append("/");
 			workspacePath = path;
 			std::cout << "Workspace path: " << workspacePath << std::endl;
 		}
+		else if (!strcmp(argv[i], "--loadAll"))
+		{
+			loadAllImages();
+		}
+	}
+}
+
+void Controller::loadAllImages()
+{
+	try
+	{
+		std::filesystem::current_path(workspacePath);
+		for (const auto& entry : std::filesystem::directory_iterator("."))
+		{
+			addImage(std::unique_ptr<Images::Image>(new Images::ImageBMP(workspacePath + entry.path().generic_string().substr(2))));
+			//images.push_back(new Images::ImageBMP(workspacePath + entry.path().generic_string().substr(2)));
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error: " << e.what() << std::endl;
 	}
 }
 
@@ -41,7 +62,7 @@ void Controller::run()
 		switch(MenuUtils::actionMenu())
 		{
 			case 0: linuxVersion(loadImage(workspacePath)); break;
-			case 1: linuxVersion(selectImage()); break;
+			case 1: linuxVersion(selectImage()); /* images.erase(images.begin() + 12);*/ break;
 			case 2: {
 				/*std::string command = "cd ";
 				command += workspacePath;
@@ -58,7 +79,7 @@ void Controller::run()
 	}while(ConsoleUtils::ConsoleUtility::repeat());
 }
 
-Images::ImageBMP Controller::selectImage()
+Images::Image* Controller::selectImage()
 {
 	if(images.empty())
 	{
@@ -73,46 +94,37 @@ Images::ImageBMP Controller::selectImage()
 	}
 
 	int selectedIndex = ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1;
-	Images::Image* selectedImageBase = images[selectedIndex];
-
-	if (auto bmpImage = dynamic_cast<Images::ImageBMP*>(selectedImageBase))
+	return images[selectedIndex].get();
+	/*
+	if (auto bmpImagePtr = dynamic_cast<Images::ImageBMP*>(images[selectedIndex].get()))
 	{
-		return *bmpImage;
+		return *bmpImagePtr;
 	}
 	else
 	{
 		unxConsole.writeText(255, 0, 0, "Selected image is not of type ImageBMP!");
 		return Images::ImageBMP("nullPtr.bmp");
-	}
+	}*/
 }
 
-Images::ImageBMP Controller::loadImage(std::string path)
+Images::Image* Controller::loadImage(std::string path)
 {
 	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); //Clears enter from console
-	return Images::ImageBMP (path + imgName.append(".bmp"));
+	return new Images::ImageBMP (path + imgName.append(".bmp"));
 }
 
 void Controller::confConsoleColor()
 {
 	if (ConsoleUtils::ConsoleUtility::yesNo("Select color [Y/n]: "))
 	{
-		const char* colorPalleteNames[] = {
-			"HAUNTED",
-			"UNIQUE",
-			"STRANGE",
-			"UNUSUAL",
-			"COLLECTORS",
-			"VALVE_VIOLET",
-			"COMMUNITY"
-		};
 		int max = ConsoleUtils::Colors::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
 			std::cout << i << ". ";
-			unxConsole.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), colorPalleteNames[i]);
+			unxConsole.writeText(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
 		}
 		unxConsole.setTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(0, max - 1))));
 	}
@@ -128,9 +140,23 @@ void Controller::confConsoleColor()
 	}
 }
 
-void Controller::linuxVersion(Images::ImageBMP image)
+void Controller::addImage(std::unique_ptr<Images::Image> image)
 {
-	if (!image) //if (!image.isLoaded())
+	if (image == nullptr)
+		return;
+	if(!images.empty())
+	{
+		int maxIndex = images.size();
+		for(int i = 0; i < maxIndex; i++)
+			if(images[i]->getFilename() == image->getFilename())
+				return;
+	}
+	images.push_back(std::move(image));
+}
+
+void Controller::linuxVersion(Images::Image* image)
+{
+	if (image == nullptr || !image) //if (!image.isLoaded())
 		return;
 	ImageUtils::AsciiConverter ac(image);
 	ac.setCharSet(MenuUtils::charSetMenu());
@@ -138,23 +164,17 @@ void Controller::linuxVersion(Images::ImageBMP image)
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII();
-	const int HEIGHT = image.getImageInfo().height - 1;
+	const int HEIGHT = image->getImageInfo().height - 1;
 	for(int i = HEIGHT; i >= 0; i--)
 	{
 		unxConsole.writeText(ac.getLine(i));
 	}
-	if(!images.empty())
-	{
-		int maxIndex = images.size();
-		for(int i = 0; i < maxIndex; i++)
-			if(images[i]->getFilename() == image.getFilename())
-				return;
-	}
-	images.push_back(new Images::ImageBMP((image)));
 }
 
 Controller::~Controller()
 {
+	//for(size_t i = 0; i < images.size(); i++)
+		//delete images[i];
 	std::cout << "Controller " << "destructed" << std::endl;
 }
 }
