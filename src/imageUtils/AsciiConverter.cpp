@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 21.11.2023
+// Last Edit   : 22.11.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -10,7 +10,7 @@
 
 namespace ImageUtils
 {
-AsciiConverter::AsciiConverter(Images::Image*& img) : sourceImg(img)
+AsciiConverter::AsciiConverter(Images::Image& img) : sourceImg(img)
 {
 	this->brightness = 0;
 	this->brightnessDiff = 0;
@@ -104,6 +104,11 @@ void AsciiConverter::invertCharSet()
 	chars = newChars;
 }
 
+Images::Image& AsciiConverter::getSourceImg()
+{
+	return sourceImg;
+}
+
 std::string AsciiConverter::getLine(int index)
 {
 	//if((index >= 0) && (index < bmp_info_header.height))
@@ -113,11 +118,11 @@ std::string AsciiConverter::getLine(int index)
 
 void AsciiConverter::outputAsciiImage()
 {
-	if(!sourceImg->isLoaded())
+	if(!sourceImg.isLoaded())
 		return;
 	if(ASCII_image == NULL)
 		convertToASCII();
-	const int height = sourceImg->getImageInfo().height - 1;
+	const int height = sourceImg.getImageInfo().height - 1;
 	for(int i = height; i >= 0; i--)
 		std::cout << ASCII_image[i] << "\n";
 }
@@ -131,8 +136,8 @@ void AsciiConverter::convertToASCII()
 		return;
 	std::string line = "";
 	Images::Image::Pixel pix;
-	const int HEIGHT = sourceImg->getImageInfo().height;
-	const int WIDTH = sourceImg->getImageInfo().width;
+	const int HEIGHT = sourceImg.getImageInfo().height;
+	const int WIDTH = sourceImg.getImageInfo().width;
 	int x = 0;
 	int charID = 0;
 	int index = 0;
@@ -143,7 +148,7 @@ void AsciiConverter::convertToASCII()
 	{
 		for (x = 0; x < WIDTH; x++)
 		{
-			pix = sourceImg->getPixel(x, y);
+			pix = sourceImg.getPixel(x, y);
 			brightness = (pix.red * RED_PART + pix.green * GREEN_PART + pix.blue * BLUE_PART);
 			for (charID = 0; charID <= CHARSET_SIZE; charID++)
 			{

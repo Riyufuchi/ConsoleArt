@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 21.11.2023
+// Last Edit   : 22.11.2023
 // Description : This is programs main
 //============================================================================
 
@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string.h>
 
-#include "consoleArt/Controller.h"
+#include "consoleArt/UnixControllerCLI.h"
 #include "inc/ConsoleUtility.h"
 #include "inc/UnixConsole.h"
 
@@ -27,8 +27,8 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.94\v   ");
-	ConsoleArt::Controller con;
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.95\v   ");
+	ConsoleArt::UnixControllerCLI unixController;
 	switch(checkArgs(argc, argv, 3))
 	{
 		case ABORT: return 1;
@@ -37,8 +37,8 @@ int main(int argc, char** argv)
 		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
 	}
-	conf: con.configure(argc, argv);
-	start: con.run();
+	conf: unixController.configure(argc, argv);
+	start: unixController.run();
 	return 0;
 }
 
@@ -50,7 +50,7 @@ BootAction createManual()
 	args[1] = "none| Workspace in same directory as executable";
 	args[2] = "-p --path| Specify workspace folder";
 	args[3] = "--colorTest| Print colored text for testing";
-	args[4] = "--loadAll| Loads all files/images in workspace (must be after --path)";
+	args[4] = "--loadAll| Loads all images in workspace (must be after --path)";
 	ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	return BootAction::DISPLAY_MANUAL;
 }

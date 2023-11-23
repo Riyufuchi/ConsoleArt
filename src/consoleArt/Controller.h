@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 21.11.2023
+// Last Edit   : 22.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -23,27 +23,24 @@
 
 namespace ConsoleArt
 {
-//TODO: Make this into abstract or base class for LinuxController and WindowsController
-//TODO: Replace ImageBMP with Image reference
 class Controller
 {
 private:
+protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
-	//std::vector<Images::Image*> images;
-	ConsoleUtils::UnixConsole unxConsole;
-	void linuxVersion(Images::Image* image);
-	void confConsoleColor();
-	void loadAllImages();
-	Images::Image* selectImage();
-	Images::Image* loadImage(std::string path);
+	virtual void convertImage(Images::Image* image) = 0;
+	virtual void confConsoleColor() = 0;
+	virtual void loadAllImages() = 0;
+	virtual Images::Image* selectImage() = 0;
+	virtual Images::Image* loadImage(std::string path) = 0;
 public:
 	Controller();
 	Controller(std::string path);
 	void configure(int argc, char** argv);
-	void run();
+	virtual void run() = 0;
 	void addImage(std::unique_ptr<Images::Image> image);
-	~Controller();
+	virtual ~Controller();
 };
 }
 #endif

@@ -20,7 +20,9 @@ public:
 	virtual void writeText(const char* text) = 0;
 	virtual void writeText(std::string text) = 0;
 	virtual void writeText(Colors::Color color, std::string text) = 0;
+	virtual void writeTextLine(Colors::Color color, std::string text) = 0;
 	virtual void writeText(short int r, short int g, short int b, std::string text) = 0;
+	virtual void writeTextLine(short int r, short int g, short int b, std::string text) = 0;
 	// Virtual destructor in the base class
 	virtual ~IConsole()
 	{
