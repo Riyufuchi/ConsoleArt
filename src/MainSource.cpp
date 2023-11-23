@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 22.11.2023
+// Last Edit   : 23.11.2023
 // Description : This is programs main
 //============================================================================
 
@@ -27,7 +27,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.95\v   ");
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.96\v   ");
 	ConsoleArt::UnixControllerCLI unixController;
 	switch(checkArgs(argc, argv, 3))
 	{

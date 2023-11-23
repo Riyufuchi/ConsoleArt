@@ -2,7 +2,7 @@
 // Name        : MenuUtility
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : 22.11.2023
+// Last Edit   : 23.11.2023
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -28,13 +28,13 @@ public:
 
 	static int actionMenu()
 	{
-		const char* menuItems[] = { "Load image", "Select image", "List images", "Load all images", "Configure console color", "Exit application"};
+		const char* menuItems[] = { "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"};
 		return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 	}
 
 	static int printMenu()
 	{
-		const char* menuItems[] = { "Classic", "Pixel colored", "Char colored", "To text file"};
+		const char* menuItems[] = { "Classic", "Pixel colored", "Char colored", "To text file", "Exit"};
 		return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 	}
 

@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 22, 2023
+// Last edit  : 23.11.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,8 +13,11 @@ namespace ConsoleArt
 {
 AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console) : asciiCon(asCon), console(console)
 {
+	this->color = ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
 }
-
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Colors::Color color) : asciiCon(asCon), console(console), color(color)
+{
+}
 AsciiPrinter::~AsciiPrinter()
 {
 }
@@ -43,9 +46,7 @@ void AsciiPrinter::printCharColored()
 	std::string line;
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 	std::wstring utf32String;
-	//wchar_t unicodeChar = utf32String[2]; // Access Unicode characters in wstring
-	//std::wstring singleCharString(1, unicodeChar); // Convert wchar_t to std::wstring
-	std::string convertedString; 	// Convert std::wstring to UTF-8 encoded string
+	std::string convertedString;
 	int xChar = 0;
 	for(int y = HEIGHT; y >= 0; y--)
 	{
@@ -65,9 +66,15 @@ void AsciiPrinter::printCharColored()
 void AsciiPrinter::printClassic()
 {
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
+	console.setTextColor(color);
 	for(int i = HEIGHT; i >= 0; i--)
 	{
-		console.writeText(asciiCon.getLine(i));
+		//console.writeText(asciiCon.getLine(i));
+		std::cout << asciiCon.getLine(i) << "\n";
 	}
+	console.resetTextColor();
+}
+void AsciiPrinter::printToFile()
+{
 }
 } /* namespace Images */

@@ -2,7 +2,7 @@
 // Name        : UnixControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 22.11.2023
-// Last Edit   : 22.11.2023
+// Last Edit   : 23.11.2023
 // Description : This class is Unix CLI controller for the main app
 //============================================================================
 
@@ -42,18 +42,16 @@ command += "ls";
 system(command.c_str());*/
 void UnixControllerCLI::run()
 {
-	menu: do
+	menu:
+	switch(MenuUtils::actionMenu())
 	{
-		switch(MenuUtils::actionMenu())
-		{
-			case 0: convertImage(loadImage(workspacePath)); goto menu;
-			case 1: convertImage(selectImage()); goto menu;
-			case 2: ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath); goto menu;
-			case 3: loadAllImages(); goto menu;
-			case 4: confConsoleColor(); goto menu;
-			case 5: return;
-		}
-	} while(ConsoleUtils::ConsoleUtility::repeat());
+		case 0: convertImage(loadImage(workspacePath)); goto menu;
+		case 1: loadAllImages(); goto menu;
+		case 2: convertImage(selectImage()); goto menu;
+		case 3: ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath); goto menu;
+		case 4: confConsoleColor(); goto menu;
+		case 5: return;
+	}
 }
 
 Images::Image* UnixControllerCLI::selectImage()
@@ -100,10 +98,10 @@ void UnixControllerCLI::confConsoleColor()
 		int max = ConsoleUtils::Colors::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
-			std::cout << i << ". ";
+			std::cout << i + 1 << ". ";
 			unixConsole.writeTextLine(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
 		}
-		unixConsole.setTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(0, max - 1))));
+		unixConsole.setDefaultTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
 	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
@@ -113,7 +111,7 @@ void UnixControllerCLI::confConsoleColor()
 		int green = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		unixConsole.setTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
+		unixConsole.setDefaultTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
 	}
 }
 
@@ -129,7 +127,7 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII();
-	AsciiPrinter ap(ac, unixConsole);
+	AsciiPrinter ap(ac, unixConsole, unixConsole.getDefaultTextColor());
 	do {
 		switch(MenuUtils::printMenu())
 		{
@@ -137,6 +135,7 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 			case 1: ap.printPixelColored(); break;
 			case 2: ap.printCharColored(); break;
 			case 3: unixConsole.writeTextLine(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Not supported yet."); break;
+			case 4: return;
 		}
 	} while(ConsoleUtils::ConsoleUtility::yesNo("Choose different print method? [Y/n]: "));
 }
