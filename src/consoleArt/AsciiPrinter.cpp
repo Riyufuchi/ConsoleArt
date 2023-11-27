@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 23.11.2023
+// Last edit  : 27.11.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -76,5 +76,22 @@ void AsciiPrinter::printClassic()
 }
 void AsciiPrinter::printToFile()
 {
+	console.writeTextLine(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Warning: Experimental!");
+	std::string fName = asciiCon.getSourceImg().getFilename();
+	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
+	std::fstream file(fName, std::ios::out | std::ios::trunc);
+	if (!file)
+	{
+		console.writeTextLine(255, 0, 0, "File error");
+		return;
+	}
+	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height -1;
+	for(int i = HEIGHT; i >= 0; i--)
+	{
+		file << asciiCon.getLine(i) << "\n";
+	}
+	file.close();
+	ConsoleUtils::Colors::ColorPallete color = ConsoleUtils::Colors::ColorPallete::COMMUNITY;
+	console.writeTextLine(ConsoleUtils::Colors::getColor(color), "File " + fName + " was successfully created.");
 }
 } /* namespace Images */

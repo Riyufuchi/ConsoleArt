@@ -2,7 +2,7 @@
 // Name        : MenuUtility
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : 23.11.2023
+// Last Edit   : 27.11.2023
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -34,7 +34,7 @@ public:
 
 	static int printMenu()
 	{
-		const char* menuItems[] = { "Classic", "Pixel colored", "Char colored", "To text file", "Exit"};
+		const char* menuItems[] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Exit"};
 		return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 	}
 

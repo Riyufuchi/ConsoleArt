@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 22.11.2023
+// Last Edit   : 27.11.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -10,10 +10,10 @@
 
 namespace ConsoleArt
 {
-Controller::Controller() : Controller("") //Calls constructor with parameter to construct class
+Controller::Controller(ConsoleUtils::IConsole& console) : Controller("", console) //Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path) : workspacePath(path)
+Controller::Controller(std::string path, ConsoleUtils::IConsole& console) : workspacePath(path), console(console)
 {
 }
 
@@ -33,13 +33,40 @@ void Controller::configure(int argc, char** argv)
 		{
 			loadAllImages();
 		}
+		else if (!strcmp(argv[i], "--image"))
+		{
+			if (!((i + 1) < argc))
+			{
+				console.writeTextLine(255, 0, 0, "Missing image name parameter");
+				continue;
+			}
+			convertImage(loadImage(workspacePath + argv[i + 1]));
+		}
+		else if (!strcmp(argv[i], "--imagePath"))
+		{
+			if (!((i + 1) < argc))
+			{
+				console.writeTextLine(255, 0, 0, "Missing path parameter");
+				continue;
+			}
+			convertImage(loadImage(argv[i + 1]));
+		}
+		else if (argv[i][0] == '-') // Check if is it argument or arg param
+		{
+			ConsoleArt::printArgError(argv[i], console);
+		}
 	}
 }
 
 void Controller::addImage(std::unique_ptr<Images::Image> image)
 {
-	if (image == nullptr)
+	if (image.get() == nullptr)
 		return;
+	if (!image.get()->isLoaded())
+	{
+		console.writeTextLine(255, 0, 0, image->getFileStatus());
+		return;
+	}
 	if(!images.empty())
 	{
 		int maxIndex = images.size();

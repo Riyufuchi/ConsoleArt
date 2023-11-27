@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : 22.11.2023
+// Last edit  : 27.11.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,6 +18,7 @@ class Image
 {
 protected:
 	std::string filename;
+	std::string fileStatus;
 private:
 
 public:
@@ -46,6 +47,7 @@ public:
 	bool isLoaded();
 	// Getters
 	std::string getFilename();
+	std::string getFileStatus();
 	virtual ImageInfo getImageInfo() = 0;
 	virtual Pixel getPixel(int x, int y) = 0;
 	virtual uint8_t getRed(int x, int y) = 0;

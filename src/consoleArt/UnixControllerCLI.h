@@ -21,12 +21,17 @@ private:
 	void convertImage(Images::Image* image) override;
 	void confConsoleColor() override;
 	void loadAllImages() override;
+	std::string inputImageName() override;
 	Images::Image* selectImage() override;
 	Images::Image* loadImage(std::string path) override;
 public:
 	UnixControllerCLI();
 	UnixControllerCLI(std::string path);
 	void run() override;
+	ConsoleUtils::UnixConsole& getUnixConslole()
+	{
+		return unixConsole;
+	}
 	~UnixControllerCLI();
 };
 }

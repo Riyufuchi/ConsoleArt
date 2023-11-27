@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 20, 2023
+// Last edit  : 27.11.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,11 +12,15 @@
 namespace Images
 {
 
-Image::Image(std::string filename) : filename(filename)
+Image::Image(std::string filename) : filename(filename), fileStatus("Pending")
 {
 }
 Image::~Image()
 {
+}
+std::string Image::getFileStatus()
+{
+	return fileStatus;
 }
 std::string Image::getFilename()
 {

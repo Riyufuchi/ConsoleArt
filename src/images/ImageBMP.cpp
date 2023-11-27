@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : July 17, 2020
-// Last Edited : 21.11.2023
+// Last Edited : 27.11.2023
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -20,7 +20,8 @@ ImageBMP::ImageBMP(std::string filename) : Image(filename)
 	}
 	catch (std::runtime_error& e)
 	{
-		std::cerr << e.what() << std::endl;
+		//std::cerr << e.what() << std::endl;
+		this->fileStatus = e.what();
 		this->filename = "NULL";
 	}
 }
@@ -33,12 +34,12 @@ void ImageBMP::readBMP()
 {
 	std::ifstream inf(filename, std::ios::in);
 	if (!inf)
-		throw std::runtime_error("Unable to open file");
+		throw std::runtime_error("Unable to open file: " + filename);
 	//Basic file info
 	inf.read(reinterpret_cast<char*>(&file_header), sizeof(file_header)); //Reads and fill our file_header struct with data
 	if (file_header.file_type != 0x4D42)
 	{
-		throw std::runtime_error("Error: Unrecognized format");
+		throw std::runtime_error("Error: Unrecognized format " + getFilename().substr(getFilename().find_last_of(".")));
 	}
 	//BMP info and colors
 	inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
@@ -52,7 +53,7 @@ void ImageBMP::readBMP()
 		}
 		else
 		{
-			throw std::runtime_error("Error: The file doesn't seem to contain bit mask information\n");
+			throw std::runtime_error("Error: The  " + getFilename() + " doesn't seem to contain bit mask information");
 		}
 	}
 	inf.seekg(file_header.offset_data, inf.beg); // Position the stream at the beginning of the image data
@@ -87,8 +88,9 @@ void ImageBMP::readBMP()
 	}
 	//Data checking
 	if (bmp_info_header.height < 0) //Check for image orientation
-			throw std::runtime_error("TThe program can work only with BMP images with the origin in the bottom left corner!");
-	std::cout << "Image: " << getFilename() << " successfully loaded\n";
+			throw std::runtime_error("This program can work only with BMP images with the origin in the bottom left corner!");
+	//std::cout << "Image: " << getFilename() << " successfully loaded\n";
+	this->fileStatus = "OK";
 }
 
 // This function checks if the provided BMPColorHeader matches the expected color format
@@ -168,6 +170,6 @@ Image::ImageInfo ImageBMP::getImageInfo()
 }
 ImageBMP::~ImageBMP()
 {
-	std::cout << "Image class with: " << getFilename() << " destructed successfully" << std::endl;
+	std::cout << "Image: " << getFilename() << " destructed successfully" << std::endl;
 }
 }

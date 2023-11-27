@@ -2,7 +2,7 @@
 // Name        : UnixControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 22.11.2023
-// Last Edit   : 23.11.2023
+// Last Edit   : 27.11.2023
 // Description : This class is Unix CLI controller for the main app
 //============================================================================
 
@@ -14,7 +14,7 @@ UnixControllerCLI::UnixControllerCLI() : UnixControllerCLI("") //Calls construct
 {
 }
 
-UnixControllerCLI::UnixControllerCLI(std::string path) : Controller(path)
+UnixControllerCLI::UnixControllerCLI(std::string path) : Controller(path, unixConsole)
 {
 }
 
@@ -45,7 +45,9 @@ void UnixControllerCLI::run()
 	menu:
 	switch(MenuUtils::actionMenu())
 	{
-		case 0: convertImage(loadImage(workspacePath)); goto menu;
+		case 0:
+			images.push_back(std::unique_ptr<Images::Image>(loadImage(workspacePath + inputImageName())));
+			convertImage(images.back().get()); goto menu;
 		case 1: loadAllImages(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
 		case 3: ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath); goto menu;
@@ -59,11 +61,11 @@ Images::Image* UnixControllerCLI::selectImage()
 	if(images.empty())
 	{
 		unixConsole.writeTextLine(255, 255, 0, "No images were loaded yet!");
-		return loadImage(workspacePath);
+		return 0;
 	}
 	std::cout << "Currently loaded images:" << std::endl;
 	int max = images.size();
-	for(int index = 0; index < max; index++) //or for(ImageBMP img : bmpImages)
+	for(int index = 0; index < max; index++) // or for(Images::Image* img : images)
 	{
 		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
@@ -82,13 +84,18 @@ Images::Image* UnixControllerCLI::selectImage()
 	}*/
 }
 
-Images::Image* UnixControllerCLI::loadImage(std::string path)
+std::string UnixControllerCLI::inputImageName()
 {
 	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); //Clears enter from console
-	return new Images::ImageBMP (path + imgName.append(".bmp"));
+	return imgName.append(".bmp");
+}
+
+Images::Image* UnixControllerCLI::loadImage(std::string path)
+{
+	return new Images::ImageBMP(path);
 }
 
 void UnixControllerCLI::confConsoleColor()
@@ -128,16 +135,18 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII();
 	AsciiPrinter ap(ac, unixConsole, unixConsole.getDefaultTextColor());
-	do {
+	bool again = true;
+	while (again)
+	{
 		switch(MenuUtils::printMenu())
 		{
 			case 0: ap.printClassic(); break;
-			case 1: ap.printPixelColored(); break;
-			case 2: ap.printCharColored(); break;
-			case 3: unixConsole.writeTextLine(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Not supported yet."); break;
-			case 4: return;
+			case 1: ap.printCharColored(); break;
+			case 2: ap.printPixelColored(); break;
+			case 3: ap.printToFile(); break;
+			case 4: again = false; break;
 		}
-	} while(ConsoleUtils::ConsoleUtility::yesNo("Choose different print method? [Y/n]: "));
+	}
 }
 
 UnixControllerCLI::~UnixControllerCLI()
