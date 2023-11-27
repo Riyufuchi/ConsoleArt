@@ -28,7 +28,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.97\v   ");
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.98\v   ");
 	ConsoleArt::UnixControllerCLI unixController;
 	switch(checkArgs(argc, argv, 2, unixController.getUnixConslole()))
 	{

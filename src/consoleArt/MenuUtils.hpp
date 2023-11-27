@@ -22,7 +22,7 @@ public:
 
 	static int charSetMenu()
 	{
-		const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED" };
+		const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "Back" };
 		return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 	}
 
@@ -34,7 +34,7 @@ public:
 
 	static int printMenu()
 	{
-		const char* menuItems[] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Exit"};
+		const char* menuItems[] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"};
 		return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 	}
 
@@ -43,5 +43,4 @@ public:
 	}
 };
 }
-
 #endif

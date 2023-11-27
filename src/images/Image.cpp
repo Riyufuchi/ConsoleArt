@@ -46,6 +46,6 @@ std::string Image::getFilename()
 }*/
 bool Image::isLoaded()
 {
-	return filename != std::string("NULL");
+	return fileStatus == "OK";
 }
 } /* namespace Images */

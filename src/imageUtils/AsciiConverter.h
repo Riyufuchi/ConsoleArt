@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 22.11.2023
+// Last Edit   : 27.11.2023
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -38,7 +38,8 @@ public:
 		DETAILED,
 		DETAILED_INVERTED,
 		BASIC_INVERTED,
-		PRECISE_INVERTED
+		PRECISE_INVERTED,
+		CHAR_SETS_COUNT
 	};
 	AsciiConverter(Images::Image& img);
 	//Procedures

@@ -46,7 +46,7 @@ void UnixControllerCLI::run()
 	switch(MenuUtils::actionMenu())
 	{
 		case 0:
-			images.push_back(std::unique_ptr<Images::Image>(loadImage(workspacePath + inputImageName())));
+			addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + inputImageName())));
 			convertImage(images.back().get()); goto menu;
 		case 1: loadAllImages(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
@@ -129,7 +129,10 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	if (!*image) // Why this work only when dereferenced?
 		return;
 	ImageUtils::AsciiConverter ac(*image);
-	ac.setCharSet(MenuUtils::charSetMenu());
+	int option = MenuUtils::charSetMenu();
+	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+		return;
+	ac.setCharSet(option);
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	std::cout << "Processing image..." << std::endl;

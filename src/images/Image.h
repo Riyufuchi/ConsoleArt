@@ -26,7 +26,7 @@ public:
 	virtual ~Image();
 	explicit operator bool() const
 	{
-		return filename != "NULL";
+		return fileStatus == "OK";
 	}
 	struct Pixel
 	{

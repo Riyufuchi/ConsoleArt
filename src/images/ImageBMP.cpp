@@ -22,7 +22,6 @@ ImageBMP::ImageBMP(std::string filename) : Image(filename)
 	{
 		//std::cerr << e.what() << std::endl;
 		this->fileStatus = e.what();
-		this->filename = "NULL";
 	}
 }
 
