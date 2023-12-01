@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : 27.11.2023
+// Last edit  : 01.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 namespace Images
 {
 
-Image::Image(std::string filename) : filename(filename), fileStatus("Pending")
+Image::Image(std::string filename) : filename(filename), fileStatus("Pending"), inverted(false)
 {
 }
 Image::~Image()
@@ -47,5 +47,9 @@ std::string Image::getFilename()
 bool Image::isLoaded()
 {
 	return fileStatus == "OK";
+}
+bool Image::isInverted()
+{
+	return inverted;
 }
 } /* namespace Images */

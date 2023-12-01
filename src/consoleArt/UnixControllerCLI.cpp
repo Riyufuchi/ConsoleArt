@@ -2,7 +2,7 @@
 // Name        : UnixControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 22.11.2023
-// Last Edit   : 27.11.2023
+// Last Edit   : 01.12.2023
 // Description : This class is Unix CLI controller for the main app
 //============================================================================
 
@@ -20,19 +20,31 @@ UnixControllerCLI::UnixControllerCLI(std::string path) : Controller(path, unixCo
 
 void UnixControllerCLI::loadAllImages()
 {
+	std::string fne = "";
 	try
 	{
-		std::filesystem::current_path(workspacePath);
-		for (const auto& entry : std::filesystem::directory_iterator("."))
+		//std::filesystem::current_path(workspacePath);
+		for (const auto& entry : std::filesystem::directory_iterator(workspacePath))
 		{
-			addImage(std::unique_ptr<Images::Image>(new Images::ImageBMP(workspacePath + entry.path().generic_string().substr(2))));
-			//images.push_back(new Images::ImageBMP(workspacePath + entry.path().generic_string().substr(2)));
+			fne = entry.path().extension();
+			if(fne == ".pcx")
+				addImage(std::unique_ptr<Images::Image>(new Images::ImagePCX(entry.path().generic_string())));
+			else if (fne == ".bmp")
+				addImage(std::unique_ptr<Images::Image>(new Images::ImageBMP(entry.path().generic_string())));
+			else
+				console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), fne + " is not supported\n");
 		}
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << "Error: " << e.what() << std::endl;
+		return;
 	}
+	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
+	{
+		return a.get()->getFilename() < b.get()->getFilename();
+	});
+
 }
 
 /*std::string command = "cd ";
@@ -60,7 +72,7 @@ Images::Image* UnixControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
-		unixConsole.writeTextLine(255, 255, 0, "No images were loaded yet!");
+		unixConsole.out(255, 255, 0, "No images were loaded yet!\n");
 		return 0;
 	}
 	std::cout << "Currently loaded images:" << std::endl;
@@ -71,6 +83,7 @@ Images::Image* UnixControllerCLI::selectImage()
 	}
 
 	int selectedIndex = ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1;
+	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
 	return images[selectedIndex].get();
 	/*
 	if (auto bmpImagePtr = dynamic_cast<Images::ImageBMP*>(images[selectedIndex].get()))
@@ -86,16 +99,31 @@ Images::Image* UnixControllerCLI::selectImage()
 
 std::string UnixControllerCLI::inputImageName()
 {
-	std::cout << "Image name without file extension - only bitmap (.bmp) images:" << std::endl;
+	std::cout << "Image name with file extension: ";
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); //Clears enter from console
-	return imgName.append(".bmp");
+	return imgName;
 }
 
 Images::Image* UnixControllerCLI::loadImage(std::string path)
 {
-	return new Images::ImageBMP(path);
+	std::string ext = "";
+	try
+	{
+		ext = path.substr(path.find_last_of("."));
+	}
+	catch (std::exception& e)
+	{
+		return 0;
+	}
+	if(ext == ".pcx")
+		return new Images::ImagePCX(path);
+	else if (ext == ".bmp")
+		new Images::ImageBMP(path);
+	else
+		console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), ext + " is not supported\n");
+	return 0;
 }
 
 void UnixControllerCLI::confConsoleColor()
@@ -106,7 +134,8 @@ void UnixControllerCLI::confConsoleColor()
 		for (int i = 0; i < max; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			unixConsole.writeTextLine(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+			unixConsole.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+			std::cout << "\n";
 		}
 		unixConsole.setDefaultTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
@@ -133,9 +162,10 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
+	std::cout << "Processing image:" << std::endl;
+	ImageUtils::ImageToolsCLI::displayImageInfo(image);
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
-	std::cout << "Processing image..." << std::endl;
 	ac.convertToASCII();
 	AsciiPrinter ap(ac, unixConsole, unixConsole.getDefaultTextColor());
 	bool again = true;

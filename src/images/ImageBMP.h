@@ -11,7 +11,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
 
 #include "Image.h"
 
@@ -66,10 +65,11 @@ public:
 	ImageBMP(std::string filename);
 	ImageInfo getImageInfo() override;
 	Pixel getPixel(int x, int y) override;
-	uint8_t getRed(int x, int y) override;
-	uint8_t getGreen(int x, int y) override;
-	uint8_t getBlue(int x, int y) override;
-	uint8_t getAplha(int x, int y) override;
+	void setPixel(int x, int y, Pixel newPixel) override;
+	uint8_t getRed(int x, int y);
+	uint8_t getGreen(int x, int y);
+	uint8_t getBlue(int x, int y);
+	uint8_t getAplha(int x, int y);
 	~ImageBMP();
 };
 }

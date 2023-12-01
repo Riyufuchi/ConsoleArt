@@ -2,7 +2,7 @@
 // Name        : UnixControllerCLI.h
 // Author      : Riyufuchi
 // Created on  : 22.11.2023
-// Last Edit   : 22.11.2023
+// Last Edit   : 01.12.2023
 // Description : This class is Unix CLI controller for the main app
 //============================================================================
 
@@ -11,6 +11,7 @@
 
 #include "Controller.h"
 #include "AsciiPrinter.h"
+#include "../imageUtils/ImageToolsCLI.h"
 
 namespace ConsoleArt
 {

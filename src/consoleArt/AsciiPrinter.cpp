@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 27.11.2023
+// Last edit  : 01.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,15 +26,36 @@ void AsciiPrinter::printPixelColored()
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
 	Images::Image::Pixel pixel;
-	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
-	for(int y = HEIGHT; y >= 0; y--)
+	if (asciiCon.getSourceImg().isInverted())
 	{
-		for (int x = 0; x < imageInfo.width; x++)
+		const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
+		for(int y = HEIGHT; y >= 0; y--)
 		{
-			pixel = image.getPixel(x, y);
-			console.writeText(pixel.red, pixel.green, pixel.blue, "██");
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = image.getPixel(x, y);
+				if (pixel.alpha > 0)
+					console.out(pixel.red, pixel.green, pixel.blue, "██");
+				else
+					std::cout << "  ";
+			}
+			std::cout << "\n";
 		}
-		std::cout << "\n";
+	}
+	else
+	{
+		for(int y = 0; y < imageInfo.height; y++)
+		{
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = image.getPixel(x, y);
+				if (pixel.alpha > 0)
+					console.out(pixel.red, pixel.green, pixel.blue, "██");
+				else
+					std::cout << "  ";
+			}
+			std::cout << "\n";
+		}
 	}
 }
 void AsciiPrinter::printCharColored()
@@ -48,50 +69,73 @@ void AsciiPrinter::printCharColored()
 	std::wstring utf32String;
 	std::string convertedString;
 	int xChar = 0;
-	for(int y = HEIGHT; y >= 0; y--)
+	if (asciiCon.getSourceImg().isInverted())
 	{
-		utf32String = converter.from_bytes(asciiCon.getLine(y));
-		for (int x = 0; x < imageInfo.width; x++)
+		for (int y = HEIGHT; y >= 0; y--)
 		{
-			convertedString = converter.to_bytes(std::wstring(1, utf32String[xChar]));
-			xChar += 2;
-			pixel = image.getPixel(x, y);
-			console.writeText(pixel.red, pixel.green, pixel.blue, convertedString);
-			console.writeText(pixel.red, pixel.green, pixel.blue, convertedString);
+			utf32String = converter.from_bytes(asciiCon.getLine(y));
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				convertedString = converter.to_bytes(std::wstring(1, utf32String[xChar]));
+				xChar += 2;
+				pixel = image.getPixel(x, y);
+				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+			}
+			xChar = 0;
+			std::cout << "\n";
 		}
-		xChar = 0;
-		std::cout << "\n";
+	}
+	else
+	{
+		for (int y = 0; y < imageInfo.height; y++)
+		{
+			utf32String = converter.from_bytes(asciiCon.getLine(y));
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				convertedString = converter.to_bytes(std::wstring(1, utf32String[xChar]));
+				xChar += 2;
+				pixel = image.getPixel(x, y);
+				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+			}
+			xChar = 0;
+			std::cout << "\n";
+		}
 	}
 }
 void AsciiPrinter::printClassic()
 {
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
 	console.setTextColor(color);
-	for(int i = HEIGHT; i >= 0; i--)
-	{
-		//console.writeText(asciiCon.getLine(i));
-		std::cout << asciiCon.getLine(i) << "\n";
-	}
+	if (asciiCon.getSourceImg().isInverted())
+		for(int i = HEIGHT; i >= 0; i--)
+			std::cout << asciiCon.getLine(i) << "\n";
+	else
+		for(int i = 0; i < HEIGHT; i++)
+			std::cout << asciiCon.getLine(i) << "\n";
 	console.resetTextColor();
 }
 void AsciiPrinter::printToFile()
 {
-	console.writeTextLine(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Warning: Experimental!");
+	console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Warning: Experimental!\n");
 	std::string fName = asciiCon.getSourceImg().getFilename();
 	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
 	std::fstream file(fName, std::ios::out | std::ios::trunc);
 	if (!file)
 	{
-		console.writeTextLine(255, 0, 0, "File error");
+		console.out(255, 0, 0, "File error\n");
 		return;
 	}
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height -1;
-	for(int i = HEIGHT; i >= 0; i--)
-	{
-		file << asciiCon.getLine(i) << "\n";
-	}
+	if (asciiCon.getSourceImg().isInverted())
+		for(int i = HEIGHT; i >= 0; i--)
+			file << asciiCon.getLine(i) << "\n";
+	else
+		for(int i = 0; i < HEIGHT; i++)
+			file << asciiCon.getLine(i) << "\n";
 	file.close();
 	ConsoleUtils::Colors::ColorPallete color = ConsoleUtils::Colors::ColorPallete::COMMUNITY;
-	console.writeTextLine(ConsoleUtils::Colors::getColor(color), "File " + fName + " was successfully created.");
+	console.out(ConsoleUtils::Colors::getColor(color), "File " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

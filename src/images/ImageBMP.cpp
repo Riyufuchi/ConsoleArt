@@ -23,6 +23,7 @@ ImageBMP::ImageBMP(std::string filename) : Image(filename)
 		//std::cerr << e.what() << std::endl;
 		this->fileStatus = e.what();
 	}
+	this->inverted = true;
 }
 
 /*
@@ -114,7 +115,6 @@ bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header)
 	}
 	return false;
 }
-
 uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 {
 	uint32_t new_stride = row_stride;
@@ -129,13 +129,24 @@ ImageBMP::Pixel ImageBMP::getPixel(int x, int y)
 {
 	Pixel p;
 	uint32_t channels = bmp_info_header.bit_count / 8;
-	int posiotion = channels * (y * bmp_info_header.width + x);
-	p.red = imgData[posiotion + 2];
-	p.green = imgData[posiotion + 1];
-	p.blue = imgData[posiotion]; // + 0
+	int position = channels * (y * bmp_info_header.width + x);
+	p.red = imgData[position + 2];
+	p.green = imgData[position + 1];
+	p.blue = imgData[position]; // + 0
+	if (channels == 4)
+		p.alpha =  imgData[position + 3];
 	return p;
 }
-
+void ImageBMP::setPixel(int x, int y, Pixel newPixel)
+{
+	uint32_t channels = bmp_info_header.bit_count / 8;
+	int position = channels * (y * bmp_info_header.width + x);
+	imgData[position + 2] = newPixel.red;
+	imgData[position + 1] = newPixel.green;
+	imgData[position] = newPixel.blue; // + 0
+	if (channels == 4)
+		imgData[position + 3] = newPixel.alpha;
+}
 uint8_t ImageBMP::getRed(int x, int y)
 {
 	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(imgData[x])
@@ -165,6 +176,7 @@ Image::ImageInfo ImageBMP::getImageInfo()
 	a.width = bmp_info_header.width;
 	a.height = bmp_info_header.height;
 	a.file_type = file_header.file_type;
+	a.bits = bmp_info_header.bit_count;
 	return a;
 }
 ImageBMP::~ImageBMP()

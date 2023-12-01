@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 27.11.2023
+// Last Edit   : 01.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -37,23 +37,27 @@ void Controller::configure(int argc, char** argv)
 		{
 			if (!((i + 1) < argc))
 			{
-				console.writeTextLine(255, 0, 0, "Missing image name parameter");
+				console.out(255, 0, 0, "Missing image name parameter\n");
 				continue;
 			}
-			convertImage(loadImage(workspacePath + argv[i + 1]));
+			addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + argv[i + 1])));
+			if (images.size() > 0)
+				convertImage(images.back().get());
 		}
 		else if (!strcmp(argv[i], "--imagePath"))
 		{
 			if (!((i + 1) < argc))
 			{
-				console.writeTextLine(255, 0, 0, "Missing path parameter");
+				console.out(255, 0, 0, "Missing path parameter\n");
 				continue;
 			}
-			convertImage(loadImage(argv[i + 1]));
+			addImage(std::unique_ptr<Images::Image>(loadImage(argv[i + 1])));
+			if (images.size() > 0)
+				convertImage(images.back().get());
 		}
 		else if (argv[i][0] == '-') // Check if is it argument or arg param
 		{
-			ConsoleArt::printArgError(argv[i], console);
+			ConsoleArtTools::printArgError(argv[i], console);
 		}
 	}
 }
@@ -64,7 +68,7 @@ void Controller::addImage(std::unique_ptr<Images::Image> image)
 		return;
 	if (!image.get()->isLoaded())
 	{
-		console.writeTextLine(255, 0, 0, image->getFileStatus());
+		console.out(255, 0, 0, image->getFileStatus() + "\n");
 		return;
 	}
 	if(!images.empty())

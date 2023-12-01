@@ -7,8 +7,8 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_CONSOLEART_HPP_
-#define CONSOLEART_CONSOLEART_HPP_
+#ifndef CONSOLEART_CONSOLEARTTOOLS_HPP_
+#define CONSOLEART_CONSOLEARTTOOLS_HPP_
 
 #include <iostream>
 #include <string>
@@ -18,12 +18,12 @@
 
 namespace ConsoleArt
 {
-class ConsoleArt
+class ConsoleArtTools
 {
 private:
 public:
-	ConsoleArt();
-	~ConsoleArt();
+	ConsoleArtTools();
+	~ConsoleArtTools();
 	static void createManual()
 	{
 		std::cout << "Manual\n";
@@ -41,16 +41,15 @@ public:
 	{
 		ConsoleUtils::UnixConsole uc;
 		for (int i = 0; i < ConsoleUtils::Colors::ColorPallete::COLOR_COUNT; ++i)
-			uc.writeTextLine(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+			uc.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), std::string(ConsoleUtils::Colors::colorPaletteNames[i]) + "\n");
 	}
 	static void printArgError(const char* arg, ConsoleUtils::IConsole& console)
 	{
 		std::string errMsg = "Invalid or unknown ";
 		errMsg += arg;
-		console.writeTextLine(255, 0, 0, errMsg.append(" inputed."));
+		console.out(255, 0, 0, errMsg.append(" inputed.\n"));
 		std::cout << "Use --man or --help for help.\n";
-
 	}
 };
 }
-#endif /* CONSOLEART_CONSOLEART_HPP_ */
+#endif /* CONSOLEART_CONSOLEARTTOOLS_HPP_ */

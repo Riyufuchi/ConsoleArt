@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 22.11.2023
+// Last Edit   : 01.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -14,13 +14,14 @@
 
 #include "../consoleArt/MenuUtils.hpp"
 #include "../images/ImageBMP.h"
+#include "../images/ImagePCX.h"
 #include "../imageUtils/AsciiConverter.h"
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
 #include "../inc/Colors.h"
-#include "ConsoleArt.hpp"
-
 #include <memory>
+#include <algorithm>
+#include "ConsoleArtTools.hpp"
 
 namespace ConsoleArt
 {
