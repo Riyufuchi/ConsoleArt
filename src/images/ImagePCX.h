@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 01.12.2023
+// Last edit  : 07.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -52,9 +52,8 @@ private:
 	void make32bitPCX();
 	void checkHeader();
 public:
-
 	ImagePCX(std::string filename);
-	virtual ~ImagePCX();
+	~ImagePCX();
 	ImageInfo getImageInfo() override;
 	Pixel getPixel(int x, int y) override;
 	void setPixel(int x, int y, Pixel newPixel) override;

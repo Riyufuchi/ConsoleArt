@@ -28,9 +28,9 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V1.99\v   ");
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ");
 	ConsoleArt::UnixControllerCLI unixController;
-	switch(checkArgs(argc, argv, 2, unixController.getUnixConslole()))
+	switch(checkArgs(argc, argv, 2, unixController.getConslole()))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
@@ -54,7 +54,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 	}
 	else if(!strcmp(argv[1], "--colorTest"))
 	{
-		ConsoleArt::ConsoleArtTools::colorTest();
+		ConsoleArt::ConsoleArtTools::colorTest(console);
 		return BootAction::TEST;
 	}
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid

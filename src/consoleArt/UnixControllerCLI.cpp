@@ -2,7 +2,7 @@
 // Name        : UnixControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 22.11.2023
-// Last Edit   : 01.12.2023
+// Last Edit   : 08.12.2023
 // Description : This class is Unix CLI controller for the main app
 //============================================================================
 
@@ -21,21 +21,24 @@ UnixControllerCLI::UnixControllerCLI(std::string path) : Controller(path, unixCo
 void UnixControllerCLI::loadAllImages()
 {
 	std::string fne = "";
+	std::string itDir = workspacePath;
+	if (itDir == "")
+		itDir = std::filesystem::current_path();
 	try
 	{
 		//std::filesystem::current_path(workspacePath);
-		for (const auto& entry : std::filesystem::directory_iterator(workspacePath))
+		for (const auto& entry : std::filesystem::directory_iterator(itDir))
 		{
 			fne = entry.path().extension();
 			if(fne == ".pcx")
-				addImage(std::unique_ptr<Images::Image>(new Images::ImagePCX(entry.path().generic_string())));
+				addImage(new Images::ImagePCX(entry.path().generic_string()));
 			else if (fne == ".bmp")
-				addImage(std::unique_ptr<Images::Image>(new Images::ImageBMP(entry.path().generic_string())));
+				addImage(new Images::ImageBMP(entry.path().generic_string()));
 			else
-				console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), fne + " is not supported\n");
+				console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Unsupported format: " + fne + "\n");
 		}
 	}
-	catch (const std::exception& e)
+	catch (std::runtime_error& e)
 	{
 		std::cerr << "Error: " << e.what() << std::endl;
 		return;
@@ -44,7 +47,6 @@ void UnixControllerCLI::loadAllImages()
 	{
 		return a.get()->getFilename() < b.get()->getFilename();
 	});
-
 }
 
 /*std::string command = "cd ";
@@ -58,8 +60,9 @@ void UnixControllerCLI::run()
 	switch(MenuUtils::actionMenu())
 	{
 		case 0:
-			addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + inputImageName())));
-			convertImage(images.back().get()); goto menu;
+			if (addImage(loadImage(workspacePath + inputImageName())))
+				convertImage(images.back().get());
+			goto menu;
 		case 1: loadAllImages(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
 		case 3: ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath); goto menu;
@@ -72,7 +75,7 @@ Images::Image* UnixControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
-		unixConsole.out(255, 255, 0, "No images were loaded yet!\n");
+		console.out(255, 255, 0, "No images were loaded yet!\n");
 		return 0;
 	}
 	std::cout << "Currently loaded images:" << std::endl;
@@ -115,15 +118,15 @@ Images::Image* UnixControllerCLI::loadImage(std::string path)
 	}
 	catch (std::exception& e)
 	{
-		return 0;
+		return nullptr;
 	}
 	if(ext == ".pcx")
 		return new Images::ImagePCX(path);
 	else if (ext == ".bmp")
-		new Images::ImageBMP(path);
+		return new Images::ImageBMP(path);
 	else
 		console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), ext + " is not supported\n");
-	return 0;
+	return nullptr;
 }
 
 void UnixControllerCLI::confConsoleColor()
@@ -134,10 +137,10 @@ void UnixControllerCLI::confConsoleColor()
 		for (int i = 0; i < max; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			unixConsole.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+			console.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		unixConsole.setDefaultTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
+		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
 	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
@@ -147,7 +150,7 @@ void UnixControllerCLI::confConsoleColor()
 		int green = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		unixConsole.setDefaultTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
+		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
 	}
 }
 
@@ -167,7 +170,7 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	ac.convertToASCII();
-	AsciiPrinter ap(ac, unixConsole, unixConsole.getDefaultTextColor());
+	AsciiPrinter ap(ac, console, ((ConsoleUtils::UnixConsole&)console).getDefaultTextColor());
 	bool again = true;
 	while (again)
 	{

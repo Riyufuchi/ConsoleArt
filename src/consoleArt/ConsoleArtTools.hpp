@@ -2,7 +2,7 @@
 // File       : ConsoleArtUtils.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Nov 23, 2023
+// Last edit  : 07.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,6 +15,7 @@
 
 #include "../inc/ConsoleUtility.h"
 #include "../inc/IConsole.hpp"
+#include "../inc/UnixConsole.h"
 
 namespace ConsoleArt
 {
@@ -37,11 +38,10 @@ public:
 		args[6] = "--imagePath| Loads image with given path";
 		ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
-	static void colorTest()
+	static void colorTest(ConsoleUtils::IConsole& console)
 	{
-		ConsoleUtils::UnixConsole uc;
 		for (int i = 0; i < ConsoleUtils::Colors::ColorPallete::COLOR_COUNT; ++i)
-			uc.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), std::string(ConsoleUtils::Colors::colorPaletteNames[i]) + "\n");
+			console.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), std::string(ConsoleUtils::Colors::colorPaletteNames[i]) + "\n");
 	}
 	static void printArgError(const char* arg, ConsoleUtils::IConsole& console)
 	{

@@ -15,6 +15,7 @@
 
 namespace ConsoleArt
 {
+// TODO: Make this platform independent CLI controller by using ConsoleUtils::IConsole& console; in base class
 class UnixControllerCLI : public Controller
 {
 private:
@@ -29,10 +30,6 @@ public:
 	UnixControllerCLI();
 	UnixControllerCLI(std::string path);
 	void run() override;
-	ConsoleUtils::UnixConsole& getUnixConslole()
-	{
-		return unixConsole;
-	}
 	~UnixControllerCLI();
 };
 }

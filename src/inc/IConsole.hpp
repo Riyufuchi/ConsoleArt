@@ -2,7 +2,7 @@
 // Name        : IConsole
 // Author      : Riyufuchi
 // Created on  : 13.10.2023
-// Last Edit   : 28.11.2023
+// Last Edit   : 08.12.2023
 // Description : This a base class Classes working with console
 //============================================================================
 
@@ -26,6 +26,9 @@ public:
 	virtual void out(std::string text) = 0;
 	virtual void out(Colors::Color color, std::string text) = 0;
 	virtual void out(short int r, short int g, short int b, std::string text) = 0;
+	virtual void err(std::string text) = 0;
+	virtual void err(Colors::Color color, std::string text) = 0;
+	virtual void err(short int r, short int g, short int b, std::string text) = 0;
 	// Virtual destructor in the base class
 	virtual ~IConsole()
 	{

@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 21.11.2023
+// Last Edit   : 07.12.2023
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -27,7 +27,7 @@ private:
 			uint16_t reserved1{0};
 			uint16_t reserved2{0}; //Reserved - always 0
 			uint32_t offset_data{0}; //Bytes from the beginning of the file
-		} file_header;
+		} headerBMP;
 		struct BMPInfoHeader
 		{
 			uint32_t size{0}; //Size of this header in bytes
@@ -56,16 +56,19 @@ private:
 	uint32_t row_stride;
 	BMPInfoHeader bmp_info_header;
 	BMPColorHeader bmp_color_header;
-	//Procedures
 	void readBMP();
+	void readImageData(std::ifstream& inf);
 	//Functions
-	bool checkColorHeader(BMPColorHeader &bmp_color_header);
+	void checkHeader(std::ifstream& inf);
+	bool checkColorHeader(BMPColorHeader &bmp_color_header, std::string* msg);
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
 	ImageBMP(std::string filename);
+	// Setters
+	void setPixel(int x, int y, Pixel newPixel) override;
+	// Getters
 	ImageInfo getImageInfo() override;
 	Pixel getPixel(int x, int y) override;
-	void setPixel(int x, int y, Pixel newPixel) override;
 	uint8_t getRed(int x, int y);
 	uint8_t getGreen(int x, int y);
 	uint8_t getBlue(int x, int y);

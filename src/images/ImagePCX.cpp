@@ -2,16 +2,13 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 01.12.2023
+// Last edit  : 07.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "ImagePCX.h"
 
-// TODO: Clean up mess
-// TODO: Optimization (performance & memory)
-// TODO: Should I commit?
 namespace Images
 {
 ImagePCX::ImagePCX(std::string filename) : Image(filename)
@@ -23,10 +20,10 @@ ImagePCX::~ImagePCX()
 }
 void ImagePCX::readPCX()
 {
-	std::ifstream inf(filename, std::ios::in | std::ios::binary);
+	std::ifstream inf(filepath, std::ios::in | std::ios::binary);
 	if (!inf)
 	{
-		this->fileStatus = "Unable to open file: " + filename;
+		this->fileStatus = "Unable to open file: " + getFilename();
 		return;
 	}
 	inf.read(reinterpret_cast<char*>(&headerPCX), sizeof(headerPCX));
@@ -59,38 +56,36 @@ void ImagePCX::readImageData(std::ifstream& inf)
 {
 	int width = info.width;
 	int height = info.height;
+	const int dataSize = width * height * headerPCX.numOfColorPlanes;
 	// Initialize vectors
-	//std::cout << "Byte: " << (int)headerPCX.numOfColorPlanes << "\n";
+	imageData.clear();
 	pixels.clear();
-	imageData.resize(width * height * headerPCX.numOfColorPlanes);
+	imageData.reserve(dataSize);
 	pixels.reserve(width * height);
 	// Read RLE-encoded image data
 	uint8_t byte = 0;
-	size_t index = 0;
+	int index = 0;
 	int restOfBits = 0;
 	int i = 0;
-	do
+	while (index < dataSize && !inf.eof())
 	{
 		inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 		if (byte >> 6 != 3)
 		{
-			imageData[index] = byte;
-			//std::cout << "Index: " << index  << "Byte: " << (int)byte << "\n";
+			imageData.push_back(byte);
 			index++;
 		}
-		else //if (byte >> 6 == 3)
+		else
 		{
-			//firstTwoBits = byte >> 6;
 			restOfBits = byte & 0x3F;
 			inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 			for(i = 0; i < restOfBits; i++)
 			{
-				imageData[index] = byte;
+				imageData.push_back(byte);
 				index++;
 			}
-			//std::cout << "Index: " << index  << "Byte: " << (int)byte << "\n";
 		}
-	} while (index < imageData.size());
+	}
 }
 void ImagePCX::make24bitPCX()
 {
@@ -101,9 +96,6 @@ void ImagePCX::make24bitPCX()
 		for (int x = 0; x < info.width; x++)
 		{
 			index = (y * width3x + x);
-			//red = imageData[index];
-			//green = imageData[index + width];
-			//blue = imageData[index + 2 * width];
 			pixels.push_back(Pixel{imageData[index], imageData[index + info.width], imageData[index + 2 * info.width]});
 		}
 	}

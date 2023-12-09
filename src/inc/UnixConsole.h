@@ -2,7 +2,7 @@
 // Name        : UnixConsole
 // Author      : Riyufuchi
 // Created on  : 20.07.2020
-// Last Edit   : 28.11.2023
+// Last Edit   : 08.12.2023
 // Description : This class contains methods for working with a Linux console
 //============================================================================
 
@@ -31,6 +31,9 @@ public:
 	void out(std::string text) override;
 	void out(Colors::Color color, std::string text) override;
 	void out(short int r, short int g, short int b, std::string text) override;
+	void err(std::string text) override;
+	void err(Colors::Color color, std::string text) override;
+	void err(short int r, short int g, short int b, std::string text) override;
 	~UnixConsole();
 private:
 	Colors::Color mainColor;

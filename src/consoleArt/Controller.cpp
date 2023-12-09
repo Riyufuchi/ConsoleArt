@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 01.12.2023
+// Last Edit   : 07.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -40,7 +40,7 @@ void Controller::configure(int argc, char** argv)
 				console.out(255, 0, 0, "Missing image name parameter\n");
 				continue;
 			}
-			addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + argv[i + 1])));
+			//addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + argv[i + 1])));
 			if (images.size() > 0)
 				convertImage(images.back().get());
 		}
@@ -51,7 +51,7 @@ void Controller::configure(int argc, char** argv)
 				console.out(255, 0, 0, "Missing path parameter\n");
 				continue;
 			}
-			addImage(std::unique_ptr<Images::Image>(loadImage(argv[i + 1])));
+			//addImage(std::unique_ptr<Images::Image>(loadImage(argv[i + 1])));
 			if (images.size() > 0)
 				convertImage(images.back().get());
 		}
@@ -62,29 +62,35 @@ void Controller::configure(int argc, char** argv)
 	}
 }
 
-void Controller::addImage(std::unique_ptr<Images::Image> image)
+bool Controller::addImage(Images::Image* image)
 {
-	if (image.get() == nullptr)
-		return;
-	if (!image.get()->isLoaded())
+	if (image == nullptr)
+		return false;
+	if (!image->isLoaded())
 	{
 		console.out(255, 0, 0, image->getFileStatus() + "\n");
-		return;
+		return false;
 	}
 	if(!images.empty())
 	{
-		int maxIndex = images.size();
-		for(int i = 0; i < maxIndex; i++)
-			if(images[i]->getFilename() == image->getFilename())
-				return;
+		for (auto& existingImage : images)
+		{
+			if (existingImage.get()->getFilename() == image->getFilename())
+			{
+				delete image;
+				image = NULL;
+				return false;
+			}
+		}
 	}
-	images.push_back(std::move(image));
+	images.emplace_back(std::unique_ptr<Images::Image>(image));
+	return true;
 }
 
 Controller::~Controller()
 {
 	//for(size_t i = 0; i < images.size(); i++)
-		//delete images[i];
+	//	delete images[i];
 	std::cout << "Controller " << "destructed" << std::endl;
 }
 }

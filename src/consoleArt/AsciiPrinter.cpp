@@ -119,12 +119,12 @@ void AsciiPrinter::printClassic()
 void AsciiPrinter::printToFile()
 {
 	console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Warning: Experimental!\n");
-	std::string fName = asciiCon.getSourceImg().getFilename();
+	std::string fName = asciiCon.getSourceImg().getFilepath();
 	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
 	std::fstream file(fName, std::ios::out | std::ios::trunc);
 	if (!file)
 	{
-		console.out(255, 0, 0, "File error\n");
+		console.err("File error\n");
 		return;
 	}
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height -1;

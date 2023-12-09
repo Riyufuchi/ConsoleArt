@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : 01.12.2023
+// Last edit  : 07.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,14 +18,14 @@ namespace Images
 class Image
 {
 protected:
-	std::string filename;
+	std::string filepath;
 	std::string fileStatus;
 	bool inverted;
 private:
-
+	std::string filename;
 public:
-	Image(std::string filename);
-	virtual ~Image();
+	Image(std::string filepath);
+	virtual ~Image() = default;
 	explicit operator bool() const
 	{
 		return fileStatus == "OK";
@@ -50,8 +50,9 @@ public:
 	bool isLoaded();
 	bool isInverted();
 	// Getters
-	std::string getFilename();
-	std::string getFileStatus();
+	const std::string& getFilename() const;
+	const std::string& getFilepath() const;
+	const std::string& getFileStatus() const;
 	virtual ImageInfo getImageInfo() = 0;
 	virtual Pixel getPixel(int x, int y) = 0;
 	//Setters

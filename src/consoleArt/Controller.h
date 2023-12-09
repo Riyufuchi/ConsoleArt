@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 01.12.2023
+// Last Edit   : 07.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -43,7 +43,11 @@ public:
 	Controller(std::string path, ConsoleUtils::IConsole& console);
 	void configure(int argc, char** argv);
 	virtual void run() = 0;
-	void addImage(std::unique_ptr<Images::Image> image);
+	bool addImage(Images::Image* image);
+	ConsoleUtils::IConsole& getConslole()
+	{
+		return console;
+	}
 	virtual ~Controller();
 };
 }
