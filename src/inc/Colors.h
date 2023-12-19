@@ -10,7 +10,13 @@
 
 namespace ConsoleUtils
 {
-class Colors
+struct Color // This way, there is no need to cast, because uint8_t would be treated as char not numerical value
+{
+	short int red;
+	short int blue;
+	short int green;
+};
+class ColorUtils
 {
 public:
 	enum ColorPallete
@@ -29,12 +35,7 @@ public:
 		CONSOLE_ART_UNIX_DEFAULT,
 		COLOR_COUNT  // This can be used to determine the size of the enum
 	};
-	typedef struct Color // This way, there is no need to cast, because uint8_t would be treated as char not numerical value
-	{
-		short int red;
-		short int blue;
-		short int green;
-	} tColor;
+	Color tColor;
 	static constexpr const char* colorPaletteNames[] =
 	{
 		"HAUNTED",
@@ -50,8 +51,8 @@ public:
 		"SMARAGDINE",
 		"CONSOLE_ART_UNIX_DEFAULT"
 	};
-	Colors();
-	virtual ~Colors();
+	ColorUtils();
+	virtual ~ColorUtils();
 	static Color getColor(ColorPallete color);
 	static Color newColor(short int r, short int g, short int b);
 };

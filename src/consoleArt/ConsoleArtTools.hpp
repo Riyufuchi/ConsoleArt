@@ -2,7 +2,7 @@
 // File       : ConsoleArtUtils.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : 07.12.2023
+// Last edit  : 18.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -40,8 +40,8 @@ public:
 	}
 	static void colorTest(ConsoleUtils::IConsole& console)
 	{
-		for (int i = 0; i < ConsoleUtils::Colors::ColorPallete::COLOR_COUNT; ++i)
-			console.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), std::string(ConsoleUtils::Colors::colorPaletteNames[i]) + "\n");
+		for (int i = 0; i < ConsoleUtils::ColorUtils::ColorPallete::COLOR_COUNT; ++i)
+			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(i)), std::string(ConsoleUtils::ColorUtils::colorPaletteNames[i]) + "\n");
 	}
 	static void printArgError(const char* arg, ConsoleUtils::IConsole& console)
 	{
@@ -49,6 +49,12 @@ public:
 		errMsg += arg;
 		console.out(255, 0, 0, errMsg.append(" inputed.\n"));
 		std::cout << "Use --man or --help for help.\n";
+	}
+	static std::string createArgErrorMessage(const char* arg)
+	{
+		std::string errMsg = "Invalid or unknown ";
+		errMsg += arg;
+		return errMsg.append(" inputed.\nUse --man or --help for help.\n");
 	}
 };
 }

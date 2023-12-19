@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 07.12.2023
+// Last Edit   : 18.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -10,10 +10,10 @@
 
 namespace ConsoleArt
 {
-Controller::Controller(ConsoleUtils::IConsole& console) : Controller("", console) //Calls constructor with parameter to construct class
+Controller::Controller() : Controller("") //Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path, ConsoleUtils::IConsole& console) : workspacePath(path), console(console)
+Controller::Controller(std::string path) : workspacePath(path)
 {
 }
 
@@ -37,10 +37,10 @@ void Controller::configure(int argc, char** argv)
 		{
 			if (!((i + 1) < argc))
 			{
-				console.out(255, 0, 0, "Missing image name parameter\n");
+				messageUser(MessageSeverity::ERROR, "Missing image parameter\n");
 				continue;
 			}
-			//addImage(std::unique_ptr<Images::Image>(loadImage(workspacePath + argv[i + 1])));
+			addImage(loadImage(workspacePath + argv[i + 1]));
 			if (images.size() > 0)
 				convertImage(images.back().get());
 		}
@@ -48,18 +48,49 @@ void Controller::configure(int argc, char** argv)
 		{
 			if (!((i + 1) < argc))
 			{
-				console.out(255, 0, 0, "Missing path parameter\n");
+				messageUser(MessageSeverity::ERROR, "Missing path parameter\n");
 				continue;
 			}
-			//addImage(std::unique_ptr<Images::Image>(loadImage(argv[i + 1])));
+			addImage(loadImage(argv[i + 1]));
 			if (images.size() > 0)
 				convertImage(images.back().get());
 		}
 		else if (argv[i][0] == '-') // Check if is it argument or arg param
 		{
-			ConsoleArtTools::printArgError(argv[i], console);
+			messageUser(MessageSeverity::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
 		}
 	}
+}
+
+void Controller::loadAllImages()
+{
+	std::string fne = "";
+	std::string itDir = workspacePath;
+	if (itDir == "")
+		itDir = std::filesystem::current_path();
+	try
+	{
+		//std::filesystem::current_path(workspacePath);
+		for (const auto& entry : std::filesystem::directory_iterator(itDir))
+		{
+			fne = entry.path().extension();
+			if(fne == ".pcx")
+				addImage(new Images::ImagePCX(entry.path().generic_string()));
+			else if (fne == ".bmp")
+				addImage(new Images::ImageBMP(entry.path().generic_string()));
+			else
+				messageUser(MessageSeverity::WARNING, "Unsupported format: " + fne + "\n");
+		}
+	}
+	catch (std::runtime_error& e)
+	{
+		messageUser(MessageSeverity::EXCEPTION, e.what());
+		return;
+	}
+	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
+	{
+		return a->getFilename() < b->getFilename();
+	});
 }
 
 bool Controller::addImage(Images::Image* image)
@@ -68,14 +99,16 @@ bool Controller::addImage(Images::Image* image)
 		return false;
 	if (!image->isLoaded())
 	{
-		console.out(255, 0, 0, image->getFileStatus() + "\n");
+		messageUser(MessageSeverity::WARNING, image->getFileStatus() + "\n");
+		delete image;
+		image = NULL;
 		return false;
 	}
 	if(!images.empty())
 	{
 		for (auto& existingImage : images)
 		{
-			if (existingImage.get()->getFilename() == image->getFilename())
+			if (existingImage->getFilename() == image->getFilename())
 			{
 				delete image;
 				image = NULL;
@@ -87,10 +120,30 @@ bool Controller::addImage(Images::Image* image)
 	return true;
 }
 
+Images::Image* Controller::loadImage(std::string path)
+{
+	std::string ext = "";
+	try
+	{
+		ext = path.substr(path.find_last_of("."));
+	}
+	catch (std::exception& e)
+	{
+		return nullptr;
+	}
+	if(ext == ".pcx")
+		return new Images::ImagePCX(path);
+	else if (ext == ".bmp")
+		return new Images::ImageBMP(path);
+	else
+		messageUser(MessageSeverity::WARNING, ext + " is not supported\n");
+	return nullptr;
+}
+
 Controller::~Controller()
 {
 	//for(size_t i = 0; i < images.size(); i++)
 	//	delete images[i];
-	std::cout << "Controller " << "destructed" << std::endl;
+	//std::cout << "Controller " << "destructed" << std::endl;
 }
 }

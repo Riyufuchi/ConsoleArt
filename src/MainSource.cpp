@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 01.12.2023
+// Last Edit   : 18.12.2023
 // Description : This is programs main
 //============================================================================
 
@@ -11,7 +11,7 @@
 #include <string.h>
 
 #include "consoleArt/ConsoleArtTools.hpp"
-#include "consoleArt/UnixControllerCLI.h"
+#include "consoleArt/ControllerCLI.h"
 #include "inc/ConsoleUtility.h"
 #include "inc/UnixConsole.h"
 
@@ -28,9 +28,10 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ");
-	ConsoleArt::UnixControllerCLI unixController;
-	switch(checkArgs(argc, argv, 2, unixController.getConslole()))
+	ConsoleUtils::UnixConsole unixConsole;
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ");
+	ConsoleArt::ControllerCLI consoleArt(unixConsole);
+	switch(checkArgs(argc, argv, 2, consoleArt.getConslole()))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
@@ -38,8 +39,8 @@ int main(int argc, char** argv)
 		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
 	}
-	conf: unixController.configure(argc, argv);
-	start: unixController.run();
+	conf: consoleArt.configure(argc, argv);
+	start: consoleArt.run();
 	return 0;
 }
 

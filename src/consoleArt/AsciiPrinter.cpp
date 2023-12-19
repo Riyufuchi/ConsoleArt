@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 01.12.2023
+// Last edit  : 18.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,9 +13,9 @@ namespace ConsoleArt
 {
 AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console) : asciiCon(asCon), console(console)
 {
-	this->color = ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+	this->color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
 }
-AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Colors::Color color) : asciiCon(asCon), console(console), color(color)
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Color color) : asciiCon(asCon), console(console), color(color)
 {
 }
 AsciiPrinter::~AsciiPrinter()
@@ -118,7 +118,7 @@ void AsciiPrinter::printClassic()
 }
 void AsciiPrinter::printToFile()
 {
-	console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Warning: Experimental!\n");
+	console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
 	std::string fName = asciiCon.getSourceImg().getFilepath();
 	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
 	std::fstream file(fName, std::ios::out | std::ios::trunc);
@@ -135,7 +135,7 @@ void AsciiPrinter::printToFile()
 		for(int i = 0; i < HEIGHT; i++)
 			file << asciiCon.getLine(i) << "\n";
 	file.close();
-	ConsoleUtils::Colors::ColorPallete color = ConsoleUtils::Colors::ColorPallete::COMMUNITY;
-	console.out(ConsoleUtils::Colors::getColor(color), "File " + fName + " was successfully created.\n");
+	ConsoleUtils::ColorUtils::ColorPallete color = ConsoleUtils::ColorUtils::ColorPallete::COMMUNITY;
+	console.out(ConsoleUtils::ColorUtils::getColor(color), "File " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

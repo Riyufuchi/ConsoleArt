@@ -1,60 +1,29 @@
 ﻿//============================================================================
 // Name        : UnixControllerCLI.cpp
 // Author      : Riyufuchi
-// Created on  : 22.11.2023
-// Last Edit   : 08.12.2023
-// Description : This class is Unix CLI controller for the main app
+// Created on  : 18.12.2023
+// Last Edit   : 18.12.2023
+// Description : This class is CLI controller for the main app
 //============================================================================
 
-#include "UnixControllerCLI.h"
+#include "ControllerCLI.h"
 
 namespace ConsoleArt
 {
-UnixControllerCLI::UnixControllerCLI() : UnixControllerCLI("") //Calls constructor with parameter to construct class
+ControllerCLI::ControllerCLI(ConsoleUtils::IConsole& console) : ControllerCLI("", console)
 {
 }
 
-UnixControllerCLI::UnixControllerCLI(std::string path) : Controller(path, unixConsole)
+ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole& console) : Controller(path), console(console)
 {
-}
 
-void UnixControllerCLI::loadAllImages()
-{
-	std::string fne = "";
-	std::string itDir = workspacePath;
-	if (itDir == "")
-		itDir = std::filesystem::current_path();
-	try
-	{
-		//std::filesystem::current_path(workspacePath);
-		for (const auto& entry : std::filesystem::directory_iterator(itDir))
-		{
-			fne = entry.path().extension();
-			if(fne == ".pcx")
-				addImage(new Images::ImagePCX(entry.path().generic_string()));
-			else if (fne == ".bmp")
-				addImage(new Images::ImageBMP(entry.path().generic_string()));
-			else
-				console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), "Unsupported format: " + fne + "\n");
-		}
-	}
-	catch (std::runtime_error& e)
-	{
-		std::cerr << "Error: " << e.what() << std::endl;
-		return;
-	}
-	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
-	{
-		return a.get()->getFilename() < b.get()->getFilename();
-	});
 }
-
 /*std::string command = "cd ";
 command += workspacePath;
 command += " && ";
 command += "ls";
 system(command.c_str());*/
-void UnixControllerCLI::run()
+void ControllerCLI::run()
 {
 	menu:
 	switch(MenuUtils::actionMenu())
@@ -71,7 +40,7 @@ void UnixControllerCLI::run()
 	}
 }
 
-Images::Image* UnixControllerCLI::selectImage()
+Images::Image* ControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
@@ -100,7 +69,7 @@ Images::Image* UnixControllerCLI::selectImage()
 	}*/
 }
 
-std::string UnixControllerCLI::inputImageName()
+std::string ControllerCLI::inputImageName()
 {
 	std::cout << "Image name with file extension: ";
 	std::string imgName;
@@ -109,38 +78,18 @@ std::string UnixControllerCLI::inputImageName()
 	return imgName;
 }
 
-Images::Image* UnixControllerCLI::loadImage(std::string path)
-{
-	std::string ext = "";
-	try
-	{
-		ext = path.substr(path.find_last_of("."));
-	}
-	catch (std::exception& e)
-	{
-		return nullptr;
-	}
-	if(ext == ".pcx")
-		return new Images::ImagePCX(path);
-	else if (ext == ".bmp")
-		return new Images::ImageBMP(path);
-	else
-		console.out(ConsoleUtils::Colors::getColor(ConsoleUtils::Colors::ColorPallete::STRANGE), ext + " is not supported\n");
-	return nullptr;
-}
-
-void UnixControllerCLI::confConsoleColor()
+void ControllerCLI::confConsoleColor()
 {
 	if (ConsoleUtils::ConsoleUtility::yesNo("Select color [Y/n]: "))
 	{
-		int max = ConsoleUtils::Colors::ColorPallete::COLOR_COUNT;
+		int max = ConsoleUtils::ColorUtils::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			console.out(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(i)), ConsoleUtils::Colors::colorPaletteNames[i]);
+			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::Colors::getColor(static_cast<ConsoleUtils::Colors::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
+		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
 	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
@@ -150,11 +99,11 @@ void UnixControllerCLI::confConsoleColor()
 		int green = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 		std::cout << "Blue: ";
 		int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::Colors::newColor(red, green, blue));
+		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::newColor(red, green, blue));
 	}
 }
 
-void UnixControllerCLI::convertImage(Images::Image* image)
+void ControllerCLI::convertImage(Images::Image* image)
 {
 	if (image == nullptr)
 		return;
@@ -185,10 +134,10 @@ void UnixControllerCLI::convertImage(Images::Image* image)
 	}
 }
 
-UnixControllerCLI::~UnixControllerCLI()
+ControllerCLI::~ControllerCLI()
 {
 	//for(size_t i = 0; i < images.size(); i++)
 		//delete images[i];
-	std::cout << "UnixControllerCLI destructed" << std::endl;
+	std::cout << "ControllerCLI destructed" << std::endl;
 }
 }

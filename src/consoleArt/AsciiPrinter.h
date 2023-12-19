@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.h
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 23.11.2023
+// Last edit  : 18.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,10 +26,10 @@ class AsciiPrinter
 private:
 	ImageUtils::AsciiConverter& asciiCon;
 	ConsoleUtils::IConsole& console;
-	ConsoleUtils::Colors::Color color;
+	ConsoleUtils::Color color;
 public:
 	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console);
-	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Colors::Color color);
+	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Color color);
 	~AsciiPrinter();
 	void printClassic();
 	void printPixelColored();
