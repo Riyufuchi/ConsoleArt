@@ -2,7 +2,7 @@
 // Name        : IConsole
 // Author      : Riyufuchi
 // Created on  : 13.10.2023
-// Last Edit   : 08.12.2023
+// Last Edit   : 19.12.2023
 // Description : This a base class Classes working with console
 //============================================================================
 
@@ -10,17 +10,19 @@
 #define SRC_INC_ICONSOLE_HPP_
 
 #include <sstream>
-#include "Colors.h"
+
+#include "ColorUtils.h"
 
 namespace ConsoleUtils
 {
 class IConsole
 {
 public:
-
 	virtual void resetTextColor() = 0;
+	virtual void defaultTextColor() = 0;
 	// Setters
 	virtual void setTextColor(Color color) = 0;
+	virtual void setDefaultTextColor(Color color) = 0;
 	// Write methods
 	virtual void out(const char* text) = 0;
 	virtual void out(std::string text) = 0;

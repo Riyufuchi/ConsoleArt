@@ -40,8 +40,8 @@ public:
 	}
 	static void colorTest(ConsoleUtils::IConsole& console)
 	{
-		for (int i = 0; i < ConsoleUtils::ColorUtils::ColorPallete::COLOR_COUNT; ++i)
-			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(i)), std::string(ConsoleUtils::ColorUtils::colorPaletteNames[i]) + "\n");
+		for (int i = 0; i < ConsoleUtils::ColorPallete::COLOR_COUNT; ++i)
+			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(i)), std::string(ConsoleUtils::ColorUtils::colorPaletteNames[i]) + "\n");
 	}
 	static void printArgError(const char* arg, ConsoleUtils::IConsole& console)
 	{

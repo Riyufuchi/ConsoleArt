@@ -11,31 +11,33 @@
 #define CONSOLEART_CONTROLLERCLI_H_
 
 #include "Controller.h"
-#include "AsciiPrinter.h"
+#include "cli/AsciiPrinter.h"
 #include "../imageUtils/ImageToolsCLI.h"
-#include "../inc/Colors.h"
+#include "../inc/ColorUtils.h"
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
-#include "../consoleArt/MenuUtils.hpp"
+#include "cli/MenusCLI.hpp"
 
 namespace ConsoleArt
 {
 class ControllerCLI : public Controller
 {
 private:
-	ConsoleUtils::Color colors[5] = {
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::COLLECTORS),
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::UNIQUE),
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::STRANGE),
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::COMMUNITY),
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT)
+	ConsoleUtils::Color colors[6] = {
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::COLLECTORS), // Exception
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::UNIQUE), // Error
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), // Warning
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::COMMUNITY), // TAKS DONE
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
+			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::HAUNTED) // Notification
 	};
 	ConsoleUtils::IConsole& console;
+	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	void confConsoleColor() override;
 	std::string inputImageName() override;
 	Images::Image* selectImage() override;
-	void messageUser(MessageSeverity messageSeverity, std::string message) override
+	void messageUser(MessageType messageSeverity, std::string message) override
 	{
 		switch(messageSeverity)
 		{
@@ -45,6 +47,7 @@ private:
 			// Messages
 			case WARNING:
 			case SUCCESFUL_TASK:
+			case NOTIFICATION:
 			case INFO: console.out(colors[messageSeverity], message); break;
 		}
 	}

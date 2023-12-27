@@ -29,7 +29,8 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 int main(int argc, char** argv)
 {
 	ConsoleUtils::UnixConsole unixConsole;
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ");
+	unixConsole.setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE));
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ", unixConsole, unixConsole.getDefaultTextColor());
 	ConsoleArt::ControllerCLI consoleArt(unixConsole);
 	switch(checkArgs(argc, argv, 2, consoleArt.getConslole()))
 	{

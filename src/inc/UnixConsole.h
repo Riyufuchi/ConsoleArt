@@ -2,7 +2,7 @@
 // Name        : UnixConsole
 // Author      : Riyufuchi
 // Created on  : 20.07.2020
-// Last Edit   : 08.12.2023
+// Last Edit   : 19.12.2023
 // Description : This class contains methods for working with a Linux console
 //============================================================================
 
@@ -18,11 +18,15 @@ namespace ConsoleUtils
 {
 class UnixConsole : public IConsole
 {
+private:
+	Color defaultColor;
+	std::string defColorEscCode;
 public:
 	UnixConsole();
 	void resetTextColor() override;
+	void defaultTextColor() override;
 	// Setters
-	void setDefaultTextColor(Color color);
+	void setDefaultTextColor(Color color) override;
 	void setTextColor(Color color) override;
 	// Getters
 	Color getDefaultTextColor();
@@ -35,8 +39,6 @@ public:
 	void err(Color color, std::string text) override;
 	void err(short int r, short int g, short int b, std::string text) override;
 	~UnixConsole();
-private:
-	Color mainColor;
 };
 }
 #endif

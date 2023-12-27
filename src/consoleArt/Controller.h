@@ -12,26 +12,30 @@
 #include <string>
 #include <iostream>
 
+#include <memory>
+#include <algorithm>
+
+#include "ConsoleArtTools.hpp"
 #include "../images/ImageBMP.h"
 #include "../images/ImagePCX.h"
 #include "../imageUtils/AsciiConverter.h"
-#include <memory>
-#include <algorithm>
-#include "ConsoleArtTools.hpp"
+#include "interfaces/IMenu.hpp"
 
 namespace ConsoleArt
 {
-enum MessageSeverity
+enum MessageType
 {
 	EXCEPTION,
 	ERROR,
 	WARNING,
 	SUCCESFUL_TASK,
-	INFO
+	INFO,
+	NOTIFICATION
 };
 class Controller
 {
 private:
+	//IMenu& menu; // TODO: Implement methods from Controller
 protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
@@ -41,7 +45,7 @@ protected:
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	Images::Image* loadImage(std::string path);
-	virtual void messageUser(MessageSeverity messageSeverity, std::string message) = 0;
+	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 public:
 	Controller();
 	Controller(std::string path);

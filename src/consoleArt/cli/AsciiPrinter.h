@@ -16,8 +16,8 @@
 #include <locale>
 #include <fstream>
 
-#include "../imageUtils/AsciiConverter.h"
-#include "../inc/IConsole.hpp"
+#include "../../imageUtils/AsciiConverter.h"
+#include "../../inc/IConsole.hpp"
 
 namespace ConsoleArt
 {

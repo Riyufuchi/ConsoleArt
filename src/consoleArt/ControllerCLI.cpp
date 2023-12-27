@@ -1,5 +1,5 @@
 ﻿//============================================================================
-// Name        : UnixControllerCLI.cpp
+// Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
 // Last Edit   : 18.12.2023
@@ -14,9 +14,8 @@ ControllerCLI::ControllerCLI(ConsoleUtils::IConsole& console) : ControllerCLI(""
 {
 }
 
-ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole& console) : Controller(path), console(console)
+ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole& console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
-
 }
 /*std::string command = "cd ";
 command += workspacePath;
@@ -26,7 +25,7 @@ system(command.c_str());*/
 void ControllerCLI::run()
 {
 	menu:
-	switch(MenuUtils::actionMenu())
+	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
 		case 0:
 			if (addImage(loadImage(workspacePath + inputImageName())))
@@ -82,14 +81,14 @@ void ControllerCLI::confConsoleColor()
 {
 	if (ConsoleUtils::ConsoleUtility::yesNo("Select color [Y/n]: "))
 	{
-		int max = ConsoleUtils::ColorUtils::ColorPallete::COLOR_COUNT;
+		int max = ConsoleUtils::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
+			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
+		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
 	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
@@ -110,7 +109,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	if (!*image) // Why this work only when dereferenced?
 		return;
 	ImageUtils::AsciiConverter ac(*image);
-	int option = MenuUtils::charSetMenu();
+	int option = menuCLI.invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
@@ -123,7 +122,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	bool again = true;
 	while (again)
 	{
-		switch(MenuUtils::printMenu())
+		switch(menuCLI.invokeMenu(MenusCLI::Menu::PRINT_OPTIONS))
 		{
 			case 0: ap.printClassic(); break;
 			case 1: ap.printCharColored(); break;

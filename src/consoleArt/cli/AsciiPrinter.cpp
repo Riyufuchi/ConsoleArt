@@ -13,7 +13,7 @@ namespace ConsoleArt
 {
 AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console) : asciiCon(asCon), console(console)
 {
-	this->color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+	this->color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
 }
 AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Color color) : asciiCon(asCon), console(console), color(color)
 {
@@ -118,7 +118,7 @@ void AsciiPrinter::printClassic()
 }
 void AsciiPrinter::printToFile()
 {
-	console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
+	console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
 	std::string fName = asciiCon.getSourceImg().getFilepath();
 	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
 	std::fstream file(fName, std::ios::out | std::ios::trunc);
@@ -135,7 +135,7 @@ void AsciiPrinter::printToFile()
 		for(int i = 0; i < HEIGHT; i++)
 			file << asciiCon.getLine(i) << "\n";
 	file.close();
-	ConsoleUtils::ColorUtils::ColorPallete color = ConsoleUtils::ColorUtils::ColorPallete::COMMUNITY;
+	ConsoleUtils::ColorPallete color = ConsoleUtils::ColorPallete::COMMUNITY;
 	console.out(ConsoleUtils::ColorUtils::getColor(color), "File " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

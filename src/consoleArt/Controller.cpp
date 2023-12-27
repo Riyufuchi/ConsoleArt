@@ -27,7 +27,7 @@ void Controller::configure(int argc, char** argv)
 			if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
 				path.append("/");
 			workspacePath = path;
-			std::cout << "Workspace path: " << workspacePath << std::endl;
+			messageUser(MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 		}
 		else if (!strcmp(argv[i], "--loadAll"))
 		{
@@ -37,7 +37,7 @@ void Controller::configure(int argc, char** argv)
 		{
 			if (!((i + 1) < argc))
 			{
-				messageUser(MessageSeverity::ERROR, "Missing image parameter\n");
+				messageUser(MessageType::ERROR, "Missing image parameter\n");
 				continue;
 			}
 			addImage(loadImage(workspacePath + argv[i + 1]));
@@ -48,7 +48,7 @@ void Controller::configure(int argc, char** argv)
 		{
 			if (!((i + 1) < argc))
 			{
-				messageUser(MessageSeverity::ERROR, "Missing path parameter\n");
+				messageUser(MessageType::ERROR, "Missing path parameter\n");
 				continue;
 			}
 			addImage(loadImage(argv[i + 1]));
@@ -57,7 +57,7 @@ void Controller::configure(int argc, char** argv)
 		}
 		else if (argv[i][0] == '-') // Check if is it argument or arg param
 		{
-			messageUser(MessageSeverity::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
+			messageUser(MessageType::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
 		}
 	}
 }
@@ -79,12 +79,12 @@ void Controller::loadAllImages()
 			else if (fne == ".bmp")
 				addImage(new Images::ImageBMP(entry.path().generic_string()));
 			else
-				messageUser(MessageSeverity::WARNING, "Unsupported format: " + fne + "\n");
+				messageUser(MessageType::WARNING, "Unsupported format: " + fne + "\n");
 		}
 	}
 	catch (std::runtime_error& e)
 	{
-		messageUser(MessageSeverity::EXCEPTION, e.what());
+		messageUser(MessageType::EXCEPTION, e.what());
 		return;
 	}
 	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
@@ -99,7 +99,7 @@ bool Controller::addImage(Images::Image* image)
 		return false;
 	if (!image->isLoaded())
 	{
-		messageUser(MessageSeverity::WARNING, image->getFileStatus() + "\n");
+		messageUser(MessageType::WARNING, image->getFileStatus() + "\n");
 		delete image;
 		image = NULL;
 		return false;
@@ -136,7 +136,7 @@ Images::Image* Controller::loadImage(std::string path)
 	else if (ext == ".bmp")
 		return new Images::ImageBMP(path);
 	else
-		messageUser(MessageSeverity::WARNING, ext + " is not supported\n");
+		messageUser(MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;
 }
 
