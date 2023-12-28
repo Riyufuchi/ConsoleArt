@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 18.12.2023
+// Last Edit   : 28.12.2023
 // Description : This is programs main
 //============================================================================
 
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 {
 	ConsoleUtils::UnixConsole unixConsole;
 	unixConsole.setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE));
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ", unixConsole, unixConsole.getDefaultTextColor());
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.3\v   ", unixConsole, unixConsole.getDefaultTextColor());
 	ConsoleArt::ControllerCLI consoleArt(unixConsole);
 	switch(checkArgs(argc, argv, 2, consoleArt.getConslole()))
 	{

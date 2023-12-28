@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 18.12.2023
+// Last Edit   : 28.12.2023
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -40,7 +40,6 @@ protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
 	virtual void convertImage(Images::Image* image) = 0;
-	virtual void confConsoleColor() = 0;
 	void loadAllImages();
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;

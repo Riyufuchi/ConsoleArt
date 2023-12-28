@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : 18.12.2023
+// Last Edit   : 28.12.2023
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -33,8 +33,12 @@ void ControllerCLI::run()
 			goto menu;
 		case 1: loadAllImages(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
-		case 3: ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath); goto menu;
-		case 4: confConsoleColor(); goto menu;
+		case 3:
+			console.defaultTextColor();
+			ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath);
+			console.resetTextColor();
+			goto menu;
+		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
 		case 5: return;
 	}
 }
@@ -75,31 +79,6 @@ std::string ControllerCLI::inputImageName()
 	std::cin >> imgName;
 	std::cin.get(); //Clears enter from console
 	return imgName;
-}
-
-void ControllerCLI::confConsoleColor()
-{
-	if (ConsoleUtils::ConsoleUtility::yesNo("Select color [Y/n]: "))
-	{
-		int max = ConsoleUtils::ColorPallete::COLOR_COUNT;
-		for (int i = 0; i < max; ++i)
-		{
-			std::cout << i + 1 << ". ";
-			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
-			std::cout << "\n";
-		}
-		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
-	}
-	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
-	{
-		std::cout << "Red: ";
-		int red = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		std::cout << "Green: ";
-		int green = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		std::cout << "Blue: ";
-		int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
-		((ConsoleUtils::UnixConsole&)console).setDefaultTextColor(ConsoleUtils::ColorUtils::newColor(red, green, blue));
-	}
 }
 
 void ControllerCLI::convertImage(Images::Image* image)

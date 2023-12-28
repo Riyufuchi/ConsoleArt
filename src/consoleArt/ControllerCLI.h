@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Dec 18, 2023
+// Last edit  : 28.12.2023
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,7 +16,7 @@
 #include "../inc/ColorUtils.h"
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
-#include "cli/MenusCLI.hpp"
+#include "cli/MenusCLI.h"
 
 namespace ConsoleArt
 {
@@ -34,7 +34,6 @@ private:
 	ConsoleUtils::IConsole& console;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
-	void confConsoleColor() override;
 	std::string inputImageName() override;
 	Images::Image* selectImage() override;
 	void messageUser(MessageType messageSeverity, std::string message) override
