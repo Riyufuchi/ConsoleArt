@@ -7,16 +7,16 @@
 
 ## About
 
-<table style="margin: auto;">
+<table>
   <tr>
-    <th colspan="2">Compiled/Tested on</th>
+    <th colspan="2">Compiled & Tested on</th>
   </tr>
   <tr>
     <th>OS</th>
-    <th>Compiler</th>
+    <td>Ubuntu</td>
   </tr>
   <tr>
-    <td>Ubuntu</td>
+    <th>Compiler</th>
     <td>g++ 13.2.0</td>
   </tr>
   <tr>
