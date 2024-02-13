@@ -7,7 +7,7 @@
 
 ## About
 
-<table>
+<table style="margin: auto;">
   <tr>
     <th colspan="2">Compiled/Tested on</th>
   </tr>
@@ -16,8 +16,8 @@
     <th>Compiler</th>
   </tr>
   <tr>
-    <td>Ubuntu 23.04</td>
-    <td>g++ 12.3.0</td>
+    <td>Ubuntu</td>
+    <td>g++ 13.2.0</td>
   </tr>
   <tr>
     <td colspan="2" style="text-align: center;">This table might not be up-to date</td>

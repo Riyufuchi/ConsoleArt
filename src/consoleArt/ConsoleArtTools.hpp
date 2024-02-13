@@ -27,15 +27,15 @@ public:
 	~ConsoleArtTools();
 	static void createManual()
 	{
-		std::cout << "Manual\n";
-		std::string args[7];
-		args[0] = "Arguments| Actions";
-		args[1] = "none| Workspace in same directory as executable";
-		args[2] = "-p --path| Specify workspace folder";
-		args[3] = "--colorTest| Print colored text for testing";
-		args[4] = "--loadAll| Loads all images in workspace (must be after --path)";
-		args[5] = "--image| Loads image in workspace (should be after --path)";
-		args[6] = "--imagePath| Loads image with given path";
+		std::cout << "Riyufuchi (c) 2020 - 2024\n";
+		std::string args[] = {
+			"Arguments| Actions",
+			"-p --path| Specify workspace folder",
+			"--colorTest| Print colored text for testing",
+			"--loadAll| Loads all images in workspace (must be after --path)",
+			"--image| Loads image in workspace (should be after --path)",
+			"--imagePath| Loads image with given path"
+		};
 		ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
 	static void colorTest(ConsoleUtils::IConsole& console)

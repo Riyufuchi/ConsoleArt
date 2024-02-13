@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 {
 	ConsoleUtils::UnixConsole unixConsole;
 	unixConsole.setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE));
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.3\v   ", unixConsole, unixConsole.getDefaultTextColor());
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ", unixConsole, unixConsole.getDefaultTextColor());
 	ConsoleArt::ControllerCLI consoleArt(unixConsole);
 	switch(checkArgs(argc, argv, 2, consoleArt.getConslole()))
 	{
