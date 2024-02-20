@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	#endif
 	ConsoleUtils::IConsole& con = sysConsole;
 	con.setDefaultTextColor(color);
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ", con, color);
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ", con, color);
 	ConsoleArt::ControllerCLI consoleArt(&con);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{

@@ -23,6 +23,9 @@ AsciiPrinter::~AsciiPrinter()
 }
 void AsciiPrinter::printPixelColored()
 {
+	#ifdef _WIN32
+		console.out("Not supported in Windows, because this app don't implement coloring for Windows console\n");
+	#else
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
 	Images::Image::Pixel pixel;
@@ -57,11 +60,12 @@ void AsciiPrinter::printPixelColored()
 			std::cout << "\n";
 		}
 	}
+	#endif
 }
 void AsciiPrinter::printCharColored()
 {
 	#ifdef _WIN32
-		console.out("Not supported in Windows, due to VS compilator complaints\n");
+		console.out("Not supported in Windows, due to VS compiler complaints\n");
 	#else
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
