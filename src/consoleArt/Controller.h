@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 28.12.2023
+// Last Edit   : 20.02.2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -44,11 +44,12 @@ protected:
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	Images::Image* loadImage(std::string path);
+	void applyArgument(int arg, char** argv, int i);
 	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 public:
 	Controller();
 	Controller(std::string path);
-	void configure(int argc, char** argv);
+	virtual void configure(int argc, char** argv) = 0;
 	virtual void run() = 0;
 	bool addImage(Images::Image* image);
 	virtual ~Controller();

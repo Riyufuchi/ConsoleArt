@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 28.12.2023
+// Last Edit   : 20.02.2024
 // Description : This is programs main
 //============================================================================
 
@@ -14,6 +14,8 @@
 #include "consoleArt/ControllerCLI.h"
 #include "inc/ConsoleUtility.h"
 #include "inc/UnixConsole.h"
+#include "inc/IConsole.hpp"
+#include "inc/DefaultConsole.h"
 
 enum BootAction
 {
@@ -28,11 +30,17 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::UnixConsole unixConsole;
-	unixConsole.setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE));
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ", unixConsole, unixConsole.getDefaultTextColor());
-	ConsoleArt::ControllerCLI consoleArt(unixConsole);
-	switch(checkArgs(argc, argv, 2, consoleArt.getConslole()))
+	ConsoleUtils::Color color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE);
+	#if defined(__linux__) || defined(__APPLE__)
+		ConsoleUtils::UnixConsole sysConsole;
+	#else
+		ConsoleUtils::DefaultConsole sysConsole;
+	#endif
+	ConsoleUtils::IConsole& con = sysConsole;
+	con.setDefaultTextColor(color);
+	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.0\v   ", con, color);
+	ConsoleArt::ControllerCLI consoleArt(&con);
+	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
@@ -47,9 +55,9 @@ int main(int argc, char** argv)
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsole& console)
 {
-	if(argc == 1)
+	if(argc == 1) // First argument is always app name
 		return BootAction::CONTINUE;
-	else if(!strcmp(argv[1], "--man") || !strcmp(argv[1], "--help")) //First argument is always app name if argc != 1, than check for manual
+	else if(!strcmp(argv[1], "--man") || !strcmp(argv[1], "--help"))
 	{
 		ConsoleArt::ConsoleArtTools::createManual();
 		return BootAction::DISPLAY_MANUAL;

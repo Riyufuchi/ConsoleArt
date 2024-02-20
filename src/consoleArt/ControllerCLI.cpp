@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : 28.12.2023
+// Last Edit   : 20.02.2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -10,12 +10,27 @@
 
 namespace ConsoleArt
 {
-ControllerCLI::ControllerCLI(ConsoleUtils::IConsole& console) : ControllerCLI("", console)
+ControllerCLI::ControllerCLI(ConsoleUtils::IConsole* console) : ControllerCLI("", console)
 {
 }
 
-ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole& console) : Controller(path), console(console), menuCLI(MenusCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
+}
+void ControllerCLI::configure(int argc, char** argv)
+{
+	//ConsoleUtils::DefaultConsole c;
+	for (int i = 0; i < argc; i++)
+	{
+		if (!strcmp(argv[i], "--no-color"))
+		{
+			this->console = &defaultConsole;
+			menuCLI.setConsole(console);
+			console->out("No color option applied\n");
+		}
+		else
+			applyArgument(argc, argv, i);
+	}
 }
 /*std::string command = "cd ";
 command += workspacePath;
@@ -34,9 +49,9 @@ void ControllerCLI::run()
 		case 1: loadAllImages(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
 		case 3:
-			console.defaultTextColor();
+			console->defaultTextColor();
 			ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath);
-			console.resetTextColor();
+			console->resetTextColor();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
 		case 5: return;
@@ -47,7 +62,7 @@ Images::Image* ControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
-		console.out(255, 255, 0, "No images were loaded yet!\n");
+		console->out(255, 255, 0, "No images were loaded yet!\n");
 		return 0;
 	}
 	std::cout << "Currently loaded images:" << std::endl;
@@ -97,7 +112,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	ac.convertToASCII();
-	AsciiPrinter ap(ac, console, ((ConsoleUtils::UnixConsole&)console).getDefaultTextColor());
+	AsciiPrinter ap(ac, *console, ((ConsoleUtils::UnixConsole&)*console).getDefaultTextColor()); // TODO: Fix this BS unsafe code
 	bool again = true;
 	while (again)
 	{
@@ -116,6 +131,6 @@ ControllerCLI::~ControllerCLI()
 {
 	//for(size_t i = 0; i < images.size(); i++)
 		//delete images[i];
-	std::cout << "ControllerCLI destructed" << std::endl;
+	std::cout << "ControllerCLI destructed\n";
 }
 }

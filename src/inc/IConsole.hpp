@@ -2,7 +2,7 @@
 // Name        : IConsole
 // Author      : Riyufuchi
 // Created on  : 13.10.2023
-// Last Edit   : 19.12.2023
+// Last Edit   : 20.02.2024
 // Description : This a base class Classes working with console
 //============================================================================
 
@@ -20,6 +20,11 @@ class IConsole
 public:
 	virtual void resetTextColor() = 0;
 	virtual void defaultTextColor() = 0;
+	// Getters
+	virtual Color getDefaultTextColor()
+	{
+		return Color{211, 215, 207};
+	}
 	// Setters
 	virtual void setTextColor(Color color) = 0;
 	virtual void setDefaultTextColor(Color color) = 0;

@@ -1,13 +1,14 @@
-//============================================================================
-// Name        : UnixConsole
-// Author      : Riyufuchi
-// Created on  : 20.07.2020
-// Last Edit   : 20.02.2024
-// Description : This class contains methods for working with a Linux console
-//============================================================================
+//==============================================================================
+// File       : DefaultConsole.h
+// Author     : Riyufuchi
+// Created on : Feb 19, 2024
+// Last edit  : Feb 19, 2024
+// Copyright  : Copyright (c) 2024, Riyufuchi
+// Description: ConsoleLib
+//==============================================================================
 
-#ifndef _UNIXCONSOLE_H_
-#define _UNIXCONSOLE_H_
+#ifndef SRC_INC_DEFAULTCONSOLE_H_
+#define SRC_INC_DEFAULTCONSOLE_H_
 
 #include <iostream>
 #include <sstream>
@@ -16,20 +17,16 @@
 
 namespace ConsoleUtils
 {
-class UnixConsole : public IConsole
+class DefaultConsole : public IConsole
 {
 private:
-	Color defaultColor;
-	std::string defColorEscCode;
 public:
-	UnixConsole();
+	DefaultConsole();
 	void resetTextColor() override;
 	void defaultTextColor() override;
 	// Setters
 	void setDefaultTextColor(Color color) override;
 	void setTextColor(Color color) override;
-	// Getters
-	Color getDefaultTextColor() override;
 	// Write methods
 	void out(const char* text) override;
 	void out(std::string text) override;
@@ -38,7 +35,7 @@ public:
 	void err(std::string text) override;
 	void err(Color color, std::string text) override;
 	void err(short int r, short int g, short int b, std::string text) override;
-	~UnixConsole();
+	~DefaultConsole();
 };
 }
-#endif
+#endif /* SRC_INC_DEFAULTCONSOLE_H_ */

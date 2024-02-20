@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : 28.12.2023
+// Last edit  : 20.02.2024
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,6 +16,7 @@
 #include "../inc/ColorUtils.h"
 #include "../inc/ConsoleUtility.h"
 #include "../inc/UnixConsole.h"
+#include "../inc/DefaultConsole.h"
 #include "cli/MenusCLI.h"
 
 namespace ConsoleArt
@@ -31,7 +32,8 @@ private:
 			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
 			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::HAUNTED) // Notification
 	};
-	ConsoleUtils::IConsole& console;
+	ConsoleUtils::IConsole* console;
+	ConsoleUtils::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	std::string inputImageName() override;
@@ -42,19 +44,20 @@ private:
 		{
 			// Errors
 			case EXCEPTION:
-			case ERROR: console.err(colors[messageSeverity], message); break;
+			case ERROR: console->err(colors[messageSeverity], message); break;
 			// Messages
 			case WARNING:
 			case SUCCESFUL_TASK:
 			case NOTIFICATION:
-			case INFO: console.out(colors[messageSeverity], message); break;
+			case INFO: console->out(colors[messageSeverity], message); break;
 		}
 	}
 public:
-	ControllerCLI(ConsoleUtils::IConsole& console);
-	ControllerCLI(std::string path, ConsoleUtils::IConsole& console);
+	ControllerCLI(ConsoleUtils::IConsole* console);
+	ControllerCLI(std::string path, ConsoleUtils::IConsole* console);
+	void configure(int argc, char** argv) override;
 	void run() override;
-	ConsoleUtils::IConsole& getConslole()
+	ConsoleUtils::IConsole* getConsole()
 	{
 		return console;
 	}

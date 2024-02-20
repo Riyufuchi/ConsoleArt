@@ -2,18 +2,18 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : 28.12.2023
+// Last Edit   : 20.02.2024
 //============================================================================
 #include "MenusCLI.h"
 
 namespace ConsoleArt
 {
-MenusCLI::MenusCLI(ConsoleUtils::IConsole& console) : console(console)
+MenusCLI::MenusCLI(ConsoleUtils::IConsole* console) : console(console)
 {
 }
 int MenusCLI::invokeMenu(Menu menu)
 {
-	console.defaultTextColor();
+	console->defaultTextColor();
 	switch (menu)
 	{
 		case CHAR_SET_SELECTION: choice = charSetMenu(); break;
@@ -21,7 +21,7 @@ int MenusCLI::invokeMenu(Menu menu)
 		case MAIN_MENU: choice = actionMenu(); break;
 		case COLOR_PICKER: confConsoleTextColor(); break;
 	}
-	console.resetTextColor();
+	console->resetTextColor();
 	return choice;
 }
 void MenusCLI::confConsoleTextColor()
@@ -31,16 +31,16 @@ void MenusCLI::confConsoleTextColor()
 		int max = ConsoleUtils::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
-			console.defaultTextColor();
+			console->defaultTextColor();
 			std::cout << i + 1 << ". ";
-			console.out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
+			console->out(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(i)), ConsoleUtils::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		console.setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
+		console->setDefaultTextColor(ConsoleUtils::ColorUtils::getColor(static_cast<ConsoleUtils::ColorPallete>(ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1)));
 	}
 	else if(ConsoleUtils::ConsoleUtility::yesNo("Custom color [Y/n]: "))
 	{
-		console.setDefaultTextColor(colorPicker());
+		console->setDefaultTextColor(colorPicker());
 	}
 }
 // Menus
@@ -68,6 +68,10 @@ ConsoleUtils::Color MenusCLI::colorPicker()
 	std::cout << "Blue: ";
 	int blue = ConsoleUtils::ConsoleUtility::getIntSafe(0, 255);
 	return ConsoleUtils::ColorUtils::newColor(red, green, blue);
+}
+void MenusCLI::setConsole(ConsoleUtils::IConsole* console2)
+{
+	this->console = console2;
 }
 MenusCLI::~MenusCLI()
 {
