@@ -11,13 +11,13 @@
 #define CONSOLEART_CONTROLLERCLI_H_
 
 #include "Controller.h"
-#include "cli/AsciiPrinter.h"
-#include "../imageUtils/ImageToolsCLI.h"
-#include "../inc/ColorUtils.h"
-#include "../inc/ConsoleUtility.h"
-#include "../inc/UnixConsole.h"
-#include "../inc/DefaultConsole.h"
-#include "cli/MenusCLI.h"
+#include "../cli/AsciiPrinter.h"
+#include "../../imageUtils/ImageToolsCLI.h"
+#include "../../inc/ColorUtils.h"
+#include "../../inc/ConsoleUtility.h"
+#include "../../inc/UnixConsole.h"
+#include "../../inc/DefaultConsole.h"
+#include "../cli/MenusCLI.h"
 
 namespace ConsoleArt
 {

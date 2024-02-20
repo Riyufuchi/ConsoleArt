@@ -11,7 +11,7 @@
 #include <string.h>
 
 #include "consoleArt/ConsoleArtTools.hpp"
-#include "consoleArt/ControllerCLI.h"
+#include "consoleArt/controller/ControllerCLI.h"
 #include "inc/ConsoleUtility.h"
 #include "inc/UnixConsole.h"
 #include "inc/IConsole.hpp"

@@ -15,11 +15,11 @@
 #include <memory>
 #include <algorithm>
 
-#include "ConsoleArtTools.hpp"
-#include "../images/ImageBMP.h"
-#include "../images/ImagePCX.h"
-#include "../imageUtils/AsciiConverter.h"
-#include "interfaces/IMenu.hpp"
+#include "../ConsoleArtTools.hpp"
+#include "../../images/ImageBMP.h"
+#include "../../images/ImagePCX.h"
+#include "../../imageUtils/AsciiConverter.h"
+#include "../interfaces/IMenu.hpp"
 
 namespace ConsoleArt
 {

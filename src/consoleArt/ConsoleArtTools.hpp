@@ -34,7 +34,8 @@ public:
 			"--colorTest| Print colored text for testing",
 			"--loadAll| Loads all images in workspace (must be after --path)",
 			"--image| Loads image in workspace (should be after --path)",
-			"--imagePath| Loads image with given path"
+			"--imagePath| Loads image with given path",
+			"--no-color| Disable colored outputs, for when they are not supported"
 		};
 		ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
