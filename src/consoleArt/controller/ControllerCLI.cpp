@@ -112,7 +112,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	std::cout << "Press Enter to continue..." << std::endl;
 	std::cin.get();
 	ac.convertToASCII();
-	AsciiPrinter ap(ac, *console, ((ConsoleUtils::UnixConsole&)*console).getDefaultTextColor()); // TODO: Fix this BS unsafe code
+	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
 	bool again = true;
 	while (again)
 	{

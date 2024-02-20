@@ -2,8 +2,8 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 18.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Feb.20.2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -60,6 +60,9 @@ void AsciiPrinter::printPixelColored()
 }
 void AsciiPrinter::printCharColored()
 {
+	#ifdef _WIN32
+		console.out("Not supported in Windows, due to VS compilator complaints\n");
+	#else
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
 	Images::Image::Pixel pixel;
@@ -103,6 +106,7 @@ void AsciiPrinter::printCharColored()
 			std::cout << "\n";
 		}
 	}
+	#endif
 }
 void AsciiPrinter::printClassic()
 {
