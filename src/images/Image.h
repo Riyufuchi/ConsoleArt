@@ -2,8 +2,8 @@
 // File       : Image.h
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : 07.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Feb 22, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdint>
 
 namespace Images
 {
@@ -46,6 +47,7 @@ public:
 		uint16_t bits {24};
 		uint16_t file_type {0};
 	};
+	virtual const bool saveImage() = 0;
 	// Is methods
 	bool isLoaded();
 	bool isInverted();

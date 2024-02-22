@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : 17.07.2020
-// Last Edit   : 07.12.2023
+// Last Edit   : Feb 22, 2024
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -64,6 +64,7 @@ private:
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
 	ImageBMP(std::string filename);
+	const bool saveImage() override;
 	// Setters
 	void setPixel(int x, int y, Pixel newPixel) override;
 	// Getters

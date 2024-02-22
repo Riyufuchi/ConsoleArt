@@ -2,8 +2,8 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 07.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Feb 22, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -72,18 +72,22 @@ void ImagePCX::readImageData(std::ifstream& inf)
 		inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 		if (byte >> 6 != 3)
 		{
+			std::cout << (int)byte << " ";
 			imageData.push_back(byte);
 			index++;
 		}
 		else
 		{
 			restOfBits = byte & 0x3F;
+			std::cout << (int)byte << " ";
 			inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 			for(i = 0; i < restOfBits; i++)
 			{
 				imageData.push_back(byte);
-				index++;
+				std::cout << (int)byte << " ";
+				//index++;
 			}
+			index += restOfBits;
 		}
 	}
 }
@@ -135,5 +139,53 @@ Image::Pixel ImagePCX::getPixel(int x, int y)
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
 	pixels[y * info.width + x] = newPixel;
+}
+const bool ImagePCX::saveImage()
+{
+	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (!outf.is_open())
+	{
+		// Create file
+		return false;
+	}
+	outf.write(reinterpret_cast<char*>(&headerPCX), sizeof(PCXHeader));
+	switch (headerPCX.numOfColorPlanes)
+	{
+		case 3: write24and32bitPCX(outf, 3); break;
+		case 4: write24and32bitPCX(outf, 4); break;
+		default: this->fileStatus = "Unexpected number of color planes"; return false;
+	}
+
+	outf.close();
+	return true;
+}
+void ImagePCX::write24and32bitPCX(std::ofstream& outf, int numOfPlanes)
+{
+	uint8_t byte = 0;
+	size_t index = 0;
+	uint8_t numByte = 0;
+	uint8_t lastByte = 0;
+	while (index < imageData.size())
+	{
+		byte = imageData[index];
+		if (byte >> 6 != 3)
+		{
+			outf.write(reinterpret_cast<char*>(&byte), sizeof(byte));
+			index++;
+		}
+		else
+		{
+			lastByte = byte;
+			while (imageData[index] == lastByte && numByte < 63)
+			{
+				index++;
+				numByte++;
+			}
+			numByte |= 0xC0;
+			outf.write(reinterpret_cast<char*>(&numByte), sizeof(byte));
+			outf.write(reinterpret_cast<char*>(&lastByte), sizeof(byte));
+			numByte = 0;
+		}
+	}
 }
 } /* namespace Images */

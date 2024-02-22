@@ -2,8 +2,8 @@
 // File       : ImagePCX.h
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 07.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Feb 22, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <iostream>
+#include <stack>
 
 #include "Image.h"
 
@@ -50,6 +51,8 @@ private:
 	void readImageData(std::ifstream& inf);
 	void make24bitPCX();
 	void make32bitPCX();
+	void write24and32bitPCX(std::ofstream& outf, int numOfPlanes);
+	//void make32bitPCX();
 	void checkHeader();
 public:
 	ImagePCX(std::string filename);
@@ -57,6 +60,8 @@ public:
 	ImageInfo getImageInfo() override;
 	Pixel getPixel(int x, int y) override;
 	void setPixel(int x, int y, Pixel newPixel) override;
+	const bool saveImage() override;
+
 };
 } /* namespace Images */
 #endif /* IMAGES_IMAGEPCX_H_ */

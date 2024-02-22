@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : July 17, 2020
-// Last Edited : 07.12.2023
+// Last Edited : Feb 22, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -172,7 +172,10 @@ uint8_t ImageBMP::getAplha(int x, int y)
 	else
 		return 255;
 }
-
+const bool ImageBMP::saveImage()
+{
+	return false;
+}
 Image::ImageInfo ImageBMP::getImageInfo()
 {
 	ImageInfo a;
