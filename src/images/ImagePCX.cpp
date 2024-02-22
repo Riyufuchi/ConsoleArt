@@ -43,12 +43,12 @@ void ImagePCX::readPCX()
 	info.bits = headerPCX.numOfColorPlanes * 8;
 
 	readImageData(inf);
-	switch (headerPCX.numOfColorPlanes)
+	/*switch (headerPCX.numOfColorPlanes)
 	{
 		case 3: make24bitPCX(); break;
 		case 4: make32bitPCX(); break;
 		default: this->fileStatus = "Unexpected number of color planes"; return;
-	}
+	}*/
 
 	this->fileStatus = "OK";
 }
@@ -72,26 +72,22 @@ void ImagePCX::readImageData(std::ifstream& inf)
 		inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 		if (byte >> 6 != 3)
 		{
-			std::cout << (int)byte << " ";
 			imageData.push_back(byte);
 			index++;
 		}
 		else
 		{
 			restOfBits = byte & 0x3F;
-			std::cout << (int)byte << " ";
 			inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
 			for(i = 0; i < restOfBits; i++)
 			{
 				imageData.push_back(byte);
-				std::cout << (int)byte << " ";
-				//index++;
 			}
 			index += restOfBits;
 		}
 	}
 }
-void ImagePCX::make24bitPCX()
+/*void ImagePCX::make24bitPCX()
 {
 	int index = 0;
 	const int width3x = info.width * 3;
@@ -116,7 +112,7 @@ void ImagePCX::make32bitPCX()
 			pixels.push_back(Pixel{imageData[index], imageData[index + info.width], imageData[index + 2 * info.width], imageData[index + width3x]});
 		}
 	}
-}
+}*/
 void ImagePCX::checkHeader()
 {
 	if (headerPCX.file_type != 0x0A)
@@ -134,32 +130,42 @@ Image::ImageInfo ImagePCX::getImageInfo()
 }
 Image::Pixel ImagePCX::getPixel(int x, int y)
 {
-	return pixels[y * info.width + x];
+	positionBase = y * 3 *info.width + x;
+	if (headerPCX.numOfColorPlanes == 4)
+		return Pixel{imageData[positionBase], imageData[positionBase + info.width], imageData[positionBase + 2 * info.width], imageData[positionBase + 3 * info.width]};
+	return Pixel{imageData[positionBase], imageData[positionBase + info.width], imageData[positionBase + 2 * info.width], 255};
 }
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
-	pixels[y * info.width + x] = newPixel;
+	//pixels[y * info.width + x] = newPixel;
+	int index = y * 3 * info.width + x;
+	imageData[index] = newPixel.red;
+	imageData[index + info.width]= newPixel.green;
+	imageData[index + 2 * info.width] = newPixel.blue;
+	if (headerPCX.numOfColorPlanes == 4)
+		imageData[index + 3 * info.width] = newPixel.alpha;
 }
 const bool ImagePCX::saveImage()
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outf.is_open())
 	{
-		// Create file
 		return false;
 	}
 	outf.write(reinterpret_cast<char*>(&headerPCX), sizeof(PCXHeader));
 	switch (headerPCX.numOfColorPlanes)
 	{
-		case 3: write24and32bitPCX(outf, 3); break;
-		case 4: write24and32bitPCX(outf, 4); break;
-		default: this->fileStatus = "Unexpected number of color planes"; return false;
+		case 3: write24and32bitPCX(outf); break;
+		case 4: write24and32bitPCX(outf); break;
+		default:
+			this->fileStatus = "Unexpected number of color planes";
+			outf.close();
+			return false;
 	}
-
 	outf.close();
 	return true;
 }
-void ImagePCX::write24and32bitPCX(std::ofstream& outf, int numOfPlanes)
+void ImagePCX::write24and32bitPCX(std::ofstream& outf)
 {
 	uint8_t byte = 0;
 	size_t index = 0;

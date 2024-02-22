@@ -12,7 +12,6 @@
 
 #include <vector>
 #include <iostream>
-#include <stack>
 
 #include "Image.h"
 
@@ -47,12 +46,12 @@ private:
 	std::vector<uint8_t> imageData;
 	std::vector<Pixel> pixels;
 	ImageInfo info;
+	int positionBase;
 	void readPCX();
 	void readImageData(std::ifstream& inf);
-	void make24bitPCX();
-	void make32bitPCX();
-	void write24and32bitPCX(std::ofstream& outf, int numOfPlanes);
+	//void make24bitPCX();
 	//void make32bitPCX();
+	void write24and32bitPCX(std::ofstream& outf);
 	void checkHeader();
 public:
 	ImagePCX(std::string filename);
