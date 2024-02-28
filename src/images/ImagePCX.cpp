@@ -113,6 +113,28 @@ void ImagePCX::make32bitPCX()
 		}
 	}
 }*/
+void ImagePCX::updateImage()
+{
+	const int INDEX_BASE = 3 * info.width;
+	const int PLANE_GREEN = info.width;
+	const int PLANE_BLUE = 2 * info.width;
+	const int PLANE_ALPHA = 3 * info.width;
+	int index = 0;
+	Pixel newPixel;
+	for (int y = 0; y < info.height; y++)
+	{
+		for (int x = 0; x < info.width; x++)
+		{
+			index = (y * INDEX_BASE + x);
+			newPixel = getPixel(x, y);
+			imageData[index] = newPixel.red;
+			imageData[index + PLANE_GREEN]= newPixel.green;
+			imageData[index + PLANE_BLUE] = newPixel.blue;
+			if (headerPCX.numOfColorPlanes == 4)
+				imageData[index + PLANE_ALPHA] = newPixel.alpha;
+		}
+	}
+}
 void ImagePCX::checkHeader()
 {
 	if (headerPCX.file_type != 0x0A)

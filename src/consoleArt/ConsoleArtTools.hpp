@@ -2,20 +2,19 @@
 // File       : ConsoleArtUtils.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : 18.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Feb 28, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_CONSOLEARTTOOLS_HPP_
-#define CONSOLEART_CONSOLEARTTOOLS_HPP_
+#ifndef _CONSOLE_ART_TOOLS_HPP_
+#define _CONSOLE_ART_TOOLS_HPP_
 
 #include <iostream>
 #include <string>
 
 #include "../inc/ConsoleUtility.h"
 #include "../inc/IConsole.hpp"
-#include "../inc/UnixConsole.h"
 
 namespace ConsoleArt
 {
@@ -32,9 +31,8 @@ public:
 			"Arguments| Actions",
 			"-p --path| Specify workspace folder",
 			"--colorTest| Print colored text for testing",
-			"--loadAll| Loads all images in workspace (must be after --path)",
-			"--image| Loads image in workspace (should be after --path)",
-			"--imagePath| Loads image with given path",
+			"--loadAll| Loads all images in workspace (should be after --path)",
+			"--image| Loads given image (in workspace if defined)",
 			"--no-color| Disable colored outputs, for when they are not supported"
 		};
 		ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));

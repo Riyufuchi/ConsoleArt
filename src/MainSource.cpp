@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : 20.02.2024
+// Last Edit   : 28.02.2024
 // Description : This is programs main
 //============================================================================
 
@@ -16,6 +16,10 @@
 #include "inc/UnixConsole.h"
 #include "inc/IConsole.hpp"
 #include "inc/DefaultConsole.h"
+#ifdef _WIN32
+	#include "inc/WindowsConsole.h"
+#endif // _WIN32
+
 
 enum BootAction
 {
@@ -33,12 +37,15 @@ int main(int argc, char** argv)
 	ConsoleUtils::Color color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE);
 	#if defined(__linux__) || defined(__APPLE__)
 		ConsoleUtils::UnixConsole sysConsole;
+	#elif defined(_WIN32)
+		ConsoleUtils::WindowsConsole sysConsole;
+		sysConsole.out("Disclaimer: This is experimental Windows build, not all functionality may work correctly\n");
 	#else
 		ConsoleUtils::DefaultConsole sysConsole;
 	#endif
 	ConsoleUtils::IConsole& con = sysConsole;
 	con.setDefaultTextColor(color);
-	ConsoleUtils::ConsoleUtility::header("\v    ConsoleArt V2.1\v   ", con, color);
+	ConsoleUtils::ConsoleUtility::header("\n    ConsoleArt V2.1\n   ", con, color);
 	ConsoleArt::ControllerCLI consoleArt(&con);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{

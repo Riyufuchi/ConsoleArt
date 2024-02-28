@@ -51,6 +51,7 @@ private:
 	void readImageData(std::ifstream& inf);
 	//void make24bitPCX();
 	//void make32bitPCX();
+	void updateImage();
 	void write24and32bitPCX(std::ofstream& outf);
 	void checkHeader();
 public:

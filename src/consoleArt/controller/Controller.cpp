@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 20.02.2024
+// Last Edit   : 28.02.2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -10,7 +10,7 @@
 
 namespace ConsoleArt
 {
-Controller::Controller() : Controller("") //Calls constructor with parameter to construct class
+Controller::Controller() : Controller("") // Calls constructor with parameter to construct class
 {
 }
 Controller::Controller(std::string path) : workspacePath(path)
@@ -21,8 +21,8 @@ void Controller::applyArgument(int argc, char** argv, int i)
 {
 	if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
 	{
-		std::string path = reinterpret_cast<const char*>((argv[i + 1])); //or std::string path{argv[2]};
-		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) //if(argv[2][path.length() - 1] == '/')
+		std::string path = reinterpret_cast<const char*>((argv[i + 1])); // or std::string path{argv[2]};
+		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) // if(argv[2][path.length() - 1] == '/')
 			path.append("/");
 		workspacePath = path;
 		messageUser(MessageType::INFO,
@@ -40,17 +40,6 @@ void Controller::applyArgument(int argc, char** argv, int i)
 			return;
 		}
 		addImage(loadImage(workspacePath + argv[i + 1]));
-		if (images.size() > 0)
-			convertImage(images.back().get());
-	}
-	else if (!strcmp(argv[i], "--imagePath"))
-	{
-		if (!((i + 1) < argc))
-		{
-			messageUser(MessageType::ERROR, "Missing path parameter\n");
-			return;
-		}
-		addImage(loadImage(argv[i + 1]));
 		if (images.size() > 0)
 			convertImage(images.back().get());
 	}
