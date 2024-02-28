@@ -16,6 +16,8 @@
 #include "../inc/ConsoleUtility.h"
 #include "../inc/IConsole.hpp"
 
+#define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2024\n"
+
 namespace ConsoleArt
 {
 class ConsoleArtTools
@@ -26,16 +28,23 @@ public:
 	~ConsoleArtTools();
 	static void createManual()
 	{
-		std::cout << "Riyufuchi (c) 2020 - 2024\n";
+		std::cout << _COPYRIGHT_HEADER;
 		std::string args[] = {
 			"Arguments| Actions",
 			"-p --path| Specify workspace folder",
 			"--colorTest| Print colored text for testing",
 			"--loadAll| Loads all images in workspace (should be after --path)",
 			"--image| Loads given image (in workspace if defined)",
-			"--no-color| Disable colored outputs, for when they are not supported"
+			"--no-color| Disable colored outputs, for when they are not supported",
+			"--about| Shows details about this application"
 		};
 		ConsoleUtils::ConsoleUtility::createManual(args, sizeof(args)/sizeof(args[0]));
+	}
+	static void aboutApplication()
+	{
+		std::cout << _COPYRIGHT_HEADER;
+		printf("This version was compiled on: %s %s\n", __DATE__, __TIME__);
+		std::cout << "This is an C++ application for converting images into ASCII/UNICODE.\n";
 	}
 	static void colorTest(ConsoleUtils::IConsole& console)
 	{

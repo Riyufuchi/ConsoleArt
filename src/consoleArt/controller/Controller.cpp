@@ -43,6 +43,10 @@ void Controller::applyArgument(int argc, char** argv, int i)
 		if (images.size() > 0)
 			convertImage(images.back().get());
 	}
+	else if (!strcmp(argv[i], "--about"))
+	{
+		ConsoleArtTools::aboutApplication();
+	}
 	else if (argv[i][0] == '-') // Check if is it argument or arg param
 	{
 		messageUser(MessageType::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
