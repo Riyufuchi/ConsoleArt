@@ -9,18 +9,20 @@
 
 <table>
   <tr>
-    <th colspan="2">Compiled & Tested on</th>
+    <th colspan="3">Compiled & Tested on</th>
   </tr>
   <tr>
     <th>OS</th>
     <td>Ubuntu</td>
+    <td>Windows 10</td>
   </tr>
   <tr>
     <th>Compiler</th>
     <td>g++ 13.2.0</td>
+    <td>whatever Visual Studio have</td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: center;">This table might not be up-to date</td>
+    <td colspan="3" style="text-align: center;">This table might not be up-to date</td>
   </tr>
 </table>
 
@@ -34,7 +36,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 ## Project guide
 
-- .hpp is used when there is no coresponding .cpp file
+- .hpp is used for single file code, that don't have coresponfing .cpp file
 
 ## Donate
 
