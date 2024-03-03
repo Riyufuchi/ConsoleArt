@@ -39,6 +39,8 @@ public:
 		DETAILED_INVERTED,
 		BASIC_INVERTED,
 		PRECISE_INVERTED,
+		SHADES,
+		SHADES_INVERTED,
 		CHAR_SETS_COUNT
 	};
 	AsciiConverter(Images::Image& img);

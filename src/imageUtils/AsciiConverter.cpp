@@ -85,6 +85,17 @@ void AsciiConverter::setCharSet(int choice)
 			invertCharSet();
 			break;
 		}
+		case SHADES_INVERTED:
+			setCharSet(CHAR_SETS::SHADES);
+			invertCharSet();
+		break;
+		case SHADES:
+			chars.push_back("  ");
+			chars.push_back("░░");
+			chars.push_back("▒▒");
+			chars.push_back("▓▓");
+			chars.push_back("██");
+		break;
 		default:
 			setCharSet(CHAR_SETS::BASIC);
 			std::cerr << "Input error - applied default settings\n";

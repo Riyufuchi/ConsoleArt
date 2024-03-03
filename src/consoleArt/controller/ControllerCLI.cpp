@@ -65,6 +65,7 @@ Images::Image* ControllerCLI::selectImage()
 		console->out(255, 255, 0, "No images were loaded yet!\n");
 		return 0;
 	}
+	console->defaultTextColor();
 	std::cout << "Currently loaded images:" << std::endl;
 	int max = images.size();
 	for(int index = 0; index < max; index++) // or for(Images::Image* img : images)
@@ -74,6 +75,7 @@ Images::Image* ControllerCLI::selectImage()
 
 	int selectedIndex = ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1;
 	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
+	console->resetTextColor();
 	return images[selectedIndex].get();
 	/*
 	if (auto bmpImagePtr = dynamic_cast<Images::ImageBMP*>(images[selectedIndex].get()))
@@ -107,9 +109,9 @@ void ControllerCLI::convertImage(Images::Image* image)
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
-	std::cout << "Processing image:" << std::endl;
-	ImageUtils::ImageToolsCLI::displayImageInfo(image);
-	std::cout << "Press Enter to continue..." << std::endl;
+	messageUser(MessageType::INFO, "Processing image:\n");
+	menuCLI.displayImageInfo(*image);
+	messageUser(MessageType::SUCCESFUL_TASK, "Press Enter to continue...\n");
 	std::cin.get();
 	ac.convertToASCII();
 	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());

@@ -13,6 +13,7 @@
 #include "../../inc/ConsoleUtility.h"
 #include "../../inc/DefaultConsole.h"
 #include "../interfaces/IMenu.hpp"
+#include "../../imageUtils/ImageToolsCLI.h"
 
 namespace ConsoleArt
 {
@@ -40,6 +41,7 @@ public:
 	int actionMenu() override;
 	int printMenu() override;
 	ConsoleUtils::Color colorPicker() override;
+	void displayImageInfo(Images::Image& image) override;
 	// Setters
 	void setConsole(ConsoleUtils::IConsole* console);
 };

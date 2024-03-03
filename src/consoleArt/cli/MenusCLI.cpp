@@ -43,10 +43,17 @@ void MenusCLI::confConsoleTextColor()
 		console->setDefaultTextColor(colorPicker());
 	}
 }
+void MenusCLI::displayImageInfo(Images::Image& image)
+{
+	console->defaultTextColor();
+	ImageUtils::ImageToolsCLI::displayImageInfo(&image);
+	console->resetTextColor();
+
+}
 // Menus
 int MenusCLI::charSetMenu()
 {
-	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "Back" };
+	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
 	return ConsoleUtils::ConsoleUtility::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 int MenusCLI::actionMenu()
