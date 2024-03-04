@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : Mar 04, 2024
+// Last Edit   : Mar 4, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -25,8 +25,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) // if(argv[2][path.length() - 1] == '/')
 			path.append("/");
 		workspacePath = path;
-		messageUser(MessageType::INFO,
-				"Workspace path: " + workspacePath + "\n");
+		messageUser(MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 		return false;
 	}
 	else if (!strcmp(argv[i], "--loadAll"))
@@ -62,7 +61,6 @@ void Controller::loadAllImages()
 		itDir = std::filesystem::current_path();
 	try
 	{
-		//std::filesystem::current_path(workspacePath);
 		for (const auto& entry : std::filesystem::directory_iterator(itDir))
 		{
 			fne = entry.path().extension();

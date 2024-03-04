@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : Mar 04, 2024
+// Last Edit   : Mar 4, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -117,7 +117,13 @@ void ControllerCLI::convertImage(Images::Image* image)
 	menuCLI.displayImageInfo(*image);
 	messageUser(MessageType::NOTIFICATION, "Press Enter to continue...\n");
 	std::cin.get();
-	ac.convertToASCII();
+	console->defaultTextColor();
+	if (!ac.convertToASCII())
+	{
+		messageUser(MessageType::ERROR, "Image conversion has failed!\n");
+		return;
+	}
+	messageUser(MessageType::SUCCESFUL_TASK, "Done!\n");
 	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
 	bool again = true;
 	while (again)

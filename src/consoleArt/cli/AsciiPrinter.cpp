@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 04 2024
+// Last edit  : Mar 4, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -24,7 +24,7 @@ AsciiPrinter::~AsciiPrinter()
 void AsciiPrinter::printPixelColored()
 {
 	#ifdef _WIN32
-		console.out("Not supported in Windows, because this app don't implement coloring for Windows console\n");
+		console.out("Not supported in Windows version, because this application don't implement proper coloring for Windows console\n");
 	#else
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
@@ -72,7 +72,6 @@ void AsciiPrinter::printCharColored()
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
 	Images::Image::Pixel pixel;
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
-	std::string line;
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 	std::wstring utf32String;
 	int xChar = 0;
@@ -83,9 +82,9 @@ void AsciiPrinter::printCharColored()
 			utf32String = converter.from_bytes(asciiCon.getLine(y));
 			for (int x = 0; x < imageInfo.width; x++)
 			{
-				xChar += 2;
 				pixel = image.getPixel(x, y);
 				console.out(pixel.red, pixel.green, pixel.blue, converter.to_bytes(std::wstring(2, utf32String[xChar])));
+				xChar += 2;
 			}
 			xChar = 0;
 			std::cout << "\n";
@@ -98,9 +97,9 @@ void AsciiPrinter::printCharColored()
 			utf32String = converter.from_bytes(asciiCon.getLine(y));
 			for (int x = 0; x < imageInfo.width; x++)
 			{
-				xChar += 2;
 				pixel = image.getPixel(x, y);
-				console.out(pixel.red, pixel.green, pixel.blue, converter.to_bytes(std::wstring(1, utf32String[xChar])));
+				console.out(pixel.red, pixel.green, pixel.blue, converter.to_bytes(std::wstring(2, utf32String[xChar])));
+				xChar += 2;
 			}
 			xChar = 0;
 			std::cout << "\n";

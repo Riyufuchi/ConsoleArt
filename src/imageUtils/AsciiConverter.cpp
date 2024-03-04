@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : Mar 03, 2024
+// Last Edit   : Mar 4, 2024
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -141,10 +141,10 @@ void AsciiConverter::outputAsciiImage()
 /**
  * Converts image into ASCII/UNICODE and save it into a string array
  */
-void AsciiConverter::convertToASCII()
+bool AsciiConverter::convertToASCII()
 {
 	if (!sourceImg)
-		return;
+		return false;
 	std::string line = "";
 	Images::Image::Pixel pix;
 	const int HEIGHT = sourceImg.getImageInfo().height;
@@ -178,7 +178,8 @@ void AsciiConverter::convertToASCII()
 		line = "";
 		std::cout << "#";
 	}
-	std::cout << "\nDone!" << std::endl;
+	std::cout << "\n";
+	return true;
 }
 
 AsciiConverter::~AsciiConverter()

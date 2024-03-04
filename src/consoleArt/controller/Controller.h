@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : Mar 04, 2024
+// Last Edit   : Mar 4, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -11,7 +11,6 @@
 
 #include <string>
 #include <iostream>
-
 #include <memory>
 #include <algorithm>
 
