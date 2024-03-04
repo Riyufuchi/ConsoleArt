@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb.20.2024
+// Last edit  : Mar 04 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -37,10 +37,11 @@ void AsciiPrinter::printPixelColored()
 			for (int x = 0; x < imageInfo.width; x++)
 			{
 				pixel = image.getPixel(x, y);
-				if (pixel.alpha > 0)
-					console.out(pixel.red, pixel.green, pixel.blue, "██");
-				else
-					std::cout << "  ";
+				switch (pixel.alpha)
+				{
+					case 0: std::cout << "  "; break;
+					default: console.out(pixel.red, pixel.green, pixel.blue, "██");
+				}
 			}
 			std::cout << "\n";
 		}
@@ -74,7 +75,6 @@ void AsciiPrinter::printCharColored()
 	std::string line;
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 	std::wstring utf32String;
-	std::string convertedString;
 	int xChar = 0;
 	if (asciiCon.getSourceImg().isInverted())
 	{
@@ -83,11 +83,9 @@ void AsciiPrinter::printCharColored()
 			utf32String = converter.from_bytes(asciiCon.getLine(y));
 			for (int x = 0; x < imageInfo.width; x++)
 			{
-				convertedString = converter.to_bytes(std::wstring(1, utf32String[xChar]));
 				xChar += 2;
 				pixel = image.getPixel(x, y);
-				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
-				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+				console.out(pixel.red, pixel.green, pixel.blue, converter.to_bytes(std::wstring(2, utf32String[xChar])));
 			}
 			xChar = 0;
 			std::cout << "\n";
@@ -100,11 +98,9 @@ void AsciiPrinter::printCharColored()
 			utf32String = converter.from_bytes(asciiCon.getLine(y));
 			for (int x = 0; x < imageInfo.width; x++)
 			{
-				convertedString = converter.to_bytes(std::wstring(1, utf32String[xChar]));
 				xChar += 2;
 				pixel = image.getPixel(x, y);
-				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
-				console.out(pixel.red, pixel.green, pixel.blue, convertedString);
+				console.out(pixel.red, pixel.green, pixel.blue, converter.to_bytes(std::wstring(1, utf32String[xChar])));
 			}
 			xChar = 0;
 			std::cout << "\n";

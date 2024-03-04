@@ -2,7 +2,7 @@
 // Name        : AsciiConverter.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : 28.02.2024
+// Last Edit   : Mar 04, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -17,7 +17,7 @@ Controller::Controller(std::string path) : workspacePath(path)
 {
 }
 
-void Controller::applyArgument(int argc, char** argv, int i)
+bool Controller::applyArgument(int argc, char** argv, int i)
 {
 	if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
 	{
@@ -27,30 +27,31 @@ void Controller::applyArgument(int argc, char** argv, int i)
 		workspacePath = path;
 		messageUser(MessageType::INFO,
 				"Workspace path: " + workspacePath + "\n");
+		return false;
 	}
 	else if (!strcmp(argv[i], "--loadAll"))
 	{
 		loadAllImages();
+		return false;
 	}
 	else if (!strcmp(argv[i], "--image"))
 	{
 		if (!((i + 1) < argc))
 		{
 			messageUser(MessageType::ERROR, "Missing image parameter\n");
-			return;
+			return false;
 		}
 		addImage(loadImage(workspacePath + argv[i + 1]));
 		if (images.size() > 0)
 			convertImage(images.back().get());
+		return false;
 	}
 	else if (!strcmp(argv[i], "--about"))
 	{
 		ConsoleArtTools::aboutApplication();
+		return false;
 	}
-	else if (argv[i][0] == '-') // Check if is it argument or arg param
-	{
-		messageUser(MessageType::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
-	}
+	return true;
 }
 
 void Controller::loadAllImages()

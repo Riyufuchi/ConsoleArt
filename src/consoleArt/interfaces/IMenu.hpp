@@ -2,8 +2,8 @@
 // File       : IMenu.h
 // Author     : Riyufuchi
 // Created on : Dec 19, 2023
-// Last edit  : 28.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Mar 03, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: This interface specifies all menus that must be implemented
 //==============================================================================
 

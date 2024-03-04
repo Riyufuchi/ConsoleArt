@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : 01.12.2023
+// Last Edit   : Mar 03, 2024
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 

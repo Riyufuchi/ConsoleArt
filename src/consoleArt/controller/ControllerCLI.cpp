@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : 20.02.2024
+// Last Edit   : Mar 04, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -19,17 +19,21 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole* console) 
 }
 void ControllerCLI::configure(int argc, char** argv)
 {
-	//ConsoleUtils::DefaultConsole c;
 	for (int i = 0; i < argc; i++)
 	{
-		if (!strcmp(argv[i], "--no-color"))
+		if (applyArgument(argc, argv, i))
 		{
-			this->console = &defaultConsole;
-			menuCLI.setConsole(console);
-			console->out("No color option applied\n");
+			if (!strcmp(argv[i], "--no-color"))
+			{
+				this->console = &defaultConsole;
+				menuCLI.setConsole(console);
+				console->out("No color option applied\n");
+			}
+			else if (argv[i][0] == '-') // Check if is it argument or arg param
+			{
+				messageUser(MessageType::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
+			}
 		}
-		else
-			applyArgument(argc, argv, i);
 	}
 }
 /*std::string command = "cd ";
@@ -111,7 +115,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	ac.setCharSet(option);
 	messageUser(MessageType::INFO, "Processing image:\n");
 	menuCLI.displayImageInfo(*image);
-	messageUser(MessageType::SUCCESFUL_TASK, "Press Enter to continue...\n");
+	messageUser(MessageType::NOTIFICATION, "Press Enter to continue...\n");
 	std::cin.get();
 	ac.convertToASCII();
 	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
