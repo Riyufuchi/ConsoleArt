@@ -16,6 +16,11 @@ ControllerCLI::ControllerCLI(ConsoleUtils::IConsole* console) : ControllerCLI(""
 
 ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
+	if (console == nullptr)
+	{
+		this->console = &defaultConsole;
+		menuCLI.setConsole(this->console);
+	}
 }
 void ControllerCLI::configure(int argc, char** argv)
 {

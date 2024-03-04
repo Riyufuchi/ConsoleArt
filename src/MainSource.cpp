@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : Mar 04, 2024
+// Last Edit   : Mar 4, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -35,7 +35,6 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsol
 int main(int argc, char** argv)
 {
 	ConsoleUtils::Color color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE);
-	//ConsoleUtils::IConsole& systemConsole2 = ConsoleUtils::DefaultConsole();
 	#if defined(__linux__) || defined(__APPLE__)
 		ConsoleUtils::UnixConsole systemConsole;
 	#elif defined(_WIN32)

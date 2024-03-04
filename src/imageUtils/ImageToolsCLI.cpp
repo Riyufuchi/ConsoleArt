@@ -23,9 +23,9 @@ void ImageToolsCLI::displayImageInfo(Images::Image* image)
 		return;
 	Images::Image::ImageInfo info = image->getImageInfo();
 	std::cout << "Name: " << info.name << "\n";
-	std::cout << "Width: " << info.width << "\n";
-	std::cout << "Height: " << info.height << "\n";
-	std::cout << "Type: " << info.bits << " bit" << "\n";
+	std::cout << "Width: " << info.width << "px\n";
+	std::cout << "Height: " << info.height << "px\n";
+	std::cout << "Type: " << info.bits << " bit\n";
 	std::cout << "Inverted: " << (image->isInverted() ? "Yes" : "No") << "\n";
 }
 } /* namespace ImageUtils */

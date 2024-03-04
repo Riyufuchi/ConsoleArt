@@ -1,14 +1,14 @@
 //==============================================================================
 // File       : AsciiPrinter.h
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : 18.12.2023
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Mar 4, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGEUTILS_ASCIIPRINTER_H_
-#define IMAGEUTILS_ASCIIPRINTER_H_
+#ifndef _ASCII_PRINTER_H_
+#define _ASCII_PRINTER_H_
 
 #include <string>
 #include <codecvt>
@@ -18,6 +18,7 @@
 
 #include "../../imageUtils/AsciiConverter.h"
 #include "../../inc/IConsole.hpp"
+#include "../../inc/ConsoleUtility.h"
 
 namespace ConsoleArt
 {

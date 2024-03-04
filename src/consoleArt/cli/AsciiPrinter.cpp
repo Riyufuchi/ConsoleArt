@@ -1,6 +1,6 @@
 //==============================================================================
 // File       : AsciiPrinter.cpp
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Nov 22, 2023
 // Last edit  : Mar 4, 2024
 // Copyright  : Copyright (c) Riyufuchi
@@ -24,8 +24,12 @@ AsciiPrinter::~AsciiPrinter()
 void AsciiPrinter::printPixelColored()
 {
 	#ifdef _WIN32
-		console.out("Not supported in Windows version, because this application don't implement proper coloring for Windows console\n");
-	#else
+		console.out("This option don't work properly in Windows, because of limits of Windows console."
+				"Windows console don't implement ASCII Escape codes for coloring text, as Linux/Unix do.\n");
+		console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
+		if (!ConsoleUtils::ConsoleUtility::yesNo("Proceed anyway? [Y/n] "))
+			return;
+	#endif
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
 	Images::Image::Pixel pixel;
@@ -61,7 +65,6 @@ void AsciiPrinter::printPixelColored()
 			std::cout << "\n";
 		}
 	}
-	#endif
 }
 void AsciiPrinter::printCharColored()
 {
@@ -121,7 +124,6 @@ void AsciiPrinter::printClassic()
 }
 void AsciiPrinter::printToFile()
 {
-	console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
 	std::string fName = asciiCon.getSourceImg().getFilepath();
 	fName = fName.substr(0, fName.find_last_of('.')) + ".txt";
 	std::fstream file(fName, std::ios::out | std::ios::trunc);
