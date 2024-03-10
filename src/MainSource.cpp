@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : Mar 4, 2024
+// Last Edit   : Mar 8, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -12,7 +12,7 @@
 
 #include "consoleArt/ConsoleArtTools.hpp"
 #include "consoleArt/controller/ControllerCLI.h"
-#include "inc/ConsoleUtility.h"
+#include "inc/ConsoleUtils.h"
 #include "inc/UnixConsole.h"
 #include "inc/IConsole.hpp"
 #include "inc/DefaultConsole.h"
@@ -30,21 +30,22 @@ enum BootAction
 	TEST
 };
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsole& console);
+BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtils::Color color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::APERTURE_ORANGE);
+	ConsoleUtility::Color color = ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::APERTURE_ORANGE);
 	#if defined(__linux__) || defined(__APPLE__)
-		ConsoleUtils::UnixConsole systemConsole;
+		ConsoleUtility::UnixConsole systemConsole;
 	#elif defined(_WIN32)
-		ConsoleUtils::WindowsConsole systemConsole;
-		systemConsole.out("Disclaimer: This is experimental Windows build, not all functionality may work correctly\n");
+		ConsoleUtility::WindowsConsole systemConsole;
+		systemConsole.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE),
+			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
 	#else
-		ConsoleUtils::DefaultConsole systemConsole;
+		ConsoleUtility::DefaultConsole systemConsole;
 	#endif
 	systemConsole.setDefaultTextColor(color);
-	ConsoleUtils::ConsoleUtility::header("\n    ConsoleArt V2.1\n   ", systemConsole, color);
+	ConsoleUtility::ConsoleUtils::header("\n    ConsoleArt V2.2\n   ", systemConsole, color);
 	ConsoleArt::ControllerCLI consoleArt(&systemConsole);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{
@@ -59,7 +60,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtils::IConsole& console)
+BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console)
 {
 	if(argc == 1) // First argument is always app name
 		return BootAction::CONTINUE;

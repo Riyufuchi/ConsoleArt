@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 22, 2024
+// Last edit  : Mar 8, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -55,7 +55,7 @@ public:
 	const std::string& getFilename() const;
 	const std::string& getFilepath() const;
 	const std::string& getFileStatus() const;
-	virtual ImageInfo getImageInfo() = 0;
+	virtual ImageInfo getImageInfo() const = 0;
 	virtual Pixel getPixel(int x, int y) = 0;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;

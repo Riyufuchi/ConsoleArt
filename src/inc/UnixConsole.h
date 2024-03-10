@@ -14,7 +14,7 @@
 
 #include "IConsole.hpp"
 
-namespace ConsoleUtils
+namespace ConsoleUtility
 {
 class UnixConsole : public IConsole
 {

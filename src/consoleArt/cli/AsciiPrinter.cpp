@@ -11,11 +11,11 @@
 
 namespace ConsoleArt
 {
-AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console) : asciiCon(asCon), console(console)
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console) : asciiCon(asCon), console(console)
 {
-	this->color = ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+	this->color = ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
 }
-AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtils::IConsole& console, ConsoleUtils::Color color) : asciiCon(asCon), console(console), color(color)
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console, ConsoleUtility::Color color) : asciiCon(asCon), console(console), color(color)
 {
 }
 AsciiPrinter::~AsciiPrinter()
@@ -26,8 +26,8 @@ void AsciiPrinter::printPixelColored()
 	#ifdef _WIN32
 		console.out("This option don't work properly in Windows, because of limits of Windows console."
 				"Windows console don't implement ASCII Escape codes for coloring text, as Linux/Unix do.\n");
-		console.out(ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), "Warning: Experimental!\n");
-		if (!ConsoleUtils::ConsoleUtility::yesNo("Proceed anyway? [Y/n] "))
+		console.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::STRANGE), "Warning: Experimental!\n");
+		if (!ConsoleUtility::ConsoleUtility::yesNo("Proceed anyway? [Y/n] "))
 			return;
 	#endif
 	Images::Image& image = asciiCon.getSourceImg();
@@ -140,7 +140,7 @@ void AsciiPrinter::printToFile()
 		for(int i = 0; i < HEIGHT; i++)
 			file << asciiCon.getLine(i) << "\n";
 	file.close();
-	ConsoleUtils::ColorPallete color = ConsoleUtils::ColorPallete::COMMUNITY;
-	console.out(ConsoleUtils::ColorUtils::getColor(color), "File " + fName + " was successfully created.\n");
+	ConsoleUtility::ColorPallete color = ConsoleUtility::ColorPallete::COMMUNITY;
+	console.out(ConsoleUtility::ColorUtils::getColor(color), "File " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

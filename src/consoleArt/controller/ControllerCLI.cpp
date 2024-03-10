@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : Mar 4, 2024
+// Last Edit   : Mar 8, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -10,11 +10,11 @@
 
 namespace ConsoleArt
 {
-ControllerCLI::ControllerCLI(ConsoleUtils::IConsole* console) : ControllerCLI("", console)
+ControllerCLI::ControllerCLI(ConsoleUtility::IConsole* console) : ControllerCLI("", console)
 {
 }
 
-ControllerCLI::ControllerCLI(std::string path, ConsoleUtils::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleUtility::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
 	if (console == nullptr)
 	{
@@ -33,6 +33,20 @@ void ControllerCLI::configure(int argc, char** argv)
 				this->console = &defaultConsole;
 				menuCLI.setConsole(console);
 				console->out("No color option applied\n");
+			}
+			else if (!strcmp(argv[i], "--color"))
+			{
+				if (i + 1 >=  argc)
+				{
+					messageUser(MessageType::ERROR, "Missing argument for --color\n");
+					continue;
+				}
+				if (!DataUtility::DataUtils::isNumber(argv[++i]))
+				{
+					messageUser(MessageType::ERROR, "Wrong argument for --color\n");
+					continue;
+				}
+				console->setDefaultTextColor(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(std::stoi(argv[i]) - 1)));
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
@@ -59,7 +73,7 @@ void ControllerCLI::run()
 		case 2: convertImage(selectImage()); goto menu;
 		case 3:
 			console->defaultTextColor();
-			ConsoleUtils::ConsoleUtility::listFilesInFolder(workspacePath);
+			ConsoleUtility::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->resetTextColor();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
@@ -82,7 +96,7 @@ Images::Image* ControllerCLI::selectImage()
 		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
 
-	int selectedIndex = ConsoleUtils::ConsoleUtility::getIntSafe(1, max) - 1;
+	int selectedIndex = ConsoleUtility::ConsoleUtils::getIntSafe(1, max) - 1;
 	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
 	console->resetTextColor();
 	return images[selectedIndex].get();

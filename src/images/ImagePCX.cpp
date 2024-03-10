@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 22, 2024
+// Last edit  : Mar 8, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -146,7 +146,7 @@ void ImagePCX::checkHeader()
 	if (headerPCX.version != 5)
 		throw std::runtime_error("Outdated versions are not supported");
 }
-Image::ImageInfo ImagePCX::getImageInfo()
+Image::ImageInfo ImagePCX::getImageInfo() const
 {
 	return info;
 }

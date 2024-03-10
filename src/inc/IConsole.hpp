@@ -13,7 +13,7 @@
 
 #include "ColorUtils.h"
 
-namespace ConsoleUtils
+namespace ConsoleUtility
 {
 class IConsole
 {

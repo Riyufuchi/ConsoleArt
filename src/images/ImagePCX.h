@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 22, 2024
+// Last edit  : Mar 8, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -57,11 +57,10 @@ private:
 public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
-	ImageInfo getImageInfo() override;
+	ImageInfo getImageInfo() const override;
 	Pixel getPixel(int x, int y) override;
 	void setPixel(int x, int y, Pixel newPixel) override;
 	const bool saveImage() override;
-
 };
 } /* namespace Images */
 #endif /* IMAGES_IMAGEPCX_H_ */

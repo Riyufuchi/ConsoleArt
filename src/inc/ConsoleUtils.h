@@ -2,7 +2,7 @@
 // Name        : ConsoleUtility
 // Author      : Riyufuchi
 // Created on  : 27.10.2021
-// Last Edit   : 19.12.2023
+// Last Edit   : Mar 6, 2024
 //============================================================================
 
 #ifndef _CONSOLEUTILITY_H_
@@ -16,14 +16,14 @@
 /**
  * This class helps with console interactions
  */
-namespace ConsoleUtils
+namespace ConsoleUtility
 {
 // TODO: Add methods that support colored text
-class ConsoleUtility
+class ConsoleUtils
 {
 private:
 public:
-	ConsoleUtility();
+	ConsoleUtils();
 	static bool repeat();
 	static bool yesNo(const char* text);
 	static int getIntSafe();
@@ -49,7 +49,7 @@ public:
 	static int basicMenu(int lenght, const char* menu[]);
 	static void createManual(std::string* args, int lenght);
 	static void listFilesInFolder(std::string workspacePath);
-	~ConsoleUtility();
+	~ConsoleUtils();
 };
 }
 #endif

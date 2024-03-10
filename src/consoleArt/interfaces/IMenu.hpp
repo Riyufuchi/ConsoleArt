@@ -23,7 +23,7 @@ public:
 	virtual int charSetMenu() = 0;
 	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
-	virtual ConsoleUtils::Color colorPicker() = 0;
+	virtual ConsoleUtility::Color colorPicker() = 0;
 	virtual void displayImageInfo(Images::Image& image) = 0;
 };
 }

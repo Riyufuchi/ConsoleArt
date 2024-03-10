@@ -2,7 +2,7 @@
 // Name        : WindowsConsole
 // Author      : Riyufuchi
 // Created on  : 28.02.2024
-// Last Edit   : 28.02.2024
+// Last Edit   : Mar 4, 2024
 //============================================================================
 
 #ifdef _WIN32
@@ -11,19 +11,19 @@
 
 #include <iostream>
 #include <windows.h>
-//#include <fcntl.h>
 #include <io.h>
 
 #include "IConsole.hpp"
 
-namespace ConsoleUtils
+namespace ConsoleUtility
 {
 	class WindowsConsole : public IConsole
 	{
 	private:
-		const int TEMP_COLOR_INDEX = 4;
-		const int DEFAULT_COLOR_INDEX = 3;
-		const int CURRENT_COLOR_INDEX = 2;
+		const int DEFAULT_COLOR_INDEX = 1;
+		const int COLOR_TABLE_START_INDEX = 2;
+		const int COLOR_TABLE_LENGHT = 16;
+		int colorIndex = COLOR_TABLE_START_INDEX;
 		Color defaultColor;
 		HANDLE consoleHandle;
 		CONSOLE_SCREEN_BUFFER_INFOEX consoleInfo;

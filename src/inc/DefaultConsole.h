@@ -15,7 +15,7 @@
 
 #include "IConsole.hpp"
 
-namespace ConsoleUtils
+namespace ConsoleUtility
 {
 class DefaultConsole : public IConsole
 {

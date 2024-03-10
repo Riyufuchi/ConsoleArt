@@ -2,8 +2,8 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : 20.02.2024
-// Copyright  : Copyright (c) 2023, riyufuchi
+// Last edit  : Mar 8, 2024
+// Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -14,9 +14,10 @@
 #include "../cli/AsciiPrinter.h"
 #include "../../imageUtils/ImageToolsCLI.h"
 #include "../../inc/ColorUtils.h"
-#include "../../inc/ConsoleUtility.h"
+#include "../../inc/ConsoleUtils.h"
 #include "../../inc/UnixConsole.h"
 #include "../../inc/DefaultConsole.h"
+#include "../../inc/DataUtils.h"
 #include "../cli/MenusCLI.h"
 
 namespace ConsoleArt
@@ -24,16 +25,16 @@ namespace ConsoleArt
 class ControllerCLI : public Controller
 {
 private:
-	ConsoleUtils::Color colors[6] = {
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::COLLECTORS), // Exception
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::UNIQUE), // Error
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::STRANGE), // Warning
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::COMMUNITY), // TAKS DONE
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
-			ConsoleUtils::ColorUtils::getColor(ConsoleUtils::ColorPallete::HAUNTED) // Notification
+	ConsoleUtility::Color colors[6] = {
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COLLECTORS), // Exception
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::STRANGE), // Error
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE), // Warning
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COMMUNITY), // TAKS DONE
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
+			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::HAUNTED) // Notification
 	};
-	ConsoleUtils::IConsole* console;
-	ConsoleUtils::DefaultConsole defaultConsole;
+	ConsoleUtility::IConsole* console;
+	ConsoleUtility::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	std::string inputImageName() override;
@@ -53,11 +54,11 @@ private:
 		}
 	}
 public:
-	ControllerCLI(ConsoleUtils::IConsole* console);
-	ControllerCLI(std::string path, ConsoleUtils::IConsole* console);
+	ControllerCLI(ConsoleUtility::IConsole* console);
+	ControllerCLI(std::string path, ConsoleUtility::IConsole* console);
 	void configure(int argc, char** argv) override;
 	void run() override;
-	ConsoleUtils::IConsole* getConsole()
+	ConsoleUtility::IConsole* getConsole()
 	{
 		return console;
 	}
