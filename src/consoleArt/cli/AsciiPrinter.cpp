@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 4, 2024
+// Last edit  : Mar 10, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,7 @@ void AsciiPrinter::printPixelColored()
 		console.out("This option don't work properly in Windows, because of limits of Windows console."
 				"Windows console don't implement ASCII Escape codes for coloring text, as Linux/Unix do.\n");
 		console.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::STRANGE), "Warning: Experimental!\n");
-		if (!ConsoleUtility::ConsoleUtility::yesNo("Proceed anyway? [Y/n] "))
+		if (!ConsoleUtility::ConsoleUtils::yesNo("Proceed anyway? [Y/n] "))
 			return;
 	#endif
 	Images::Image& image = asciiCon.getSourceImg();
@@ -140,7 +140,7 @@ void AsciiPrinter::printToFile()
 		for(int i = 0; i < HEIGHT; i++)
 			file << asciiCon.getLine(i) << "\n";
 	file.close();
-	ConsoleUtility::ColorPallete color = ConsoleUtility::ColorPallete::COMMUNITY;
-	console.out(ConsoleUtility::ColorUtils::getColor(color), "File " + fName + " was successfully created.\n");
+	console.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COMMUNITY),
+			"File: " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

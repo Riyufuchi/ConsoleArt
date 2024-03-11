@@ -1,8 +1,8 @@
 ﻿//============================================================================
-// Name        : AsciiConverter.cpp
+// Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : Mar 4, 2024
+// Last Edit   : Mar 11, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -58,12 +58,12 @@ void Controller::loadAllImages()
 	std::string fne = "";
 	std::string itDir = workspacePath;
 	if (itDir == "")
-		itDir = std::filesystem::current_path();
+		itDir = std::filesystem::current_path().generic_string(); // .generic_string(); is required by Windows
 	try
 	{
 		for (const auto& entry : std::filesystem::directory_iterator(itDir))
 		{
-			fne = entry.path().extension();
+			fne = entry.path().extension().generic_string();
 			if(fne == ".pcx")
 				addImage(new Images::ImagePCX(entry.path().generic_string()));
 			else if (fne == ".bmp")
@@ -119,6 +119,7 @@ Images::Image* Controller::loadImage(std::string path)
 	}
 	catch (std::exception& e)
 	{
+		messageUser(MessageType::EXCEPTION, e.what());
 		return nullptr;
 	}
 	if(ext == ".pcx")
