@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : Mar 8, 2024
+// Last Edit   : Mar 12, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -86,7 +86,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	{
 		std::string msg = "ConsoleArt server v0.4\n";
 		console.out(msg);
-		SufuServer::Server server;
+		SufuServer::Server server(6969);
 		if (!server.isRunning())
 		{
 			console.err(server.getServerStatus());
@@ -105,8 +105,8 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	else if(!strcmp(argv[1], "--runClient"))
 	{
 		console.out("ConsoleArt client v0.3\n");
-		std::string msg = "Test request";
-		SufuServer::Client client("127.0.0.1", 12345);
+		std::string msg = "Ping\a";
+		SufuServer::Client client("127.0.0.1", 6969);
 		if (!client.isConnected())
 		{
 			console.err(client.getClientStatus());
@@ -114,6 +114,10 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 			return BootAction::CLIENT_ERR;
 		}
 		client.sendRequest(msg);
+		client.sendRequest(msg);
+		if (client.listenForResponse(msg))
+					console.out(msg + "\n");
+		client.sendRequest(msg = "Pong");
 		if (client.listenForResponse(msg))
 			console.out(msg + "\n");
 		else
