@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 8, 2024
+// Last edit  : Mar 12, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -140,7 +140,7 @@ void ImagePCX::checkHeader()
 	if (headerPCX.file_type != 0x0A)
 		throw std::runtime_error("Unrecognized format " + getFilename().substr(getFilename().find_last_of(".")));
 	if (!(headerPCX.numOfColorPlanes == 3) && (headerPCX.bitsPerPixel == 8))
-		throw std::runtime_error("This reader works only with 24-bit true color images");
+		throw std::runtime_error("This reader works only with 24-bit and 32-bit true color images");
 	if (headerPCX.encoding == 0)
 		throw std::runtime_error("Uncompressed image");
 	if (headerPCX.version != 5)

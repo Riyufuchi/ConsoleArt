@@ -84,10 +84,22 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	}
 	else if(!strcmp(argv[1], "--runServer"))
 	{
-		console.out("ConsoleArt server v0.1\n");
-		std::string msg = "Server";
+		std::string msg = "ConsoleArt server v0.4\n";
+		console.out(msg);
 		SufuServer::Server server;
+		if (!server.isRunning())
+		{
+			console.err(server.getServerStatus());
+			std::cin.get();
+			return BootAction::SERVER;
+		}
+		console.out(server.getServerStatus());
+		console.out(" -> Server is up and running\n");
+		console.out("On port: ");
+		std::cout << server.getPort() << "\n";
 		server.runServer(msg);
+		console.out(server.getServerStatus());
+		std::cin.get();
 		return BootAction::SERVER;
 	}
 	else if(!strcmp(argv[1], "--runClient"))
@@ -97,7 +109,7 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 		SufuServer::Client client("127.0.0.1", 12345);
 		if (!client.isConnected())
 		{
-			console.err(client.getClientStatus() + "\n");
+			console.err(client.getClientStatus());
 			console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
 			return BootAction::CLIENT_ERR;
 		}

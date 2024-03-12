@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 8, 2024
+// Last Edited : Mar 12, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -71,6 +71,8 @@ void ImageBMP::checkHeader(std::ifstream& inf)
 		throw std::runtime_error("Error: Unrecognized format " + getFilename().substr(getFilename().find_last_of(".")));
 	//BMP info and colors
 	inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
+	if (bmp_info_header.bit_count != 24 && bmp_info_header.bit_count != 32)
+		throw std::runtime_error("This reader dosn't support " + std::to_string( bmp_info_header.bit_count) + "-bit images.");
 	if (bmp_info_header.bit_count == 32)
 	{
 		if (bmp_info_header.size >= (sizeof(BMPInfoHeader) + sizeof(BMPColorHeader)))
