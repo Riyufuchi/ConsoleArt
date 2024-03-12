@@ -13,8 +13,8 @@
 #include <iostream>
 #include <string>
 
-#include "../inc/ConsoleUtils.h"
-#include "../inc/IConsole.hpp"
+#include "../../inc/ConsoleUtils.h"
+#include "../../inc/IConsole.hpp"
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2024\n"
 

@@ -14,7 +14,7 @@
 #include <memory>
 #include <algorithm>
 
-#include "../ConsoleArtTools.hpp"
+#include "../tools/ConsoleArtTools.hpp"
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
 #include "../../imageUtils/AsciiConverter.h"

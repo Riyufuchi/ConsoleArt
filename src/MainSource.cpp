@@ -10,12 +10,14 @@
 #include <iostream>
 #include <string.h>
 
-#include "consoleArt/ConsoleArtTools.hpp"
+#include "consoleArt/tools/ConsoleArtTools.hpp"
 #include "consoleArt/controller/ControllerCLI.h"
 #include "inc/ConsoleUtils.h"
 #include "inc/UnixConsole.h"
 #include "inc/IConsole.hpp"
 #include "inc/DefaultConsole.h"
+#include "inc/Server.h"
+#include "inc/Client.h"
 #ifdef _WIN32
 	#include "inc/WindowsConsole.h"
 #endif // _WIN32
@@ -27,7 +29,10 @@ enum BootAction
 	DISPLAY_MANUAL,
 	CONFIGURE,
 	CONTINUE,
-	TEST
+	TEST,
+	SERVER,
+	CLIENT_OK,
+	CLIENT_ERR
 };
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console);
@@ -54,10 +59,13 @@ int main(int argc, char** argv)
 		case CONFIGURE: goto conf;
 		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
+		case SERVER: goto finish;
+		case CLIENT_OK: goto finish;
+		case CLIENT_ERR: goto start;
 	}
 	conf: consoleArt.configure(argc, argv);
 	start: consoleArt.run();
-	return 0;
+	finish: return 0;
 }
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console)
@@ -73,6 +81,38 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	{
 		ConsoleArt::ConsoleArtTools::colorTest(console);
 		return BootAction::TEST;
+	}
+	else if(!strcmp(argv[1], "--runServer"))
+	{
+		console.out("ConsoleArt server v0.1\n");
+		std::string msg = "Server";
+		SufuServer::Server server;
+		server.runServer(msg);
+		return BootAction::SERVER;
+	}
+	else if(!strcmp(argv[1], "--runClient"))
+	{
+		console.out("ConsoleArt client v0.3\n");
+		std::string msg = "Test request";
+		SufuServer::Client client("127.0.0.1", 12345);
+		if (!client.isConnected())
+		{
+			console.err(client.getClientStatus() + "\n");
+			console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
+			return BootAction::CLIENT_ERR;
+		}
+		client.sendRequest(msg);
+		if (client.listenForResponse(msg))
+			console.out(msg + "\n");
+		else
+			console.err(msg);
+		msg = "logout";
+		client.sendRequest(msg);
+		if (!client.listenForResponse(msg))
+			console.out(msg + "\n");
+		else
+			console.err(msg);
+		return BootAction::CLIENT_OK;
 	}
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
 	{
