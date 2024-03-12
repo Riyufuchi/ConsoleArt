@@ -3,6 +3,7 @@ lua542
 bin
 test
 libs
+src/inc
 
 # Eclipse
 .cproject
