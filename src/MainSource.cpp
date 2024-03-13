@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : 13.07.2020
-// Last Edit   : Mar 12, 2024
+// Last Edit   : Mar 13, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -18,6 +18,7 @@
 #include "inc/DefaultConsole.h"
 #include "inc/Server.h"
 #include "inc/Client.h"
+#include "consoleArt/tools/ServerTools.h"
 #ifdef _WIN32
 	#include "inc/WindowsConsole.h"
 #endif // _WIN32
@@ -84,50 +85,13 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	}
 	else if(!strcmp(argv[1], "--runServer"))
 	{
-		std::string msg = "ConsoleArt server v0.4\n";
-		console.out(msg);
-		SufuServer::Server server(6969);
-		if (!server.isRunning())
-		{
-			console.err(server.getServerStatus());
-			std::cin.get();
-			return BootAction::SERVER;
-		}
-		console.out(server.getServerStatus());
-		console.out(" -> Server is up and running\n");
-		console.out("On port: ");
-		std::cout << server.getPort() << "\n";
-		server.runServer(msg);
-		console.out(server.getServerStatus());
-		std::cin.get();
+		ConsoleArt::ServerTools server;
+		server.startServer();
 		return BootAction::SERVER;
 	}
 	else if(!strcmp(argv[1], "--runClient"))
 	{
-		console.out("ConsoleArt client v0.3\n");
-		std::string msg = "Ping\a";
-		SufuServer::Client client("127.0.0.1", 6969);
-		if (!client.isConnected())
-		{
-			console.err(client.getClientStatus());
-			console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
-			return BootAction::CLIENT_ERR;
-		}
-		client.sendRequest(msg);
-		client.sendRequest(msg);
-		if (client.listenForResponse(msg))
-					console.out(msg + "\n");
-		client.sendRequest(msg = "Pong");
-		if (client.listenForResponse(msg))
-			console.out(msg + "\n");
-		else
-			console.err(msg);
-		msg = "logout";
-		client.sendRequest(msg);
-		if (!client.listenForResponse(msg))
-			console.out(msg + "\n");
-		else
-			console.err(msg);
+		ConsoleArt::ServerTools::clientDemo(console);
 		return BootAction::CLIENT_OK;
 	}
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid

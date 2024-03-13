@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 12, 2024
+// Last Edited : Mar 13, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -110,7 +110,7 @@ bool ImageBMP::checkColorHeader(BMPColorHeader& bmp_color_header, std::string* m
 		expected_color_header.green_mask != bmp_color_header.green_mask ||
 		expected_color_header.alpha_mask != bmp_color_header.alpha_mask)
 	{
-		*msg = "Unexpected color mask format! The program expects the pixel data to be in the BGRA format";
+		*msg = "Unexpected color mask format!\nThe program expects the pixel data to be in the BGRA format";
 		return true;
 	}
 	// Compare the color space type in the provided header with the expected type (sRGB).

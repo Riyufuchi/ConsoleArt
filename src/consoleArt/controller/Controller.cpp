@@ -1,8 +1,8 @@
 ﻿//============================================================================
 // Name        : Controller.cpp
 // Author      : Riyufuchi
-// Created on  : 15.11.2022
-// Last Edit   : Mar 11, 2024
+// Created on  : Nov 15, 2022
+// Last Edit   : Mar 13, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -69,7 +69,7 @@ void Controller::loadAllImages()
 			else if (fne == ".bmp")
 				addImage(new Images::ImageBMP(entry.path().generic_string()));
 			else
-				messageUser(MessageType::WARNING, "Unsupported format: " + fne + "\n");
+				messageUser(MessageType::WARNING, "Unsupported format \"" + fne + "\"\n");
 		}
 	}
 	catch (std::runtime_error& e)
