@@ -89,7 +89,7 @@ bool Controller::addImage(Images::Image* image)
 		return false;
 	if (!image->isLoaded())
 	{
-		messageUser(MessageType::WARNING, image->getFileStatus() + "\n");
+		messageUser(MessageType::ERROR, image->getFileStatus() + "\n");
 		delete image;
 		image = NULL;
 		return false;

@@ -1,8 +1,8 @@
 //============================================================================
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
-// Created on  : 13.07.2020
-// Last Edit   : Mar 13, 2024
+// Created on  : Jul 13, 2020
+// Last Edit   : Mar 16, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -19,6 +19,7 @@
 #include "inc/Server.h"
 #include "inc/Client.h"
 #include "consoleArt/tools/ServerTools.h"
+#include "consoleArt/tools/ClientTools.h"
 #ifdef _WIN32
 	#include "inc/WindowsConsole.h"
 #endif // _WIN32
@@ -85,14 +86,19 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 	}
 	else if(!strcmp(argv[1], "--runServer"))
 	{
+		#if defined(_WIN32)
+		console.out("Server is available only in Linux/Unix version.");
+		#else
 		ConsoleArt::ServerTools server;
-		server.startServer();
+		server.startServerThread();
+		#endif
 		return BootAction::SERVER;
 	}
 	else if(!strcmp(argv[1], "--runClient"))
 	{
-		ConsoleArt::ServerTools::clientDemo(console);
-		return BootAction::CLIENT_OK;
+		ConsoleArt::ClientTools client;
+		client.runClient();
+		return BootAction::CLIENT_ERR;
 	}
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
 	{
