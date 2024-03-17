@@ -2,7 +2,7 @@
 // File       : ClientTools.cpp
 // Author     : riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 16, 2024
+// Last edit  : Mar 17, 2024
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,20 +11,19 @@
 
 namespace ConsoleArt
 {
-ClientTools::ClientTools() : client("127.0.0.1", 6969)
+ClientTools::ClientTools(ConsoleUtility::IConsole& console) : client("127.0.0.1", 6969), console(console)
 {
 }
 ClientTools::~ClientTools()
 {
-	// TODO Auto-generated destructor stub
 }
-void ClientTools::runClient()
+bool ClientTools::runClient()
 {
 	if (!client.isConnected())
 	{
 		console.err(client.getClientStatus());
 		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
-		return;
+		return false;
 	}
 	console.out("Username: ");
 	std::cin >> sharedString;
@@ -35,14 +34,11 @@ void ClientTools::runClient()
 	{
 		console.err(client.getClientStatus());
 		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
-		console.out("Press enter to exit... ");
-		std::cin.get();
-		std::cin.get();
-		return;
+		return false;
 	}
-	std::string command = "";
 	std::thread serverResponseThread(&ClientTools::handleChat, this);
-	while (command != "logout")
+	std::string command = "";
+	while (command != "logout" && client.isConnected())
 	{
 		std::cin >> command;
 		client.sendRequest(command);
@@ -51,6 +47,7 @@ void ClientTools::runClient()
 	console.out("Press enter to exit... ");
 	std::cin.get();
 	std::cin.get();
+	return true;
 }
 void ClientTools::handleResponse()
 {
@@ -65,7 +62,7 @@ void ClientTools::handleChat()
 	{
 		if (client.listenForResponse(sharedString))
 		{
-			console.out("\nServer: " + sharedString + "\n");
+			console.out("Server: " + sharedString + "\n");
 		}
 		else
 			console.err("Server error : " + sharedString);

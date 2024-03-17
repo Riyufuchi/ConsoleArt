@@ -2,7 +2,7 @@
 // File       : ConsoleArtUtils.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 8, 2024
+// Last edit  : Mar 17, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -24,6 +24,7 @@ class ConsoleArtTools
 {
 private:
 public:
+	static constexpr const char* CONSOLE_ART_VERSION = "2.2";
 	ConsoleArtTools();
 	~ConsoleArtTools();
 	static void createManual()
@@ -61,7 +62,7 @@ public:
 					"  Note:\n"
 					"    %s\n\n";
 		printf(format, "PCX", "24, 32", "Only compressed");
-		printf(format, "BMP", "24, 32", "Bottom left corner start oriented\n    Uncompressed sRGB");
+		printf(format, "BMP", "24, 32", "Bottom left corner start oriented\n    Uncompressed BGRA");
 
 	}
 	static void colorTest(ConsoleUtility::IConsole& console)

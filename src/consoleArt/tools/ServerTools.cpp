@@ -9,8 +9,8 @@
 
 #include "ServerTools.h"
 
-namespace ConsoleArt {
-
+namespace ConsoleArt
+{
 ServerTools::ServerTools() : server(6969)
 {
 	std::time_t currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); // Convert the time point to a time_t object
@@ -22,8 +22,8 @@ ServerTools::ServerTools() : server(6969)
 	this->message = "Today is: " + std::to_string(day) + "." + std::to_string(month) + "." + std::to_string(year) + "\n";
 }
 
-ServerTools::~ServerTools() {
-	// TODO Auto-generated destructor stub
+ServerTools::~ServerTools()
+{
 }
 void ServerTools::startServerThread()
 {
@@ -52,7 +52,7 @@ void ServerTools::startServer()
 	}
 	console.out(server.getServerStatus());
 	console.out(" -> Server is up and running\n");
-	console.out("On port: ");
+	console.out("Port: ");
 	std::cout << server.getPort() << "\n";
 	server.runServer();
 }
