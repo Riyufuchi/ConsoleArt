@@ -13,7 +13,6 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleUtility::IConsole* console) : ControllerCLI("", console)
 {
 }
-
 ControllerCLI::ControllerCLI(std::string path, ConsoleUtility::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
 	if (console == nullptr)
@@ -36,21 +35,27 @@ void ControllerCLI::configure(int argc, char** argv)
 			}
 			else if (!strcmp(argv[i], "--color"))
 			{
-				if (i + 1 >=  argc)
+				if ((i + 1 >=  argc) || (!DataUtility::DataUtils::isNumber(argv[++i])))
 				{
-					messageUser(MessageType::ERROR, "Missing argument for --color\n");
-					continue;
-				}
-				if (!DataUtility::DataUtils::isNumber(argv[++i]))
-				{
-					messageUser(MessageType::ERROR, "Wrong argument for --color\n");
+					messageUser(MessageType::ERROR, "Missing or wrong argument for --color\n");
 					continue;
 				}
 				console->setDefaultTextColor(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(std::stoi(argv[i]) - 1)));
 			}
+			else if (!strcmp(argv[i], "--runClient"))
+			{
+				const char* ipAdress = "127.0.0.1";
+				if ((i + 1 >=  argc) || (argv[++i][0] == '-'))
+					messageUser(MessageType::INFO, "No server IP address was given, using loop back instead\n");
+				else
+					ipAdress = argv[i];
+				ConsoleArt::ClientTools client(*console, ipAdress);
+				if (client.runClient())
+					isRunnable = false;
+			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
-				messageUser(MessageType::ERROR, ConsoleArtTools::createArgErrorMessage(argv[i]));
+				messageUser(MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));
 			}
 		}
 	}
@@ -62,6 +67,8 @@ command += "ls";
 system(command.c_str());*/
 void ControllerCLI::run()
 {
+	if (!isRunnable)
+		return;
 	menu:
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{

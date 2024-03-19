@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 18, 2024
+// Last Edit   : Mar 19, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -13,7 +13,7 @@ namespace ConsoleArt
 Controller::Controller() : Controller("") // Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path) : workspacePath(path)
+Controller::Controller(std::string path) : workspacePath(path), isRunnable(true)
 {
 }
 
@@ -47,7 +47,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 	}
 	else if (!strcmp(argv[i], "--about"))
 	{
-		ConsoleArtTools::aboutApplication();
+		GeneralTools::aboutApplication();
 		return false;
 	}
 	return true;

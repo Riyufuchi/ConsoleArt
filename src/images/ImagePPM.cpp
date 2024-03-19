@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 18, 2024
+// Last edit  : Mar 19, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,6 +20,8 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 	headerPPM.width = w;
 	headerPPM.height = h;
 	imageData.reserve(w * h);
+	for (size_t x = 0; x < imageData.size(); x++)
+		imageData.emplace_back(Pixel{255, 255, 255});
 	this->positionBase = 0;
 }
 ImagePPM::~ImagePPM()
@@ -80,24 +82,19 @@ void ImagePPM::readPPM()
 	while (std::getline(inf, line))
 	{
 		iss = std::istringstream(line);
-		for (int x = 0; x < headerPPM.width; x++)
+		while (iss >> byte)
 		{
-			for (color = 0; color < 3; color++)
+			switch (color)
 			{
-				if(iss >> byte)
-					switch (color)
-					{
-						case 0: pixel.red =  std::stoi(byte); break;
-						case 1: pixel.green =  std::stoi(byte); break;
-						case 2: pixel.blue =  std::stoi(byte); break;
-					}
-				else
-				{
-					pixel = Image::Pixel{100, 100, 100};
-					break;
-				}
+				case 0: pixel.red =  std::stoi(byte); break;
+				case 1: pixel.green =  std::stoi(byte); break;
+				case 2:
+					pixel.blue =  std::stoi(byte);
+					imageData.emplace_back(pixel);
+					color = -1;
+				break;
 			}
-			imageData.emplace_back(pixel);
+			color++;
 		}
 	}
 	this->fileStatus = "OK";

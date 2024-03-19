@@ -1,8 +1,8 @@
 //============================================================================
 // Name        : Controller
 // Author      : Riyufuchi
-// Created on  : 15.11.2022
-// Last Edit   : Mar 18, 2024
+// Created on  : Nov 15, 2022
+// Last Edit   : Mar 19, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -14,12 +14,12 @@
 #include <memory>
 #include <algorithm>
 
-#include "../tools/ConsoleArtTools.hpp"
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
 #include "../../images/ImagePPM.h"
 #include "../../imageUtils/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
+#include "../tools/GeneralTools.hpp"
 
 namespace ConsoleArt
 {
@@ -34,25 +34,26 @@ enum MessageType
 };
 class Controller
 {
-private:
-	//IMenu& menu; // TODO: Implement methods from Controller
 protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
+	bool isRunnable;
+	// Methods
 	virtual void convertImage(Images::Image* image) = 0;
+	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 	void loadAllImages();
+	// Functions
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	Images::Image* loadImage(std::string path);
 	bool applyArgument(int arg, char** argv, int i);
-	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 public:
 	Controller();
 	Controller(std::string path);
+	virtual ~Controller();
 	virtual void configure(int argc, char** argv) = 0;
 	virtual void run() = 0;
 	bool addImage(Images::Image* image);
-	virtual ~Controller();
 };
 }
 #endif

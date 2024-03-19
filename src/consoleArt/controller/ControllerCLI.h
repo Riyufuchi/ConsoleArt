@@ -12,13 +12,14 @@
 
 #include "Controller.h"
 #include "../cli/AsciiPrinter.h"
+#include "../cli/MenusCLI.h"
+#include "../tools/ClientTools.h"
 #include "../../imageUtils/ImageToolsCLI.h"
 #include "../../inc/ColorUtils.h"
 #include "../../inc/ConsoleUtils.h"
 #include "../../inc/UnixConsole.h"
 #include "../../inc/DefaultConsole.h"
 #include "../../inc/DataUtils.h"
-#include "../cli/MenusCLI.h"
 
 namespace ConsoleArt
 {

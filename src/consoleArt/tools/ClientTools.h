@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ClientTools.h
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 17, 2024
+// Last edit  : Mar 19, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -28,6 +28,7 @@ private:
 	void handleChat();
 public:
 	ClientTools(ConsoleUtility::IConsole& console);
+	ClientTools(ConsoleUtility::IConsole& console, const char* ipAdress);
 	virtual ~ClientTools();
 	bool runClient();
 };

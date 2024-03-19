@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Mar 17, 2024
+// Last Edit   : Mar 19, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -10,16 +10,15 @@
 #include <iostream>
 #include <string.h>
 
-#include "consoleArt/tools/ConsoleArtTools.hpp"
 #include "consoleArt/controller/ControllerCLI.h"
+#include "consoleArt/tools/ServerTools.h"
+#include "consoleArt/tools/GeneralTools.hpp"
 #include "inc/ConsoleUtils.h"
 #include "inc/UnixConsole.h"
 #include "inc/IConsole.hpp"
 #include "inc/DefaultConsole.h"
 #include "inc/Server.h"
 #include "inc/Client.h"
-#include "consoleArt/tools/ServerTools.h"
-#include "consoleArt/tools/ClientTools.h"
 #ifdef _WIN32
 	#include "inc/WindowsConsole.h"
 #endif // _WIN32
@@ -52,7 +51,7 @@ int main(int argc, char** argv)
 		ConsoleUtility::DefaultConsole systemConsole;
 	#endif
 	systemConsole.setDefaultTextColor(color);
-	ConsoleUtility::ConsoleUtils::header("\n    ConsoleArt V" + std::string(ConsoleArt::ConsoleArtTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
+	ConsoleUtility::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
 	ConsoleArt::ControllerCLI consoleArt(&systemConsole);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{
@@ -76,12 +75,12 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 		return BootAction::CONTINUE;
 	else if(!strcmp(argv[1], "--man") || !strcmp(argv[1], "--help"))
 	{
-		ConsoleArt::ConsoleArtTools::createManual();
+		ConsoleArt::GeneralTools::createManual();
 		return BootAction::DISPLAY_MANUAL;
 	}
 	else if(!strcmp(argv[1], "--colorTest"))
 	{
-		ConsoleArt::ConsoleArtTools::colorTest(console);
+		ConsoleArt::GeneralTools::colorTest(console);
 		return BootAction::TEST;
 	}
 	else if(!strcmp(argv[1], "--runServer"))
@@ -94,16 +93,9 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::ICons
 		#endif
 		return BootAction::SERVER;
 	}
-	else if(!strcmp(argv[1], "--runClient"))
-	{
-		ConsoleArt::ClientTools client(console);
-		if (client.runClient())
-			return BootAction::CLIENT_OK;
-		return BootAction::CLIENT_ERR;
-	}
 	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
 	{
-		ConsoleArt::ConsoleArtTools::printArgError(argv[1], console);
+		ConsoleArt::GeneralTools::printArgError(argv[1], console);
 		return BootAction::ABORT;
 	}
 	else

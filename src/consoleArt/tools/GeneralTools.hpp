@@ -1,14 +1,14 @@
 //==============================================================================
-// File       : ConsoleArtUtils.hpp
+// File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 17, 2024
+// Last edit  : Mar 19, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef _CONSOLE_ART_TOOLS_HPP_
-#define _CONSOLE_ART_TOOLS_HPP_
+#ifndef _CONSOLE_ART_GENERAL_TOOLS_HPP_
+#define _CONSOLE_ART_GENERAL_TOOLS_HPP_
 
 #include <iostream>
 #include <string>
@@ -20,13 +20,12 @@
 
 namespace ConsoleArt
 {
-class ConsoleArtTools
+class GeneralTools
 {
-private:
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.2";
-	ConsoleArtTools();
-	~ConsoleArtTools();
+	static constexpr const char* CONSOLE_ART_VERSION = "2.3";
+	GeneralTools();
+	~GeneralTools();
 	static void createManual()
 	{
 		std::cout << _COPYRIGHT_HEADER;
@@ -38,7 +37,9 @@ public:
 			"--image [path]| Loads given image (in workspace if defined)",
 			"--no-color| Disable colored outputs, for when they are not supported",
 			"--color [colorID]| Sets default text color",
-			"--about| Shows details about this application"
+			"--about| Shows details about this application",
+			"--runClient [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
+			"--runServer| Starts ConsoleArt as simple server (port 6969)"
 		};
 		ConsoleUtility::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
@@ -55,16 +56,13 @@ public:
 		std::cout << "4. In order to view the image, make font smaller. Size 2 is recommended for bigger images, however this depends on size of given image\n\n";
 
 		std::cout << "Supported image formats\n";
-		const char* format =
-					"%s\n"
-					"  bits:\n"
-					"    %s\n"
-					"  Note:\n"
-					"    %s\n\n";
-		printf(format, "PCX", "24, 32", "Only compressed");
-		printf(format, "BMP", "24, 32", "Bottom left corner start oriented\n    Uncompressed BGRA");
-		printf(format, "PPM", "24", "");
-
+		std::string args[] = {
+					"Format| Bits; Notes",
+					"PCX| 24, 32; Only compressed",
+					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
+					"PPM| 24;"
+				};
+		ConsoleUtility::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
 	static void colorTest(ConsoleUtility::IConsole& console)
 	{
@@ -90,4 +88,4 @@ public:
 	}
 };
 } // Namespace
-#endif /* CONSOLEART_CONSOLEARTTOOLS_HPP_ */
+#endif /* _CONSOLE_ART_GENERAL_TOOLS_HPP_ */

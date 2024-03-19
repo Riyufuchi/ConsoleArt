@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ClientTools.cpp
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 17, 2024
+// Last edit  : Mar 19, 2024
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,10 @@
 
 namespace ConsoleArt
 {
-ClientTools::ClientTools(ConsoleUtility::IConsole& console) : client("127.0.0.1", 6969), console(console)
+ClientTools::ClientTools(ConsoleUtility::IConsole& console) : ClientTools(console, "127.0.0.1")
+{
+}
+ClientTools::ClientTools(ConsoleUtility::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console)
 {
 }
 ClientTools::~ClientTools()
