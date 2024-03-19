@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : 18.12.2023
-// Last Edit   : Mar 8, 2024
+// Last Edit   : Mar 19, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -85,7 +85,7 @@ Images::Image* ControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
-		console->out(255, 255, 0, "No images were loaded yet!\n");
+		console->out(255, 255, 0, "No images has been loaded yet!\n");
 		return 0;
 	}
 	console->defaultTextColor();
@@ -97,7 +97,9 @@ Images::Image* ControllerCLI::selectImage()
 	}
 
 	int selectedIndex = ConsoleUtility::ConsoleUtils::getIntSafe(1, max) - 1;
+	std::cout << "\n";
 	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
+	std::cout << "\n";
 	console->resetTextColor();
 	return images[selectedIndex].get();
 	/*
@@ -117,7 +119,7 @@ std::string ControllerCLI::inputImageName()
 	std::cout << "Image name with file extension: ";
 	std::string imgName;
 	std::cin >> imgName;
-	std::cin.get(); //Clears enter from console
+	std::cin.get(); // Clears enter from console
 	return imgName;
 }
 

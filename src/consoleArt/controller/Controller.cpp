@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 13, 2024
+// Last Edit   : Mar 18, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -68,6 +68,8 @@ void Controller::loadAllImages()
 				addImage(new Images::ImagePCX(entry.path().generic_string()));
 			else if (fne == ".bmp")
 				addImage(new Images::ImageBMP(entry.path().generic_string()));
+			else if (fne == ".ppm")
+				addImage(new Images::ImagePPM(entry.path().generic_string()));
 			else
 				messageUser(MessageType::WARNING, "Unsupported format \"" + fne + "\"\n");
 		}
@@ -122,10 +124,12 @@ Images::Image* Controller::loadImage(std::string path)
 		messageUser(MessageType::EXCEPTION, e.what());
 		return nullptr;
 	}
-	if(ext == ".pcx")
+	if (ext == ".pcx")
 		return new Images::ImagePCX(path);
 	else if (ext == ".bmp")
 		return new Images::ImageBMP(path);
+	else if (ext == ".ppm")
+		return new Images::ImagePPM(path);
 	else
 		messageUser(MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;

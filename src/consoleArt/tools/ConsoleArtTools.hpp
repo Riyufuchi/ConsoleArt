@@ -63,6 +63,7 @@ public:
 					"    %s\n\n";
 		printf(format, "PCX", "24, 32", "Only compressed");
 		printf(format, "BMP", "24, 32", "Bottom left corner start oriented\n    Uncompressed BGRA");
+		printf(format, "PPM", "24", "");
 
 	}
 	static void colorTest(ConsoleUtility::IConsole& console)

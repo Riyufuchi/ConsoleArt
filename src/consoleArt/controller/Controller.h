@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : 15.11.2022
-// Last Edit   : Mar 4, 2024
+// Last Edit   : Mar 18, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -17,6 +17,7 @@
 #include "../tools/ConsoleArtTools.hpp"
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
+#include "../../images/ImagePPM.h"
 #include "../../imageUtils/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 
