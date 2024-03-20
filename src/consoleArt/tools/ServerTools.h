@@ -2,7 +2,7 @@
 // File       : ServerTools.h
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 16, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,8 +15,9 @@
 #include <chrono>
 #include <ctime>
 
+#include "ClientTools.h"
+
 #include "../../inc/Server.h"
-#include "../../inc/Client.h"
 #include "../../inc/UnixConsole.h"
 #include "../../inc/IConsole.hpp"
 

@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 19, 2024
+// Last Edit   : Mar 20, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -122,6 +122,7 @@ Images::Image* Controller::loadImage(std::string path)
 	catch (std::exception& e)
 	{
 		messageUser(MessageType::EXCEPTION, e.what());
+		std::cout << "\n";
 		return nullptr;
 	}
 	if (ext == ".pcx")

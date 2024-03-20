@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Mar 19, 2024
+// Last Edit   : Mar 20, 2024
 // Description : This is programs main
 //============================================================================
 
@@ -18,7 +18,6 @@
 #include "inc/IConsole.hpp"
 #include "inc/DefaultConsole.h"
 #include "inc/Server.h"
-#include "inc/Client.h"
 #ifdef _WIN32
 	#include "inc/WindowsConsole.h"
 #endif // _WIN32
@@ -31,9 +30,7 @@ enum BootAction
 	CONFIGURE,
 	CONTINUE,
 	TEST,
-	SERVER,
-	CLIENT_OK,
-	CLIENT_ERR
+	SERVER
 };
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console);
@@ -61,8 +58,6 @@ int main(int argc, char** argv)
 		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
 		case SERVER: goto finish;
-		case CLIENT_OK: goto finish;
-		case CLIENT_ERR: goto start;
 	}
 	conf: consoleArt.configure(argc, argv);
 	start: consoleArt.run();

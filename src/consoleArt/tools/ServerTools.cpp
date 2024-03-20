@@ -2,7 +2,7 @@
 // File       : ServerTools.cpp
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 16, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -34,7 +34,8 @@ void ServerTools::startServerThread()
 		std::cin >> command;
 	}
 	server.shutdownServer();
-	SufuServer::Client c; // Trigger server loop and shutdowns server
+	ClientTools c(console);
+	//SufuServer::Client c; // Trigger server loop and shutdowns server
 	serverThread.join();
 	console.out("Server exited with status: " + server.getServerStatus() + "\n");
 	console.out("Press enter to exit... ");

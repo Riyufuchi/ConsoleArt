@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : Image.h
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 8, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -52,14 +52,13 @@ public:
 	bool isLoaded();
 	bool isInverted();
 	// Getters
-	const std::string& getFilename() const;
-	const std::string& getFilepath() const;
-	const std::string& getFileStatus() const;
+	virtual const std::string& getFilename() const final;
+	virtual const std::string& getFilepath() const final;
+	virtual const std::string& getFileStatus() const final;
 	virtual ImageInfo getImageInfo() const = 0;
 	virtual Pixel getPixel(int x, int y) = 0;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
 };
-
 } /* namespace Images */
 #endif /* IMAGES_IMAGE_H_ */

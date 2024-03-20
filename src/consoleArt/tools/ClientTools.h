@@ -2,7 +2,7 @@
 // File       : ClientTools.h
 // Author     : Riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 19, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,15 +13,24 @@
 #include <string>
 #include <thread>
 
-#include "../../inc/Client.h"
 #include "../../inc/IConsole.hpp"
+
+#if defined(__linux__) || defined(__APPLE__)
+	#include "../../inc/UnixClient.h"
+#elif defined(_WIN32)
+	#include "../../inc/WindowsClient.h"
+#endif
 
 namespace ConsoleArt
 {
 class ClientTools
 {
 private:
-	SufuServer::Client client;
+#if defined(__linux__) || defined(__APPLE__)
+	SufuServer::UnixClient client;
+#elif defined(_WIN32)
+	SufuServer::WindowsClient client;
+#endif
 	std::string sharedString;
 	ConsoleUtility::IConsole& console;
 	void handleResponse();

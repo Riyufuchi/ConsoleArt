@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 13, 2024
+// Last Edited : Mar 20, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -35,11 +35,10 @@ void ImageBMP::readBMP()
 		return;
 	}
 	readImageData(inf);
-	if (bmp_info_header.height < 0) //Check for image orientation
-		this->inverted = false;
+	if (bmp_info_header.height < 0) // Check for image orientation
+		this->inverted = false; // Origin is in bottom left corner
 	else
 		this->inverted = true;
-			//throw std::runtime_error("This program can work only with BMP images with the origin in the bottom left corner!");
 	this->fileStatus = "OK";
 }
 void ImageBMP::readImageData(std::ifstream& inf)
