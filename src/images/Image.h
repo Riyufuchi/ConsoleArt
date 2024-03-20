@@ -18,19 +18,7 @@ namespace Images
 {
 class Image
 {
-protected:
-	std::string filepath;
-	std::string fileStatus;
-	bool inverted;
-private:
-	std::string filename;
 public:
-	Image(std::string filepath);
-	virtual ~Image() = default;
-	explicit operator bool() const
-	{
-		return fileStatus == "OK";
-	}
 	struct Pixel
 	{
 		uint8_t red;
@@ -40,13 +28,27 @@ public:
 	};
 	struct ImageInfo
 	{
-		std::string name {"Error"};
+		std::string name {"Unknown"};
 		int width {0};
 		int height {0};
 		//int sizeInBytes;
 		uint16_t bits {24};
 		uint16_t file_type {0};
 	};
+protected:
+	std::string filepath;
+	std::string fileStatus;
+	bool inverted;
+	ImageInfo imageInfo;
+private:
+	std::string filename;
+public:
+	Image(std::string filepath);
+	virtual ~Image() = default;
+	explicit operator bool() const
+	{
+		return fileStatus == "OK";
+	}
 	virtual const bool saveImage() = 0;
 	// Is methods
 	bool isLoaded();

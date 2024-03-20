@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImagePCX.h
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 8, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -45,7 +45,6 @@ private:
 	#pragma pack(pop)
 	std::vector<uint8_t> imageData;
 	std::vector<Pixel> pixels;
-	ImageInfo info;
 	int positionBase;
 	void readPCX();
 	void readImageData(std::ifstream& inf);

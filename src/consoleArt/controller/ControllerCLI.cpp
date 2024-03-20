@@ -53,6 +53,15 @@ void ControllerCLI::configure(int argc, char** argv)
 				if (client.runClient())
 					isRunnable = false;
 			}
+			else if (!strcmp(argv[i], "--testBMP"))
+			{
+				if ((i + 1 >=  argc) || (argv[++i][0] == '-'))
+					messageUser(MessageType::INFO, "No server IP address was given, using loop back instead\n");
+				Images::ImageBMP img(argv[i]);
+				for(int x = 0; x < img.getImageInfo().width; x++)
+					img.setPixel(x, 100, Images::Image::Pixel{255, 105, 180});
+				img.saveImage();
+			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
 				messageUser(MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));

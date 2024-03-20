@@ -1,13 +1,14 @@
 //============================================================================
 // Name        : ImageBMP
 // Author      : Riyufuchi
-// Created on  : 17.07.2020
-// Last Edit   : Mar 8, 2024
+// Created on  : Jul 17, 2020
+// Last Edit   : Mar 20, 2024
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
-#ifndef _IMAGEBMP_H_
-#define _IMAGEBMP_H_
+#ifndef _IMAGE_BMP_H_
+#define _IMAGE_BMP_H_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -41,7 +42,7 @@ private:
 			int32_t y_pixels_per_meter{0};
 			uint32_t colors_used{0}; //No. color indexes in the color table. Use 0 for the max number of colors allowed by bit_count
 			uint32_t colors_important{0}; //No. of colors used for displaying the bitmap. If 0 all colors are required
-		};
+		} bmp_info_header;
 		struct BMPColorHeader
 		{
 			uint32_t red_mask{0x00ff0000}; //Bit mask for the red channel
@@ -50,12 +51,10 @@ private:
 			uint32_t alpha_mask{0xff000000}; //Bit mask for the alpha channel
 			uint32_t color_space_type{0x73524742}; //Default "sRGB" (0x73524742)
 			uint32_t unused[16]{0}; //Unused data for sRGB color space
-		};
+		} bmp_color_header;
 	#pragma pack(pop)
 	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
-	BMPInfoHeader bmp_info_header;
-	BMPColorHeader bmp_color_header;
 	void readBMP();
 	void readImageData(std::ifstream& inf);
 	//Functions

@@ -15,6 +15,11 @@ namespace Images
 ImageBMP::ImageBMP(std::string filename) : Image(filename)
 {
 	readBMP();
+	imageInfo.name = getFilename();
+	imageInfo.width = bmp_info_header.width;
+	imageInfo.height = bmp_info_header.height;
+	imageInfo.file_type = headerBMP.file_type;
+	imageInfo.bits = bmp_info_header.bit_count;
 }
 
 void ImageBMP::readBMP()
@@ -175,17 +180,20 @@ uint8_t ImageBMP::getAplha(int x, int y)
 }
 const bool ImageBMP::saveImage()
 {
-	return false;
+	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (!outf.is_open())
+	{
+		return false;
+	}
+	outf.write(reinterpret_cast<char*>(&headerBMP), sizeof(BMPFileHeader));
+	outf.write(reinterpret_cast<char*>(&bmp_info_header), sizeof(BMPInfoHeader));
+	outf.write(reinterpret_cast<char*>(&bmp_color_header), sizeof(BMPColorHeader));
+	outf.write(reinterpret_cast<char*>(imgData.data()), imgData.size());
+	return true;
 }
 Image::ImageInfo ImageBMP::getImageInfo() const
 {
-	ImageInfo a;
-	a.name = getFilename();
-	a.width = bmp_info_header.width;
-	a.height = bmp_info_header.height;
-	a.file_type = headerBMP.file_type;
-	a.bits = bmp_info_header.bit_count;
-	return a;
+	return imageInfo;
 }
 ImageBMP::~ImageBMP()
 {

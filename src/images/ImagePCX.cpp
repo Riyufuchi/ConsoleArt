@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 12, 2024
+// Last edit  : Mar 20, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,11 +36,11 @@ void ImagePCX::readPCX()
 		this->fileStatus = e.what();
 		return;
 	}
-	info.name = getFilename();
-	info.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
-	info.height = (headerPCX.yMax - headerPCX.yMin) + 1;
-	info.file_type = headerPCX.file_type;
-	info.bits = headerPCX.numOfColorPlanes * 8;
+	imageInfo.name = getFilename();
+	imageInfo.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
+	imageInfo.height = (headerPCX.yMax - headerPCX.yMin) + 1;
+	imageInfo.file_type = headerPCX.file_type;
+	imageInfo.bits = headerPCX.numOfColorPlanes * 8;
 
 	readImageData(inf);
 	/*switch (headerPCX.numOfColorPlanes)
@@ -54,8 +54,8 @@ void ImagePCX::readPCX()
 }
 void ImagePCX::readImageData(std::ifstream& inf)
 {
-	int width = info.width;
-	int height = info.height;
+	int width = imageInfo.width;
+	int height = imageInfo.height;
 	const int dataSize = width * height * headerPCX.numOfColorPlanes;
 	// Initialize vectors
 	imageData.clear();
@@ -115,15 +115,15 @@ void ImagePCX::make32bitPCX()
 }*/
 void ImagePCX::updateImage()
 {
-	const int INDEX_BASE = 3 * info.width;
-	const int PLANE_GREEN = info.width;
-	const int PLANE_BLUE = 2 * info.width;
-	const int PLANE_ALPHA = 3 * info.width;
+	const int INDEX_BASE = 3 * imageInfo.width;
+	const int PLANE_GREEN = imageInfo.width;
+	const int PLANE_BLUE = 2 * imageInfo.width;
+	const int PLANE_ALPHA = 3 * imageInfo.width;
 	int index = 0;
 	Pixel newPixel;
-	for (int y = 0; y < info.height; y++)
+	for (int y = 0; y < imageInfo.height; y++)
 	{
-		for (int x = 0; x < info.width; x++)
+		for (int x = 0; x < imageInfo.width; x++)
 		{
 			index = (y * INDEX_BASE + x);
 			newPixel = getPixel(x, y);
@@ -148,24 +148,24 @@ void ImagePCX::checkHeader()
 }
 Image::ImageInfo ImagePCX::getImageInfo() const
 {
-	return info;
+	return imageInfo;
 }
 Image::Pixel ImagePCX::getPixel(int x, int y)
 {
-	positionBase = y * 3 *info.width + x;
+	positionBase = y * 3 *imageInfo.width + x;
 	if (headerPCX.numOfColorPlanes == 4)
-		return Pixel{imageData[positionBase], imageData[positionBase + info.width], imageData[positionBase + 2 * info.width], imageData[positionBase + 3 * info.width]};
-	return Pixel{imageData[positionBase], imageData[positionBase + info.width], imageData[positionBase + 2 * info.width], 255};
+		return Pixel{imageData[positionBase], imageData[positionBase + imageInfo.width], imageData[positionBase + 2 * imageInfo.width], imageData[positionBase + 3 * imageInfo.width]};
+	return Pixel{imageData[positionBase], imageData[positionBase + imageInfo.width], imageData[positionBase + 2 * imageInfo.width], 255};
 }
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
 	//pixels[y * info.width + x] = newPixel;
-	int index = y * 3 * info.width + x;
+	int index = y * 3 * imageInfo.width + x;
 	imageData[index] = newPixel.red;
-	imageData[index + info.width]= newPixel.green;
-	imageData[index + 2 * info.width] = newPixel.blue;
+	imageData[index + imageInfo.width]= newPixel.green;
+	imageData[index + 2 * imageInfo.width] = newPixel.blue;
 	if (headerPCX.numOfColorPlanes == 4)
-		imageData[index + 3 * info.width] = newPixel.alpha;
+		imageData[index + 3 * imageInfo.width] = newPixel.alpha;
 }
 const bool ImagePCX::saveImage()
 {
