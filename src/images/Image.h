@@ -2,13 +2,13 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 22, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMAGE_H_
-#define IMAGES_IMAGE_H_
+#ifndef _IMAGES_IMAGE_H_
+#define _IMAGES_IMAGE_H_
 
 #include <iostream>
 #include <fstream>
@@ -40,7 +40,6 @@ protected:
 	std::string fileStatus;
 	bool inverted;
 	ImageInfo imageInfo;
-private:
 	std::string filename;
 public:
 	Image(std::string filepath);
@@ -50,6 +49,8 @@ public:
 		return fileStatus == "OK";
 	}
 	virtual const bool saveImage() = 0;
+	virtual void loadImage() = 0;
+	void rename(std::string imageName);
 	// Is methods
 	bool isLoaded();
 	bool isInverted();

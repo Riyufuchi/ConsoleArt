@@ -2,13 +2,13 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 22, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMAGEPCX_H_
-#define IMAGES_IMAGEPCX_H_
+#ifndef _IMAGES_IMAGE_PCX_H_
+#define _IMAGES_IMAGE_PCX_H_
 
 #include <vector>
 #include <iostream>
@@ -46,7 +46,6 @@ private:
 	std::vector<uint8_t> imageData;
 	std::vector<Pixel> pixels;
 	int positionBase;
-	void readPCX();
 	void readImageData(std::ifstream& inf);
 	//void make24bitPCX();
 	//void make32bitPCX();
@@ -60,6 +59,7 @@ public:
 	Pixel getPixel(int x, int y) override;
 	void setPixel(int x, int y, Pixel newPixel) override;
 	const bool saveImage() override;
+	void loadImage() override;
 };
 } /* namespace Images */
 #endif /* IMAGES_IMAGEPCX_H_ */

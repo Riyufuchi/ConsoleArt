@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 22, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,10 +13,18 @@ namespace Images
 {
 Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), inverted(false)
 {
-	if (int xPos = filepath.find_last_of('/') != std::string::npos)
-		this->filename = filepath.substr(xPos + 1, filepath.length() + 1);
+	size_t xPos;
+	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
+		this->filename = filepath.substr(xPos + 1);
 	else
 		this->filename = filepath;
+
+}
+void Image::rename(std::string imageName)
+{
+	imageName = imageName.append(filename.substr(filename.find('.')));
+	filepath = filepath.substr(0, (filepath.length() - filename.length())).append(imageName);
+	filename = imageName;
 }
 const std::string& Image::getFileStatus() const
 {

@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 22, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,12 +13,12 @@ namespace Images
 {
 ImagePCX::ImagePCX(std::string filename) : Image(filename)
 {
-	readPCX();
+	loadImage();
 }
 ImagePCX::~ImagePCX()
 {
 }
-void ImagePCX::readPCX()
+void ImagePCX::loadImage()
 {
 	std::ifstream inf(filepath, std::ios::in | std::ios::binary);
 	if (!inf)
@@ -36,7 +36,7 @@ void ImagePCX::readPCX()
 		this->fileStatus = e.what();
 		return;
 	}
-	imageInfo.name = getFilename();
+	imageInfo.name = filename;
 	imageInfo.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
 	imageInfo.height = (headerPCX.yMax - headerPCX.yMin) + 1;
 	imageInfo.file_type = headerPCX.file_type;

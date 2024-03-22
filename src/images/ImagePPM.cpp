@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 19, 2024
+// Last edit  : Mar 22, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,7 +13,11 @@ namespace Images
 {
 ImagePPM::ImagePPM(std::string filename) : Image(filename), positionBase(0)
 {
-	readPPM();
+	loadImage();
+	imageInfo.name = this->filename;
+	imageInfo.width = headerPPM.width;
+	imageInfo.height = headerPPM.height;
+	imageInfo.file_type = 806;
 }
 ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 {
@@ -27,7 +31,7 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 ImagePPM::~ImagePPM()
 {
 }
-void ImagePPM::readPPM()
+void ImagePPM::loadImage()
 {
 	std::ifstream inf(filepath, std::ios::in);
 	if (!inf)
