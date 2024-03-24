@@ -1,8 +1,8 @@
 ﻿//============================================================================
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
-// Created on  : 18.12.2023
-// Last Edit   : Mar 19, 2024
+// Created on  : Dec 18, 2023
+// Last Edit   : Mar 24, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -59,7 +59,7 @@ void ControllerCLI::configure(int argc, char** argv)
 					messageUser(MessageType::INFO, "No server IP address was given, using loop back instead\n");
 				Images::ImageBMP img(argv[i]);
 				for(int x = 0; x < img.getImageInfo().width; x++)
-					img.setPixel(x, 100, Images::Image::Pixel{255, 105, 180});
+					img.setPixel(x, 100, Images::Pixel{255, 105, 180});
 				img.saveImage();
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param

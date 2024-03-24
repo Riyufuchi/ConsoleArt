@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edit   : Mar 22, 2024
+// Last Edit   : Mar 24, 2024
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -53,9 +53,7 @@ private:
 			uint32_t unused[16]{0}; //Unused data for sRGB color space
 		} bmp_color_header;
 	#pragma pack(pop)
-	std::vector<uint8_t> imgData; //Or unsigned char can be used
 	uint32_t row_stride;
-	void readBMP();
 	void readImageData(std::ifstream& inf);
 	//Functions
 	void checkHeader(std::ifstream& inf);
@@ -66,10 +64,10 @@ public:
 	const bool saveImage() override;
 	void loadImage() override;
 	// Setters
-	void setPixel(int x, int y, Image::Pixel newPixel) override;
+	void setPixel(int x, int y, Pixel newPixel) override;
 	// Getters
 	ImageInfo getImageInfo() const override;
-	Image::Pixel getPixel(int x, int y) override;
+	Pixel getPixel(int x, int y) override;
 	uint8_t getRed(int x, int y);
 	uint8_t getGreen(int x, int y);
 	uint8_t getBlue(int x, int y);

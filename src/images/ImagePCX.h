@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 22, 2024
+// Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -33,7 +33,7 @@ private:
 		uint16_t yMax {0};    // Image dimensions (right-bottom corner)
 		uint16_t horizontalDPI {0}; // Horizontal resolution
 		uint16_t verticalDPI {0};   // Vertical resolution
-		uint8_t palette[48] {0};    // Color palette (16 colors)
+		PixelRGB palette[16]; //uint8_t palette[48] {0};    // Color palette (16 colors)
 		uint8_t reserved1 {0};       // Reserved (always 0)
 		uint8_t numOfColorPlanes {0}; // Number of color planes
 		uint16_t bytesPerLine {0};  // Bytes per scanline
@@ -43,10 +43,12 @@ private:
 		uint8_t reserved2[54] {0};
 	} headerPCX;
 	#pragma pack(pop)
-	std::vector<uint8_t> imageData;
-	std::vector<Pixel> pixels;
+	//std::vector<Pixel> pixels;
+	PixelRGB* paletteVGA;
 	int positionBase;
-	void readImageData(std::ifstream& inf);
+	void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData);
+	bool readPaletteVGA(std::ifstream& inf); // For when older format with palate
+	bool readImageData(std::ifstream& inf);
 	//void make24bitPCX();
 	//void make32bitPCX();
 	void updateImage();
@@ -55,6 +57,8 @@ private:
 public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
+	bool havePalette() const;
+	// Overrides
 	ImageInfo getImageInfo() const override;
 	Pixel getPixel(int x, int y) override;
 	void setPixel(int x, int y, Pixel newPixel) override;

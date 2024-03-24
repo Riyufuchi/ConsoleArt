@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 22, 2024
+// Last Edited : Mar 24, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -27,7 +27,7 @@ void ImageBMP::loadImage()
 	std::ifstream inf(filepath, std::ios::in);
 	if (!inf)
 	{
-		fileStatus = "Unable to open file: " + getFilename();
+		fileStatus = "Unable to open file: " + filename;
 		return;
 	}
 	try
@@ -49,11 +49,11 @@ void ImageBMP::loadImage()
 void ImageBMP::readImageData(std::ifstream& inf)
 {
 	headerBMP.file_size = headerBMP.offset_data;
-	imgData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
+	pixelData.resize(bmp_info_header.width * bmp_info_header.height * bmp_info_header.bit_count / 8);
 	if (bmp_info_header.width % 4 == 0)
 	{
-		inf.read(reinterpret_cast<char*>(imgData.data()), imgData.size());
-		headerBMP.file_size += imgData.size();
+		inf.read(reinterpret_cast<char*>(pixelData.data()), pixelData.size());
+		headerBMP.file_size += pixelData.size();
 	}
 	else
 	{
@@ -62,17 +62,17 @@ void ImageBMP::readImageData(std::ifstream& inf)
 		std::vector<uint8_t> padding_row(new_stride - row_stride);
 		for (int y = 0; y < bmp_info_header.height; ++y)
 		{
-			inf.read(reinterpret_cast<char*>(imgData.data() + row_stride * y), row_stride);
+			inf.read(reinterpret_cast<char*>(pixelData.data() + row_stride * y), row_stride);
 			inf.read(reinterpret_cast<char*>(padding_row.data()), padding_row.size());
 		}
-		headerBMP.file_size += imgData.size() + bmp_info_header.height * padding_row.size();
+		headerBMP.file_size += pixelData.size() + bmp_info_header.height * padding_row.size();
 	}
 }
 void ImageBMP::checkHeader(std::ifstream& inf)
 {
 	inf.read(reinterpret_cast<char*>(&headerBMP), sizeof(headerBMP)); //Reads and fill our file_header struct with data
 	if (headerBMP.file_type != 0x4D42)
-		throw std::runtime_error("Error: Unrecognized format " + getFilename().substr(getFilename().find_last_of(".")));
+		throw std::runtime_error("Error: Unrecognized format " + filename.substr(getFilename().find_last_of(".")));
 	//BMP info and colors
 	inf.read(reinterpret_cast<char*>(&bmp_info_header), sizeof(bmp_info_header));
 	if (bmp_info_header.bit_count != 24 && bmp_info_header.bit_count != 32)
@@ -88,7 +88,7 @@ void ImageBMP::checkHeader(std::ifstream& inf)
 		}
 		else
 		{
-			throw std::runtime_error("Error: The  " + getFilename() + " doesn't seem to contain bit mask information");
+			throw std::runtime_error("Error: The  " + filename + " doesn't seem to contain bit mask information");
 		}
 	}
 	inf.seekg(headerBMP.offset_data, inf.beg); // Position the stream at the beginning of the image data
@@ -135,46 +135,46 @@ uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 	return new_stride;
 }
 
-Image::Pixel ImageBMP::getPixel(int x, int y)
+Pixel ImageBMP::getPixel(int x, int y)
 {
 	Pixel p;
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	int position = channels * (y * bmp_info_header.width + x);
-	p.red = imgData[position + 2];
-	p.green = imgData[position + 1];
-	p.blue = imgData[position]; // + 0
+	p.red = pixelData[position + 2];
+	p.green = pixelData[position + 1];
+	p.blue = pixelData[position]; // + 0
 	if (channels == 4)
-		p.alpha =  imgData[position + 3];
+		p.alpha =  pixelData[position + 3];
 	return p;
 }
 void ImageBMP::setPixel(int x, int y, Pixel newPixel)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	int position = channels * (y * bmp_info_header.width + x);
-	imgData[position + 2] = newPixel.red;
-	imgData[position + 1] = newPixel.green;
-	imgData[position] = newPixel.blue; // + 0
+	pixelData[position + 2] = newPixel.red;
+	pixelData[position + 1] = newPixel.green;
+	pixelData[position] = newPixel.blue; // + 0
 	if (channels == 4)
-		imgData[position + 3] = newPixel.alpha;
+		pixelData[position + 3] = newPixel.alpha;
 }
 uint8_t ImageBMP::getRed(int x, int y)
 {
-	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(imgData[x])
+	return pixelData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(pixelData[x])
 }
 uint8_t ImageBMP::getGreen(int x, int y)
 {
-	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 1];
+	return pixelData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x) + 1];
 }
 uint8_t ImageBMP::getBlue(int x, int y)
 {
-	return imgData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x)];
+	return pixelData[(bmp_info_header.bit_count / 8) * (y * bmp_info_header.width + x)];
 }
 
 uint8_t ImageBMP::getAplha(int x, int y)
 {
 	uint32_t channels = bmp_info_header.bit_count / 8;
 	if (channels == 4)
-		return imgData[channels * (y * bmp_info_header.width + x) + 3];
+		return pixelData[channels * (y * bmp_info_header.width + x) + 3];
 	else
 		return 255;
 }
@@ -188,7 +188,7 @@ const bool ImageBMP::saveImage()
 	outf.write(reinterpret_cast<char*>(&headerBMP), sizeof(BMPFileHeader));
 	outf.write(reinterpret_cast<char*>(&bmp_info_header), sizeof(BMPInfoHeader));
 	outf.write(reinterpret_cast<char*>(&bmp_color_header), sizeof(BMPColorHeader));
-	outf.write(reinterpret_cast<char*>(imgData.data()), imgData.size());
+	outf.write(reinterpret_cast<char*>(pixelData.data()), pixelData.size());
 	return true;
 }
 Image::ImageInfo ImageBMP::getImageInfo() const
@@ -197,6 +197,6 @@ Image::ImageInfo ImageBMP::getImageInfo() const
 }
 ImageBMP::~ImageBMP()
 {
-	std::cout << "Image: " << getFilename() << " destructed successfully" << std::endl;
+	std::cout << "Image: " << filename << " destructed successfully" << std::endl;
 }
 }

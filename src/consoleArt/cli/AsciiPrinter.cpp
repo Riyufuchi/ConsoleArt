@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.cpp
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 10, 2024
+// Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -32,7 +32,7 @@ void AsciiPrinter::printPixelColored()
 	#endif
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
-	Images::Image::Pixel pixel;
+	Images::Pixel pixel;
 	if (asciiCon.getSourceImg().isInverted())
 	{
 		const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
@@ -73,7 +73,7 @@ void AsciiPrinter::printCharColored()
 	#else
 	Images::Image& image = asciiCon.getSourceImg();
 	Images::Image::ImageInfo imageInfo = image.getImageInfo();
-	Images::Image::Pixel pixel;
+	Images::Pixel pixel;
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 	std::wstring utf32String;

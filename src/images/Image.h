@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 22, 2024
+// Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,19 +13,15 @@
 #include <iostream>
 #include <fstream>
 #include <cstdint>
+#include <vector>
+
+#include "Pixels.hpp"
 
 namespace Images
 {
 class Image
 {
 public:
-	struct Pixel
-	{
-		uint8_t red;
-		uint8_t green;
-		uint8_t blue;
-		uint8_t alpha {255};
-	};
 	struct ImageInfo
 	{
 		std::string name {"Unknown"};
@@ -38,9 +34,10 @@ public:
 protected:
 	std::string filepath;
 	std::string fileStatus;
+	std::string filename;
 	bool inverted;
 	ImageInfo imageInfo;
-	std::string filename;
+	std::vector<uint8_t> pixelData; //Or unsigned char can be used
 public:
 	Image(std::string filepath);
 	virtual ~Image() = default;

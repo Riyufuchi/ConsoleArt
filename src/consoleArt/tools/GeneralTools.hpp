@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 19, 2024
+// Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -58,7 +58,7 @@ public:
 		std::cout << "Supported image formats\n";
 		std::string args[] = {
 					"Format| Bits; Notes",
-					"PCX| 24, 32; Only compressed",
+					"PCX| 24, 32; VGA palette",
 					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
 					"PPM| 24;"
 				};

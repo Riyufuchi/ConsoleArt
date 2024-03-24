@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 20, 2024
+// Last Edit   : Mar 24, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -64,7 +64,7 @@ void Controller::loadAllImages()
 		for (const auto& entry : std::filesystem::directory_iterator(itDir))
 		{
 			fne = entry.path().extension().generic_string();
-			if(fne == ".pcx")
+			if (fne == ".pcx")
 				addImage(new Images::ImagePCX(entry.path().generic_string()));
 			else if (fne == ".bmp")
 				addImage(new Images::ImageBMP(entry.path().generic_string()));

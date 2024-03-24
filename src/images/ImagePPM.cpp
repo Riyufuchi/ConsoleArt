@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 22, 2024
+// Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,7 +36,7 @@ void ImagePPM::loadImage()
 	std::ifstream inf(filepath, std::ios::in);
 	if (!inf)
 	{
-		this->fileStatus = "Unable to open file: " + getFilename();
+		this->fileStatus = "Unable to open file: " + filename;
 		return;
 	}
 
@@ -45,7 +45,7 @@ void ImagePPM::loadImage()
 	std::getline(inf, line);
 	if (line != "P3" && line != "P6")
 	{
-		this->fileStatus = "Not a PPM file: " + getFilename();
+		this->fileStatus = "Not a PPM file: " + filename;
 		return;
 	}
 
@@ -82,7 +82,7 @@ void ImagePPM::loadImage()
 
 	imageData.reserve(headerPPM.width * headerPPM.height);
 	int color = 0;
-	Image::Pixel pixel;
+	Pixel pixel;
 	while (std::getline(inf, line))
 	{
 		iss = std::istringstream(line);
@@ -113,15 +113,15 @@ void ImagePPM::virtualArtistLegacy()
 
 	for (int y = 0; y < headerPPM.height; y++)
 		for (int x = 0; x < headerPPM.width; x++)
-			setPixel(x, y, Image::Pixel{(uint8_t)(x % MOD), (uint8_t)(y % MOD), (uint8_t)(x * y % MOD)});
+			setPixel(x, y, Pixel{(uint8_t)(x % MOD), (uint8_t)(y % MOD), (uint8_t)(x * y % MOD)});
 	saveImage();
 }
 // Overrides
 Image::ImageInfo ImagePPM::getImageInfo() const
 {
-	return ImageInfo{getFilename(), headerPPM.width, headerPPM.height, 24, 803};
+	return imageInfo;
 }
-Image::Pixel ImagePPM::getPixel(int x, int y)
+Pixel ImagePPM::getPixel(int x, int y)
 {
 	positionBase = y * headerPPM.width + x;
 	return imageData[positionBase];
@@ -148,7 +148,7 @@ const bool ImagePPM::saveImage()
 	outf << headerPPM.width << " " << headerPPM.height << "\n";
 	outf << headerPPM.maxColorVal << "\n";
 
-	Image::Pixel p;
+	Pixel p;
 	const int MAX_X = headerPPM.width - 1;
 
 	for (int y = 0; y < headerPPM.height; y++)
