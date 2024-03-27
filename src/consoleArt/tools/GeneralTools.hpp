@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 24, 2024
+// Last edit  : Mar 27, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,7 +23,7 @@ namespace ConsoleArt
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.3";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.4 - beta";
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()
@@ -39,7 +39,8 @@ public:
 			"--color [colorID]| Sets default text color",
 			"--about| Shows details about this application",
 			"--runClient [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
-			"--runServer| Starts ConsoleArt as simple server (port 6969)"
+			"--runServer| Starts ConsoleArt as simple server (port 6969)",
+			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}

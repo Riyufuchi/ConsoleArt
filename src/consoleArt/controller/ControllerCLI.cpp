@@ -174,7 +174,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	ac.setCharSet(option);
 	messageUser(MessageType::INFO, "Processing image:\n");
 	menuCLI.displayImageInfo(*image);
-	messageUser(MessageType::NOTIFICATION, "Press Enter to continue...\n");
+	messageUser(MessageType::NOTIFICATION, "Press Enter to continue...");
 	std::cin.get();
 	console->defaultTextColor();
 	if (!ac.convertToASCII())
