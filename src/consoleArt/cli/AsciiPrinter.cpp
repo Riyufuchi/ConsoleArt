@@ -11,11 +11,11 @@
 
 namespace ConsoleArt
 {
-AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console) : asciiCon(asCon), console(console)
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleLib::IConsole& console) : asciiCon(asCon), console(console)
 {
-	this->color = ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+	this->color = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
 }
-AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console, ConsoleUtility::Color color) : asciiCon(asCon), console(console), color(color)
+AsciiPrinter::AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleLib::IConsole& console, ConsoleLib::Color color) : asciiCon(asCon), console(console), color(color)
 {
 }
 AsciiPrinter::~AsciiPrinter()
@@ -140,7 +140,7 @@ void AsciiPrinter::printToFile()
 		for(int i = 0; i < HEIGHT; i++)
 			file << asciiCon.getLine(i) << "\n";
 	file.close();
-	console.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COMMUNITY),
+	console.out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY),
 			"File: " + fName + " was successfully created.\n");
 }
 } /* namespace Images */

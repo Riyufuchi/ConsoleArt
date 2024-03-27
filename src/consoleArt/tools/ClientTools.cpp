@@ -11,10 +11,10 @@
 
 namespace ConsoleArt
 {
-ClientTools::ClientTools(ConsoleUtility::IConsole& console) : ClientTools(console, "127.0.0.1")
+ClientTools::ClientTools(ConsoleLib::IConsole& console) : ClientTools(console, "127.0.0.1")
 {
 }
-ClientTools::ClientTools(ConsoleUtility::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console)
+ClientTools::ClientTools(ConsoleLib::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console)
 {
 }
 ClientTools::~ClientTools()

@@ -10,9 +10,9 @@
 
 #include <string>
 
-#include "../../inc/ColorUtils.h"
-#include "../../inc/ConsoleUtils.h"
-#include "../../inc/DefaultConsole.h"
+#include "ColorUtils.h"
+#include "ConsoleUtils.h"
+#include "DefaultConsole.h"
 #include "../interfaces/IMenu.hpp"
 #include "../../imageUtils/ImageToolsCLI.h"
 
@@ -22,7 +22,7 @@ class MenusCLI : public IMenu
 {
 private:
 	int choice{0};
-	ConsoleUtility::IConsole* console;
+	ConsoleLib::IConsole* console;
 	void confConsoleTextColor();
 public:
 	enum Menu
@@ -33,7 +33,7 @@ public:
 		COLOR_PICKER
 	};
 	MenusCLI();
-	MenusCLI(ConsoleUtility::IConsole* console);
+	MenusCLI(ConsoleLib::IConsole* console);
 	~MenusCLI();
 	// Utils
 	int invokeMenu(Menu menu);
@@ -41,10 +41,10 @@ public:
 	int charSetMenu() override;
 	int actionMenu() override;
 	int printMenu() override;
-	ConsoleUtility::Color colorPicker() override;
+	ConsoleLib::Color colorPicker() override;
 	void displayImageInfo(Images::Image& image) override;
 	// Setters
-	void setConsole(ConsoleUtility::IConsole* console);
+	void setConsole(ConsoleLib::IConsole* console);
 };
 }
 #endif

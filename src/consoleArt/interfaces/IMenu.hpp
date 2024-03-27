@@ -11,7 +11,7 @@
 #define CONSOLEART_INTERFACES_IMENU_HPP_
 
 #include "../../images/Image.h"
-#include "../../inc/ColorUtils.h"
+#include "ColorUtils.h"
 
 namespace ConsoleArt
 {
@@ -24,7 +24,7 @@ public:
 	virtual int charSetMenu() = 0;
 	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
-	virtual ConsoleUtility::Color colorPicker() = 0;
+	virtual ConsoleLib::Color colorPicker() = 0;
 	virtual void displayImageInfo(Images::Image& image) = 0;
 };
 }

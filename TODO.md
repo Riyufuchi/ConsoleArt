@@ -9,4 +9,5 @@
 | &#x2705; | Add ability to save BMP images             |      |
 | &#9744;  | Ability to convert between image formats   |      |
 | &#9744;  | Improve menus                              |      |
-| &#9744;  | Improve abstract Image class               |      |
+| &#x2705; | Improve abstract Image class               |      |
+| &#9744;  | Add support for DCX                        |      |

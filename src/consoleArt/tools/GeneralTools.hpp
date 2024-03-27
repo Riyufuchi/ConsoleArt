@@ -13,8 +13,8 @@
 #include <iostream>
 #include <string>
 
-#include "../../inc/ConsoleUtils.h"
-#include "../../inc/IConsole.hpp"
+#include "ConsoleUtils.h"
+#include "IConsole.hpp"
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2024\n"
 
@@ -41,7 +41,7 @@ public:
 			"--runClient [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
 			"--runServer| Starts ConsoleArt as simple server (port 6969)"
 		};
-		ConsoleUtility::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
+		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
 	static void aboutApplication()
 	{
@@ -62,18 +62,18 @@ public:
 					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
 					"PPM| 24;"
 				};
-		ConsoleUtility::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
+		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
-	static void colorTest(ConsoleUtility::IConsole& console)
+	static void colorTest(ConsoleLib::IConsole& console)
 	{
-		for (int i = 0; i < ConsoleUtility::ColorPallete::COLOR_COUNT; ++i)
+		for (int i = 0; i < ConsoleLib::ColorPallete::COLOR_COUNT; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			console.out(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(i)), ConsoleUtility::ColorUtils::colorPaletteNames[i]);
+			console.out(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(i)), ConsoleLib::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
 	}
-	static void printArgError(const char* arg, ConsoleUtility::IConsole& console)
+	static void printArgError(const char* arg, ConsoleLib::IConsole& console)
 	{
 		std::string errMsg = "Invalid or unknown ";
 		errMsg += arg;

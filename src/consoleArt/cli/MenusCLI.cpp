@@ -8,7 +8,7 @@
 
 namespace ConsoleArt
 {
-MenusCLI::MenusCLI(ConsoleUtility::IConsole* console) : console(console)
+MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
 }
 int MenusCLI::invokeMenu(Menu menu)
@@ -26,19 +26,19 @@ int MenusCLI::invokeMenu(Menu menu)
 }
 void MenusCLI::confConsoleTextColor()
 {
-	if (ConsoleUtility::ConsoleUtils::yesNo("Select color [Y/n]: "))
+	if (ConsoleLib::ConsoleUtils::yesNo("Select color [Y/n]: "))
 	{
-		int max = ConsoleUtility::ColorPallete::COLOR_COUNT;
+		int max = ConsoleLib::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
 			console->defaultTextColor();
 			std::cout << i + 1 << ". ";
-			console->out(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(i)), ConsoleUtility::ColorUtils::colorPaletteNames[i]);
+			console->out(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(i)), ConsoleLib::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		console->setDefaultTextColor(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(ConsoleUtility::ConsoleUtils::getIntSafe(1, max) - 1)));
+		console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(ConsoleLib::ConsoleUtils::getIntSafe(1, max) - 1)));
 	}
-	else if(ConsoleUtility::ConsoleUtils::yesNo("Custom color [Y/n]: "))
+	else if(ConsoleLib::ConsoleUtils::yesNo("Custom color [Y/n]: "))
 	{
 		console->setDefaultTextColor(colorPicker());
 	}
@@ -54,29 +54,29 @@ void MenusCLI::displayImageInfo(Images::Image& image)
 int MenusCLI::charSetMenu()
 {
 	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
-	return ConsoleUtility::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 int MenusCLI::actionMenu()
 {
 	const char* menuItems[] = { "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"};
-	return ConsoleUtility::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
 int MenusCLI::printMenu()
 {
 	const char* menuItems[] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"};
-	return ConsoleUtility::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
 }
-ConsoleUtility::Color MenusCLI::colorPicker()
+ConsoleLib::Color MenusCLI::colorPicker()
 {
 	std::cout << "Red: ";
-	int red = ConsoleUtility::ConsoleUtils::getIntSafe(0, 255);
+	int red = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Green: ";
-	int green = ConsoleUtility::ConsoleUtils::getIntSafe(0, 255);
+	int green = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Blue: ";
-	int blue = ConsoleUtility::ConsoleUtils::getIntSafe(0, 255);
-	return ConsoleUtility::ColorUtils::newColor(red, green, blue);
+	int blue = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	return ConsoleLib::ColorUtils::newColor(red, green, blue);
 }
-void MenusCLI::setConsole(ConsoleUtility::IConsole* console2)
+void MenusCLI::setConsole(ConsoleLib::IConsole* console2)
 {
 	this->console = console2;
 }

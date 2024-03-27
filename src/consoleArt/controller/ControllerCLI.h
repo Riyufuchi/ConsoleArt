@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Mar 8, 2024
+// Last edit  : Mar 27, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,32 +10,36 @@
 #ifndef CONSOLEART_CONTROLLERCLI_H_
 #define CONSOLEART_CONTROLLERCLI_H_
 
+#include <chrono>
+
 #include "Controller.h"
 #include "../cli/AsciiPrinter.h"
 #include "../cli/MenusCLI.h"
 #include "../tools/ClientTools.h"
 #include "../../imageUtils/ImageToolsCLI.h"
-#include "../../inc/ColorUtils.h"
-#include "../../inc/ConsoleUtils.h"
-#include "../../inc/UnixConsole.h"
-#include "../../inc/DefaultConsole.h"
-#include "../../inc/DataUtils.h"
+#include "ColorUtils.h"
+#include "ConsoleUtils.h"
+#include "UnixConsole.h"
+#include "DefaultConsole.h"
+#include "DataUtils.h"
+
+#include "../../other/SheduleTracker.h"
 
 namespace ConsoleArt
 {
 class ControllerCLI : public Controller
 {
 private:
-	ConsoleUtility::Color colors[6] = {
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COLLECTORS), // Exception
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::STRANGE), // Error
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE), // Warning
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::COMMUNITY), // TAKS DONE
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
-			ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::HAUNTED) // Notification
+	ConsoleLib::Color colors[6] = {
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS), // Exception
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE), // Error
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE), // Warning
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY), // TAKS DONE
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
+			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED) // Notification
 	};
-	ConsoleUtility::IConsole* console;
-	ConsoleUtility::DefaultConsole defaultConsole;
+	ConsoleLib::IConsole* console;
+	ConsoleLib::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	std::string inputImageName() override;
@@ -55,11 +59,11 @@ private:
 		}
 	}
 public:
-	ControllerCLI(ConsoleUtility::IConsole* console);
-	ControllerCLI(std::string path, ConsoleUtility::IConsole* console);
+	ControllerCLI(ConsoleLib::IConsole* console);
+	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
 	void configure(int argc, char** argv) override;
 	void run() override;
-	ConsoleUtility::IConsole* getConsole()
+	ConsoleLib::IConsole* getConsole()
 	{
 		return console;
 	}

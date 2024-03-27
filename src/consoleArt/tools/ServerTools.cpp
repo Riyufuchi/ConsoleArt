@@ -2,7 +2,7 @@
 // File       : ServerTools.cpp
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 27, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,13 +13,8 @@ namespace ConsoleArt
 {
 ServerTools::ServerTools() : server(6969)
 {
-	std::time_t currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); // Convert the time point to a time_t object
-	std::tm* localTime = std::localtime(&currentTime); // Convert the time_t object to a struct tm object
-	// Extract the year, month, and day from the struct tm object
-	int year = localTime->tm_year + 1900; // tm_year is years since 1900
-	int month = localTime->tm_mon + 1; // tm_mon is months since January (0-based)
-	int day = localTime->tm_mday; // tm_mday is day of the month
-	this->message = "Today is: " + std::to_string(day) + "." + std::to_string(month) + "." + std::to_string(year) + "\n";
+	DataUtility::Date today = DataUtility::TimeUtils::todaysDate();
+	this->message = "Today is: " + std::to_string(today.day) + "." + std::to_string(today.month) + "." + std::to_string(today.year) + "\n";
 }
 
 ServerTools::~ServerTools()

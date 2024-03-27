@@ -17,8 +17,8 @@
 #include <fstream>
 
 #include "../../imageUtils/AsciiConverter.h"
-#include "../../inc/IConsole.hpp"
-#include "../../inc/ConsoleUtils.h"
+#include "IConsole.hpp"
+#include "ConsoleUtils.h"
 
 namespace ConsoleArt
 {
@@ -26,11 +26,11 @@ class AsciiPrinter
 {
 private:
 	ImageUtils::AsciiConverter& asciiCon;
-	ConsoleUtility::IConsole& console;
-	ConsoleUtility::Color color;
+	ConsoleLib::IConsole& console;
+	ConsoleLib::Color color;
 public:
-	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console);
-	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleUtility::IConsole& console, ConsoleUtility::Color color);
+	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleLib::IConsole& console);
+	AsciiPrinter(ImageUtils::AsciiConverter& asCon, ConsoleLib::IConsole& console, ConsoleLib::Color color);
 	~AsciiPrinter();
 	void printClassic();
 	void printPixelColored();

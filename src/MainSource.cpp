@@ -13,13 +13,13 @@
 #include "consoleArt/controller/ControllerCLI.h"
 #include "consoleArt/tools/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
-#include "inc/ConsoleUtils.h"
-#include "inc/UnixConsole.h"
-#include "inc/IConsole.hpp"
-#include "inc/DefaultConsole.h"
-#include "inc/Server.h"
+#include "ConsoleUtils.h"
+#include "UnixConsole.h"
+#include "IConsole.hpp"
+#include "DefaultConsole.h"
+#include "Server.h"
 #ifdef _WIN32
-	#include "inc/WindowsConsole.h"
+	#include "WindowsConsole.h"
 #endif // _WIN32
 
 
@@ -33,22 +33,22 @@ enum BootAction
 	SERVER
 };
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console);
+BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole& console);
 
 int main(int argc, char** argv)
 {
-	ConsoleUtility::Color color = ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::APERTURE_ORANGE);
+	ConsoleLib::Color color = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE);
 	#if defined(__linux__) || defined(__APPLE__)
-		ConsoleUtility::UnixConsole systemConsole;
+	ConsoleLib::UnixConsole systemConsole;
 	#elif defined(_WIN32)
-		ConsoleUtility::WindowsConsole systemConsole;
+	ConsoleLib::WindowsConsole systemConsole;
 		systemConsole.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE),
 			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
 	#else
-		ConsoleUtility::DefaultConsole systemConsole;
+		ConsoleLib::DefaultConsole systemConsole;
 	#endif
 	systemConsole.setDefaultTextColor(color);
-	ConsoleUtility::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
+	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
 	ConsoleArt::ControllerCLI consoleArt(&systemConsole);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	finish: return 0;
 }
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleUtility::IConsole& console)
+BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole& console)
 {
 	if(argc == 1) // First argument is always app name
 		return BootAction::CONTINUE;

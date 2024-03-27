@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Mar 24, 2024
+// Last Edit   : Mar 27, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -10,10 +10,10 @@
 
 namespace ConsoleArt
 {
-ControllerCLI::ControllerCLI(ConsoleUtility::IConsole* console) : ControllerCLI("", console)
+ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleUtility::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
 {
 	if (console == nullptr)
 	{
@@ -40,7 +40,7 @@ void ControllerCLI::configure(int argc, char** argv)
 					messageUser(MessageType::ERROR, "Missing or wrong argument for --color\n");
 					continue;
 				}
-				console->setDefaultTextColor(ConsoleUtility::ColorUtils::getColor(static_cast<ConsoleUtility::ColorPallete>(std::stoi(argv[i]) - 1)));
+				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(argv[i]) - 1)));
 			}
 			else if (!strcmp(argv[i], "--runClient"))
 			{
@@ -61,6 +61,28 @@ void ControllerCLI::configure(int argc, char** argv)
 				for(int x = 0; x < img.getImageInfo().width; x++)
 					img.setPixel(x, 100, Images::Pixel{255, 105, 180});
 				img.saveImage();
+			}
+			else if (!strcmp(argv[i], "--schedule"))
+			{
+				Other::SheduleTracker shedule(console);
+				shedule.calculateAvgTime();
+				isRunnable = false;
+			}
+			else if (!strcmp(argv[i], "--benchmark"))
+			{
+				std::string image = "bench.pcx";
+				if (!((i + 1 >=  argc) || (argv[++i][0] == '-')))
+					image = std::string(argv[i]);
+				auto start = std::chrono::steady_clock::now();
+				auto end = start;
+				Images::Image* img = loadImage(image);
+				ImageUtils::AsciiConverter ac(*img);
+				ac.setCharSet(ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
+				ac.convertToASCII();
+				end = std::chrono::steady_clock::now();
+				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+				std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
+				isRunnable = false;
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
@@ -89,7 +111,7 @@ void ControllerCLI::run()
 		case 2: convertImage(selectImage()); goto menu;
 		case 3:
 			console->defaultTextColor();
-			ConsoleUtility::ConsoleUtils::listFilesInFolder(workspacePath);
+			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->resetTextColor();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
@@ -112,7 +134,7 @@ Images::Image* ControllerCLI::selectImage()
 		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
 
-	int selectedIndex = ConsoleUtility::ConsoleUtils::getIntSafe(1, max) - 1;
+	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(1, max) - 1;
 	std::cout << "\n";
 	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
 	std::cout << "\n";

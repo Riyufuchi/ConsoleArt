@@ -2,7 +2,7 @@
 // File       : ServerTools.h
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 20, 2024
+// Last edit  : Mar 27, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,14 +12,12 @@
 
 #include <thread>
 
-#include <chrono>
-#include <ctime>
-
 #include "ClientTools.h"
 
-#include "../../inc/Server.h"
-#include "../../inc/UnixConsole.h"
-#include "../../inc/IConsole.hpp"
+#include "../inc/TimeUtils.h"
+#include "../inc/Server.h"
+#include "../inc/UnixConsole.h"
+#include "../inc/IConsole.hpp"
 
 namespace ConsoleArt
 {
@@ -28,7 +26,7 @@ class ServerTools
 private:
 	SufuServer::Server server;
 	std::string message;
-	ConsoleUtility::UnixConsole console;
+	ConsoleLib::UnixConsole console;
 	void startServer();
 public:
 	ServerTools();

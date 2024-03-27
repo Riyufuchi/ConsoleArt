@@ -13,12 +13,12 @@
 #include <string>
 #include <thread>
 
-#include "../../inc/IConsole.hpp"
+#include "IConsole.hpp"
 
 #if defined(__linux__) || defined(__APPLE__)
-	#include "../../inc/UnixClient.h"
+	#include "UnixClient.h"
 #elif defined(_WIN32)
-	#include "../../inc/WindowsClient.h"
+	#include "WindowsClient.h"
 #endif
 
 namespace ConsoleArt
@@ -32,12 +32,12 @@ private:
 	SufuServer::WindowsClient client;
 #endif
 	std::string sharedString;
-	ConsoleUtility::IConsole& console;
+	ConsoleLib::IConsole& console;
 	void handleResponse();
 	void handleChat();
 public:
-	ClientTools(ConsoleUtility::IConsole& console);
-	ClientTools(ConsoleUtility::IConsole& console, const char* ipAdress);
+	ClientTools(ConsoleLib::IConsole& console);
+	ClientTools(ConsoleLib::IConsole& console, const char* ipAdress);
 	virtual ~ClientTools();
 	bool runClient();
 };
