@@ -1,9 +1,9 @@
 //==============================================================================
 // File       : SheduleTracker.h
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Mar 26, 2024
-// Copyright  : Copyright (c) 2024, riyufuchi
+// Last edit  : Mar 31, 2024
+// Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -19,6 +19,7 @@
 #include "TimeUtils.h"
 #include "IConsole.hpp"
 #include "DefaultConsole.h"
+#include "ConsoleUtils.h"
 
 namespace Other
 {
@@ -28,11 +29,14 @@ private:
 	static constexpr const char* filename = "stat.csv";
 	std::vector<DataUtility::TimeStamp> times;
 	ConsoleLib::IConsole* console;
+	bool fileLoaded;
 	bool readFile();
+	bool writeFile(const std::string& line, const std::string& filename);
+	void calculateAvgTime();
 public:
 	SheduleTracker(ConsoleLib::IConsole* console);
-	virtual ~SheduleTracker();
-	void calculateAvgTime();
+	~SheduleTracker();
+	void menu();
 };
 } /* namespace ConsoleArt */
 #endif /* OTHER_SHEDULETRACKER_H_ */

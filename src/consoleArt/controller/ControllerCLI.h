@@ -22,6 +22,7 @@
 #include "UnixConsole.h"
 #include "DefaultConsole.h"
 #include "DataUtils.h"
+#include "Library.h"
 
 #include "../../other/SheduleTracker.h"
 

@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Mar 27, 2024
+// Last Edit   : Apr 1, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -53,19 +53,10 @@ void ControllerCLI::configure(int argc, char** argv)
 				if (client.runClient())
 					isRunnable = false;
 			}
-			else if (!strcmp(argv[i], "--testBMP"))
-			{
-				if ((i + 1 >=  argc) || (argv[++i][0] == '-'))
-					messageUser(MessageType::INFO, "No server IP address was given, using loop back instead\n");
-				Images::ImageBMP img(argv[i]);
-				for(int x = 0; x < img.getImageInfo().width; x++)
-					img.setPixel(x, 100, Images::Pixel{255, 105, 180});
-				img.saveImage();
-			}
 			else if (!strcmp(argv[i], "--schedule"))
 			{
 				Other::SheduleTracker shedule(console);
-				shedule.calculateAvgTime();
+				shedule.menu();
 				isRunnable = false;
 			}
 			else if (!strcmp(argv[i], "--benchmark"))
@@ -82,6 +73,11 @@ void ControllerCLI::configure(int argc, char** argv)
 				end = std::chrono::steady_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 				std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
+				isRunnable = false;
+			}
+			else if (!strcmp(argv[i], "--library"))
+			{
+				ConsoleLib::Library::aboutLibrary();
 				isRunnable = false;
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param

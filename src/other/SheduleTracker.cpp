@@ -1,9 +1,9 @@
 //==============================================================================
 // File       : SheduleTracker.cpp
-// Author     : riyufuchi
+// Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Mar 26, 2024
-// Copyright  : Copyright (c) 2024, riyufuchi
+// Last edit  : Mar 31, 2024
+// Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
@@ -11,7 +11,7 @@
 
 namespace Other
 {
-SheduleTracker::SheduleTracker(ConsoleLib::IConsole* console) : console(console)
+SheduleTracker::SheduleTracker(ConsoleLib::IConsole* console) : console(console), fileLoaded(false)
 {
 	if (console == nullptr)
 	{
@@ -22,8 +22,49 @@ SheduleTracker::SheduleTracker(ConsoleLib::IConsole* console) : console(console)
 SheduleTracker::~SheduleTracker()
 {
 }
+void SheduleTracker::menu()
+{
+	const char* menuItems[] = { "Add time", "Calculate avg time", "Exit" };
+	std::string line;
+	do
+	{
+		switch (ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems))
+		{
+			case 0:
+				console->out("Enter: HOURS;MINUTES\n");
+				std::getline(std::cin, line);
+				writeFile(line, filename);
+			break;
+			case 1:
+				calculateAvgTime();
+			break;
+			case 2:
+				line = "end";
+			break;
+		}
+	} while (line != "end");
+	console->out("Press enter to exit...");
+	std::cin.get();
+	std::cin.get();
+}
+bool SheduleTracker::writeFile(const std::string& line, const std::string& filename)
+{
+	std::ofstream file(filename, std::ios::app); // Open file in append mode
+	if (!file.is_open())
+	{
+		std::cerr << "Error: Unable to open file for appending.\n";
+		return false;
+	}
+	file << line << std::endl; // Append line to file
+	std::cout << "Line appended to file successfully.\n";
+	times.emplace_back(DataUtility::TimeStamp{0, std::stol(line.substr(0, line.find(';'))), std::stol(line.substr(line.find(';') + 1, line.length()))});
+	return true;
+}
 bool SheduleTracker::readFile()
 {
+	if (fileLoaded)
+		return true;
+	times.clear();
 	std::ifstream file(filename);
 	if (!file.is_open())
 	{
@@ -57,6 +98,7 @@ bool SheduleTracker::readFile()
 		times.push_back(timeStamp);
 	}
 	file.close();
+	fileLoaded = true;
 	return true;
 }
 void SheduleTracker::calculateAvgTime()
@@ -64,15 +106,29 @@ void SheduleTracker::calculateAvgTime()
 	if (!readFile())
 		return;
 	long minutes = 0;
+	int week = 1;
+	int days = 0;
+	console->defaultTextColor();
 	for (DataUtility::TimeStamp& timeStamp : times)
 	{
 		minutes += DataUtility::TimeUtils::convertToMinutes(timeStamp);
+		days++;
+		if (days % 7 == 0)
+		{
+			minutes /= 60;
+			std::cout << "Week " << week << ": " << (double)minutes / days << "\n";
+			week++;
+			days = 0;
+		}
 	}
 	minutes /= 60;
-	double avgHour = (double)minutes / times.size();
-	console->out("Average time is: ");
-	console->defaultTextColor();
-	std::cout << avgHour << "\n";
+	std::cout << "Week " << week << ": " << (double)minutes / days << "\n";
+	week++;
+	days = 0;
+	//double avgHour = (double)minutes / times.size();
+	//console->out("Average time is: ");
+	//console->defaultTextColor();
+	//std::cout << avgHour << "\n";
 	console->resetTextColor();
 }
 } /* namespace ConsoleArt */
