@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Mar 31, 2024
+// Last edit  : Apr 09, 2024
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,8 +26,10 @@ void SheduleTracker::menu()
 {
 	const char* menuItems[] = { "Add time", "Calculate avg time", "Exit" };
 	std::string line;
+	readFile();
 	do
 	{
+		console->defaultTextColor();
 		switch (ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems))
 		{
 			case 0:
@@ -36,6 +38,8 @@ void SheduleTracker::menu()
 				writeFile(line, filename);
 			break;
 			case 1:
+				if (!readFile())
+					break;
 				calculateAvgTime();
 			break;
 			case 2:
@@ -44,7 +48,6 @@ void SheduleTracker::menu()
 		}
 	} while (line != "end");
 	console->out("Press enter to exit...");
-	std::cin.get();
 	std::cin.get();
 }
 bool SheduleTracker::writeFile(const std::string& line, const std::string& filename)
@@ -98,37 +101,27 @@ bool SheduleTracker::readFile()
 		times.push_back(timeStamp);
 	}
 	file.close();
-	fileLoaded = true;
-	return true;
+	console->out("Success: File loaded!\n");
+	return fileLoaded = true;
 }
 void SheduleTracker::calculateAvgTime()
 {
-	if (!readFile())
-		return;
-	long minutes = 0;
+	long double minutes = 0;
 	int week = 1;
 	int days = 0;
-	console->defaultTextColor();
 	for (DataUtility::TimeStamp& timeStamp : times)
 	{
 		minutes += DataUtility::TimeUtils::convertToMinutes(timeStamp);
 		days++;
 		if (days % 7 == 0)
 		{
-			minutes /= 60;
-			std::cout << "Week " << week << ": " << (double)minutes / days << "\n";
+			std::cout << "Week " << week << ": " << (minutes / 60) / days << "\n";
 			week++;
 			days = 0;
+			minutes = 0;
 		}
 	}
-	minutes /= 60;
-	std::cout << "Week " << week << ": " << (double)minutes / days << "\n";
-	week++;
-	days = 0;
-	//double avgHour = (double)minutes / times.size();
-	//console->out("Average time is: ");
-	//console->defaultTextColor();
-	//std::cout << avgHour << "\n";
-	console->resetTextColor();
+	if (days != 0)
+		std::cout << "Week " << week << ": " << (minutes / 60) / days << "\n";
 }
 } /* namespace ConsoleArt */
