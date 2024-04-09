@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 24, 2024
+// Last edit  : Apr 09, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,6 +15,8 @@ ImagePCX::ImagePCX(std::string filename) : Image(filename)
 {
 	this->paletteVGA = NULL;
 	loadImage();
+	this->BLUE_OFFSET = 2 * headerPCX.bytesPerLine;
+	this->ALPHA_OFFSET = 3 * headerPCX.bytesPerLine;
 }
 ImagePCX::~ImagePCX()
 {
@@ -68,9 +70,8 @@ void ImagePCX::loadImage()
 }
 void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 {
-	int width = imageInfo.width;
 	int height = imageInfo.height;
-	const int dataSize = width * height * headerPCX.numOfColorPlanes;
+	const long dataSize = headerPCX.bytesPerLine * headerPCX.bitsPerPixel * height;
 	// Initialize vector
 	imageData.clear();
 	imageData.reserve(dataSize);
@@ -109,7 +110,6 @@ bool ImagePCX::readImageData(std::ifstream& stream)
 	}
 	// Read image data
 	stream.seekg(sizeof(PCXHeader)); // Move back to start of image data
-	pixelData.reserve(imageInfo.width * imageInfo.height * 3);
 	headerPCX.numOfColorPlanes = 3;
 	std::vector<uint8_t> imageData;
 	if (headerPCX.encoding == 1)
@@ -121,6 +121,7 @@ bool ImagePCX::readImageData(std::ifstream& stream)
 		imageData.reserve((imageInfo.width * imageInfo.height));
 		stream.read(reinterpret_cast<char*>(imageData.data()), imageData.size());
 	}
+	pixelData.reserve(imageData.size() * 6);
 	int x = 0;
 	PixelRGB pRGB;
 	int i = 0;
@@ -153,6 +154,10 @@ bool ImagePCX::havePalette() const
 {
 	return headerPCX.version == 5 && headerPCX.numOfColorPlanes == 1 && headerPCX.bitsPerPixel > 4;
 }
+ImagePCX::PCXHeader& ImagePCX::getHeader()
+{
+	return headerPCX;
+}
 /*void ImagePCX::make24bitPCX()
 {
 	int index = 0;
@@ -181,10 +186,10 @@ void ImagePCX::make32bitPCX()
 }*/
 void ImagePCX::updateImage()
 {
-	const int INDEX_BASE = 3 * imageInfo.width;
-	const int PLANE_GREEN = imageInfo.width;
-	const int PLANE_BLUE = 2 * imageInfo.width;
-	const int PLANE_ALPHA = 3 * imageInfo.width;
+	const int INDEX_BASE = headerPCX.bytesPerLine * headerPCX.numOfColorPlanes;
+	const int PLANE_GREEN = headerPCX.bytesPerLine;
+	const int PLANE_BLUE = BLUE_OFFSET;
+	const int PLANE_ALPHA = ALPHA_OFFSET;
 	int index = 0;
 	Pixel newPixel;
 	for (int y = 0; y < imageInfo.height; y++)
@@ -217,10 +222,10 @@ Image::ImageInfo ImagePCX::getImageInfo() const
 }
 Pixel ImagePCX::getPixel(int x, int y)
 {
-	positionBase = y * 3 *imageInfo.width + x;
+	positionBase = y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes + x;
 	if (headerPCX.numOfColorPlanes == 4)
-		return Pixel{pixelData[positionBase], pixelData[positionBase + imageInfo.width], pixelData[positionBase + 2 * imageInfo.width], pixelData[positionBase + 3 * imageInfo.width]};
-	return Pixel{pixelData[positionBase], pixelData[positionBase + imageInfo.width], pixelData[positionBase + 2 * imageInfo.width], 255};
+		return Pixel{pixelData[positionBase], pixelData[positionBase + headerPCX.bytesPerLine], pixelData[positionBase + BLUE_OFFSET], pixelData[positionBase + ALPHA_OFFSET]};
+	return Pixel{pixelData[positionBase], pixelData[positionBase + headerPCX.bytesPerLine], pixelData[positionBase + BLUE_OFFSET], 255};
 }
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
@@ -232,6 +237,17 @@ void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 	if (headerPCX.numOfColorPlanes == 4)
 		pixelData[index + 3 * imageInfo.width] = newPixel.alpha;
 }
+/*void ImagePCX::setPixel(int x, int y, Pixel newPixel)
+{
+	//pixels[y * info.width + x] = newPixel;
+	//int index = y * 3 * imageInfo.width + x;
+	positionBase = y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes + x;
+	pixelData[positionBase] = newPixel.red;
+	pixelData[positionBase + headerPCX.bytesPerLine]= newPixel.green;
+	pixelData[positionBase + BLUE_OFFSET] = newPixel.blue;
+	if (headerPCX.numOfColorPlanes == 4)
+		pixelData[positionBase + ALPHA_OFFSET] = newPixel.alpha;
+}*/
 const bool ImagePCX::saveImage()
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);

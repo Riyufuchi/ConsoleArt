@@ -45,9 +45,12 @@ public:
 	{
 		return fileStatus == "OK";
 	}
+	// Common
+	void rename(std::string imageName);
+	// Utils
 	virtual const bool saveImage() = 0;
 	virtual void loadImage() = 0;
-	void rename(std::string imageName);
+	//virtual void resize(int width, int heigh) = 0;
 	// Is methods
 	bool isLoaded();
 	bool isInverted();

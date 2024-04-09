@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 24, 2024
+// Last edit  : Apr 09, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -46,6 +46,8 @@ private:
 	//std::vector<Pixel> pixels;
 	PixelRGB* paletteVGA;
 	int positionBase;
+	int BLUE_OFFSET;
+	int ALPHA_OFFSET;
 	void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData);
 	bool readPaletteVGA(std::ifstream& inf); // For when older format with palate
 	bool readImageData(std::ifstream& inf);
@@ -58,6 +60,7 @@ public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
 	bool havePalette() const;
+	PCXHeader& getHeader();
 	// Overrides
 	ImageInfo getImageInfo() const override;
 	Pixel getPixel(int x, int y) override;
