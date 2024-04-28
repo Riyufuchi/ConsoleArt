@@ -56,7 +56,7 @@ void ControllerCLI::configure(int argc, char** argv)
 			}
 			else if (!strcmp(argv[i], "--schedule"))
 			{
-				Other::SheduleTracker shedule(console);
+				Other::ScheduleTracker shedule(console);
 				shedule.menu();
 				isRunnable = false;
 			}
