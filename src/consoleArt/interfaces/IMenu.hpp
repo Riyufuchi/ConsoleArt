@@ -2,7 +2,7 @@
 // File       : IMenu.h
 // Author     : Riyufuchi
 // Created on : Dec 19, 2023
-// Last edit  : Mar 19, 2024
+// Last edit  : Apr 28, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: This interface specifies all menus that must be implemented
 //==============================================================================
@@ -24,6 +24,7 @@ public:
 	virtual int charSetMenu() = 0;
 	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
+	virtual int handleMenu(int id) = 0;
 	virtual ConsoleLib::Color colorPicker() = 0;
 	virtual void displayImageInfo(Images::Image& image) = 0;
 };

@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Apr 1, 2024
+// Last Edit   : Apr 28, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -20,6 +20,7 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 		this->console = &defaultConsole;
 		menuCLI.setConsole(this->console);
 	}
+	messenger = new MessengerCLI(this->console);
 }
 void ControllerCLI::configure(int argc, char** argv)
 {
@@ -37,7 +38,7 @@ void ControllerCLI::configure(int argc, char** argv)
 			{
 				if ((i + 1 >=  argc) || (!DataUtility::DataUtils::isNumber(argv[++i])))
 				{
-					messageUser(MessageType::ERROR, "Missing or wrong argument for --color\n");
+					messenger->messageUser(Messenger::MessageType::ERROR, "Missing or wrong argument for --color\n");
 					continue;
 				}
 				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(argv[i]) - 1)));
@@ -46,7 +47,7 @@ void ControllerCLI::configure(int argc, char** argv)
 			{
 				const char* ipAdress = "127.0.0.1";
 				if ((i + 1 >=  argc) || (argv[++i][0] == '-'))
-					messageUser(MessageType::INFO, "No server IP address was given, using loop back instead\n");
+					messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
 				else
 					ipAdress = argv[i];
 				ConsoleArt::ClientTools client(*console, ipAdress);
@@ -82,11 +83,17 @@ void ControllerCLI::configure(int argc, char** argv)
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
-				messageUser(MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));
+				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));
 			}
 		}
 	}
 }
+
+void ControllerCLI::refreshMenu()
+{
+	menuCLI.printMainMenu();
+}
+
 /*std::string command = "cd ";
 command += workspacePath;
 command += " && ";
@@ -103,7 +110,7 @@ void ControllerCLI::run()
 			if (addImage(loadImage(workspacePath + inputImageName())))
 				convertImage(images.back().get());
 			goto menu;
-		case 1: loadAllImages(); goto menu;
+		case 1: loadAllImagesAsync(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
 		case 3:
 			console->defaultTextColor();
@@ -113,6 +120,15 @@ void ControllerCLI::run()
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
 		case 5: return;
 	}
+}
+
+void ControllerCLI::loadAllImagesAsync()
+{
+	std::thread thread([this]()
+	{
+		loadAllImages();
+	});
+	thread.detach();
 }
 
 Images::Image* ControllerCLI::selectImage()
@@ -168,17 +184,17 @@ void ControllerCLI::convertImage(Images::Image* image)
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
-	messageUser(MessageType::INFO, "Processing image:\n");
+	messenger->messageUser(Messenger::MessageType::INFO, "Processing image:\n");
 	menuCLI.displayImageInfo(*image);
-	messageUser(MessageType::NOTIFICATION, "Press Enter to continue...");
+	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
 	std::cin.get();
 	console->defaultTextColor();
 	if (!ac.convertToASCII())
 	{
-		messageUser(MessageType::ERROR, "Image conversion has failed!\n");
+		messenger->messageUser(Messenger::MessageType::ERROR, "Image conversion has failed!\n");
 		return;
 	}
-	messageUser(MessageType::SUCCESFUL_TASK, "Done!\n");
+	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "Done!\n");
 	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
 	bool again = true;
 	while (again)

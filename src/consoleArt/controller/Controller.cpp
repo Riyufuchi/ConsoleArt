@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 24, 2024
+// Last Edit   : Apr 28, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -13,7 +13,7 @@ namespace ConsoleArt
 Controller::Controller() : Controller("") // Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path) : workspacePath(path), isRunnable(true)
+Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr)
 {
 }
 
@@ -25,7 +25,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) // if(argv[2][path.length() - 1] == '/')
 			path.append("/");
 		workspacePath = path;
-		messageUser(MessageType::INFO, "Workspace path: " + workspacePath + "\n");
+		messenger->messageUser(Messenger::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 		return false;
 	}
 	else if (!strcmp(argv[i], "--loadAll"))
@@ -37,7 +37,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 	{
 		if (!((i + 1) < argc))
 		{
-			messageUser(MessageType::ERROR, "Missing image parameter\n");
+			messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
 			return false;
 		}
 		addImage(loadImage(workspacePath + argv[i + 1]));
@@ -71,18 +71,21 @@ void Controller::loadAllImages()
 			else if (fne == ".ppm")
 				addImage(new Images::ImagePPM(entry.path().generic_string()));
 			else
-				messageUser(MessageType::WARNING, "Unsupported format \"" + fne + "\"\n");
+				messenger->messageUser(Messenger::MessageType::WARNING, "Unsupported format \"" + fne + "\"\n");
 		}
 	}
 	catch (std::runtime_error& e)
 	{
-		messageUser(MessageType::EXCEPTION, e.what());
+		messenger->messageUser(Messenger::MessageType::EXCEPTION, e.what());
 		return;
 	}
+	std::lock_guard<std::mutex> lock(mutexImages);
 	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
 	{
 		return a->getFilename() < b->getFilename();
 	});
+	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
+	refreshMenu();
 }
 
 bool Controller::addImage(Images::Image* image)
@@ -91,11 +94,12 @@ bool Controller::addImage(Images::Image* image)
 		return false;
 	if (!image->isLoaded())
 	{
-		messageUser(MessageType::ERROR, image->getFileStatus() + "\n");
+		messenger->messageUser(Messenger::MessageType::ERROR, image->getFileStatus() + "\n");
 		delete image;
 		image = NULL;
 		return false;
 	}
+	std::lock_guard<std::mutex> lock(mutexImages);
 	if(!images.empty())
 	{
 		for (auto& existingImage : images)
@@ -121,7 +125,7 @@ Images::Image* Controller::loadImage(std::string path)
 	}
 	catch (std::exception& e)
 	{
-		messageUser(MessageType::EXCEPTION, e.what());
+		messenger->messageUser(Messenger::MessageType::EXCEPTION, e.what());
 		std::cout << "\n";
 		return nullptr;
 	}
@@ -132,12 +136,13 @@ Images::Image* Controller::loadImage(std::string path)
 	else if (ext == ".ppm")
 		return new Images::ImagePPM(path);
 	else
-		messageUser(MessageType::WARNING, ext + " is not supported\n");
+		messenger->messageUser(Messenger::MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;
 }
 
 Controller::~Controller()
 {
+	delete messenger;
 	//for(size_t i = 0; i < images.size(); i++)
 	//	delete images[i];
 	//std::cout << "Controller " << "destructed" << std::endl;

@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 19, 2024
+// Last Edit   : Apr 28, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -13,6 +13,7 @@
 #include <iostream>
 #include <memory>
 #include <algorithm>
+#include <mutex>
 
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
@@ -20,33 +21,28 @@
 #include "../../imageUtils/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
+#include "../messenger/Messenger.h"
+
 
 namespace ConsoleArt
 {
-enum MessageType
-{
-	EXCEPTION,
-	ERROR,
-	WARNING,
-	SUCCESFUL_TASK,
-	INFO,
-	NOTIFICATION
-};
 class Controller
 {
 protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
+	std::mutex mutexImages;
 	bool isRunnable;
+	Messenger* messenger;
 	// Methods
 	virtual void convertImage(Images::Image* image) = 0;
-	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 	void loadAllImages();
 	// Functions
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	Images::Image* loadImage(std::string path);
 	bool applyArgument(int arg, char** argv, int i);
+	virtual void refreshMenu() = 0;
 public:
 	Controller();
 	Controller(std::string path);

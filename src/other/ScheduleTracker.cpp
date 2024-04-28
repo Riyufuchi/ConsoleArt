@@ -2,16 +2,16 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Apr 09, 2024
+// Last edit  : Apr 28, 2024
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#include "SheduleTracker.h"
+#include "ScheduleTracker.h"
 
 namespace Other
 {
-SheduleTracker::SheduleTracker(ConsoleLib::IConsole* console) : console(console), fileLoaded(false)
+ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole* console) : console(console), fileLoaded(false)
 {
 	if (console == nullptr)
 	{
@@ -19,10 +19,10 @@ SheduleTracker::SheduleTracker(ConsoleLib::IConsole* console) : console(console)
 		console->err("Pointer to console controller was NULL!\a\n");
 	}
 }
-SheduleTracker::~SheduleTracker()
+ScheduleTracker::~ScheduleTracker()
 {
 }
-void SheduleTracker::menu()
+void ScheduleTracker::menu()
 {
 	const char* menuItems[] = { "Add time", "Calculate avg time", "Exit" };
 	std::string line;
@@ -50,7 +50,7 @@ void SheduleTracker::menu()
 	console->out("Press enter to exit...");
 	std::cin.get();
 }
-bool SheduleTracker::writeFile(const std::string& line, const std::string& filename)
+bool ScheduleTracker::writeFile(const std::string& line, const std::string& filename)
 {
 	std::ofstream file(filename, std::ios::app); // Open file in append mode
 	if (!file.is_open())
@@ -60,10 +60,32 @@ bool SheduleTracker::writeFile(const std::string& line, const std::string& filen
 	}
 	file << line << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
-	times.emplace_back(DataUtility::TimeStamp{0, std::stol(line.substr(0, line.find(';'))), std::stol(line.substr(line.find(';') + 1, line.length()))});
+	DataUtility::TimeStamp data;
+	std::string strNum = line.substr(line.find(';') + 1, line.length());
+	convertToLong(data.hours, strNum);
+	convertToLong(data.minutes, strNum = line.substr(0, line.find(';')));
+	times.emplace_back(data);
 	return true;
 }
-bool SheduleTracker::readFile()
+void ScheduleTracker::convertToLong(long& destination, std::string& number)
+{
+	try
+	{
+		destination = std::stol(number);
+		return;
+	}
+	catch (const std::invalid_argument& e)
+	{
+		console->err("Invalid argument: " + number.append("\n"));
+	}
+	catch (const std::out_of_range& e)
+	{
+		console->err("Out of range: " + number.append("\n"));
+	}
+	destination = 0;
+}
+
+bool ScheduleTracker::readFile()
 {
 	if (fileLoaded)
 		return true;
@@ -78,9 +100,11 @@ bool SheduleTracker::readFile()
 	DataUtility::TimeStamp timeStamp;
 	const int NUM_OF_ATTRIBUTES = 2;
 	int x = 0;
-	std::istringstream iss("");
+	std::istringstream iss;
 	while (std::getline(file, line))
 	{
+		if (line[0] == '#')
+			continue;
 		iss = std::istringstream(line);
 		for (x = 0; x < NUM_OF_ATTRIBUTES; x++)
 		{
@@ -88,8 +112,8 @@ bool SheduleTracker::readFile()
 			{
 				switch (x)
 				{
-					case 0: timeStamp.hours = std::stol(token); break;
-					case 1: timeStamp.minutes = std::stol(token); break;
+					case 0: convertToLong(timeStamp.hours, token); break;
+					case 1: convertToLong(timeStamp.minutes, token); break;
 				}
 			}
 			else
@@ -101,10 +125,10 @@ bool SheduleTracker::readFile()
 		times.push_back(timeStamp);
 	}
 	file.close();
-	console->out("Success: File loaded!\n");
+	console->out(0, 255, 0, "Success: File loaded!\n");
 	return fileLoaded = true;
 }
-void SheduleTracker::calculateAvgTime()
+void ScheduleTracker::calculateAvgTime()
 {
 	long double minutes = 0;
 	int week = 1;

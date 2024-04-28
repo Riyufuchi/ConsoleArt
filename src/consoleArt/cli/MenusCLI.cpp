@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : Mar 08, 2024
+// Last Edit   : Apr 28, 2024
 //============================================================================
 #include "MenusCLI.h"
 
@@ -10,16 +10,36 @@ namespace ConsoleArt
 {
 MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
+	menus.reserve(Menu::MENU_COUNT);
+	menus[0] = { "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"};
+	menus[1] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
+			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
+	menus[2] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"};
+}
+int MenusCLI::handleMenu(int menu)
+{
+	return ConsoleLib::ConsoleUtils::basicMenu(menus[menu]);
+}
+void MenusCLI::printMainMenu()
+{
+	console->defaultTextColor();
+	const int LENGHT = menus[0].size();
+	for(int i = 0; i < LENGHT; i++)
+	{
+		printf("%d. %s \n", i + 1, menus[0][i]);
+	}
+	console->resetTextColor();
 }
 int MenusCLI::invokeMenu(Menu menu)
 {
 	console->defaultTextColor();
 	switch (menu)
 	{
-		case CHAR_SET_SELECTION: choice = charSetMenu(); break;
-		case PRINT_OPTIONS: choice = printMenu(); break;
-		case MAIN_MENU: choice = actionMenu(); break;
+		case CHAR_SET_SELECTION: choice = handleMenu(menu); break;
+		case PRINT_OPTIONS: choice = handleMenu(menu); break;
+		case MAIN_MENU: choice = handleMenu((int)menu); break;
 		case COLOR_PICKER: confConsoleTextColor(); break;
+		default: choice = -1;
 	}
 	console->resetTextColor();
 	return choice;
@@ -53,18 +73,15 @@ void MenusCLI::displayImageInfo(Images::Image& image)
 // Menus
 int MenusCLI::charSetMenu()
 {
-	const char* menuItems[] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
-	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return -1;
 }
 int MenusCLI::actionMenu()
 {
-	const char* menuItems[] = { "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"};
-	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return -1;
 }
 int MenusCLI::printMenu()
 {
-	const char* menuItems[] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"};
-	return ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems);
+	return -1;
 }
 ConsoleLib::Color MenusCLI::colorPicker()
 {

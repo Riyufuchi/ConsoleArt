@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Mar 27, 2024
+// Last edit  : Apr 28, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,6 +11,7 @@
 #define CONSOLEART_CONTROLLERCLI_H_
 
 #include <chrono>
+#include <thread>
 
 #include "Controller.h"
 #include "../cli/AsciiPrinter.h"
@@ -24,41 +25,23 @@
 #include "DataUtils.h"
 #include "Library.h"
 
-#include "../../other/SheduleTracker.h"
+#include "../../other/ScheduleTracker.h"
+#include "../cli/MessengerCLI.h"
+
 
 namespace ConsoleArt
 {
 class ControllerCLI : public Controller
 {
 private:
-	ConsoleLib::Color colors[6] = {
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS), // Exception
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE), // Error
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE), // Warning
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY), // TAKS DONE
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
-			ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED) // Notification
-	};
 	ConsoleLib::IConsole* console;
 	ConsoleLib::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
+	void refreshMenu() override;
 	std::string inputImageName() override;
 	Images::Image* selectImage() override;
-	void messageUser(MessageType messageSeverity, std::string message) override
-	{
-		switch(messageSeverity)
-		{
-			// Errors
-			case EXCEPTION:
-			case ERROR: console->err(colors[messageSeverity], message); break;
-			// Messages
-			case WARNING:
-			case SUCCESFUL_TASK:
-			case NOTIFICATION:
-			case INFO: console->out(colors[messageSeverity], message); break;
-		}
-	}
+	void loadAllImagesAsync();
 public:
 	ControllerCLI(ConsoleLib::IConsole* console);
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
