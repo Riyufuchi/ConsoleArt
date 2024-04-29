@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 27, 2024
+// Last edit  : Apr 29, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,7 +23,7 @@ namespace ConsoleArt
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.4 - beta";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.4";
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()

@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Apr 28, 2024
+// Last Edit   : Apr 29, 2024
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -102,7 +102,7 @@ bool Controller::addImage(Images::Image* image)
 	std::lock_guard<std::mutex> lock(mutexImages);
 	if(!images.empty())
 	{
-		for (auto& existingImage : images)
+		for (std::unique_ptr<Images::Image>& existingImage : images)
 		{
 			if (existingImage->getFilename() == image->getFilename())
 			{

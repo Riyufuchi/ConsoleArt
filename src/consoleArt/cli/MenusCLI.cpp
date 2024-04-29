@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : Apr 28, 2024
+// Last Edit   : Apr 29, 2024
 //============================================================================
 #include "MenusCLI.h"
 
@@ -10,11 +10,13 @@ namespace ConsoleArt
 {
 MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
-	menus.reserve(Menu::MENU_COUNT);
-	menus[0] = { "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"};
-	menus[1] = { "BASIC - █#@%=+:-. ", "PRECISE", "DEATAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
-			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
-	menus[2] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"};
+	menus =
+	{
+		{ "Load image", "Load all images", "Select image", "List images", "Configure console color", "Exit application"},
+		{ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
+			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" },
+		{ "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"}
+	};
 }
 int MenusCLI::handleMenu(int menu)
 {
