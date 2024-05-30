@@ -36,7 +36,7 @@ protected:
 	Messenger* messenger;
 	// Methods
 	virtual void convertImage(Images::Image* image) = 0;
-	void loadAllImages();
+	void loadAllImagesAsync();
 	// Functions
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;

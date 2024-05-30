@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Apr 28, 2024
+// Last Edit   : May 30, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -107,7 +107,7 @@ void ControllerCLI::run()
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
 		case 0:
-			if (addImage(loadImage(workspacePath + inputImageName())))
+			if (addImage(loadImage(inputImageName())))
 				convertImage(images.back().get());
 			goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
@@ -126,7 +126,7 @@ void ControllerCLI::loadAllImagesAsync()
 {
 	std::thread thread([this]()
 	{
-		loadAllImages();
+		Controller::loadAllImagesAsync();
 	});
 	thread.detach();
 }
@@ -170,7 +170,7 @@ std::string ControllerCLI::inputImageName()
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); // Clears enter from console
-	return imgName;
+	return workspacePath + imgName;
 }
 
 void ControllerCLI::convertImage(Images::Image* image)

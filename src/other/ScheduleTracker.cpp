@@ -94,6 +94,7 @@ bool ScheduleTracker::readFile()
 	if (!file.is_open())
 	{
 		console->err("Error: Unable to open file \"stat.csv\"\n");
+		fileSelect();
 		return false;
 	}
 	std::string line, token;
@@ -128,6 +129,33 @@ bool ScheduleTracker::readFile()
 	console->out(0, 255, 0, "Success: File loaded!\n");
 	return fileLoaded = true;
 }
+
+std::string ScheduleTracker::fileSelect()
+{
+	const char* command = "zenity --file-selection --title=\"Select a File\"";
+	FILE *pipe = popen(command, "r");
+	if (!pipe)
+	{
+		std::cerr << "Failed to run command\n";
+		return "Zenity command error";
+	}
+
+	char buffer[256];
+	std::string result = "";
+	while (fgets(buffer, sizeof(buffer), pipe) != nullptr)
+	{
+		result += buffer;
+	}
+	pclose(pipe);
+
+	if (!result.empty())
+	{
+		result.erase(result.find_last_not_of(" \n\r\t") + 1);
+		return result;
+	}
+	return "shedule.csv";
+}
+
 void ScheduleTracker::calculateAvgTime()
 {
 	long double minutes = 0;
@@ -146,6 +174,6 @@ void ScheduleTracker::calculateAvgTime()
 		}
 	}
 	if (days != 0)
-		std::cout << "Week " << week << ": " << (minutes / 60) / days << "\n";
+		std::cout << "Week " << week << ": " << (minutes / 60) / days << " " << days << "/7" <<"\n";
 }
 } /* namespace ConsoleArt */

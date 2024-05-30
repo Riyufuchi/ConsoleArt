@@ -30,7 +30,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 	}
 	else if (!strcmp(argv[i], "--loadAll"))
 	{
-		loadAllImages();
+		loadAllImagesAsync();
 		return false;
 	}
 	else if (!strcmp(argv[i], "--image"))
@@ -53,7 +53,7 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 	return true;
 }
 
-void Controller::loadAllImages()
+void Controller::loadAllImagesAsync()
 {
 	std::string fne = "";
 	std::string itDir = workspacePath;

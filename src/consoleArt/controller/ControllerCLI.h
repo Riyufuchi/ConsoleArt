@@ -33,8 +33,9 @@ namespace ConsoleArt
 {
 class ControllerCLI : public Controller
 {
-private:
+protected:
 	ConsoleLib::IConsole* console;
+private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;

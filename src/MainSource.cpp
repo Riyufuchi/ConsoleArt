@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "consoleArt/controller/ControllerCLI.h"
+#include "consoleArt/gui/zenity/ControllerGuiZen.h"
 #include "consoleArt/tools/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
 #include "ConsoleUtils.h"
@@ -49,7 +50,7 @@ int main(int argc, char** argv)
 	#endif
 	systemConsole.setDefaultTextColor(color);
 	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
-	ConsoleArt::ControllerCLI consoleArt(&systemConsole);
+	ConsoleArt::ControllerGuiZen consoleArt(&systemConsole);
 	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
 	{
 		case ABORT: return 1;

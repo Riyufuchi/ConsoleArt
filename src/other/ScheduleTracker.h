@@ -34,6 +34,7 @@ private:
 	bool writeFile(const std::string& line, const std::string& filename);
 	void calculateAvgTime();
 	void convertToLong(long& destination, std::string& number);
+	std::string fileSelect();
 public:
 	ScheduleTracker(ConsoleLib::IConsole* console);
 	~ScheduleTracker();
