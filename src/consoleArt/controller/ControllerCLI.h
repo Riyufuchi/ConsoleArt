@@ -35,12 +35,12 @@ class ControllerCLI : public Controller
 {
 protected:
 	ConsoleLib::IConsole* console;
+	std::string inputImageName() override;
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	void refreshMenu() override;
-	std::string inputImageName() override;
 	Images::Image* selectImage() override;
 	void loadAllImagesAsync();
 public:

@@ -61,9 +61,9 @@ bool ScheduleTracker::writeFile(const std::string& line, const std::string& file
 	file << line << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
 	DataUtility::TimeStamp data;
-	std::string strNum = line.substr(line.find(';') + 1, line.length());
+	std::string strNum = line.substr(0, line.find(';'));
 	convertToLong(data.hours, strNum);
-	convertToLong(data.minutes, strNum = line.substr(0, line.find(';')));
+	convertToLong(data.minutes, strNum = line.substr(line.find(';') + 1, line.length()));
 	times.emplace_back(data);
 	return true;
 }

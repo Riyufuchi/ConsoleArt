@@ -2,7 +2,7 @@
 // File       : ControllerGuiZen.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : May 30, 2024
+// Last edit  : Jun 11, 2024
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -24,7 +24,7 @@ std::string ControllerGuiZen::inputImageName()
 	if (!pipe)
 	{
 		console->err("Failed to run zenity command\n");
-		return "no-file";
+		return ControllerCLI::inputImageName();
 	}
 	char buffer[256];
 	std::string result = "";
@@ -38,6 +38,6 @@ std::string ControllerGuiZen::inputImageName()
 		result.erase(result.find_last_not_of(" \n\r\t") + 1);
 		return result;
 	}
-	return "no-file";
+	return ControllerCLI::inputImageName();
 }
 } /* namespace ConsoleArt */
