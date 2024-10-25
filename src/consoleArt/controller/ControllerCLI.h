@@ -25,8 +25,10 @@
 #include "DataUtils.h"
 #include "Library.h"
 
+#include "../../other/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
 #include "../cli/MessengerCLI.h"
+#include "../../other/OtherUtils.hpp"
 
 
 namespace ConsoleArt

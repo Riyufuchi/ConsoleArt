@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : May 30, 2024
+// Last Edit   : Oct 25, 2024
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -81,6 +81,11 @@ void ControllerCLI::configure(int argc, char** argv)
 				ConsoleLib::Library::aboutLibrary();
 				isRunnable = false;
 			}
+			else if (!strcmp(argv[i], "--binom"))
+			{
+				Other::OtherhUtils::distributeCards();
+				isRunnable = false;
+			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
 			{
 				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));
@@ -102,7 +107,10 @@ system(command.c_str());*/
 void ControllerCLI::run()
 {
 	if (!isRunnable)
-		return;
+	{
+		if(ConsoleLib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
+			return;
+	}
 	menu:
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
