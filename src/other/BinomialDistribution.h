@@ -28,8 +28,8 @@ public:
 	~BinomialDistribution();
 	u_bigInt factorial(int number);
 	u_bigInt partialFactorial(int number, int steps);
-	bigDouble power(bigDouble number, bigDouble power);
 	u_bigInt combinationNumber(int n, int k);
+	bigDouble power(bigDouble number, int power);
 	bigDouble distribute(int k);
 	bigDouble distribute(int k, bigDouble p, int n);
 	// Overrides

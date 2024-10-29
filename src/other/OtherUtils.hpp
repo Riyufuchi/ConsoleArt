@@ -23,21 +23,15 @@ public:
 	~OtherhUtils();
 	static void distributeCards()
 	{
+		const int N = 10; // Number of cards in the pack
+		const int N_2= 50; // Number of packs in the box
+		const bigDouble P = (1.0L/230.0L);
 		bigDouble result = 0;
-		bigDouble united = 0;
-		const int N = 50; // Number of packs in the box
-		BinomialDistribution bi(10, (1.0L/230.L));
+		BinomialDistribution bi(N, P);
 		const bigDouble CARD_IN_PACK_CHANCE = 1.0L - bi.distribute(0);
-		printf("P(X > 1) = %Lf => %.2Lf %c\n", CARD_IN_PACK_CHANCE, (CARD_IN_PACK_CHANCE*100), '%');
-		bi.setN(N);
+		printf("X ~ Bi(%d, %Lf) = P(X > 1) = %Lf => %.2Lf %c\n", N, P, CARD_IN_PACK_CHANCE, (CARD_IN_PACK_CHANCE*100), '%');
+		bi.setN(N_2);
 		bi.setP(CARD_IN_PACK_CHANCE);
-		for (int i = 1; i <= N; i++)
-		{
-			result = bi.distribute(i);
-			united += result;
-			std::cout << "P(" << i << ") = " << (result*100) << " %\n";
-		}
-		printf("P(X > 1) = P(1) ⋃ ... ⋃  P(%d) = %Lf => %.2Lf %c\n", N, united, united*100, '%');
 		result = bi.distribute(0);
 		printf("P(X = 0) = %Lf => %.2Lf %c\n", result, result*100, '%');
 		result = 1.0L - result;

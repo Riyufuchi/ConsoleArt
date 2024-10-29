@@ -32,7 +32,7 @@ u_bigInt BinomialDistribution::partialFactorial(int number, int steps)
 {
 	resultHolder = 1;
 	for (int i = number; i > steps; i--)
-		resultHolder *= i;  // Multiply from 'number' down to 'steps + 1'
+		resultHolder *= i; // Multiply from 'number' down to 'steps + 1'
 	return resultHolder;
 }
 u_bigInt BinomialDistribution::combinationNumber(int n, int k)
@@ -43,12 +43,12 @@ u_bigInt BinomialDistribution::combinationNumber(int n, int k)
 		return n;
 	return partialFactorial(n, n - k) / factorial(k);
 }
-bigDouble BinomialDistribution::power(bigDouble number, bigDouble power)
+bigDouble BinomialDistribution::power(bigDouble number, int power)
 {
-	resultHolder = number;
-	for (int i = 1; i < power; i++)
-		number = number * resultHolder;
-	return number;
+	resultHolder = 1.0L;
+	for (int i = 0; i < power; i++)
+		resultHolder = number * resultHolder;
+	return resultHolder;
 }
 bigDouble BinomialDistribution::distribute(int k)
 {
