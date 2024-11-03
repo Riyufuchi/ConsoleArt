@@ -2,7 +2,7 @@
 // File       : ImagePPM.h
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 24, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,12 +11,11 @@
 #define _IMAGES_IMAGE_PPM_H_
 
 #include <string>
-#include <vector>
 #include <sstream>
 
 #include "Image.h"
 
-#include "../inc/DataUtils.h"
+#include "DataUtils.h"
 
 namespace Images
 {
@@ -31,7 +30,6 @@ private:
 		short maxColorVal{255};
 	} headerPPM;
 	std::vector<Pixel> imageData;
-	int positionBase;
 public:
 	ImagePPM(std::string filename);
 	ImagePPM(std::string filename, int width, int height);

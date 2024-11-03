@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 24, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,6 +19,11 @@
 
 namespace Images
 {
+enum FileState
+{
+	ERROR,
+	OK
+};
 class Image
 {
 public:
@@ -35,15 +40,17 @@ protected:
 	std::string filepath;
 	std::string fileStatus;
 	std::string filename;
+	FileState fileState;
 	bool inverted;
 	ImageInfo imageInfo;
 	std::vector<uint8_t> pixelData; //Or unsigned char can be used
+	int positionBase;
 public:
 	Image(std::string filepath);
 	virtual ~Image() = default;
 	explicit operator bool() const
 	{
-		return fileStatus == "OK";
+		return fileState == FileState::OK;
 	}
 	// Common
 	void rename(std::string imageName);

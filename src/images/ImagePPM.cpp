@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 24, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace Images
 {
-ImagePPM::ImagePPM(std::string filename) : Image(filename), positionBase(0)
+ImagePPM::ImagePPM(std::string filename) : Image(filename)
 {
 	loadImage();
 	imageInfo.name = this->filename;
@@ -39,7 +39,6 @@ void ImagePPM::loadImage()
 		this->fileStatus = "Unable to open file: " + filename;
 		return;
 	}
-
 	std::string line;
 	std::string byte;
 	std::getline(inf, line);
@@ -101,7 +100,7 @@ void ImagePPM::loadImage()
 			color++;
 		}
 	}
-	this->fileStatus = "OK";
+	this->fileState = OK;
 }
 void ImagePPM::virtualArtistLegacy()
 {
@@ -123,18 +122,11 @@ Image::ImageInfo ImagePPM::getImageInfo() const
 }
 Pixel ImagePPM::getPixel(int x, int y)
 {
-	positionBase = y * headerPPM.width + x;
-	return imageData[positionBase];
-	//return Pixel{imageData[positionBase], imageData[positionBase + headerPPM.width], imageData[positionBase + 2 * headerPPM.width], 255};
+	return imageData[y * headerPPM.width + x];
 }
 void ImagePPM::setPixel(int x, int y, Pixel newPixel)
 {
-	positionBase = y * headerPPM.width + x;
-	imageData[positionBase] = newPixel;
-	/*
-	imageData[positionBase] = newPixel.red;
-	imageData[positionBase + headerPPM.width] = newPixel.green;
-	imageData[positionBase + 2 * headerPPM.width] = newPixel.blue;*/
+	imageData[y * headerPPM.width + x] = newPixel;
 }
 const bool ImagePPM::saveImage()
 {

@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Apr 09, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -45,7 +45,6 @@ private:
 	#pragma pack(pop)
 	//std::vector<Pixel> pixels;
 	PixelRGB* paletteVGA;
-	int positionBase;
 	int BLUE_OFFSET;
 	int ALPHA_OFFSET;
 	void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData);

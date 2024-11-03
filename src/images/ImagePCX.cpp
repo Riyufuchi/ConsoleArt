@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Apr 09, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -64,9 +64,8 @@ void ImagePCX::loadImage()
 			break;
 		default: this->fileStatus = "Unexpected number of color planes"; return;
 	}
-
 	if (success)
-		this->fileStatus = "OK";
+		this->fileStatus = OK;
 }
 void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 {
@@ -230,24 +229,13 @@ Pixel ImagePCX::getPixel(int x, int y)
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
 	//pixels[y * info.width + x] = newPixel;
-	int index = y * 3 * imageInfo.width + x;
-	pixelData[index] = newPixel.red;
-	pixelData[index + imageInfo.width]= newPixel.green;
-	pixelData[index + 2 * imageInfo.width] = newPixel.blue;
-	if (headerPCX.numOfColorPlanes == 4)
-		pixelData[index + 3 * imageInfo.width] = newPixel.alpha;
-}
-/*void ImagePCX::setPixel(int x, int y, Pixel newPixel)
-{
-	//pixels[y * info.width + x] = newPixel;
-	//int index = y * 3 * imageInfo.width + x;
-	positionBase = y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes + x;
+	positionBase = y * 3 * imageInfo.width + x;
 	pixelData[positionBase] = newPixel.red;
-	pixelData[positionBase + headerPCX.bytesPerLine]= newPixel.green;
-	pixelData[positionBase + BLUE_OFFSET] = newPixel.blue;
+	pixelData[positionBase + imageInfo.width]= newPixel.green;
+	pixelData[positionBase + 2 * imageInfo.width] = newPixel.blue;
 	if (headerPCX.numOfColorPlanes == 4)
-		pixelData[positionBase + ALPHA_OFFSET] = newPixel.alpha;
-}*/
+		pixelData[positionBase + 3 * imageInfo.width] = newPixel.alpha;
+}
 const bool ImagePCX::saveImage()
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);

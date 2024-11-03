@@ -14,19 +14,11 @@ namespace Other
 BinomialDistribution::BinomialDistribution() : BinomialDistribution(1, 1)
 {
 }
-BinomialDistribution::BinomialDistribution(int n, bigDouble p) : IDisribution(), resultHolder(0), n(n), p(p)
+BinomialDistribution::BinomialDistribution(int n, bigDouble p) : Disribution(), n(n), p(p)
 {
 }
-
 BinomialDistribution::~BinomialDistribution()
 {
-}
-u_bigInt BinomialDistribution::factorial(int number)
-{
-	resultHolder = 1;
-	for (int i = 2; i <= number; i++)
-		resultHolder *= i;
-	return resultHolder;
 }
 u_bigInt BinomialDistribution::partialFactorial(int number, int steps)
 {
@@ -42,13 +34,6 @@ u_bigInt BinomialDistribution::combinationNumber(int n, int k)
 	if (k == 1)
 		return n;
 	return partialFactorial(n, n - k) / factorial(k);
-}
-bigDouble BinomialDistribution::power(bigDouble number, int power)
-{
-	resultHolder = 1.0L;
-	for (int i = 0; i < power; i++)
-		resultHolder = number * resultHolder;
-	return resultHolder;
 }
 bigDouble BinomialDistribution::distribute(int k)
 {

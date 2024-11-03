@@ -10,27 +10,22 @@
 #ifndef OTHER_BINOMIALDISTRIBUTION_H_
 #define OTHER_BINOMIALDISTRIBUTION_H_
 
-#include <math.h>
-
-#include "IDistribution.hpp"
+#include "Distribution.h"
 
 namespace Other
 {
-class BinomialDistribution : IDisribution
+class BinomialDistribution : Disribution
 {
 private:
-	u_bigInt resultHolder;
 	int n; // n from binomial distribution formula
 	bigDouble p; // chance
 public:
 	BinomialDistribution();
 	BinomialDistribution(int n, bigDouble p);
 	~BinomialDistribution();
-	u_bigInt factorial(int number);
 	u_bigInt partialFactorial(int number, int steps);
 	u_bigInt combinationNumber(int n, int k);
-	bigDouble power(bigDouble number, int power);
-	bigDouble distribute(int k);
+	bigDouble distribute(int k) override;
 	bigDouble distribute(int k, bigDouble p, int n);
 	// Overrides
 	bigDouble ex() override;

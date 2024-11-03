@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 22, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), inverted(false)
+Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), positionBase(0)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
@@ -38,27 +38,9 @@ const std::string& Image::getFilepath() const
 {
 	return filepath;
 }
-/*const char* ImageBMP::getFilename()
-{
-	int i = 0;
-	while (filename[i] != '\0')
-			++i;
-	int x = i;
-	for (; x > 0; x--)
-		if(filename[x] == '/')
-			break;
-	char* name = new char[i + 1];
-	for(int y = 0; y < i; y++)
-	{
-		name[y] = filename[x];
-		++x;
-	}
-	name[x++] = '\0';
-	return name;
-}*/
 bool Image::isLoaded()
 {
-	return fileStatus == "OK";
+	return fileState == OK;
 }
 bool Image::isInverted()
 {

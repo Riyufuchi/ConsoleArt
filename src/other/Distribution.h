@@ -7,21 +7,27 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef OTHER_IDISTRIBUTION_HPP_
-#define OTHER_IDISTRIBUTION_HPP_
+#ifndef OTHER_DISTRIBUTION_H_
+#define OTHER_DISTRIBUTION_H_
+
+#include <math.h>
 
 namespace Other
 {
 using u_bigInt = long double; // unsigned long long; - temporary solution as precision errors might occur
 using bigDouble = long double;
 
-class IDisribution
+class Disribution
 {
+protected:
+	u_bigInt resultHolder;
 public:
-	IDisribution() = default;
-	virtual ~IDisribution() = default;
-	/* Expected value */
-	virtual bigDouble ex() = 0;
+	Disribution();
+	virtual ~Disribution() = default;
+	u_bigInt factorial(int number);
+	bigDouble power(bigDouble number, int power);
+	virtual bigDouble distribute(int k) = 0;
+	virtual bigDouble ex() = 0; // Expected value
 	virtual bigDouble varX() = 0;
 };
 }

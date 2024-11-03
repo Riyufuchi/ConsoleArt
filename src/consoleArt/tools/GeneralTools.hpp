@@ -23,7 +23,7 @@ namespace ConsoleArt
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.5 - beta 2";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.5 - beta 3";
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()

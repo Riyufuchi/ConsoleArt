@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 24, 2024
+// Last Edited : Nov 03, 2024
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -20,6 +20,7 @@ ImageBMP::ImageBMP(std::string filename) : Image(filename)
 	imageInfo.height = bmp_info_header.height;
 	imageInfo.file_type = headerBMP.file_type;
 	imageInfo.bits = bmp_info_header.bit_count;
+	this->channels = bmp_info_header.bit_count / 8;
 }
 
 void ImageBMP::loadImage()
@@ -27,7 +28,7 @@ void ImageBMP::loadImage()
 	std::ifstream inf(filepath, std::ios::in);
 	if (!inf)
 	{
-		fileStatus = "Unable to open file: " + filename;
+		this->fileStatus = "Unable to open file: " + filename;
 		return;
 	}
 	try
@@ -44,7 +45,7 @@ void ImageBMP::loadImage()
 		this->inverted = false; // Origin is in bottom left corner
 	else
 		this->inverted = true;
-	this->fileStatus = "OK";
+	this->fileState = OK;
 }
 void ImageBMP::readImageData(std::ifstream& inf)
 {
@@ -138,24 +139,22 @@ uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 Pixel ImageBMP::getPixel(int x, int y)
 {
 	Pixel p;
-	uint32_t channels = bmp_info_header.bit_count / 8;
-	int position = channels * (y * bmp_info_header.width + x);
-	p.red = pixelData[position + 2];
-	p.green = pixelData[position + 1];
-	p.blue = pixelData[position]; // + 0
+	positionBase = channels * (y * bmp_info_header.width + x);
+	p.red = pixelData[positionBase + 2];
+	p.green = pixelData[positionBase + 1];
+	p.blue = pixelData[positionBase]; // + 0
 	if (channels == 4)
-		p.alpha =  pixelData[position + 3];
+		p.alpha =  pixelData[positionBase + 3];
 	return p;
 }
 void ImageBMP::setPixel(int x, int y, Pixel newPixel)
 {
-	uint32_t channels = bmp_info_header.bit_count / 8;
-	int position = channels * (y * bmp_info_header.width + x);
-	pixelData[position + 2] = newPixel.red;
-	pixelData[position + 1] = newPixel.green;
-	pixelData[position] = newPixel.blue; // + 0
+	positionBase = channels * (y * bmp_info_header.width + x);
+	pixelData[positionBase + 2] = newPixel.red;
+	pixelData[positionBase + 1] = newPixel.green;
+	pixelData[positionBase] = newPixel.blue; // + 0
 	if (channels == 4)
-		pixelData[position + 3] = newPixel.alpha;
+		pixelData[positionBase + 3] = newPixel.alpha;
 }
 uint8_t ImageBMP::getRed(int x, int y)
 {
