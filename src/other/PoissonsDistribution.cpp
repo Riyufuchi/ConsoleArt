@@ -14,16 +14,13 @@ namespace Other
 PoissonsDistribution::PoissonsDistribution(int lambda) : λ(lambda)
 {
 }
-
 PoissonsDistribution::~PoissonsDistribution()
 {
 }
-
 Other::bigDouble PoissonsDistribution::distribute(int k)
 {
 	return (pow(λ, k)*pow(M_E, -1*λ))/factorial(k);
 }
-
 Other::bigDouble PoissonsDistribution::ex()
 {
 	return λ;

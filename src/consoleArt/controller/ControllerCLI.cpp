@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Oct 25, 2024
+// Last Edit   : Jan 14, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -84,6 +84,8 @@ void ControllerCLI::configure(int argc, char** argv)
 			else if (!strcmp(argv[i], "--binom"))
 			{
 				Other::OtherhUtils::distributeCards();
+				std::cout << "\n";
+				Other::OtherhUtils::testMean();
 				isRunnable = false;
 			}
 			else if (argv[i][0] == '-') // Check if is it argument or arg param
@@ -126,7 +128,8 @@ void ControllerCLI::run()
 			console->resetTextColor();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
-		case 5: return;
+		case 5: GeneralTools::aboutApplication(); goto menu;
+		case 6: return;
 	}
 }
 

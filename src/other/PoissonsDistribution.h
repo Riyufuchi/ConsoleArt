@@ -2,7 +2,7 @@
 // File       : PoissonsDistribution.h
 // Author     : riyufuchi
 // Created on : Nov 1, 2024
-// Last edit  : Nov 1, 2024
+// Last edit  : Nov 03, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -21,9 +21,9 @@ private:
 public:
 	PoissonsDistribution(int lambda);
 	~PoissonsDistribution();
-	virtual Other::bigDouble distribute(int k);
-	virtual Other::bigDouble ex();
-	virtual Other::bigDouble varX();
+	virtual Other::bigDouble distribute(int k) override;
+	virtual Other::bigDouble ex() override;
+	virtual Other::bigDouble varX() override;
 };
 
 } /* namespace ConsoleArt */

@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Apr 28, 2024
+// Last Edit   : Jan 14, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -50,6 +50,10 @@ public:
 	virtual void configure(int argc, char** argv) = 0;
 	virtual void run() = 0;
 	bool addImage(Images::Image* image);
+	Messenger& getMessenger()
+	{
+		return *messenger;
+	}
 };
 }
 #endif

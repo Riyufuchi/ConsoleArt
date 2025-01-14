@@ -2,13 +2,14 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Mar 24, 2024
+// Last Edit   : Jan 14, 2025
 // Description : This is programs main
 //============================================================================
 
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include <map>
 
 #include "consoleArt/controller/ControllerCLI.h"
 #include "consoleArt/gui/zenity/ControllerGuiZen.h"
@@ -49,20 +50,39 @@ int main(int argc, char** argv)
 		ConsoleLib::DefaultConsole systemConsole;
 	#endif
 	systemConsole.setDefaultTextColor(color);
+
+	bool success = true;
+	std::string resultMsg = "";
+	std::map<std::string, std::vector<std::string>> argPairs = ConsoleLib::ConsoleUtils::analyzeArguments(argc, argv, success, resultMsg);
+	if (success)
+		systemConsole.out(resultMsg + "\n");
+	else
+	{
+		systemConsole.err(resultMsg + "\n");
+		return 1;
+	}
+
 	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
-	ConsoleArt::ControllerGuiZen consoleArt(&systemConsole);
-	switch(checkArgs(argc, argv, 2, *consoleArt.getConsole()))
+
+	ConsoleArt::Controller* consoleArt;
+	if (argPairs.contains("--zen"))
+		consoleArt = new ConsoleArt::ControllerGuiZen(&systemConsole);
+	else
+		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
+
+	switch(checkArgs(argc, argv, 2, systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
 		case CONFIGURE: goto conf;
 		case TEST: return 0;
 		case DISPLAY_MANUAL: return 0;
-		case SERVER: goto finish;
+		case SERVER: return 0;
 	}
-	conf: consoleArt.configure(argc, argv);
-	start: consoleArt.run();
-	finish: return 0;
+	conf: consoleArt->configure(argc, argv);
+	start: consoleArt->run();
+	delete consoleArt;
+	return 0;
 }
 
 BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole& console)
@@ -82,10 +102,10 @@ BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole&
 	else if(!strcmp(argv[1], "--runServer"))
 	{
 		#if defined(_WIN32)
-		console.out("Server is available only in Linux/Unix version.");
+			console.out("Server is available only in Linux/Unix version.");
 		#else
-		ConsoleArt::ServerTools server;
-		server.startServerThread();
+			ConsoleArt::ServerTools server;
+			server.startServerThread();
 		#endif
 		return BootAction::SERVER;
 	}

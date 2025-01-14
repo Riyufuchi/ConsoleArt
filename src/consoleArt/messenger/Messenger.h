@@ -2,7 +2,7 @@
 // File       : Messenger.h
 // Author     : Riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : Apr 28, 2024
+// Last edit  : Jan 14, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,7 +20,7 @@ namespace ConsoleArt
 
 class Messenger
 {
-	public:
+public:
 	enum MessageType
 		{
 			EXCEPTION,
@@ -30,7 +30,7 @@ class Messenger
 			INFO,
 			NOTIFICATION
 		};
-	protected:
+protected:
 	ConsoleLib::Color colors[6] = {
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS), // Exception
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE), // Error
@@ -39,9 +39,10 @@ class Messenger
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED) // Notification
 	};
-	public:
+public:
 	Messenger();
 	virtual ~Messenger();
+	void messageUser(std::string message);
 	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 };
 } /* namespace ConsoleArt */

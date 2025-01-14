@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Apr 29, 2024
+// Last edit  : Jan 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,14 +16,14 @@
 #include "ConsoleUtils.h"
 #include "IConsole.hpp"
 
-#define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2024\n"
+#define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 namespace ConsoleArt
 {
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.5 - beta 3";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.5";
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()
@@ -40,7 +40,9 @@ public:
 			"--about| Shows details about this application",
 			"--runClient [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
 			"--runServer| Starts ConsoleArt as simple server (port 6969)",
-			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)"
+			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
+			"--cli| Starts application in CLI mode (default)",
+			"--zen| Starts application in CLI-ZEN mode"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
@@ -51,7 +53,7 @@ public:
 		std::cout << "This is an C++ application for converting images into ASCII/UNICODE.\n\n";
 
 		std::cout << "How to use:\n";
-		std::cout << "1. Select font where all characters have same width\n";
+		std::cout << "1. Select font (in your console/terminal) where all characters have same width\n";
 		std::cout << "2. Load and select image\n";
 		std::cout << "3. Convert image\n";
 		std::cout << "4. In order to view the image, make font smaller. Size 2 is recommended for bigger images, however this depends on size of given image\n\n";
