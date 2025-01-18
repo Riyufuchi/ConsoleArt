@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Oct 25, 2024
+// Last edit  : Jan 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,11 +13,6 @@
 #include <chrono>
 #include <thread>
 
-#include "Controller.h"
-#include "../cli/AsciiPrinter.h"
-#include "../cli/MenusCLI.h"
-#include "../tools/ClientTools.h"
-#include "../../imageUtils/ImageToolsCLI.h"
 #include "ColorUtils.h"
 #include "ConsoleUtils.h"
 #include "UnixConsole.h"
@@ -27,8 +22,13 @@
 
 #include "../../other/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
-#include "../cli/MessengerCLI.h"
+#include "MessengerCLI.h"
 #include "../../other/OtherUtils.hpp"
+#include "../controller/Controller.h"
+#include "AsciiPrinter.h"
+#include "MenusCLI.h"
+#include "../tools/ClientTools.h"
+#include "../../imageUtils/ImageToolsCLI.h"
 
 
 namespace ConsoleArt
@@ -50,10 +50,6 @@ public:
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
 	void configure(int argc, char** argv) override;
 	void run() override;
-	ConsoleLib::IConsole* getConsole()
-	{
-		return console;
-	}
 	~ControllerCLI();
 };
 }

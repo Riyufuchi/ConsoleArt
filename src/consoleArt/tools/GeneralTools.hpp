@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Jan 14, 2025
+// Last edit  : Jan 18, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,7 +23,7 @@ namespace ConsoleArt
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.5";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 1";
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()
@@ -42,7 +42,7 @@ public:
 			"--runServer| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
 			"--cli| Starts application in CLI mode (default)",
-			"--zen| Starts application in CLI-ZEN mode"
+			"--zen| Starts application in CLI mode using Zenity"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
@@ -76,6 +76,7 @@ public:
 			std::cout << "\n";
 		}
 	}
+	[[deprecated("Used to handle raw arguments, use methods utilizing map and C++ strings instead.")]]
 	static void printArgError(const char* arg, ConsoleLib::IConsole& console)
 	{
 		std::string errMsg = "Invalid or unknown ";
@@ -83,6 +84,7 @@ public:
 		console.out(255, 0, 0, errMsg.append(" inputed.\n"));
 		std::cout << "Use --man or --help for help.\n";
 	}
+	[[deprecated("Used to handle raw arguments, use methods utilizing map and C++ strings instead.")]]
 	static std::string createArgErrorMessage(const char* arg)
 	{
 		std::string errMsg = "Invalid or unknown ";

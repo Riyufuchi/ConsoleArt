@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Apr 29, 2024
+// Last Edit   : Jan 18, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -21,6 +21,8 @@ bool Controller::applyArgument(int argc, char** argv, int i)
 {
 	if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
 	{
+		if (argc <= i + 1)
+			return true;
 		std::string path = reinterpret_cast<const char*>((argv[i + 1])); // or std::string path{argv[2]};
 		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) // if(argv[2][path.length() - 1] == '/')
 			path.append("/");

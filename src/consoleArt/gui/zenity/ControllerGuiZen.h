@@ -10,7 +10,7 @@
 #ifndef CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 #define CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 
-#include "../../controller/ControllerCLI.h"
+#include "../../cli/ControllerCLI.h"
 
 namespace ConsoleArt
 {

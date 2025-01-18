@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Jan 14, 2025
+// Last Edit   : Jan 18, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -11,7 +11,7 @@
 #include <string.h>
 #include <map>
 
-#include "consoleArt/controller/ControllerCLI.h"
+#include "consoleArt/cli/ControllerCLI.h"
 #include "consoleArt/gui/zenity/ControllerGuiZen.h"
 #include "consoleArt/tools/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
@@ -35,7 +35,13 @@ enum BootAction
 	SERVER
 };
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole& console);
+BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console);
+
+BootAction abort(ConsoleLib::IConsole& console)
+{
+	console.err("Unrecognized action. Aborting!");
+	return BootAction::ABORT;
+}
 
 int main(int argc, char** argv)
 {
@@ -51,6 +57,8 @@ int main(int argc, char** argv)
 	#endif
 	systemConsole.setDefaultTextColor(color);
 
+	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole, color);
+
 	bool success = true;
 	std::string resultMsg = "";
 	std::map<std::string, std::vector<std::string>> argPairs = ConsoleLib::ConsoleUtils::analyzeArguments(argc, argv, success, resultMsg);
@@ -62,15 +70,13 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) +"\n   ", systemConsole, color);
-
 	ConsoleArt::Controller* consoleArt;
 	if (argPairs.contains("--zen"))
 		consoleArt = new ConsoleArt::ControllerGuiZen(&systemConsole);
 	else
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 
-	switch(checkArgs(argc, argv, 2, systemConsole))
+	switch(checkArgs(argPairs, systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
@@ -85,35 +91,37 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-BootAction checkArgs(int argc, char** argv, int reqArgNum, ConsoleLib::IConsole& console)
+BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console)
 {
-	if(argc == 1) // First argument is always app name
-		return BootAction::CONTINUE;
-	else if(!strcmp(argv[1], "--man") || !strcmp(argv[1], "--help"))
+	if (argPairs.size() <= 1) // First argument is always app name
+			return BootAction::CONTINUE;
+
+	const std::vector<std::pair<std::string, BootAction>> checkFor = {
+		{"--man", BootAction::DISPLAY_MANUAL},
+		{"--help", BootAction::DISPLAY_MANUAL},
+		{"--colorTest", BootAction::TEST},
+		{"--runServer", BootAction::SERVER}
+	};
+
+	for (std::pair<std::string, BootAction> arg : checkFor)
 	{
-		ConsoleArt::GeneralTools::createManual();
-		return BootAction::DISPLAY_MANUAL;
+		if (argPairs.contains(arg.first))
+			switch (arg.second)
+			{
+				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return BootAction::DISPLAY_MANUAL;
+				case TEST: ConsoleArt::GeneralTools::colorTest(console); return BootAction::TEST;
+				case SERVER: {
+					#if defined(_WIN32)
+						console.out("Server is available only in Linux/Unix version.");
+					#else
+						ConsoleArt::ServerTools server;
+						server.startServerThread();
+					#endif
+					return BootAction::SERVER;
+				}
+				default: abort(console);
+			}
 	}
-	else if(!strcmp(argv[1], "--colorTest"))
-	{
-		ConsoleArt::GeneralTools::colorTest(console);
-		return BootAction::TEST;
-	}
-	else if(!strcmp(argv[1], "--runServer"))
-	{
-		#if defined(_WIN32)
-			console.out("Server is available only in Linux/Unix version.");
-		#else
-			ConsoleArt::ServerTools server;
-			server.startServerThread();
-		#endif
-		return BootAction::SERVER;
-	}
-	else if(argc < reqArgNum) //If argc is less than minimum then arguments are invalid
-	{
-		ConsoleArt::GeneralTools::printArgError(argv[1], console);
-		return BootAction::ABORT;
-	}
-	else
-		return BootAction::CONFIGURE;
+
+	return BootAction::CONFIGURE;
 }
