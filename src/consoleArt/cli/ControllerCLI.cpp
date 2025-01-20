@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Jan 14, 2025
+// Last Edit   : Jan 20, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -22,49 +22,44 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 	}
 	messenger = new MessengerCLI(this->console);
 }
-void ControllerCLI::configure(int argc, char** argv)
+void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
 {
-	for (int i = 0; i < argc; i++)
+	std::vector<std::string> params;
+	std::vector<std::pair<std::string, Argumemts>> checkForArgs = GeneralTools::arguments();
+	for (std::pair<std::string, Argumemts> argument : checkForArgs)
 	{
-		if (applyArgument(argc, argv, i))
+		if (!config.contains(argument.first))
+			continue;
+		switch (argument.second)
 		{
-			if (!strcmp(argv[i], "--no-color"))
-			{
+			case COLOR:
+				params = config.at(argument.first);
+				if (params.empty() || (!DataUtility::DataUtils::isNumber(params.at(0))))
+				{
+					messenger->messageUser(Messenger::MessageType::ERROR, "Missing or wrong argument " + params.at(0) + " for --color\n");
+					continue;
+				}
+				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(params.at(0)) - 1)));
+			break;
+			case NO_COLOR:
 				this->console = &defaultConsole;
 				menuCLI.setConsole(console);
 				console->out("No color option applied\n");
-			}
-			else if (!strcmp(argv[i], "--color"))
-			{
-				if ((i + 1 >=  argc) || (!DataUtility::DataUtils::isNumber(argv[++i])))
-				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Missing or wrong argument for --color\n");
-					continue;
-				}
-				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(argv[i]) - 1)));
-			}
-			else if (!strcmp(argv[i], "--runClient"))
-			{
-				const char* ipAdress = "127.0.0.1";
-				if ((i + 1 >=  argc) || (argv[++i][0] == '-'))
-					messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
-				else
-					ipAdress = argv[i];
-				ConsoleArt::ClientTools client(*console, ipAdress);
-				if (client.runClient())
-					isRunnable = false;
-			}
-			else if (!strcmp(argv[i], "--schedule"))
-			{
+			break;
+			case CLIENT:
+				if (!config.at(argument.first).empty())
+					runAsClient(config.at(argument.first).at(0));
+			break;
+			case SCHEDULE: {
 				Other::ScheduleTracker shedule(console);
 				shedule.menu();
 				isRunnable = false;
-			}
-			else if (!strcmp(argv[i], "--benchmark"))
-			{
+			} break;
+			case BENCHMARK: {
 				std::string image = "bench.pcx";
-				if (!((i + 1 >=  argc) || (argv[++i][0] == '-')))
-					image = std::string(argv[i]);
+				params = config.at(argument.first);
+				if (!((params.empty() || params.at(0)[0] == '-')))
+					image = params.at(0);
 				auto start = std::chrono::steady_clock::now();
 				auto end = start;
 				Images::Image* img = loadImage(image);
@@ -75,25 +70,40 @@ void ControllerCLI::configure(int argc, char** argv)
 				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 				std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
 				isRunnable = false;
-			}
-			else if (!strcmp(argv[i], "--library"))
-			{
-				ConsoleLib::Library::aboutLibrary();
-				isRunnable = false;
-			}
-			else if (!strcmp(argv[i], "--binom"))
-			{
+			} break;
+			case BINOM: {
 				Other::OtherhUtils::distributeCards();
 				std::cout << "\n";
 				Other::OtherhUtils::testMean();
 				isRunnable = false;
-			}
-			else if (argv[i][0] == '-') // Check if is it argument or arg param
-			{
-				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argv[i]));
-			}
+			} break;
+			case LOAD_ALL: loadAllImagesAsync(); break;
+			case PATH: setWorkspace(config.at(argument.first).at(0)); break;
+			case IMAGE: {
+				params = config.at(argument.first);
+				if (params.empty())
+					messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
+				addImage(loadImage(workspacePath + params.at(0)));
+				if (images.size() > 0)
+					convertImage(images.back().get());
+			} break;
+			default:
+				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
+			break;
 		}
 	}
+}
+
+void ControllerCLI::runAsClient(std::string ip)
+{
+	const char* ipAdress = "127.0.0.1";
+	if (ip[0] == '-')
+		messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
+	else
+		ipAdress = ip.c_str();
+	ConsoleArt::ClientTools client(*console, ipAdress);
+	if (client.runClient())
+		isRunnable = false;
 }
 
 void ControllerCLI::refreshMenu()
@@ -128,7 +138,11 @@ void ControllerCLI::run()
 			console->resetTextColor();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
-		case 5: GeneralTools::aboutApplication(); goto menu;
+		case 5:
+			console->defaultTextColor();
+			GeneralTools::aboutApplication();
+			console->resetTextColor();
+		goto menu;
 		case 6: return;
 	}
 }
@@ -163,16 +177,6 @@ Images::Image* ControllerCLI::selectImage()
 	std::cout << "\n";
 	console->resetTextColor();
 	return images[selectedIndex].get();
-	/*
-	if (auto bmpImagePtr = dynamic_cast<Images::ImageBMP*>(images[selectedIndex].get()))
-	{
-		return *bmpImagePtr;
-	}
-	else
-	{
-		unxConsole.writeText(255, 0, 0, "Selected image is not of type ImageBMP!");
-		return Images::ImageBMP("nullPtr.bmp");
-	}*/
 }
 
 std::string ControllerCLI::inputImageName()

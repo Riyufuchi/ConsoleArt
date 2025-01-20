@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : Apr 29, 2024
+// Last Edit   : Jan 20, 2025
 //============================================================================
 #include "MenusCLI.h"
 
@@ -12,7 +12,7 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
 	menus =
 	{
-		{ "Load image", "Load all images", "Select image", "List images", "Configure console color", "About application", "Exit application"},
+		{ "Load image", "Load all images", "Select image", "List images", "Settings", "About", "Exit"},
 		{ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" },
 		{ "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"}

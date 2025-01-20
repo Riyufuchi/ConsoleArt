@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Jan 18, 2025
+// Last Edit   : Jan 20, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -32,7 +32,9 @@ enum BootAction
 	CONFIGURE,
 	CONTINUE,
 	TEST,
-	SERVER
+	SERVER,
+	ABOUT,
+	LIBRARY
 };
 
 BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console);
@@ -81,11 +83,9 @@ int main(int argc, char** argv)
 		case ABORT: return 1;
 		case CONTINUE: goto start;
 		case CONFIGURE: goto conf;
-		case TEST: return 0;
-		case DISPLAY_MANUAL: return 0;
-		case SERVER: return 0;
+		default: return 0; // For other cases that result in success
 	}
-	conf: consoleArt->configure(argc, argv);
+	conf: consoleArt->configure(argPairs);
 	start: consoleArt->run();
 	delete consoleArt;
 	return 0;
@@ -93,14 +93,16 @@ int main(int argc, char** argv)
 
 BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console)
 {
-	if (argPairs.size() <= 1) // First argument is always app name
-			return BootAction::CONTINUE;
+	if (argPairs.empty()) // First argument is always app name
+		return BootAction::CONTINUE;
 
 	const std::vector<std::pair<std::string, BootAction>> checkFor = {
 		{"--man", BootAction::DISPLAY_MANUAL},
 		{"--help", BootAction::DISPLAY_MANUAL},
 		{"--colorTest", BootAction::TEST},
-		{"--runServer", BootAction::SERVER}
+		{"--server", BootAction::SERVER},
+		{"--about", BootAction::ABOUT},
+		{"--library", BootAction::LIBRARY}
 	};
 
 	for (std::pair<std::string, BootAction> arg : checkFor)
@@ -108,8 +110,8 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 		if (argPairs.contains(arg.first))
 			switch (arg.second)
 			{
-				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return BootAction::DISPLAY_MANUAL;
-				case TEST: ConsoleArt::GeneralTools::colorTest(console); return BootAction::TEST;
+				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
+				case TEST: ConsoleArt::GeneralTools::colorTest(console); return arg.second;
 				case SERVER: {
 					#if defined(_WIN32)
 						console.out("Server is available only in Linux/Unix version.");
@@ -117,8 +119,10 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 						ConsoleArt::ServerTools server;
 						server.startServerThread();
 					#endif
-					return BootAction::SERVER;
+					return arg.second;
 				}
+				case ABOUT: ConsoleArt::GeneralTools::aboutApplication(); return arg.second;
+				case LIBRARY: ConsoleLib::Library::aboutLibrary(); return arg.second;
 				default: abort(console);
 			}
 	}

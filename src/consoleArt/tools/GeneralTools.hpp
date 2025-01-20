@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Jan 18, 2025
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,12 +20,38 @@
 
 namespace ConsoleArt
 {
+enum Argumemts
+{
+	LOAD_ALL,
+	IMAGE,
+	PATH,
+	COLOR,
+	NO_COLOR,
+	CLIENT,
+	BENCHMARK,
+	SCHEDULE,
+	BINOM
+};
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 1";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 2";
 	GeneralTools();
 	~GeneralTools();
+	static std::vector<std::pair<std::string, Argumemts>> arguments()
+	{
+		std::vector<std::pair<std::string, Argumemts>> args = {
+			{"-p", Argumemts::PATH}, {"--path", Argumemts::PATH},
+			{"--loadAll", Argumemts::LOAD_ALL},
+			{"--image", Argumemts::IMAGE},
+			{"--color", Argumemts::COLOR},
+			{"--no-color", Argumemts::NO_COLOR},
+			{"--client", Argumemts::CLIENT},
+			{"--benchmark", Argumemts::BENCHMARK},
+			{"--binom", Argumemts::BINOM}
+		};
+		return args;
+	}
 	static void createManual()
 	{
 		std::cout << _COPYRIGHT_HEADER;
@@ -38,9 +64,10 @@ public:
 			"--no-color| Disable colored outputs, for when they are not supported",
 			"--color [colorID]| Sets default text color",
 			"--about| Shows details about this application",
-			"--runClient [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
-			"--runServer| Starts ConsoleArt as simple server (port 6969)",
+			"--client [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
+			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
+			"--library| Shows info about ConsoleLib",
 			"--cli| Starts application in CLI mode (default)",
 			"--zen| Starts application in CLI mode using Zenity"
 		};
@@ -76,20 +103,9 @@ public:
 			std::cout << "\n";
 		}
 	}
-	[[deprecated("Used to handle raw arguments, use methods utilizing map and C++ strings instead.")]]
-	static void printArgError(const char* arg, ConsoleLib::IConsole& console)
+	static std::string createArgErrorMessage(std::string arg)
 	{
-		std::string errMsg = "Invalid or unknown ";
-		errMsg += arg;
-		console.out(255, 0, 0, errMsg.append(" inputed.\n"));
-		std::cout << "Use --man or --help for help.\n";
-	}
-	[[deprecated("Used to handle raw arguments, use methods utilizing map and C++ strings instead.")]]
-	static std::string createArgErrorMessage(const char* arg)
-	{
-		std::string errMsg = "Invalid or unknown ";
-		errMsg += arg;
-		return errMsg.append(" inputed.\nUse --man or --help for help.\n");
+		return std::string("Invalid or unknown ").append(arg).append(" inputed.\nUse --man or --help for help.\n");
 	}
 };
 } // Namespace

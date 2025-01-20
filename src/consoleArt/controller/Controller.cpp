@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Jan 18, 2025
+// Last Edit   : Jan 20, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -16,45 +16,6 @@ Controller::Controller() : Controller("") // Calls constructor with parameter to
 Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr)
 {
 }
-
-bool Controller::applyArgument(int argc, char** argv, int i)
-{
-	if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--path"))
-	{
-		if (argc <= i + 1)
-			return true;
-		std::string path = reinterpret_cast<const char*>((argv[i + 1])); // or std::string path{argv[2]};
-		if((path.substr(path.length() - 1) != "/") && (path.length() > 0)) // if(argv[2][path.length() - 1] == '/')
-			path.append("/");
-		workspacePath = path;
-		messenger->messageUser(Messenger::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
-		return false;
-	}
-	else if (!strcmp(argv[i], "--loadAll"))
-	{
-		loadAllImagesAsync();
-		return false;
-	}
-	else if (!strcmp(argv[i], "--image"))
-	{
-		if (!((i + 1) < argc))
-		{
-			messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
-			return false;
-		}
-		addImage(loadImage(workspacePath + argv[i + 1]));
-		if (images.size() > 0)
-			convertImage(images.back().get());
-		return false;
-	}
-	else if (!strcmp(argv[i], "--about"))
-	{
-		GeneralTools::aboutApplication();
-		return false;
-	}
-	return true;
-}
-
 void Controller::loadAllImagesAsync()
 {
 	std::string fne = "";
@@ -89,7 +50,6 @@ void Controller::loadAllImagesAsync()
 	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
 	refreshMenu();
 }
-
 bool Controller::addImage(Images::Image* image)
 {
 	if (image == nullptr)
@@ -140,6 +100,16 @@ Images::Image* Controller::loadImage(std::string path)
 	else
 		messenger->messageUser(Messenger::MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;
+}
+
+void Controller::setWorkspace(std::string path)
+{
+	if (path.length() == 0)
+		return;
+	if ((path.length() > 0) && (path.substr(path.length() - 1) != "/"))
+		path.append("/");
+	workspacePath = path;
+	messenger->messageUser(Messenger::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 }
 
 Controller::~Controller()

@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Jan 14, 2025
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -45,10 +45,11 @@ private:
 	void refreshMenu() override;
 	Images::Image* selectImage() override;
 	void loadAllImagesAsync();
+	void runAsClient(std::string ip);
 public:
 	ControllerCLI(ConsoleLib::IConsole* console);
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
-	void configure(int argc, char** argv) override;
+	void configure(std::map<std::string, std::vector<std::string>>& config) override;
 	void run() override;
 	~ControllerCLI();
 };

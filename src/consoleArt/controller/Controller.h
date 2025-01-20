@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Jan 14, 2025
+// Last Edit   : Jan 20, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -34,22 +34,24 @@ protected:
 	std::mutex mutexImages;
 	bool isRunnable;
 	Messenger* messenger;
-	// Methods
+	// Virtual
+	virtual void refreshMenu() = 0;
 	virtual void convertImage(Images::Image* image) = 0;
-	void loadAllImagesAsync();
-	// Functions
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
+	// Methods
+	void loadAllImagesAsync();
+	// Functions
 	Images::Image* loadImage(std::string path);
-	bool applyArgument(int arg, char** argv, int i);
-	virtual void refreshMenu() = 0;
 public:
 	Controller();
 	Controller(std::string path);
 	virtual ~Controller();
-	virtual void configure(int argc, char** argv) = 0;
+	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
 	virtual void run() = 0;
 	bool addImage(Images::Image* image);
+	// Setters
+	void setWorkspace(std::string path);
 	Messenger& getMessenger()
 	{
 		return *messenger;
