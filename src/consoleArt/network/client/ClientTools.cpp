@@ -2,7 +2,7 @@
 // File       : ClientTools.cpp
 // Author     : Riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 19, 2024
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@ namespace ConsoleArt
 ClientTools::ClientTools(ConsoleLib::IConsole& console) : ClientTools(console, "127.0.0.1")
 {
 }
-ClientTools::ClientTools(ConsoleLib::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console)
+ClientTools::ClientTools(ConsoleLib::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console), connection(true)
 {
 }
 ClientTools::~ClientTools()
@@ -28,10 +28,9 @@ bool ClientTools::runClient()
 		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
 		return false;
 	}
-	console.out("Username: ");
+	handleResponse();
 	std::cin >> sharedString;
 	client.sendRequest(sharedString);
-	handleResponse();
 	console.out(client.getClientStatus() + "\n");
 	if (!client.isConnected())
 	{
@@ -41,11 +40,12 @@ bool ClientTools::runClient()
 	}
 	std::thread serverResponseThread(&ClientTools::handleChat, this);
 	std::string command = "";
-	while (command != "logout" && client.isConnected())
+	while (command != "logout")
 	{
 		std::cin >> command;
 		client.sendRequest(command);
 	}
+	connection = false;
 	serverResponseThread.join();
 	console.out("Press enter to exit... ");
 	std::cin.get();
@@ -61,7 +61,7 @@ void ClientTools::handleResponse()
 }
 void ClientTools::handleChat()
 {
-	while (client.isConnected())
+	while (connection)
 	{
 		if (client.listenForResponse(sharedString))
 		{

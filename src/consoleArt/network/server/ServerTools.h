@@ -2,7 +2,7 @@
 // File       : ServerTools.h
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 27, 2024
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,11 +11,13 @@
 #define _SERVER_TOOLS_H_
 
 #include <thread>
+#include <map>
+#include <functional>
 
-#include "ClientTools.h"
+#include "../client/ClientTools.h"
 
 #include "../inc/TimeUtils.h"
-#include "../inc/Server.h"
+#include "Server.h"
 #include "../inc/UnixConsole.h"
 #include "../inc/IConsole.hpp"
 
@@ -24,7 +26,7 @@ namespace ConsoleArt
 class ServerTools
 {
 private:
-	SufuServer::Server server;
+	ConsoleArt::Server server;
 	std::string message;
 	ConsoleLib::UnixConsole console;
 	void startServer();

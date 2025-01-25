@@ -47,7 +47,9 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				console->out("No color option applied\n");
 			break;
 			case CLIENT:
-				if (!config.at(argument.first).empty())
+				if (config.at(argument.first).empty())
+					runAsClient("");
+				else
 					runAsClient(config.at(argument.first).at(0));
 			break;
 			case SCHEDULE: {
@@ -87,6 +89,39 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				if (images.size() > 0)
 					convertImage(images.back().get());
 			} break;
+			case COMPARE: {
+				params = config.at(argument.first);
+				if (params.size() != 2)
+				{
+					messenger->messageUser(Messenger::MessageType::ERROR, "Argument " + argument.first + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
+					continue;
+				}
+				Images::Image* image1 = loadImage(workspacePath + params.at(0));
+				Images::Image* image2 = loadImage(workspacePath + params.at(1));
+				if (image1 == nullptr || !*image1)
+				{
+					messenger->messageUser(Messenger::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
+					continue;
+				}
+				if (image2 == nullptr || !*image2)
+				{
+					messenger->messageUser(Messenger::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
+					continue;
+				}
+				switch(ImageUtils::ImageToolsCLI::compareImages(*image1, *image2))
+				{
+					case 1:
+						console->out("Image " + image1->getFilename() + " is bigger than " + image2->getFilename() + "\n");
+					break;
+					case 0:
+						console->out("Image " + image1->getFilename() + " is equal to " + image2->getFilename() + "\n");
+					break;
+					case -1:
+						console->out("Image " + image2->getFilename() + " is bigger than " + image1->getFilename() + "\n");
+					break;
+				}
+				isRunnable = false;
+			} break;
 			default:
 				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
 			break;
@@ -97,7 +132,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 void ControllerCLI::runAsClient(std::string ip)
 {
 	const char* ipAdress = "127.0.0.1";
-	if (ip[0] == '-')
+	if (ip.size() == 0 || ip[0] == '-')
 		messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
 	else
 		ipAdress = ip.c_str();
@@ -190,12 +225,10 @@ std::string ControllerCLI::inputImageName()
 
 void ControllerCLI::convertImage(Images::Image* image)
 {
-	if (image == nullptr)
-		return;
-	if (!*image) // Why this work only when dereferenced?
+	if (image == nullptr || !*image)
 		return;
 	ImageUtils::AsciiConverter ac(*image);
-	int option = menuCLI.invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
+	reconvert: int option = menuCLI.invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
@@ -220,7 +253,8 @@ void ControllerCLI::convertImage(Images::Image* image)
 			case 1: ap.printCharColored(); break;
 			case 2: ap.printPixelColored(); break;
 			case 3: ap.printToFile(); break;
-			case 4: again = false; break;
+			case 4: goto reconvert;
+			case 5: again = false; break;
 		}
 	}
 }

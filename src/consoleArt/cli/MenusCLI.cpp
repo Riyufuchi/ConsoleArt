@@ -15,7 +15,7 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 		{ "Load image", "Load all images", "Select image", "List images", "Settings", "About", "Exit"},
 		{ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" },
-		{ "Classic", "Classic colored", "Pixel colored", "To text file", "Back to main menu"}
+		{ "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"}
 	};
 }
 int MenusCLI::handleMenu(int menu)

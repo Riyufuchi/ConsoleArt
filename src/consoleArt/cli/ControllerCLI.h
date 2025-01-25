@@ -27,7 +27,7 @@
 #include "../controller/Controller.h"
 #include "AsciiPrinter.h"
 #include "MenusCLI.h"
-#include "../tools/ClientTools.h"
+#include "../network/client/ClientTools.h"
 #include "../../imageUtils/ImageToolsCLI.h"
 
 

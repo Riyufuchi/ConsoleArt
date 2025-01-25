@@ -22,6 +22,7 @@ public:
 	ImageToolsCLI();
 	virtual ~ImageToolsCLI();
 	static void displayImageInfo(Images::Image* image);
+	static int compareImages(Images::Image& image1, Images::Image& image2);
 };
 
 } /* namespace ImageUtils */

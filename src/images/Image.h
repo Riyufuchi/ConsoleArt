@@ -2,9 +2,9 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 03, 2024
+// Last edit  : Jan 24, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: Abstract class for specific image formats
 //==============================================================================
 
 #ifndef _IMAGES_IMAGE_H_
@@ -51,6 +51,26 @@ public:
 	explicit operator bool() const
 	{
 		return fileState == FileState::OK;
+	}
+
+	bool operator > (const Image& other) const
+	{
+		return imageInfo.width * imageInfo.height > other.imageInfo.width * other.imageInfo.height;
+	}
+
+	bool operator < (const Image& other) const
+	{
+		return imageInfo.width * imageInfo.height < other.imageInfo.width * other.imageInfo.height;
+	}
+
+	bool operator == (const Image& other) const
+	{
+		return imageInfo.width * imageInfo.height == other.imageInfo.width * other.imageInfo.height;
+	}
+
+	bool operator != (const Image& other) const
+	{
+		return imageInfo.width * imageInfo.height != other.imageInfo.width * other.imageInfo.height;
 	}
 	// Common
 	void rename(std::string imageName);

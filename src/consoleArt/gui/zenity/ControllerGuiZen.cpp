@@ -2,7 +2,7 @@
 // File       : ControllerGuiZen.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Jun 11, 2024
+// Last edit  : Jan 24, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,6 +13,7 @@ namespace ConsoleArt
 {
 ControllerGuiZen::ControllerGuiZen(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
+	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Started in CLI mode using zenity\n");
 }
 ControllerGuiZen::~ControllerGuiZen()
 {

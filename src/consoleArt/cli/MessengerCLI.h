@@ -12,7 +12,7 @@
 
 #include <mutex>
 
-#include "../messenger/Messenger.h"
+#include "../tools/Messenger.h"
 #include "IConsole.hpp"
 
 namespace ConsoleArt

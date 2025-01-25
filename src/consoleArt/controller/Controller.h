@@ -21,7 +21,7 @@
 #include "../../imageUtils/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
-#include "../messenger/Messenger.h"
+#include "../tools/Messenger.h"
 
 
 namespace ConsoleArt

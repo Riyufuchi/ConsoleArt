@@ -30,12 +30,13 @@ enum Argumemts
 	CLIENT,
 	BENCHMARK,
 	SCHEDULE,
-	BINOM
+	BINOM,
+	COMPARE
 };
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 2";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 3";
 	GeneralTools();
 	~GeneralTools();
 	static std::vector<std::pair<std::string, Argumemts>> arguments()
@@ -48,7 +49,8 @@ public:
 			{"--no-color", Argumemts::NO_COLOR},
 			{"--client", Argumemts::CLIENT},
 			{"--benchmark", Argumemts::BENCHMARK},
-			{"--binom", Argumemts::BINOM}
+			{"--binom", Argumemts::BINOM},
+			{"--compare", Argumemts::COMPARE}
 		};
 		return args;
 	}
@@ -68,6 +70,7 @@ public:
 			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
 			"--library| Shows info about ConsoleLib",
+			"--compare [image1] [image2]| Compares two images",
 			"--cli| Starts application in CLI mode (default)",
 			"--zen| Starts application in CLI mode using Zenity"
 		};

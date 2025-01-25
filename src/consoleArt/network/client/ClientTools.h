@@ -2,7 +2,7 @@
 // File       : ClientTools.h
 // Author     : Riyufuchi
 // Created on : Mar 16, 2024
-// Last edit  : Mar 20, 2024
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -33,6 +33,7 @@ private:
 #endif
 	std::string sharedString;
 	ConsoleLib::IConsole& console;
+	bool connection;
 	void handleResponse();
 	void handleChat();
 public:

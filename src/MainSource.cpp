@@ -13,13 +13,13 @@
 
 #include "consoleArt/cli/ControllerCLI.h"
 #include "consoleArt/gui/zenity/ControllerGuiZen.h"
-#include "consoleArt/tools/ServerTools.h"
+#include "consoleArt/network/server/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
 #include "ConsoleUtils.h"
 #include "UnixConsole.h"
 #include "IConsole.hpp"
 #include "DefaultConsole.h"
-#include "Server.h"
+#include "consoleArt/network/server/Server.h"
 #ifdef _WIN32
 	#include "WindowsConsole.h"
 #endif // _WIN32
@@ -71,6 +71,11 @@ int main(int argc, char** argv)
 		systemConsole.err(resultMsg + "\n");
 		return 1;
 	}
+
+	#ifdef DEBUG
+	systemConsole.out(153, 102, 51, "!!! This is a debug build !!!\n");
+	ConsoleLib::ConsoleUtils::printArgumentPairs(argPairs);
+	#endif
 
 	ConsoleArt::Controller* consoleArt;
 	if (argPairs.contains("--zen"))

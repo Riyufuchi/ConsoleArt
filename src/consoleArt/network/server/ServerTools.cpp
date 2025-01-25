@@ -2,7 +2,7 @@
 // File       : ServerTools.cpp
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Mar 27, 2024
+// Last edit  : Jan 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-ServerTools::ServerTools() : server(6969)
+ServerTools::ServerTools() : server(6969, 2)
 {
 	DataUtility::Date today = DataUtility::TimeUtils::todaysDate();
 	this->message = "Today is: " + std::to_string(today.day) + "." + std::to_string(today.month) + "." + std::to_string(today.year) + "\n";
@@ -22,15 +22,31 @@ ServerTools::~ServerTools()
 }
 void ServerTools::startServerThread()
 {
+	std::map<std::string, std::function<void()>> commandMap;
+	commandMap["users"] = [&]() { server.showUsers(); };
+	commandMap["status"] = [&]() { console.out(server.getServerStatus() + "\n"); };
+	commandMap["kick"] = [&]() { server.removeUser("Riyu"); };
+	commandMap["exit"] = [&]() { console.out("Activating shutdown command.\n"); server.shutdownServer(); };
+	commandMap["help"] = []()
+	{
+		std::cout << "Available commands: exit, list users, status\n";
+	};
 	std::thread serverThread(&ServerTools::startServer, this);
 	std::string command = "";
-	while (command != "logout" && server.isRunning())
+	while (server.isRunning())
 	{
 		std::cin >> command;
+		auto it = commandMap.find(command);
+		if (it != commandMap.end())
+		{
+			it->second(); // Call the associated function
+		}
+		else
+		{
+			std::cout << "Unknown command. Type 'help' for a list of commands.\n";
+		}
 	}
-	server.shutdownServer();
 	ClientTools c(console);
-	//SufuServer::Client c; // Trigger server loop and shutdowns server
 	serverThread.join();
 	console.out("Server exited with status: " + server.getServerStatus() + "\n");
 	console.out("Press enter to exit... ");
@@ -48,8 +64,13 @@ void ServerTools::startServer()
 	}
 	console.out(server.getServerStatus());
 	console.out(" -> Server is up and running\n");
-	console.out("Port: ");
-	std::cout << server.getPort() << "\n";
-	server.runServer();
+	console.defaultTextColor();
+	std::cout << "Port: " << server.getPort() << "\n";
+	std::cout << "Maximum allowed users: " << server.getMaximumConnections() << "\n";
+	console.resetTextColor();
+	do {
+		server.runServer();
+	} while (server.isRunning());
+	console.out("Exiting server thread!.\n");
 }
 } /* namespace ConsoleArt */
