@@ -34,7 +34,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 		{
 			case COLOR:
 				params = config.at(argument.first);
-				if (params.empty() || (!DataUtility::DataUtils::isNumber(params.at(0))))
+				if (params.empty() || (!ConsoleLib::DataUtils::isNumber(params.at(0))))
 				{
 					messenger->messageUser(Messenger::MessageType::ERROR, "Missing or wrong argument " + params.at(0) + " for --color\n");
 					continue;
@@ -52,11 +52,6 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				else
 					runAsClient(config.at(argument.first).at(0));
 			break;
-			case SCHEDULE: {
-				Other::ScheduleTracker shedule(console);
-				shedule.menu();
-				isRunnable = false;
-			} break;
 			case BENCHMARK: {
 				std::string image = "bench.pcx";
 				params = config.at(argument.first);
@@ -74,9 +69,8 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				isRunnable = false;
 			} break;
 			case BINOM: {
-				Other::OtherhUtils::distributeCards();
-				std::cout << "\n";
-				Other::OtherhUtils::testMean();
+				auto res = Other::OtherhUtils::binomialDistribution(config.at(argument.first));
+				Other::OtherhUtils::printResults(res);
 				isRunnable = false;
 			} break;
 			case LOAD_ALL: loadAllImagesAsync(); break;
@@ -131,14 +125,16 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 
 void ControllerCLI::runAsClient(std::string ip)
 {
+	isRunnable = false;
 	const char* ipAdress = "127.0.0.1";
 	if (ip.size() == 0 || ip[0] == '-')
 		messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
 	else
 		ipAdress = ip.c_str();
 	ConsoleArt::ClientTools client(*console, ipAdress);
-	if (client.runClient())
-		isRunnable = false;
+	if (!client.connectClient())
+		return;
+	client.runClient();
 }
 
 void ControllerCLI::refreshMenu()

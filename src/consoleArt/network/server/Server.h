@@ -43,7 +43,7 @@ private:
 	uint16_t port;
 	std::vector<std::shared_ptr<User>> users;
 	std::mutex usersMutex;
-	std::vector<std::thread> clientThreads; // Vector to store client threads
+	std::map<int, std::thread> clientThreadMap;
 	std::mutex clientThreadsMutex;
 	// Methods
 	void handleUser(User* user); // Function to handle communication with a single user

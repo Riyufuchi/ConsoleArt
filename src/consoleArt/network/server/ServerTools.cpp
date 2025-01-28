@@ -13,7 +13,7 @@ namespace ConsoleArt
 {
 ServerTools::ServerTools() : server(6969, 2)
 {
-	DataUtility::Date today = DataUtility::TimeUtils::todaysDate();
+	ConsoleLib::Date today = ConsoleLib::TimeUtils::todaysDate();
 	this->message = "Today is: " + std::to_string(today.day) + "." + std::to_string(today.month) + "." + std::to_string(today.year) + "\n";
 }
 
@@ -68,9 +68,10 @@ void ServerTools::startServer()
 	std::cout << "Port: " << server.getPort() << "\n";
 	std::cout << "Maximum allowed users: " << server.getMaximumConnections() << "\n";
 	console.resetTextColor();
-	do {
+	while (server.isRunning())
+	{
 		server.runServer();
-	} while (server.isRunning());
-	console.out("Exiting server thread!.\n");
+	}
+	console.out("Exiting server thread.\n");
 }
 } /* namespace ConsoleArt */

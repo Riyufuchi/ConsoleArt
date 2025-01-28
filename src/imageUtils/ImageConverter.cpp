@@ -11,13 +11,12 @@
 
 namespace ImageUtils {
 
-ImageConverter::ImageConverter() {
-	// TODO Auto-generated constructor stub
-
+ImageConverter::ImageConverter()
+{
 }
 
-ImageConverter::~ImageConverter() {
-	// TODO Auto-generated destructor stub
+ImageConverter::~ImageConverter()
+{
 }
 
 } /* namespace ImageUtils */

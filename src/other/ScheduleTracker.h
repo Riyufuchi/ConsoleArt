@@ -27,7 +27,7 @@ class ScheduleTracker
 {
 private:
 	static constexpr const char* filename = "stat.csv";
-	std::vector<DataUtility::TimeStamp> times;
+	std::vector<ConsoleLib::TimeStamp> times;
 	ConsoleLib::IConsole* console;
 	bool fileLoaded;
 	bool readFile();
@@ -38,7 +38,7 @@ private:
 public:
 	ScheduleTracker(ConsoleLib::IConsole* console);
 	~ScheduleTracker();
-	void menu();
+	void run();
 };
 } /* namespace ConsoleArt */
 #endif /* OTHER_SHEDULETRACKER_H_ */

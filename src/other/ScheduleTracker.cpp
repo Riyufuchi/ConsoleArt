@@ -22,7 +22,7 @@ ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole* console) : console(consol
 ScheduleTracker::~ScheduleTracker()
 {
 }
-void ScheduleTracker::menu()
+void ScheduleTracker::run()
 {
 	const char* menuItems[] = { "Add time", "Calculate avg time", "Exit" };
 	std::string line;
@@ -60,7 +60,7 @@ bool ScheduleTracker::writeFile(const std::string& line, const std::string& file
 	}
 	file << line << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
-	DataUtility::TimeStamp data;
+	ConsoleLib::TimeStamp data;
 	std::string strNum = line.substr(0, line.find(';'));
 	convertToLong(data.hours, strNum);
 	convertToLong(data.minutes, strNum = line.substr(line.find(';') + 1, line.length()));
@@ -98,7 +98,7 @@ bool ScheduleTracker::readFile()
 		return false;
 	}
 	std::string line, token;
-	DataUtility::TimeStamp timeStamp;
+	ConsoleLib::TimeStamp timeStamp;
 	const int NUM_OF_ATTRIBUTES = 2;
 	int x = 0;
 	std::istringstream iss;
@@ -161,9 +161,9 @@ void ScheduleTracker::calculateAvgTime()
 	long double minutes = 0;
 	int week = 1;
 	int days = 0;
-	for (DataUtility::TimeStamp& timeStamp : times)
+	for (ConsoleLib::TimeStamp& timeStamp : times)
 	{
-		minutes += DataUtility::TimeUtils::convertToMinutes(timeStamp);
+		minutes += ConsoleLib::TimeUtils::convertToMinutes(timeStamp);
 		days++;
 		if (days % 7 == 0)
 		{

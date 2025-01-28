@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Jan 20, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,7 +20,7 @@
 #include "DataUtils.h"
 #include "Library.h"
 
-#include "../../other/BinomialDistribution.h"
+#include "../../other/math/distributions/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
 #include "MessengerCLI.h"
 #include "../../other/OtherUtils.hpp"

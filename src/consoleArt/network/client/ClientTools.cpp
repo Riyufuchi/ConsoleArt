@@ -14,62 +14,114 @@ namespace ConsoleArt
 ClientTools::ClientTools(ConsoleLib::IConsole& console) : ClientTools(console, "127.0.0.1")
 {
 }
-ClientTools::ClientTools(ConsoleLib::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console), connection(true)
+ClientTools::ClientTools(ConsoleLib::IConsole& console, const char* ipAdress) : client(ipAdress, 6969), console(console), messageOK(false)
 {
+	std::cout << "Username: ";
+	std::getline(std::cin, sharedString);
 }
 ClientTools::~ClientTools()
 {
 }
+bool ClientTools::connectClient()
+{
+	if (!client.isConnected() || client.getClientStatus() != "OK")
+	{
+		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n");
+		return false;
+	}
+	client.sendRequest(sharedString);
+	if (!client.isConnected() || client.getClientStatus() != "OK")
+	{
+		console.out("Can't connect to ConsoleArt server.\nClient status: " + client.getClientStatus() + "\nStarted in off-line mode.\n");
+		return false;
+	}
+	return true;
+}
 bool ClientTools::runClient()
 {
-	if (!client.isConnected())
+	std::map<std::string, std::function<void()>> commandMap;
+	commandMap["status"] = [&]() { console.out(client.getClientStatus() + "\n"); };
+	commandMap["logout"] = [&]()
 	{
-		console.err(client.getClientStatus());
-		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
-		return false;
-	}
-	handleResponse();
-	std::cin >> sharedString;
-	client.sendRequest(sharedString);
-	console.out(client.getClientStatus() + "\n");
-	if (!client.isConnected())
+		std::string com = "logout";
+		client.sendRequest(com);
+		client.disconnect();
+	};
+	commandMap["exit"] = [&]()
 	{
-		console.err(client.getClientStatus());
-		console.out("Can't connect to ConsoleArt server.\nStarted in off-line mode.\n\n");
-		return false;
-	}
+		std::string com = "logout";
+		client.sendRequest(com);
+		client.disconnect();
+	};
+	commandMap["help"] = []() { std::cout << "Available commands: exit, logout, status\n"; };
 	std::thread serverResponseThread(&ClientTools::handleChat, this);
 	std::string command = "";
-	while (command != "logout")
+	int errors = 0;
+	while (client)
 	{
-		std::cin >> command;
-		client.sendRequest(command);
+		//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::getline(std::cin, command);
+		auto it = commandMap.find(command);
+		if (it != commandMap.end())
+		{
+			it->second(); // Call the associated function
+		}
+		else
+		{
+			client.sendRequest(command);
+			std::lock_guard<std::mutex> lock(tokenMutex);
+			messageOK = false;
+			while (!messageOK)
+			{
+				if (errors >= 10)
+				{
+					if (ConsoleLib::ConsoleUtils::yesNo("Terminate connection? [Y/n]"))
+					{
+						client.disconnect();
+						messageOK = true;
+					}
+					else
+						errors = 0;
+				}
+				errors++;
+				console.out("Sending failed - try " + std::to_string(errors) +  " of 10\n");
+				client.sendRequest(command);
+			}
+		}
 	}
-	connection = false;
+	console.out("Waiting for response thread...\n");
 	serverResponseThread.join();
-	console.out("Press enter to exit... ");
+	console.out("Press enter to exit...\n");
 	std::cin.get();
 	std::cin.get();
 	return true;
 }
-void ClientTools::handleResponse()
-{
-	if (client.listenForResponse(sharedString, 5000))
-		console.out(sharedString + "\n");
-	else
-		console.err(sharedString);
-}
 void ClientTools::handleChat()
 {
-	while (connection)
+	int errors = 0;
+	while (client)
 	{
-		if (client.listenForResponse(sharedString))
+		if (client.reciveMessage(sharedString))
 		{
 			console.out("Server: " + sharedString + "\n");
+			std::lock_guard<std::mutex> lock(tokenMutex);
+			if (sharedString == "OK")
+				messageOK = true;
 		}
 		else
+		{
 			console.err("Server error : " + sharedString);
+			if (errors >= 10)
+			{
+				if (ConsoleLib::ConsoleUtils::yesNo("Terminate connection? [Y/n]"))
+					client.disconnect();
+				else
+					errors = 0;
+			}
+			errors++;
+		}
 	}
 	std::cout << "Chat session ended\n";
+	client.disconnect();
 }
 } /* namespace ConsoleArt */

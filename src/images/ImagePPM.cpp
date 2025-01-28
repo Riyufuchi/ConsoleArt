@@ -52,7 +52,7 @@ void ImagePPM::loadImage()
 	std::istringstream iss(line);
 	if (iss >> byte)
 	{
-		if (DataUtility::DataUtils::isNumber(byte))
+		if (ConsoleLib::DataUtils::isNumber(byte))
 			headerPPM.width = std::stoi(byte);
 		else
 		{
@@ -62,7 +62,7 @@ void ImagePPM::loadImage()
 	}
 	if (iss >> byte)
 	{
-		if (DataUtility::DataUtils::isNumber(byte))
+		if (ConsoleLib::DataUtils::isNumber(byte))
 			headerPPM.height = std::stoi(byte);
 		else
 		{
@@ -71,7 +71,7 @@ void ImagePPM::loadImage()
 		}
 	}
 	std::getline(inf, line);
-	if (DataUtility::DataUtils::isNumber(line))
+	if (ConsoleLib::DataUtils::isNumber(line))
 		headerPPM.maxColorVal = std::stoi(line);
 	else
 	{

@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Jan 20, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -29,14 +29,13 @@ enum Argumemts
 	NO_COLOR,
 	CLIENT,
 	BENCHMARK,
-	SCHEDULE,
 	BINOM,
 	COMPARE
 };
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 3";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 4";
 	GeneralTools();
 	~GeneralTools();
 	static std::vector<std::pair<std::string, Argumemts>> arguments()
@@ -49,7 +48,7 @@ public:
 			{"--no-color", Argumemts::NO_COLOR},
 			{"--client", Argumemts::CLIENT},
 			{"--benchmark", Argumemts::BENCHMARK},
-			{"--binom", Argumemts::BINOM},
+			{"--BI", Argumemts::BINOM},
 			{"--compare", Argumemts::COMPARE}
 		};
 		return args;
@@ -69,6 +68,7 @@ public:
 			"--client [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
 			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
+			"--BI [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib",
 			"--compare [image1] [image2]| Compares two images",
 			"--cli| Starts application in CLI mode (default)",

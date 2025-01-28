@@ -2,7 +2,7 @@
 // File       : OtherUtils.hpp
 // Author     : riyufuchi
 // Created on : Oct 25, 2024
-// Last edit  : Jan 14, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,8 +12,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <vector>
 
-#include "BinomialDistribution.h"
+#include "math/distributions/BinomialDistribution.h"
 #include "Statistics.h"
 #include "StatisticsGeneric.h"
 
@@ -24,6 +25,35 @@ class OtherhUtils
 public:
 	OtherhUtils();
 	~OtherhUtils();
+	// TODO: Make this function safe
+	static std::vector<std::pair<int, long double>> binomialDistribution(std::vector<std::string>& params) // vector[N, P, K...]
+	{
+		std::vector<std::pair<int, long double>> results;
+		if (params.size() < 3)
+		{
+			distributeCards();
+			results.emplace_back(std::pair<int, long double>(-1, -1));
+			return results;
+		}
+		const int N = std::stoi(params.at(0));
+		const long double P = std::stold(params.at(1)); //TODO: Add support for string fraction i.e. 1/6
+		std::vector<int> kArgs;
+		for (size_t i = 2; i < params.size(); i++)
+			kArgs.emplace_back(std::stoi(params.at(i)));
+		BinomialDistribution bi(N, P);
+		for (size_t i = 0; i < kArgs.size(); i++)
+			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i))));
+		return results;
+	}
+	static void printResults(std::vector<std::pair<int, long double>>& results)
+	{
+		std::cout << std::fixed;
+		std::cout << std::setprecision(42);
+		for (std::pair<int, long double>& data : results)
+		{
+			std::cout << data.first << " => " << data.second*100 << " %\n";
+		}
+	}
 	static void distributeCards()
 	{
 		const int N = 10; // Number of cards in the pack

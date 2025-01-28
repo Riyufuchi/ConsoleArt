@@ -73,21 +73,26 @@ namespace ConsoleArt
 	}
 	void Server::shutdownServer()
 	{
-		std::cout << "Staring shutdown procedure\n";
+		std::cout << "Starting shutdown procedure\n";
 		keepRunning = false;
 		std::lock_guard<std::mutex> lock(usersMutex);
-		std::cout << "1/3 Notifying users.\n";
+		if (users.empty())
+			return;
+		std::cout << "1/2 Notifying users.\n";
+		int i = 1;
 		for (std::shared_ptr<User> u : users)
 		{
+			std::cout << "Notifying user " << i << " of " << users.size() << "\n";
 			sendResponse(u.get()->getUserSocket(), "Server is shutting down");
 			u.get()->disconnect();
+			clientThreadMap.at(u.get()->getUserSocket()).join();;
+			close(u.get()->getUserSocket());
+			i++;
 		}
-		std::cout << "2/3 Finishing users threads.\n";
-		for (std::thread& t : clientThreads)
-			t.join();
-		std::cout << "3/3 Closing socket.\n";
+		std::cout << "2/2 Closing server socket.\n";
 		close(serverSocket);
 		users.clear();
+		clientThreadMap.clear();
 		std::cout << "Shutdown procedure completed!\n";
 	}
 	void Server::runServer()
@@ -113,13 +118,15 @@ namespace ConsoleArt
 			close(clientSocket);
 			return;
 		}
-		sendResponse(clientSocket, "Username: ");
 		std::string name = decodeClientMessage(clientSocket);
 		users.push_back(std::make_shared<User>(name, clientSocket, true));
 		std::lock_guard<std::mutex> lock2(clientThreadsMutex);
-		clientThreads.emplace_back(&Server::handleUser, this, users.back().get());
-		sendResponse(clientSocket, std::string("Welcome ").append(name).append(" to ConsoleArt server"));
+		clientThreadMap[clientSocket] = std::thread([this, userPtr = users.back().get()]()
+		{
+			this->handleUser(userPtr);
+		});
 		std::cout << "User " << name << " has joined" << " \n";
+		sendResponse(clientSocket, std::string("Welcome ").append(name).append(" to ConsoleArt server"));
 	}
 	void Server::addUser(User* user)
 	{
@@ -143,43 +150,62 @@ namespace ConsoleArt
 		}
 		return true;
 	}
+
 	std::string Server::decodeClientMessage(int socket)
 	{
-		char buffer[1024];
-		ssize_t bytesRead = 0;
-
 		fd_set readfds;
 		FD_ZERO(&readfds);
 		FD_SET(socket, &readfds);
 
 		struct timeval timeout;
-		timeout.tv_sec = 3;  // Timeout after 5 seconds
+		timeout.tv_sec = 10;  // Timeout after 10 seconds
 		timeout.tv_usec = 0;
 
 		int result = select(socket + 1, &readfds, nullptr, nullptr, &timeout);
 		if (result > 0 && FD_ISSET(socket, &readfds))
 		{
-			bytesRead = recv(socket, buffer, sizeof(buffer), 0);
-			if (bytesRead == -1)
+			uint32_t messageLength = 0;
+			ssize_t bytesRead = recv(socket, &messageLength, sizeof(messageLength), MSG_WAITALL);
+			if (bytesRead <= 0)
 			{
-				std::cout << "Client error: Receive failed " << strerror(errno) << "\n";
+				if (bytesRead == 0)
+					std::cout << "Client disconnected.\n";
+				else
+					std::cout << "Client error: Failed to receive message length: "
+							<< strerror(errno) << "\n";
 				return "logout";
 			}
-			else if (bytesRead == 0)
+
+			messageLength = ntohl(messageLength); // Convert to host byte order
+			if (messageLength > 1024 * 1024) // Example: Limit to 1MB
 			{
+				std::cout << "Client error: Message length too large (" << messageLength << " bytes).\n";
 				return "logout";
 			}
-			buffer[bytesRead] = '\0';
-			return std::string(buffer);
+
+			// Read the full message
+			std::string message(messageLength, '\0');
+			bytesRead = recv(socket, &message[0], messageLength, MSG_WAITALL);
+			if (bytesRead <= 0)
+			{
+				if (bytesRead == 0)
+					std::cout << "Client disconnected during message.\n";
+				else
+					std::cout << "Client error: Failed to receive full message: "
+							<< strerror(errno) << "\n";
+				return "logout";
+			}
+
+			return message;
 		}
 		else
 		{
-			if (result == 0)
-				return "";
-			std::cout << "Client error: Select failed " << strerror(errno) << "\n";
+			if (result != 0)
+				std::cout << "Client error: Select failed: " << strerror(errno) << "\n";
 		}
 		return "";
 	}
+
 	void Server::removeUser(const std::string& nameToRemove)
 	{
 		std::lock_guard<std::mutex> lock(usersMutex);
@@ -207,10 +233,15 @@ namespace ConsoleArt
 		{
 			std::string message = decodeClientMessage(user->getUserSocket());
 			if (message == "logout")
+			{
+				sendResponse(user->getUserSocket(), "OK");
 				user->disconnect();
+			}
 			if (!message.empty())
+			{
 				std::cout << "Received: " << message << " from " << user->getUsername() << std::endl;
-			std::this_thread::sleep_for(std::chrono::milliseconds(10)); // Avoid busy looping
+				sendResponse(user->getUserSocket(), "OK");
+			}
 		}
 		std::cout << "User " << user->getUsername() << " has disconnected." << std::endl;
 	}

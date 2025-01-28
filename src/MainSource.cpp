@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Jan 20, 2025
+// Last Edit   : Jan 29, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -20,6 +20,7 @@
 #include "IConsole.hpp"
 #include "DefaultConsole.h"
 #include "consoleArt/network/server/Server.h"
+#include "other/ScheduleTracker.h"
 #ifdef _WIN32
 	#include "WindowsConsole.h"
 #endif // _WIN32
@@ -34,7 +35,8 @@ enum BootAction
 	TEST,
 	SERVER,
 	ABOUT,
-	LIBRARY
+	LIBRARY,
+	SHEDULE
 };
 
 BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console);
@@ -73,8 +75,8 @@ int main(int argc, char** argv)
 	}
 
 	#ifdef DEBUG
-	systemConsole.out(153, 102, 51, "!!! This is a debug build !!!\n");
-	ConsoleLib::ConsoleUtils::printArgumentPairs(argPairs);
+		systemConsole.out(153, 102, 51, "!!! This is a debug build !!!\n");
+		ConsoleLib::ConsoleUtils::printArgumentPairs(argPairs);
 	#endif
 
 	ConsoleArt::Controller* consoleArt;
@@ -107,7 +109,8 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 		{"--colorTest", BootAction::TEST},
 		{"--server", BootAction::SERVER},
 		{"--about", BootAction::ABOUT},
-		{"--library", BootAction::LIBRARY}
+		{"--library", BootAction::LIBRARY},
+		{"--schedule", BootAction::SHEDULE}
 	};
 
 	for (std::pair<std::string, BootAction> arg : checkFor)
@@ -128,6 +131,10 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 				}
 				case ABOUT: ConsoleArt::GeneralTools::aboutApplication(); return arg.second;
 				case LIBRARY: ConsoleLib::Library::aboutLibrary(); return arg.second;
+				case SHEDULE: {
+					Other::ScheduleTracker schedule(&console);
+					schedule.run();
+				}return arg.second;
 				default: abort(console);
 			}
 	}

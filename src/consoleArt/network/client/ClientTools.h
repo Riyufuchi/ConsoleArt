@@ -12,8 +12,12 @@
 
 #include <string>
 #include <thread>
+#include <map>
+#include <functional>
+#include <mutex>
 
 #include "IConsole.hpp"
+#include "ConsoleUtils.h"
 
 #if defined(__linux__) || defined(__APPLE__)
 	#include "UnixClient.h"
@@ -27,20 +31,21 @@ class ClientTools
 {
 private:
 #if defined(__linux__) || defined(__APPLE__)
-	SufuServer::UnixClient client;
+	ConsoleArt::UnixClient client;
 #elif defined(_WIN32)
 	SufuServer::WindowsClient client;
 #endif
 	std::string sharedString;
 	ConsoleLib::IConsole& console;
-	bool connection;
-	void handleResponse();
+	bool messageOK;
+	std::mutex tokenMutex;
 	void handleChat();
 public:
 	ClientTools(ConsoleLib::IConsole& console);
 	ClientTools(ConsoleLib::IConsole& console, const char* ipAdress);
 	virtual ~ClientTools();
 	bool runClient();
+	bool connectClient();
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_TOOLS_CLIENTTOOLS_H_ */
