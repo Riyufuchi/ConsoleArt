@@ -2,7 +2,7 @@
 // File       : SheduleTracker.h
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Apr 28, 2024
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -28,7 +28,7 @@ class ScheduleTracker
 private:
 	static constexpr const char* filename = "stat.csv";
 	std::vector<ConsoleLib::TimeStamp> times;
-	ConsoleLib::IConsole* console;
+	ConsoleLib::IConsole& console;
 	bool fileLoaded;
 	bool readFile();
 	bool writeFile(const std::string& line, const std::string& filename);
@@ -36,7 +36,7 @@ private:
 	void convertToLong(long& destination, std::string& number);
 	std::string fileSelect();
 public:
-	ScheduleTracker(ConsoleLib::IConsole* console);
+	ScheduleTracker(ConsoleLib::IConsole& console);
 	~ScheduleTracker();
 	void run();
 };

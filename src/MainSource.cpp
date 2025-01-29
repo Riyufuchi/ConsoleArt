@@ -36,7 +36,7 @@ enum BootAction
 	SERVER,
 	ABOUT,
 	LIBRARY,
-	SHEDULE
+	SCHEDULE
 };
 
 BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console);
@@ -51,9 +51,9 @@ int main(int argc, char** argv)
 {
 	ConsoleLib::Color color = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE);
 	#if defined(__linux__) || defined(__APPLE__)
-	ConsoleLib::UnixConsole systemConsole;
+		ConsoleLib::UnixConsole systemConsole;
 	#elif defined(_WIN32)
-	ConsoleLib::WindowsConsole systemConsole;
+		ConsoleLib::WindowsConsole systemConsole;
 		systemConsole.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE),
 			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
 	#else
@@ -110,7 +110,7 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 		{"--server", BootAction::SERVER},
 		{"--about", BootAction::ABOUT},
 		{"--library", BootAction::LIBRARY},
-		{"--schedule", BootAction::SHEDULE}
+		{"--schedule", BootAction::SCHEDULE}
 	};
 
 	for (std::pair<std::string, BootAction> arg : checkFor)
@@ -131,8 +131,8 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 				}
 				case ABOUT: ConsoleArt::GeneralTools::aboutApplication(); return arg.second;
 				case LIBRARY: ConsoleLib::Library::aboutLibrary(); return arg.second;
-				case SHEDULE: {
-					Other::ScheduleTracker schedule(&console);
+				case SCHEDULE: {
+					Other::ScheduleTracker schedule(console);
 					schedule.run();
 				}return arg.second;
 				default: abort(console);

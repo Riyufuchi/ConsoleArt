@@ -2,7 +2,7 @@
 // File       : Server.cpp
 // Author     : riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Jan 20, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Simple server
 //==============================================================================
@@ -244,6 +244,39 @@ namespace ConsoleArt
 			}
 		}
 		std::cout << "User " << user->getUsername() << " has disconnected." << std::endl;
+	}
+	void Server::printIPAddress()
+	{
+		struct ifaddrs *ifaddr, *ifa;
+
+		// Get list of network interfaces
+		if (getifaddrs(&ifaddr) == -1)
+		{
+			std::cerr << "Error getting network interfaces: " << strerror(errno) << '\n';
+			return;
+		}
+
+		std::cout << "Available IP addresses:\n";
+
+		for (ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next)
+		{
+			if (ifa->ifa_addr == nullptr)
+			{
+				continue;
+			}
+			// Only process IPv4 addresses
+			if (ifa->ifa_addr->sa_family == AF_INET)
+			{
+				char ipStr[INET_ADDRSTRLEN];
+				struct sockaddr_in *addr = (struct sockaddr_in *)ifa->ifa_addr;
+				// Convert IP address to a string
+				inet_ntop(AF_INET, &addr->sin_addr, ipStr, sizeof(ipStr));
+				// Exclude the loopback address (127.0.0.1)
+				if (std::string(ipStr) != "127.0.0.1")
+					std::cout << ifa->ifa_name << ": " << ipStr << '\n';
+			}
+		}
+		freeifaddrs(ifaddr); // Free memory allocated by getifaddrs
 	}
 	int Server::getMaximumConnections() const
 	{

@@ -2,7 +2,7 @@
 // File       : Server.h
 // Author     : riyufuchi
 // Created on : Mar 11, 2024
-// Last edit  : Jan 20, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Simple server
 //==============================================================================
@@ -15,10 +15,12 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <netdb.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/select.h>
+#include <ifaddrs.h>
 #include <thread> // for std::thread
 #include <vector> // for std::vecto
 #include <mutex>
@@ -59,6 +61,7 @@ public:
 	void runServer();
 	void shutdownServer();
 	void showUsers();
+	void printIPAddress();
 	// Functions
 	void removeUser(const std::string& nameToRemove);
 	bool isRunning();

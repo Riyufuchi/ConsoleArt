@@ -2,7 +2,7 @@
 // File       : ServerTools.cpp
 // Author     : Riyufuchi
 // Created on : Mar 12, 2024
-// Last edit  : Jan 20, 2025
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -65,8 +65,9 @@ void ServerTools::startServer()
 	console.out(server.getServerStatus());
 	console.out(" -> Server is up and running\n");
 	console.defaultTextColor();
-	std::cout << "Port: " << server.getPort() << "\n";
 	std::cout << "Maximum allowed users: " << server.getMaximumConnections() << "\n";
+	std::cout << "Port: " << server.getPort() << "\n";
+	server.printIPAddress();
 	console.resetTextColor();
 	while (server.isRunning())
 	{

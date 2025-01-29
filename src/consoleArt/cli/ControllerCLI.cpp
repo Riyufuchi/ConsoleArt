@@ -70,7 +70,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 			} break;
 			case BINOM: {
 				auto res = Other::OtherhUtils::binomialDistribution(config.at(argument.first));
-				Other::OtherhUtils::printResults(res);
+				Other::OtherhUtils::printResults<int, long double>(res);
 				isRunnable = false;
 			} break;
 			case LOAD_ALL: loadAllImagesAsync(); break;

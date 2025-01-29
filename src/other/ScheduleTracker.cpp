@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Apr 28, 2024
+// Last edit  : Jan 29, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,13 +11,8 @@
 
 namespace Other
 {
-ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole* console) : console(console), fileLoaded(false)
+ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : console(console), fileLoaded(false)
 {
-	if (console == nullptr)
-	{
-		this->console = console = new ConsoleLib::DefaultConsole();
-		console->err("Pointer to console controller was NULL!\a\n");
-	}
 }
 ScheduleTracker::~ScheduleTracker()
 {
@@ -29,11 +24,11 @@ void ScheduleTracker::run()
 	readFile();
 	do
 	{
-		console->defaultTextColor();
+		console.defaultTextColor();
 		switch (ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems))
 		{
 			case 0:
-				console->out("Enter: HOURS;MINUTES\n");
+				console.out("Enter: HOURS;MINUTES\n");
 				std::getline(std::cin, line);
 				writeFile(line, filename);
 			break;
@@ -47,7 +42,7 @@ void ScheduleTracker::run()
 			break;
 		}
 	} while (line != "end");
-	console->out("Press enter to exit...");
+	console.out("Press enter to exit...");
 	std::cin.get();
 }
 bool ScheduleTracker::writeFile(const std::string& line, const std::string& filename)
@@ -76,11 +71,11 @@ void ScheduleTracker::convertToLong(long& destination, std::string& number)
 	}
 	catch (const std::invalid_argument& e)
 	{
-		console->err("Invalid argument: " + number.append("\n"));
+		console.err("Invalid argument: " + number.append("\n"));
 	}
 	catch (const std::out_of_range& e)
 	{
-		console->err("Out of range: " + number.append("\n"));
+		console.err("Out of range: " + number.append("\n"));
 	}
 	destination = 0;
 }
@@ -93,7 +88,7 @@ bool ScheduleTracker::readFile()
 	std::ifstream file(filename);
 	if (!file.is_open())
 	{
-		console->err("Error: Unable to open file \"stat.csv\"\n");
+		console.err("Error: Unable to open file \"stat.csv\"\n");
 		fileSelect();
 		return false;
 	}
@@ -119,14 +114,14 @@ bool ScheduleTracker::readFile()
 			}
 			else
 			{
-				console->err("Error: Invalid file format!\n");
+				console.err("Error: Invalid file format!\n");
 				return false;
 			}
 		}
 		times.push_back(timeStamp);
 	}
 	file.close();
-	console->out(0, 255, 0, "Success: File loaded!\n");
+	console.out(0, 255, 0, "Success: File loaded!\n");
 	return fileLoaded = true;
 }
 

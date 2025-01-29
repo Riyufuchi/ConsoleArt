@@ -26,7 +26,7 @@ public:
 	OtherhUtils();
 	~OtherhUtils();
 	// TODO: Make this function safe
-	static std::vector<std::pair<int, long double>> binomialDistribution(std::vector<std::string>& params) // vector[N, P, K...]
+	static std::vector<std::pair<int, long double>> binomialDistribution(const std::vector<std::string>& params) // vector[N, P, K...]
 	{
 		std::vector<std::pair<int, long double>> results;
 		if (params.size() < 3)
@@ -36,7 +36,12 @@ public:
 			return results;
 		}
 		const int N = std::stoi(params.at(0));
-		const long double P = std::stold(params.at(1)); //TODO: Add support for string fraction i.e. 1/6
+		const long double P = parseStringToLD(params.at(1));
+		if (P == -1)
+		{
+			std::cout << "Input " << params.at(1) << " is not a valid number!\n";
+			return results;
+		}
 		std::vector<int> kArgs;
 		for (size_t i = 2; i < params.size(); i++)
 			kArgs.emplace_back(std::stoi(params.at(i)));
@@ -45,14 +50,41 @@ public:
 			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i))));
 		return results;
 	}
-	static void printResults(std::vector<std::pair<int, long double>>& results)
+	static long double parseStringToLD(const std::string& s)
+	{
+		if (ConsoleLib::DataUtils::isDouble(s))
+		{
+			return std::stold(s);
+		}
+		else if (s.find('/') != std::string::npos)
+		{
+			std::vector<std::string> tokens;
+			std::stringstream ss(s);
+			std::string token;
+
+			while (std::getline(ss, token, '/'))
+			{
+				if (!ConsoleLib::DataUtils::isDouble(token))
+					return -1;
+				tokens.push_back(token);
+			}
+
+			return std::stold(tokens.at(0)) / std::stold(tokens.at(1));
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	template <typename K, typename T>
+	static void printResults(const std::vector<std::pair<K, T>>& data)
 	{
 		std::cout << std::fixed;
 		std::cout << std::setprecision(42);
-		for (std::pair<int, long double>& data : results)
-		{
-			std::cout << data.first << " => " << data.second*100 << " %\n";
-		}
+		std::cout << "\n";
+		for (const std::pair<K, T>& dataPair : data)
+			std::cout << dataPair.first << dataPair.second << "\n";
+		std::cout << "\n";
 	}
 	static void distributeCards()
 	{
@@ -72,13 +104,6 @@ public:
 		printf("EX = %Lf\n", bi.ex());
 		printf("varX = %Lf\n", bi.varX());
 	}
-	template <typename T>
-	static void printResult(const std::vector<std::pair<std::string, T>>& data)
-	{
-		for (std::pair<std::string, T> dataPair : data)
-			std::cout << dataPair.first << dataPair.second << "\n";
-		std::cout << "\n";
-	}
 	static void testMean()
 	{
 		std::cout << std::fixed;
@@ -88,13 +113,13 @@ public:
 		std::vector<double> dataset3 = {0.25, 0.75, 0.50, 1, 0};
 		std::vector<long double> dataset4 = {M_PI, M_E, M_PI*M_E, M_PI/M_E, M_E/M_PI};
 		Other::Statistics stats0(dataset);
-		printResult<double>(stats0.calculateStatistics(false));
+		printResults<std::string, double>(stats0.calculateStatistics(false));
 		Other::Statistics stats2(dataset2);
-		printResult<double>(stats2.calculateStatistics(false));
+		printResults<std::string, double>(stats2.calculateStatistics(false));
 		Other::Statistics stats3(dataset3);
-		printResult<double>(stats3.calculateStatistics(false));
+		printResults<std::string, double>(stats3.calculateStatistics(false));
 		Other::StatisticsGeneric<long double> stats4(dataset4);
-		printResult<long double>(stats4.calculateStatistics(false));
+		printResults<std::string, long double>(stats4.calculateStatistics(false));
 	}
 };
 }

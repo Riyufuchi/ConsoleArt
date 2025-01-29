@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : Jan 20, 2025
+// Last Edit   : Jan 29, 2025
 //============================================================================
 #include "MenusCLI.h"
 
@@ -88,12 +88,12 @@ int MenusCLI::printMenu()
 ConsoleLib::Color MenusCLI::colorPicker()
 {
 	std::cout << "Red: ";
-	int red = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	short int red = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Green: ";
-	int green = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	short int green = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Blue: ";
-	int blue = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
-	return ConsoleLib::ColorUtils::newColor(red, green, blue);
+	short int blue = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	return ConsoleLib::Color{red, green, blue};
 }
 void MenusCLI::setConsole(ConsoleLib::IConsole* console2)
 {
