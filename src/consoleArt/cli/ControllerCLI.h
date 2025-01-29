@@ -20,10 +20,11 @@
 #include "DataUtils.h"
 #include "Library.h"
 
-#include "../../other/math/distributions/BinomialDistribution.h"
+#include "../../math/distributions/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
 #include "MessengerCLI.h"
 #include "../../other/OtherUtils.hpp"
+#include "../../math/MathUtils.hpp"
 #include "../controller/Controller.h"
 #include "AsciiPrinter.h"
 #include "MenusCLI.h"

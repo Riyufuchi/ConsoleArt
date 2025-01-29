@@ -69,7 +69,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				isRunnable = false;
 			} break;
 			case BINOM: {
-				auto res = Other::OtherhUtils::binomialDistribution(config.at(argument.first));
+				auto res = Math::MathUtils::binomialDistribution(config.at(argument.first));
 				Other::OtherhUtils::printResults<int, long double>(res);
 				isRunnable = false;
 			} break;

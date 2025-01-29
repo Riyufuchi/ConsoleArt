@@ -17,7 +17,7 @@
 #include <cmath>
 #include <numeric> // For std::accumulate
 
-namespace Other
+namespace Math
 {
 template <typename T>
 class StatisticsGeneric

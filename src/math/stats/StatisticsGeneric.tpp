@@ -9,7 +9,7 @@
 
 #include "StatisticsGeneric.h"
 
-namespace Other
+namespace Math
 {
 template <typename T>
 StatisticsGeneric<T>::StatisticsGeneric()
