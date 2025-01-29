@@ -1,6 +1,7 @@
 #Folders
 lua542
 bin
+bin/
 test
 libs
 src/inc
