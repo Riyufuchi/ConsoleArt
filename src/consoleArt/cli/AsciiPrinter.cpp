@@ -113,14 +113,14 @@ void AsciiPrinter::printCharColored()
 void AsciiPrinter::printClassic()
 {
 	const int HEIGHT = asciiCon.getSourceImg().getImageInfo().height - 1;
-	console.setTextColor(color);
+	console.enableCustomFG(color);
 	if (asciiCon.getSourceImg().isInverted())
 		for(int i = HEIGHT; i >= 0; i--)
 			std::cout << asciiCon.getLine(i) << "\n";
 	else
 		for(int i = 0; i < HEIGHT; i++)
 			std::cout << asciiCon.getLine(i) << "\n";
-	console.resetTextColor();
+	console.disableCustomFG();
 }
 void AsciiPrinter::printToFile()
 {

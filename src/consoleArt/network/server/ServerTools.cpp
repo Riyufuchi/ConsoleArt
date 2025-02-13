@@ -35,7 +35,7 @@ void ServerTools::startServerThread()
 	std::string command = "";
 	while (server.isRunning())
 	{
-		std::cin >> command;
+		std::getline(std::cin, command);
 		auto it = commandMap.find(command);
 		if (it != commandMap.end())
 		{
@@ -46,7 +46,8 @@ void ServerTools::startServerThread()
 			std::cout << "Unknown command. Type 'help' for a list of commands.\n";
 		}
 	}
-	ClientTools c(console);
+	ConsoleArt::UnixClient client;
+	client.sendRequest(command);
 	serverThread.join();
 	console.out("Server exited with status: " + server.getServerStatus() + "\n");
 	console.out("Press enter to exit... ");
@@ -64,11 +65,11 @@ void ServerTools::startServer()
 	}
 	console.out(server.getServerStatus());
 	console.out(" -> Server is up and running\n");
-	console.defaultTextColor();
+	console.enableCustomFG();
 	std::cout << "Maximum allowed users: " << server.getMaximumConnections() << "\n";
 	std::cout << "Port: " << server.getPort() << "\n";
 	server.printIPAddress();
-	console.resetTextColor();
+	console.disableCustomFG();
 	while (server.isRunning())
 	{
 		server.runServer();

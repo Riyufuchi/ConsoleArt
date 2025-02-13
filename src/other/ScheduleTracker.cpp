@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Jan 29, 2025
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,13 +19,14 @@ ScheduleTracker::~ScheduleTracker()
 }
 void ScheduleTracker::run()
 {
-	const char* menuItems[] = { "Add time", "Calculate avg time", "Exit" };
+	const char* menuItems[] = { "Add time", "Calculate average time", "Exit" };
+	const int SIZE = sizeof(menuItems)/sizeof(*menuItems);
 	std::string line;
 	readFile();
 	do
 	{
-		console.defaultTextColor();
-		switch (ConsoleLib::ConsoleUtils::basicMenu(sizeof(menuItems)/sizeof(*menuItems), menuItems))
+		console.enableCustomFG();
+		switch (ConsoleLib::ConsoleUtils::basicMenu(SIZE, menuItems))
 		{
 			case 0:
 				console.out("Enter: HOURS;MINUTES\n");

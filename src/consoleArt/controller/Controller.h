@@ -14,6 +14,7 @@
 #include <memory>
 #include <algorithm>
 #include <mutex>
+#include <map>
 
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"

@@ -20,8 +20,9 @@ ControllerGuiZen::~ControllerGuiZen()
 }
 std::string ControllerGuiZen::inputImageName()
 {
-	const char* command = "zenity --file-selection --title=\"Select a File\"";
-	FILE* pipe = popen(command, "r");
+	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + workspacePath + "\"";
+
+	FILE* pipe = popen(command.c_str(), "r");
 	if (!pipe)
 	{
 		console->err("Failed to run zenity command\n");

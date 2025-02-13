@@ -24,17 +24,17 @@ int MenusCLI::handleMenu(int menu)
 }
 void MenusCLI::printMainMenu()
 {
-	console->defaultTextColor();
+	console->enableCustomFG();
 	const int LENGHT = menus[0].size();
 	for(int i = 0; i < LENGHT; i++)
 	{
 		printf("%d. %s \n", i + 1, menus[0][i]);
 	}
-	console->resetTextColor();
+	console->disableCustomFG();
 }
 int MenusCLI::invokeMenu(Menu menu)
 {
-	console->defaultTextColor();
+	console->enableCustomFG();
 	switch (menu)
 	{
 		case CHAR_SET_SELECTION: choice = handleMenu(menu); break;
@@ -43,7 +43,7 @@ int MenusCLI::invokeMenu(Menu menu)
 		case COLOR_PICKER: confConsoleTextColor(); break;
 		default: choice = -1;
 	}
-	console->resetTextColor();
+	console->disableCustomFG();
 	return choice;
 }
 void MenusCLI::confConsoleTextColor()
@@ -53,7 +53,7 @@ void MenusCLI::confConsoleTextColor()
 		int max = ConsoleLib::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
-			console->defaultTextColor();
+			console->enableCustomFG();
 			std::cout << i + 1 << ". ";
 			console->out(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(i)), ConsoleLib::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
@@ -67,9 +67,9 @@ void MenusCLI::confConsoleTextColor()
 }
 void MenusCLI::displayImageInfo(Images::Image& image)
 {
-	console->defaultTextColor();
+	console->enableCustomFG();
 	ImageUtils::ImageToolsCLI::displayImageInfo(&image);
-	console->resetTextColor();
+	console->disableCustomFG();
 
 }
 // Menus

@@ -37,29 +37,24 @@ bool ClientTools::connectClient()
 	}
 	return true;
 }
+void ClientTools::terminateConnection()
+{
+	std::string com = "logout";
+	client.sendRequest(com);
+	client.disconnect();
+}
 bool ClientTools::runClient()
 {
 	std::map<std::string, std::function<void()>> commandMap;
 	commandMap["status"] = [&]() { console.out(client.getClientStatus() + "\n"); };
-	commandMap["logout"] = [&]()
-	{
-		std::string com = "logout";
-		client.sendRequest(com);
-		client.disconnect();
-	};
-	commandMap["exit"] = [&]()
-	{
-		std::string com = "logout";
-		client.sendRequest(com);
-		client.disconnect();
-	};
+	commandMap["logout"] = [&]() { terminateConnection(); };
+	commandMap["exit"] = [&]() { terminateConnection(); };
 	commandMap["help"] = []() { std::cout << "Available commands: exit, logout, status\n"; };
 	std::thread serverResponseThread(&ClientTools::handleChat, this);
 	std::string command = "";
 	int errors = 0;
 	while (client)
 	{
-		//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::getline(std::cin, command);
 		auto it = commandMap.find(command);
 		if (it != commandMap.end())

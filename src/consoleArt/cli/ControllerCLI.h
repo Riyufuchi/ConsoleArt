@@ -41,6 +41,7 @@ protected:
 	std::string inputImageName() override;
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
+	ConsoleLib::Color warningColor{255, 255, 0};
 	MenusCLI menuCLI;
 	void convertImage(Images::Image* image) override;
 	void refreshMenu() override;

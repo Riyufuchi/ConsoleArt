@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 03, 2024
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -65,7 +65,10 @@ void ImagePCX::loadImage()
 		default: this->fileStatus = "Unexpected number of color planes"; return;
 	}
 	if (success)
-		this->fileStatus = OK;
+	{
+		this->fileStatus = "OK";
+		this->fileState = FileState::OK;
+	}
 }
 void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 {
@@ -153,7 +156,7 @@ bool ImagePCX::havePalette() const
 {
 	return headerPCX.version == 5 && headerPCX.numOfColorPlanes == 1 && headerPCX.bitsPerPixel > 4;
 }
-ImagePCX::PCXHeader& ImagePCX::getHeader()
+const ImagePCX::PCXHeader& ImagePCX::getHeader() const
 {
 	return headerPCX;
 }
@@ -236,7 +239,7 @@ void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 	if (headerPCX.numOfColorPlanes == 4)
 		pixelData[positionBase + 3 * imageInfo.width] = newPixel.alpha;
 }
-const bool ImagePCX::saveImage()
+bool ImagePCX::saveImage()
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outf.is_open())
@@ -249,7 +252,7 @@ const bool ImagePCX::saveImage()
 		case 3: write24and32bitPCX(outf); break;
 		case 4: write24and32bitPCX(outf); break;
 		default:
-			this->fileStatus = "Unexpected number of color planes";
+			//this->fileStatus = "Unexpected number of color planes";
 			outf.close();
 			return false;
 	}

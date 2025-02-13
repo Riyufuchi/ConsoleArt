@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <string>
+#include <array>
 
 #include "ConsoleUtils.h"
 #include "IConsole.hpp"
@@ -35,13 +36,14 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 6";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 7";
 	GeneralTools();
 	~GeneralTools();
-	static std::vector<std::pair<std::string, Argumemts>> arguments()
+	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()
 	{
-		std::vector<std::pair<std::string, Argumemts>> args = {
-			{"-p", Argumemts::PATH}, {"--path", Argumemts::PATH},
+		return {{
+			{"-p", Argumemts::PATH},
+			{"--path", Argumemts::PATH},
 			{"--loadAll", Argumemts::LOAD_ALL},
 			{"--image", Argumemts::IMAGE},
 			{"--color", Argumemts::COLOR},
@@ -50,8 +52,7 @@ public:
 			{"--benchmark", Argumemts::BENCHMARK},
 			{"--BI", Argumemts::BINOM},
 			{"--compare", Argumemts::COMPARE}
-		};
-		return args;
+		}};
 	}
 	static void createManual()
 	{

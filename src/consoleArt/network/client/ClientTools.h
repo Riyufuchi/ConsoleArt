@@ -40,6 +40,7 @@ private:
 	bool messageOK;
 	std::mutex tokenMutex;
 	void handleChat();
+	void terminateConnection();
 public:
 	ClientTools(ConsoleLib::IConsole& console);
 	ClientTools(ConsoleLib::IConsole& console, const char* ipAdress);

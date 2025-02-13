@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 03, 2024
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -38,11 +38,11 @@ const std::string& Image::getFilepath() const
 {
 	return filepath;
 }
-bool Image::isLoaded()
+bool Image::isLoaded() const
 {
 	return fileState == OK;
 }
-bool Image::isInverted()
+bool Image::isInverted() const
 {
 	return inverted;
 }

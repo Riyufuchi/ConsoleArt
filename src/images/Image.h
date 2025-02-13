@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Jan 24, 2025
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -53,6 +53,11 @@ public:
 		return fileState == FileState::OK;
 	}
 
+	/*explicit operator std::string() const
+	{
+		return filename;
+	}*/
+
 	bool operator > (const Image& other) const
 	{
 		return imageInfo.width * imageInfo.height > other.imageInfo.width * other.imageInfo.height;
@@ -75,12 +80,12 @@ public:
 	// Common
 	void rename(std::string imageName);
 	// Utils
-	virtual const bool saveImage() = 0;
+	virtual bool saveImage() = 0;
 	virtual void loadImage() = 0;
 	//virtual void resize(int width, int heigh) = 0;
 	// Is methods
-	bool isLoaded();
-	bool isInverted();
+	bool isLoaded() const;
+	bool isInverted() const;
 	// Getters
 	virtual const std::string& getFilename() const final;
 	virtual const std::string& getFilepath() const final;

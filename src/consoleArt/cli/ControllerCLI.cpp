@@ -25,8 +25,8 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
 {
 	std::vector<std::string> params;
-	std::vector<std::pair<std::string, Argumemts>> checkForArgs = GeneralTools::arguments();
-	for (std::pair<std::string, Argumemts> argument : checkForArgs)
+	constexpr auto checkForArgs = GeneralTools::arguments();
+	for (const std::pair<const char*, Argumemts>& argument : checkForArgs)
 	{
 		if (!config.contains(argument.first))
 			continue;
@@ -45,6 +45,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				this->console = &defaultConsole;
 				menuCLI.setConsole(console);
 				console->out("No color option applied\n");
+				console->out("Text");
 			break;
 			case CLIENT:
 				if (config.at(argument.first).empty())
@@ -53,20 +54,22 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 					runAsClient(config.at(argument.first).at(0));
 			break;
 			case BENCHMARK: {
+				isRunnable = false;
 				std::string image = "bench.pcx";
 				params = config.at(argument.first);
-				if (!((params.empty() || params.at(0)[0] == '-')))
+				if (!params.empty())
 					image = params.at(0);
 				auto start = std::chrono::steady_clock::now();
 				auto end = start;
 				Images::Image* img = loadImage(image);
+				if (img == nullptr)
+					continue;
 				ImageUtils::AsciiConverter ac(*img);
 				ac.setCharSet(ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
 				ac.convertToASCII();
 				end = std::chrono::steady_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 				std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
-				isRunnable = false;
 			} break;
 			case BINOM: {
 				auto res = Math::MathUtils::binomialDistribution(config.at(argument.first));
@@ -87,7 +90,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				params = config.at(argument.first);
 				if (params.size() != 2)
 				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Argument " + argument.first + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
+					messenger->messageUser(Messenger::MessageType::ERROR, "Argument " + std::string(argument.first) + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
 					continue;
 				}
 				Images::Image* image1 = loadImage(workspacePath + params.at(0));
@@ -164,15 +167,15 @@ void ControllerCLI::run()
 		case 1: loadAllImagesAsync(); goto menu;
 		case 2: convertImage(selectImage()); goto menu;
 		case 3:
-			console->defaultTextColor();
+			console->enableCustomFG();
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
-			console->resetTextColor();
+			console->disableCustomFG();
 			goto menu;
 		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
 		case 5:
-			console->defaultTextColor();
+			console->enableCustomFG();
 			GeneralTools::aboutApplication();
-			console->resetTextColor();
+			console->disableCustomFG();
 		goto menu;
 		case 6: return;
 	}
@@ -191,10 +194,10 @@ Images::Image* ControllerCLI::selectImage()
 {
 	if(images.empty())
 	{
-		console->out(255, 255, 0, "No images has been loaded yet!\n");
+		console->out(warningColor, "No images has been loaded yet!\n");
 		return 0;
 	}
-	console->defaultTextColor();
+	console->enableCustomFG();
 	std::cout << "Currently loaded images:" << std::endl;
 	int max = images.size();
 	for(int index = 0; index < max; index++) // or for(Images::Image* img : images)
@@ -206,7 +209,7 @@ Images::Image* ControllerCLI::selectImage()
 	std::cout << "\n";
 	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
 	std::cout << "\n";
-	console->resetTextColor();
+	console->disableCustomFG();
 	return images[selectedIndex].get();
 }
 
@@ -232,7 +235,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	menuCLI.displayImageInfo(*image);
 	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
 	std::cin.get();
-	console->defaultTextColor();
+	console->enableCustomFG();
 	if (!ac.convertToASCII())
 	{
 		messenger->messageUser(Messenger::MessageType::ERROR, "Image conversion has failed!\n");
