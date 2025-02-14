@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Jan 29, 2025
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -29,7 +29,7 @@
 #include "AsciiPrinter.h"
 #include "MenusCLI.h"
 #include "../network/client/ClientTools.h"
-#include "../../imageUtils/ImageToolsCLI.h"
+#include "../tools/ImageTools.h"
 
 
 namespace ConsoleArt

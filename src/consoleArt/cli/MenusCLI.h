@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : Apr 28, 2024
+// Last Edit   : Feb 13, 2025
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -14,8 +14,8 @@
 #include "ColorUtils.h"
 #include "ConsoleUtils.h"
 #include "DefaultConsole.h"
+
 #include "../interfaces/IMenu.hpp"
-#include "../../imageUtils/ImageToolsCLI.h"
 
 namespace ConsoleArt
 {
@@ -49,7 +49,6 @@ public:
 	int printMenu() override;
 	int handleMenu(int id) override;
 	ConsoleLib::Color colorPicker() override;
-	void displayImageInfo(Images::Image& image) override;
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);
 };

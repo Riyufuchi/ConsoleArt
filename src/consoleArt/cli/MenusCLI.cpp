@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 28.12.2023
-// Last Edit   : Jan 29, 2025
+// Last Edit   : Feb 13, 2025
 //============================================================================
 #include "MenusCLI.h"
 
@@ -64,13 +64,6 @@ void MenusCLI::confConsoleTextColor()
 	{
 		console->setDefaultTextColor(colorPicker());
 	}
-}
-void MenusCLI::displayImageInfo(Images::Image& image)
-{
-	console->enableCustomFG();
-	ImageUtils::ImageToolsCLI::displayImageInfo(&image);
-	console->disableCustomFG();
-
 }
 // Menus
 int MenusCLI::charSetMenu()

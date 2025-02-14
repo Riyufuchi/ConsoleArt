@@ -13,7 +13,7 @@
 #include <cmath>
 #include <string.h>
 #include <memory>
-#include "../images/Image.h"
+#include "../../images/Image.h"
 
 namespace ImageUtils
 {

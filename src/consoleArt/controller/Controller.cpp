@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Jan 31, 2025
+// Last Edit   : Feb 14, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -15,31 +15,28 @@ Controller::Controller() : Controller("") // Calls constructor with parameter to
 }
 Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr)
 {
+	suppertedImageFormats[".pcx"] = Format::PCX;
+	suppertedImageFormats[".bmp"] = Format::BMP;
+	suppertedImageFormats[".ppm"] = Format::PPM;
 }
 void Controller::loadAllImagesAsync()
 {
-	std::string fne = "";
+	std::string extension = "";
 	std::string itDir = workspacePath;
 	if (itDir == "")
 		itDir = std::filesystem::current_path().generic_string(); // .generic_string(); is required by Windows
 	try
 	{
-		for (const auto& entry : std::filesystem::directory_iterator(itDir))
+		for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(itDir))
 		{
-			fne = entry.path().extension().generic_string();
-			if (fne == ".pcx")
-				addImage(new Images::ImagePCX(entry.path().generic_string()));
-			else if (fne == ".bmp")
-				addImage(new Images::ImageBMP(entry.path().generic_string()));
-			else if (fne == ".ppm")
-				addImage(new Images::ImagePPM(entry.path().generic_string()));
-			else
-				messenger->messageUser(Messenger::MessageType::WARNING, "Unsupported format \"" + fne + "\"\n");
+			extension = entry.path().extension();
+			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+			addImageAsync(loadImageAsync(entry.path(), extension));
 		}
 	}
 	catch (std::runtime_error& e)
 	{
-		messenger->messageUser(Messenger::MessageType::EXCEPTION, e.what());
+		messenger->messageUser(Messenger::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
 		return;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
@@ -50,7 +47,21 @@ void Controller::loadAllImagesAsync()
 	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
 	refreshMenu();
 }
-bool Controller::addImage(Images::Image* image)
+Images::Image* Controller::loadImageAsync(const std::string path, const std::string& extension)
+{
+	std::lock_guard<std::mutex> lock(mutexImageFormats);
+	if (suppertedImageFormats.contains(extension))
+		switch (suppertedImageFormats.at(extension))
+		{
+			case BMP: return new Images::ImageBMP(path);
+			case PCX: return new Images::ImagePCX(path);
+			case PPM: return new Images::ImagePPM(path);
+			default: return nullptr;
+		}
+	messenger->messageUser(Messenger::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
+	return nullptr;
+}
+bool Controller::addImageAsync(Images::Image* image)
 {
 	if (image == nullptr)
 		return false;
@@ -62,7 +73,7 @@ bool Controller::addImage(Images::Image* image)
 		return false;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
-	if(!images.empty())
+	if (!images.empty())
 	{
 		for (std::unique_ptr<Images::Image>& existingImage : images)
 		{
@@ -87,8 +98,7 @@ Images::Image* Controller::loadImage(std::string path)
 	}
 	catch (std::exception& e)
 	{
-		messenger->messageUser(Messenger::MessageType::EXCEPTION, e.what());
-		std::cout << "\n";
+		messenger->messageUser(Messenger::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
 		return nullptr;
 	}
 	if (ext == ".pcx")

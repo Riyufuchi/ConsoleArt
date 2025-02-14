@@ -2,7 +2,7 @@
 // File       : Messenger.h
 // Author     : Riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : Jan 14, 2025
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,6 +14,7 @@
 #include "ConsoleUtils.h"
 #include "UnixConsole.h"
 #include "DefaultConsole.h"
+#include "../../images/Image.h"
 
 namespace ConsoleArt
 {
@@ -22,14 +23,14 @@ class Messenger
 {
 public:
 	enum MessageType
-		{
-			EXCEPTION,
-			ERROR,
-			WARNING,
-			SUCCESFUL_TASK,
-			INFO,
-			NOTIFICATION
-		};
+	{
+		EXCEPTION,
+		ERROR,
+		WARNING,
+		SUCCESFUL_TASK,
+		INFO,
+		NOTIFICATION
+	};
 protected:
 	ConsoleLib::Color colors[6] = {
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS), // Exception
@@ -44,6 +45,7 @@ public:
 	virtual ~Messenger();
 	void messageUser(std::string message);
 	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
+	virtual void displayImageInfo(const Images::Image& image) = 0;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_CLI_CONSOLEMESSENGER_H_ */

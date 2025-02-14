@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Jan 20, 2025
+// Last Edit   : Feb 14, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -14,12 +14,12 @@
 #include <memory>
 #include <algorithm>
 #include <mutex>
-#include <map>
+#include <unordered_map>
 
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
 #include "../../images/ImagePPM.h"
-#include "../../imageUtils/AsciiConverter.h"
+#include "../tools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../tools/Messenger.h"
@@ -27,12 +27,20 @@
 
 namespace ConsoleArt
 {
+enum Format
+{
+	BMP,
+	PCX,
+	PPM
+};
 class Controller
 {
 protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
 	std::mutex mutexImages;
+	std::unordered_map<std::string, Format> suppertedImageFormats;
+	std::mutex mutexImageFormats;
 	bool isRunnable;
 	Messenger* messenger;
 	// Virtual
@@ -44,13 +52,14 @@ protected:
 	void loadAllImagesAsync();
 	// Functions
 	Images::Image* loadImage(std::string path);
+	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
 public:
 	Controller();
 	Controller(std::string path);
 	virtual ~Controller();
 	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
 	virtual void run() = 0;
-	bool addImage(Images::Image* image);
+	bool addImageAsync(Images::Image* image);
 	// Setters
 	void setWorkspace(std::string path);
 	Messenger& getMessenger()

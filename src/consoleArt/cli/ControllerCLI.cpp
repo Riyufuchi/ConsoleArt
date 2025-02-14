@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Jan 20, 2025
+// Last Edit   : Feb 13, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -82,7 +82,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				params = config.at(argument.first);
 				if (params.empty())
 					messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
-				addImage(loadImage(workspacePath + params.at(0)));
+				addImageAsync(loadImage(workspacePath + params.at(0)));
 				if (images.size() > 0)
 					convertImage(images.back().get());
 			} break;
@@ -105,7 +105,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 					messenger->messageUser(Messenger::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
 					continue;
 				}
-				switch(ImageUtils::ImageToolsCLI::compareImages(*image1, *image2))
+				switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
 				{
 					case 1:
 						console->out("Image " + image1->getFilename() + " is bigger than " + image2->getFilename() + "\n");
@@ -161,7 +161,7 @@ void ControllerCLI::run()
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
 		case 0:
-			if (addImage(loadImage(inputImageName())))
+			if (addImageAsync(loadImage(inputImageName())))
 				convertImage(images.back().get());
 			goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
@@ -207,7 +207,7 @@ Images::Image* ControllerCLI::selectImage()
 
 	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(1, max) - 1;
 	std::cout << "\n";
-	ImageUtils::ImageToolsCLI::displayImageInfo(images[selectedIndex].get());
+	messenger->displayImageInfo(*images[selectedIndex].get());
 	std::cout << "\n";
 	console->disableCustomFG();
 	return images[selectedIndex].get();
@@ -232,7 +232,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 		return;
 	ac.setCharSet(option);
 	messenger->messageUser(Messenger::MessageType::INFO, "Processing image:\n");
-	menuCLI.displayImageInfo(*image);
+	messenger->displayImageInfo(*image);
 	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
 	std::cin.get();
 	console->enableCustomFG();

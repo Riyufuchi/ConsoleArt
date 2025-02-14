@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edit   : Feb 13, 2025
+// Last Edit   : Feb 14, 2025
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -54,7 +54,7 @@ private:
 		} bmp_color_header;
 	#pragma pack(pop)
 	uint32_t row_stride;
-	uint32_t channels;
+	uint32_t CHANNELS;
 	// Methods
 	void checkHeader(std::ifstream& inf);
 	void readImageData(std::ifstream& inf);

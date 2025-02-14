@@ -2,7 +2,7 @@
 // File       : AsciiPrinter.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 4, 2024
+// Last edit  : Feb 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,7 +16,7 @@
 #include <locale>
 #include <fstream>
 
-#include "../../imageUtils/AsciiConverter.h"
+#include "../tools/AsciiConverter.h"
 #include "IConsole.hpp"
 #include "ConsoleUtils.h"
 
