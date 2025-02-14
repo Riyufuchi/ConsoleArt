@@ -45,7 +45,7 @@ void MessengerCLI::displayImageInfo(const Images::Image& image)
 	if (!image)
 		return;
 	console->enableCustomFG();
-	Images::Image::ImageInfo info = image.getImageInfo();
+	const Images::Image::ImageInfo& info = image.getImageInfo();
 	std::cout << "Name: " << info.name << "\n";
 	std::cout << "Width: " << info.width << " px\n";
 	std::cout << "Height: " << info.height << " px\n";

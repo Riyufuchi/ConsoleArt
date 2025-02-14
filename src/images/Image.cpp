@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), positionBase(0)
+Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)

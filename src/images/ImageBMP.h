@@ -62,17 +62,17 @@ private:
 	uint32_t makeStrideAligned(uint32_t align_stride);
 public:
 	ImageBMP(std::string filename);
-	bool saveImage() override;
+	bool saveImage() const override;
 	void loadImage() override;
 	// Setters
 	void setPixel(int x, int y, Pixel newPixel) override;
 	// Getters
-	ImageInfo getImageInfo() const override;
-	Pixel getPixel(int x, int y) override;
-	uint8_t getRed(int x, int y);
-	uint8_t getGreen(int x, int y);
-	uint8_t getBlue(int x, int y);
-	uint8_t getAplha(int x, int y);
+	const ImageInfo& getImageInfo() const override;
+	Pixel getPixel(int x, int y) const override;
+	uint8_t getRed(int x, int y) const;
+	uint8_t getGreen(int x, int y) const;
+	uint8_t getBlue(int x, int y) const;
+	uint8_t getAplha(int x, int y) const;
 	~ImageBMP();
 };
 }

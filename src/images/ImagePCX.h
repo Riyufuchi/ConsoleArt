@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -53,7 +53,7 @@ private:
 	//void make24bitPCX();
 	//void make32bitPCX();
 	void updateImage();
-	void write24and32bitPCX(std::ofstream& outf);
+	void write24and32bitPCX(std::ofstream& outf) const;
 	void checkHeader();
 public:
 	ImagePCX(std::string filename);
@@ -61,10 +61,10 @@ public:
 	bool havePalette() const;
 	const PCXHeader& getHeader() const;
 	// Overrides
-	ImageInfo getImageInfo() const override;
-	Pixel getPixel(int x, int y) override;
+	const ImageInfo& getImageInfo() const override;
+	Pixel getPixel(int x, int y) const override;
 	void setPixel(int x, int y, Pixel newPixel) override;
-	bool saveImage() override;
+	bool saveImage() const override;
 	void loadImage() override;
 };
 } /* namespace Images */

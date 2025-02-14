@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -44,7 +44,6 @@ protected:
 	bool inverted;
 	ImageInfo imageInfo;
 	std::vector<uint8_t> pixelData; //Or unsigned char can be used
-	int positionBase;
 public:
 	Image(std::string filepath);
 	virtual ~Image() = default;
@@ -53,10 +52,10 @@ public:
 		return fileState == FileState::OK;
 	}
 
-	/*explicit operator std::string() const
+	explicit operator std::string() const
 	{
 		return filename;
-	}*/
+	}
 
 	bool operator > (const Image& other) const
 	{
@@ -80,7 +79,7 @@ public:
 	// Common
 	void rename(std::string imageName);
 	// Utils
-	virtual bool saveImage() = 0;
+	virtual bool saveImage() const = 0;
 	virtual void loadImage() = 0;
 	//virtual void resize(int width, int heigh) = 0;
 	// Is methods
@@ -90,8 +89,8 @@ public:
 	virtual const std::string& getFilename() const final;
 	virtual const std::string& getFilepath() const final;
 	virtual const std::string& getFileStatus() const final;
-	virtual ImageInfo getImageInfo() const = 0;
-	virtual Pixel getPixel(int x, int y) = 0;
+	virtual const ImageInfo& getImageInfo() const = 0;
+	virtual Pixel getPixel(int x, int y) const = 0;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
 };

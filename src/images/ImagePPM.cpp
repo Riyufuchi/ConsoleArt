@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,7 +26,6 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 	imageData.reserve(w * h);
 	for (size_t x = 0; x < imageData.size(); x++)
 		imageData.emplace_back(Pixel{255, 255, 255});
-	this->positionBase = 0;
 	imageInfo.name = this->filename;
 	imageInfo.width = headerPPM.width;
 	imageInfo.height = headerPPM.height;
@@ -120,11 +119,11 @@ void ImagePPM::virtualArtistLegacy()
 	saveImage();
 }
 // Overrides
-Image::ImageInfo ImagePPM::getImageInfo() const
+const Image::ImageInfo& ImagePPM::getImageInfo() const
 {
 	return imageInfo;
 }
-Pixel ImagePPM::getPixel(int x, int y)
+Pixel ImagePPM::getPixel(int x, int y) const
 {
 	return imageData[y * headerPPM.width + x];
 }
@@ -132,7 +131,7 @@ void ImagePPM::setPixel(int x, int y, Pixel newPixel)
 {
 	imageData[y * headerPPM.width + x] = newPixel;
 }
-bool ImagePPM::saveImage()
+bool ImagePPM::saveImage() const
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::trunc);
 	if (!outf.is_open())

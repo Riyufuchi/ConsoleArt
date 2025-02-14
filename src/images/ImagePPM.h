@@ -2,7 +2,7 @@
 // File       : ImagePPM.h
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,10 +36,10 @@ public:
 	~ImagePPM();
 	void virtualArtistLegacy();
 	// Overrides
-	ImageInfo getImageInfo() const override;
-	Pixel getPixel(int x, int y) override;
+	const ImageInfo& getImageInfo() const override;
+	Pixel getPixel(int x, int y) const override;
 	void setPixel(int x, int y, Pixel newPixel) override;
-	bool saveImage() override;
+	bool saveImage() const override;
 	void loadImage() override;
 };
 } /* namespace Images */

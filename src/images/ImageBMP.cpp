@@ -134,57 +134,57 @@ uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 	return new_stride;
 }
 
-Pixel ImageBMP::getPixel(int x, int y)
+Pixel ImageBMP::getPixel(int x, int y) const
 {
-	positionBase = CHANNELS * (y * bmp_info_header.width + x);
+	x = CHANNELS * (y * bmp_info_header.width + x);
 	if (CHANNELS == 4)
-		return {pixelData[positionBase + 2], pixelData[positionBase + 1], pixelData[positionBase], pixelData[positionBase + 3]};
+		return {pixelData[x + 2], pixelData[x + 1], pixelData[x], pixelData[x + 3]};
 	else
-		return {pixelData[positionBase + 2], pixelData[positionBase + 1], pixelData[positionBase]};
+		return {pixelData[x + 2], pixelData[x + 1], pixelData[x]};
 }
 void ImageBMP::setPixel(int x, int y, Pixel newPixel)
 {
-	positionBase = CHANNELS * (y * bmp_info_header.width + x);
-	pixelData[positionBase + 2] = newPixel.red;
-	pixelData[positionBase + 1] = newPixel.green;
-	pixelData[positionBase] = newPixel.blue; // + 0
+	x = CHANNELS * (y * bmp_info_header.width + x);
+	pixelData[x + 2] = newPixel.red;
+	pixelData[x + 1] = newPixel.green;
+	pixelData[x] = newPixel.blue; // + 0
 	if (CHANNELS == 4)
-		pixelData[positionBase + 3] = newPixel.alpha;
+		pixelData[x + 3] = newPixel.alpha;
 }
-uint8_t ImageBMP::getRed(int x, int y)
+uint8_t ImageBMP::getRed(int x, int y) const
 {
 	return pixelData[CHANNELS * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(pixelData[x])
 }
-uint8_t ImageBMP::getGreen(int x, int y)
+uint8_t ImageBMP::getGreen(int x, int y) const
 {
 	return pixelData[CHANNELS * (y * bmp_info_header.width + x) + 1];
 }
-uint8_t ImageBMP::getBlue(int x, int y)
+uint8_t ImageBMP::getBlue(int x, int y) const
 {
 	return pixelData[CHANNELS * (y * bmp_info_header.width + x)];
 }
 
-uint8_t ImageBMP::getAplha(int x, int y)
+uint8_t ImageBMP::getAplha(int x, int y) const
 {
 	if (CHANNELS == 4)
 		return pixelData[CHANNELS * (y * bmp_info_header.width + x) + 3];
 	else
 		return 255;
 }
-bool ImageBMP::saveImage()
+bool ImageBMP::saveImage() const
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outf.is_open())
 	{
 		return false;
 	}
-	outf.write(reinterpret_cast<char*>(&headerBMP), sizeof(BMPFileHeader));
-	outf.write(reinterpret_cast<char*>(&bmp_info_header), sizeof(BMPInfoHeader));
-	outf.write(reinterpret_cast<char*>(&bmp_color_header), sizeof(BMPColorHeader));
-	outf.write(reinterpret_cast<char*>(pixelData.data()), pixelData.size());
+	outf.write(reinterpret_cast<const char*>(&headerBMP), sizeof(BMPFileHeader));
+	outf.write(reinterpret_cast<const char*>(&bmp_info_header), sizeof(BMPInfoHeader));
+	outf.write(reinterpret_cast<const char*>(&bmp_color_header), sizeof(BMPColorHeader));
+	outf.write(reinterpret_cast<const char*>(pixelData.data()), pixelData.size());
 	return true;
 }
-Image::ImageInfo ImageBMP::getImageInfo() const
+const Image::ImageInfo& ImageBMP::getImageInfo() const
 {
 	return imageInfo;
 }

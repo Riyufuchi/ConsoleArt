@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 14, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -218,35 +218,35 @@ void ImagePCX::checkHeader()
 	if (headerPCX.version != 5)
 		throw std::runtime_error("Outdated versions are not supported");
 }
-Image::ImageInfo ImagePCX::getImageInfo() const
+const Image::ImageInfo& ImagePCX::getImageInfo() const
 {
 	return imageInfo;
 }
-Pixel ImagePCX::getPixel(int x, int y)
+Pixel ImagePCX::getPixel(int x, int y) const
 {
-	positionBase = y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes + x;
+	x = (y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes) + x;
 	if (headerPCX.numOfColorPlanes == 4)
-		return Pixel{pixelData[positionBase], pixelData[positionBase + headerPCX.bytesPerLine], pixelData[positionBase + BLUE_OFFSET], pixelData[positionBase + ALPHA_OFFSET]};
-	return Pixel{pixelData[positionBase], pixelData[positionBase + headerPCX.bytesPerLine], pixelData[positionBase + BLUE_OFFSET], 255};
+		return {pixelData[x], pixelData[x + headerPCX.bytesPerLine], pixelData[x + BLUE_OFFSET], pixelData[x + ALPHA_OFFSET]};
+	return {pixelData[x], pixelData[x + headerPCX.bytesPerLine], pixelData[x + BLUE_OFFSET], 255};
 }
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
 	//pixels[y * info.width + x] = newPixel;
-	positionBase = y * 3 * imageInfo.width + x;
-	pixelData[positionBase] = newPixel.red;
-	pixelData[positionBase + imageInfo.width]= newPixel.green;
-	pixelData[positionBase + 2 * imageInfo.width] = newPixel.blue;
+	x = y * 3 * imageInfo.width + x;
+	pixelData[x] = newPixel.red;
+	pixelData[x + imageInfo.width]= newPixel.green;
+	pixelData[x + 2 * imageInfo.width] = newPixel.blue;
 	if (headerPCX.numOfColorPlanes == 4)
-		pixelData[positionBase + 3 * imageInfo.width] = newPixel.alpha;
+		pixelData[x + 3 * imageInfo.width] = newPixel.alpha;
 }
-bool ImagePCX::saveImage()
+bool ImagePCX::saveImage() const
 {
 	std::ofstream outf(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outf.is_open())
 	{
 		return false;
 	}
-	outf.write(reinterpret_cast<char*>(&headerPCX), sizeof(PCXHeader));
+	outf.write(reinterpret_cast<const char*>(&headerPCX), sizeof(PCXHeader));
 	switch (headerPCX.numOfColorPlanes)
 	{
 		case 3: write24and32bitPCX(outf); break;
@@ -259,7 +259,7 @@ bool ImagePCX::saveImage()
 	outf.close();
 	return true;
 }
-void ImagePCX::write24and32bitPCX(std::ofstream& outf)
+void ImagePCX::write24and32bitPCX(std::ofstream& outf) const
 {
 	uint8_t byte = 0;
 	size_t index = 0;
@@ -270,7 +270,7 @@ void ImagePCX::write24and32bitPCX(std::ofstream& outf)
 		byte = pixelData[index];
 		if (byte >> 6 != 3)
 		{
-			outf.write(reinterpret_cast<char*>(&byte), sizeof(byte));
+			outf.write(reinterpret_cast<const char*>(&byte), sizeof(byte));
 			index++;
 		}
 		else
@@ -282,8 +282,8 @@ void ImagePCX::write24and32bitPCX(std::ofstream& outf)
 				numByte++;
 			}
 			numByte |= 0xC0;
-			outf.write(reinterpret_cast<char*>(&numByte), sizeof(byte));
-			outf.write(reinterpret_cast<char*>(&lastByte), sizeof(byte));
+			outf.write(reinterpret_cast<const char*>(&numByte), sizeof(byte));
+			outf.write(reinterpret_cast<const char*>(&lastByte), sizeof(byte));
 			numByte = 0;
 		}
 	}
