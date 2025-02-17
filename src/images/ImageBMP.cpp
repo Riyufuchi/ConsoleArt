@@ -184,10 +184,6 @@ bool ImageBMP::saveImage() const
 	outf.write(reinterpret_cast<const char*>(pixelData.data()), pixelData.size());
 	return true;
 }
-const Image::ImageInfo& ImageBMP::getImageInfo() const
-{
-	return imageInfo;
-}
 ImageBMP::~ImageBMP()
 {
 	std::cout << "Image: " << filename << " destructed successfully" << std::endl;

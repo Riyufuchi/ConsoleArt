@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edit   : Feb 14, 2025
+// Last Edit   : Feb 17, 2025
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -67,7 +67,6 @@ public:
 	// Setters
 	void setPixel(int x, int y, Pixel newPixel) override;
 	// Getters
-	const ImageInfo& getImageInfo() const override;
 	Pixel getPixel(int x, int y) const override;
 	uint8_t getRed(int x, int y) const;
 	uint8_t getGreen(int x, int y) const;

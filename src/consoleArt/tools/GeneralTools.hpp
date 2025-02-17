@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Jan 29, 2025
+// Last edit  : Feb 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,7 +36,7 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.6 - beta 9";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.6";
 	GeneralTools();
 	~GeneralTools();
 	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()
@@ -70,7 +70,7 @@ public:
 			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
 			"--BI [N, P, K...]| Binomial distribution",
-			"--library| Shows info about ConsoleLib",
+			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compares two images",
 			"--cli| Starts application in CLI mode (default)",
 			"--zen| Starts application in CLI mode using Zenity"
@@ -94,7 +94,8 @@ public:
 					"Format| Bits; Notes",
 					"PCX| 24, 32; VGA palette",
 					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
-					"PPM| 24;"
+					"PPM| 24;",
+					"PNG| 24, 32;"
 				};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}

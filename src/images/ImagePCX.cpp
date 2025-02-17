@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 14, 2025
+// Last edit  : Feb 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -217,10 +217,6 @@ void ImagePCX::checkHeader()
 		throw std::runtime_error("This reader works only with 24-bit and 32-bit true color and VGA images");
 	if (headerPCX.version != 5)
 		throw std::runtime_error("Outdated versions are not supported");
-}
-const Image::ImageInfo& ImagePCX::getImageInfo() const
-{
-	return imageInfo;
 }
 Pixel ImagePCX::getPixel(int x, int y) const
 {

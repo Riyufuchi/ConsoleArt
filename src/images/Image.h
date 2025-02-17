@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 14, 2025
+// Last edit  : Feb 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -89,7 +89,7 @@ public:
 	virtual const std::string& getFilename() const final;
 	virtual const std::string& getFilepath() const final;
 	virtual const std::string& getFileStatus() const final;
-	virtual const ImageInfo& getImageInfo() const = 0;
+	virtual const ImageInfo& getImageInfo() const final;
 	virtual Pixel getPixel(int x, int y) const = 0;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;

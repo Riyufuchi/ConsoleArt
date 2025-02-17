@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Jan 29, 2025
+// Last Edit   : Feb 17, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -130,7 +130,10 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 					return arg.second;
 				}
 				case ABOUT: ConsoleArt::GeneralTools::aboutApplication(); return arg.second;
-				case LIBRARY: ConsoleLib::Library::aboutLibrary(); return arg.second;
+				case LIBRARY:
+					ConsoleLib::Library::aboutLibrary();
+					console.out("\nstb\n");
+				return arg.second;
 				case SCHEDULE: {
 					Other::ScheduleTracker schedule(console);
 					schedule.run();

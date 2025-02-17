@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 14, 2025
+// Last Edit   : Feb 17, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -19,6 +19,7 @@
 #include "../../images/ImageBMP.h"
 #include "../../images/ImagePCX.h"
 #include "../../images/ImagePPM.h"
+#include "../../images/ImagePNG.h"
 #include "../tools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
@@ -31,7 +32,8 @@ enum Format
 {
 	BMP,
 	PCX,
-	PPM
+	PPM,
+	PNG
 };
 class Controller
 {

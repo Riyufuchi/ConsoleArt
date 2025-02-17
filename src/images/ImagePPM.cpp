@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Feb 14, 2025
+// Last edit  : Feb 17, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -119,10 +119,6 @@ void ImagePPM::virtualArtistLegacy()
 	saveImage();
 }
 // Overrides
-const Image::ImageInfo& ImagePPM::getImageInfo() const
-{
-	return imageInfo;
-}
 Pixel ImagePPM::getPixel(int x, int y) const
 {
 	return imageData[y * headerPPM.width + x];

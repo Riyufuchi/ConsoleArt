@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 14, 2025
+// Last Edit   : Feb 17, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -18,6 +18,7 @@ Controller::Controller(std::string path) : workspacePath(path), isRunnable(true)
 	suppertedImageFormats[".pcx"] = Format::PCX;
 	suppertedImageFormats[".bmp"] = Format::BMP;
 	suppertedImageFormats[".ppm"] = Format::PPM;
+	suppertedImageFormats[".png"] = Format::PNG;
 }
 void Controller::loadAllImagesAsync()
 {
@@ -56,6 +57,7 @@ Images::Image* Controller::loadImageAsync(const std::string path, const std::str
 			case BMP: return new Images::ImageBMP(path);
 			case PCX: return new Images::ImagePCX(path);
 			case PPM: return new Images::ImagePPM(path);
+			case PNG: return new Images::ImagePNG(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(Messenger::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
@@ -107,6 +109,8 @@ Images::Image* Controller::loadImage(std::string path)
 		return new Images::ImageBMP(path);
 	else if (ext == ".ppm")
 		return new Images::ImagePPM(path);
+	else if (ext == ".png")
+		return new Images::ImagePNG(path);
 	else
 		messenger->messageUser(Messenger::MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;
