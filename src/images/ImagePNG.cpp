@@ -9,15 +9,19 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../include/stb_image_write.h"
 #include "ImagePNG.h"
 
-namespace Images {
-
+namespace Images
+{
 ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 {
 	fileState = OK;
 	imageInfo.name = filename;
 	this->imageData = stbi_load(filepath.c_str(), &imageInfo.width, &imageInfo.height, &CHANNELS, 0);
+	if (CHANNELS == 4)
+		imageInfo.bits = 32;
 	if (imageData == nullptr)
 	{
 		fileState = ERROR;
@@ -49,7 +53,7 @@ void ImagePNG::setPixel(int x, int y, Images::Pixel newPixel)
 }
 bool ImagePNG::saveImage() const
 {
-	return false;
+	return stbi_write_png(filepath.c_str(), imageInfo.width, imageInfo.height, CHANNELS, imageData, imageInfo.width * CHANNELS);
 }
 void ImagePNG::loadImage()
 {

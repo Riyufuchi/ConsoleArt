@@ -2,7 +2,7 @@
 
 | Done     | Feature to implement / task TODO           | Planned for / since |
 | :------: | :----------------------------------------: | :--: |
-| &#9744;  | Add support for PNG images                 | v2.4 |
+| &#x2705; | Add support for PNG images                 | v2.4 |
 | &#9744;  | Improve Server/Client feature              |      |
 | &#x2705; | Add support for PCX with VGA palette       |      |
 | &#9744;  | Add constructors for creating blank images |      |

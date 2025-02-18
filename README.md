@@ -2,30 +2,12 @@
 
 - [About](#about)
 - [Used libraries](#used-libraries)
+- [Testing](#testing)
 - [Compilation](#compilation)
 - [Project guide](#project-guide)
 - [Donate](#donate)
 
 ## About
-
-<table style="text-align: center;">
-  <tr>
-    <th colspan="2">Compiled & Tested on</th>
-  </tr>
-  <tr>
-    <th>OS</th>
-    <th>Compiler</th>
-  </tr>
-  <tr>
-    <td>Ubuntu</td>
-    <td>g++ 14.2.0</td>
-  </tr>
-  <tr>
-    <td><s>Windows 10</s></td>
-    <td><s>MSVC v143</s></td>
-  </tr>
-</table>
-
 
 This project started quite some time ago, the initial commit was on 13th of July 2020. This project wasn't meant to have any "form or shape", just project for experimenting in C++, but it was turned into proper C++ project with focus on converting image to ASCII/UNICODE. So now it continues in this flow and it still serves it purpose that it is for learning/experimenting in C++.
 
@@ -35,6 +17,15 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 - [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib)
 - [stb](https://github.com/nothings/stb) - For working with PNG picture format
+
+## Testing
+
+### Compiled & Tested on
+
+| OS | Compiler |
+| :------: | :----------: |
+| Ubuntu | g++ 14.2.0 |
+| <s>Windows 10</s> | <s>MSVC v143</s> |
 
 ## Compilation
 
