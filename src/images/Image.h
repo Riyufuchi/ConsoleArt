@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 17, 2025
+// Last edit  : Feb 18, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -24,18 +24,17 @@ enum FileState
 	ERROR,
 	OK
 };
+struct ImageInfo
+{
+	std::string name {"Unknown"};
+	int width {0};
+	int height {0};
+	//int sizeInBytes;
+	uint16_t bits {24};
+	uint16_t file_type {0};
+};
 class Image
 {
-public:
-	struct ImageInfo
-	{
-		std::string name {"Unknown"};
-		int width {0};
-		int height {0};
-		//int sizeInBytes;
-		uint16_t bits {24};
-		uint16_t file_type {0};
-	};
 protected:
 	std::string filepath;
 	std::string fileStatus;
@@ -76,9 +75,9 @@ public:
 	{
 		return imageInfo.width * imageInfo.height != other.imageInfo.width * other.imageInfo.height;
 	}
-	// Common
-	void rename(std::string imageName);
 	// Utils
+	void rename(std::string imageName);
+	// Virtual utils
 	virtual bool saveImage() const = 0;
 	virtual void loadImage() = 0;
 	//virtual void resize(int width, int heigh) = 0;

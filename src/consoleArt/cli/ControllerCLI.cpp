@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Feb 13, 2025
+// Last Edit   : Feb 18, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -82,9 +82,12 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				params = config.at(argument.first);
 				if (params.empty())
 					messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
-				addImageAsync(loadImage(workspacePath + params.at(0)));
+				if (params.at(0).find("/") != std::string::npos)
+					addImageAsync(loadImage(params.at(0)));
+				else
+					addImageAsync(loadImage(workspacePath + params.at(0)));
 				if (images.size() > 0)
-					convertImage(images.back().get());
+					console->out("Images loaded successfully\n");
 			} break;
 			case COMPARE: {
 				params = config.at(argument.first);
@@ -145,6 +148,25 @@ void ControllerCLI::refreshMenu()
 	menuCLI.printMainMenu();
 }
 
+void ControllerCLI::imageAction()
+{
+	switch(menuCLI.invokeMenu(MenusCLI::Menu::IMAGE_ACTION_OPTIONS))
+	{
+		case 0: convertImage(selectImage()); break;
+		case 1:
+			console->out("Select image:\n");
+			Images::Image* image = selectImage();
+			if (image == nullptr || !*image)
+				return;
+			console->out("Select signature:\n");
+			Images::Image* image2 = selectImage();
+			if (image2 == nullptr || !*image2)
+				return;
+			ImageUtils::ImageTools::signatureToImage(*image, *image2);
+		break;
+	}
+}
+
 /*std::string command = "cd ";
 command += workspacePath;
 command += " && ";
@@ -160,12 +182,9 @@ void ControllerCLI::run()
 	menu:
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
-		case 0:
-			if (addImageAsync(loadImage(inputImageName())))
-				convertImage(images.back().get());
-			goto menu;
+		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
-		case 2: convertImage(selectImage()); goto menu;
+		case 2: imageAction(); goto menu;
 		case 3:
 			console->enableCustomFG();
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
@@ -192,20 +211,22 @@ void ControllerCLI::loadAllImagesAsync()
 
 Images::Image* ControllerCLI::selectImage()
 {
-	if(images.empty())
+	if (images.empty())
 	{
 		console->out(warningColor, "No images has been loaded yet!\n");
 		return 0;
 	}
 	console->enableCustomFG();
-	std::cout << "Currently loaded images:" << std::endl;
+	std::cout << "Currently loaded images (0 to exit):" << std::endl;
 	int max = images.size();
-	for(int index = 0; index < max; index++) // or for(Images::Image* img : images)
+	for (int index = 0; index < max; index++) // or for(Images::Image* img : images)
 	{
 		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
 
-	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(1, max) - 1;
+	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(0, max) - 1;
+	if (selectedIndex == -1)
+		return nullptr;
 	std::cout << "\n";
 	messenger->displayImageInfo(*images[selectedIndex].get());
 	std::cout << "\n";
@@ -226,15 +247,16 @@ void ControllerCLI::convertImage(Images::Image* image)
 {
 	if (image == nullptr || !*image)
 		return;
+	messenger->messageUser(Messenger::MessageType::INFO, "Processing image:\n");
+	messenger->displayImageInfo(*image);
+	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
+	std::cin.get();
+	std::cout << "\n";
 	ImageUtils::AsciiConverter ac(*image);
 	reconvert: int option = menuCLI.invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
-	messenger->messageUser(Messenger::MessageType::INFO, "Processing image:\n");
-	messenger->displayImageInfo(*image);
-	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
-	std::cin.get();
 	console->enableCustomFG();
 	if (!ac.convertToASCII())
 	{

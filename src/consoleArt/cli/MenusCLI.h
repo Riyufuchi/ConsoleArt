@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : Feb 13, 2025
+// Last Edit   : Feb 18, 2025
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -33,6 +33,7 @@ public:
 		MAIN_MENU,
 		CHAR_SET_SELECTION,
 		PRINT_OPTIONS,
+		IMAGE_ACTION_OPTIONS,
 		// Dynamic menus
 		COLOR_PICKER,
 		MENU_COUNT

@@ -2,7 +2,7 @@
 // File       : MessengerCLI.cpp
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 18, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -45,7 +45,7 @@ void MessengerCLI::displayImageInfo(const Images::Image& image)
 	if (!image)
 		return;
 	console->enableCustomFG();
-	const Images::Image::ImageInfo& info = image.getImageInfo();
+	const Images::ImageInfo& info = image.getImageInfo();
 	std::cout << "Name: " << info.name << "\n";
 	std::cout << "Width: " << info.width << " px\n";
 	std::cout << "Height: " << info.height << " px\n";

@@ -2,7 +2,7 @@
 // File       : ImageTools.h
 // Author     : riyufuchi
 // Created on : Dec 1, 2023
-// Last edit  : Feb 14, 2025
+// Last edit  : Feb 18, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "../../images/Image.h"
+#include "../../images/ImagePNG.h"
 
 namespace ImageUtils
 {
@@ -22,6 +23,8 @@ public:
 	ImageTools();
 	virtual ~ImageTools();
 	static int compareImages(const Images::Image& image1, const Images::Image& image2);
+	static bool signatureToImage(Images::Image& canvasImage, const Images::Image& signature);
+	static void nearestNeighbor(const Images::Image& originalImage, Images::Image& scaledImage);
 };
 
 } /* namespace ImageUtils */

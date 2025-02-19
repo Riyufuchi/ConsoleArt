@@ -2,7 +2,7 @@
 // File       : ImagePNG.h
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Feb 17, 2025
+// Last edit  : Feb 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,6 +11,8 @@
 #define IMAGES_IMAGEPNG_H_
 
 #include <iostream>
+#include <string.h>
+
 #include "Image.h"
 
 namespace Images
@@ -22,6 +24,7 @@ private:
 	int CHANNELS;
 public:
 	ImagePNG(std::string filepath);
+	ImagePNG(std::string filepath, int width, int height, int channels);
 	~ImagePNG();
 	virtual Images::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
