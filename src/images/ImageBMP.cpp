@@ -65,6 +65,8 @@ void ImageBMP::readImageData(std::ifstream& inf)
 			inf.read(reinterpret_cast<char*>(padding_row.data()), padding_row.size());
 		}
 		headerBMP.file_size += pixelData.size() + bmp_info_header.height * padding_row.size();
+		//headerBMP.file_size = headerBMP.offset_data + (row_stride + padding_row) * bmp_info_header.height;
+
 	}
 }
 void ImageBMP::checkHeader(std::ifstream& inf)
@@ -145,9 +147,9 @@ Pixel ImageBMP::getPixel(int x, int y) const
 void ImageBMP::setPixel(int x, int y, Pixel newPixel)
 {
 	x = CHANNELS * (y * bmp_info_header.width + x);
-	pixelData[x + 2] = newPixel.red;
+	pixelData[x] = newPixel.blue;
 	pixelData[x + 1] = newPixel.green;
-	pixelData[x] = newPixel.blue; // + 0
+	pixelData[x + 2] = newPixel.red;
 	if (CHANNELS == 4)
 		pixelData[x + 3] = newPixel.alpha;
 }
@@ -178,12 +180,33 @@ bool ImageBMP::saveImage() const
 	{
 		return false;
 	}
+
+	// Write headers
 	outf.write(reinterpret_cast<const char*>(&headerBMP), sizeof(BMPFileHeader));
 	outf.write(reinterpret_cast<const char*>(&bmp_info_header), sizeof(BMPInfoHeader));
-	outf.write(reinterpret_cast<const char*>(&bmp_color_header), sizeof(BMPColorHeader));
-	outf.write(reinterpret_cast<const char*>(pixelData.data()), pixelData.size());
+	if (bmp_info_header.bit_count == 32)
+	{
+		outf.write(reinterpret_cast<const char*>(&bmp_color_header), sizeof(BMPColorHeader));
+	}
+
+	// Handle row padding
+	const int row_stride = bmp_info_header.width * bmp_info_header.bit_count / 8;
+	const int padding_size = (4 - (row_stride % 4)) % 4;
+	const std::vector<uint8_t> padding(padding_size, 0);
+
+	// Write pixel data with padding
+	for (int y = 0; y < bmp_info_header.height; ++y)
+	{
+		outf.write(reinterpret_cast<const char*>(pixelData.data() + y * row_stride), row_stride);
+		if (padding_size > 0)
+		{
+			outf.write(reinterpret_cast<const char*>(padding.data()), padding_size);
+		}
+	}
+
 	return true;
 }
+
 ImageBMP::~ImageBMP()
 {
 	std::cout << "Image: " << filename << " destructed successfully" << std::endl;
