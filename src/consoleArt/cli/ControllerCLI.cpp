@@ -154,6 +154,7 @@ void ControllerCLI::imageAction()
 	{
 		case 0: convertImage(selectImage()); break;
 		case 1:
+		{
 			console->out("Select image:\n");
 			Images::Image* image = selectImage();
 			if (image == nullptr || !*image)
@@ -163,6 +164,16 @@ void ControllerCLI::imageAction()
 			if (image2 == nullptr || !*image2)
 				return;
 			ImageUtils::ImageTools::signatureToImage(*image, *image2);
+		}
+		break;
+		case 2:
+		{
+			Images::Image* image = selectImage();
+			if (image == nullptr)
+				return;
+			if (ImageUtils::Filter::matrixFilter(*image))
+				console->out("Matrix filer successfully applied.");
+		}
 		break;
 	}
 }

@@ -18,11 +18,21 @@ namespace ConsoleArt
 class IMenu
 {
 public:
+	enum Menu
+	{
+		MAIN_MENU,
+		CHAR_SET_SELECTION,
+		PRINT_OPTIONS,
+		IMAGE_ACTION_OPTIONS,
+		// Dynamic menus
+		COLOR_PICKER,
+		MENU_COUNT
+	};
 	virtual ~IMenu() = default;
 	virtual int charSetMenu() = 0;
 	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
-	virtual int handleMenu(int id) = 0;
+	virtual int handleMenu(Menu id) = 0;
 	virtual ConsoleLib::Color colorPicker() = 0;
 };
 }

@@ -26,10 +26,11 @@
 #include "../../other/OtherUtils.hpp"
 #include "../../math/MathUtils.hpp"
 #include "../controller/Controller.h"
-#include "AsciiPrinter.h"
+#include "../asciiTools/AsciiPrinter.h"
 #include "MenusCLI.h"
 #include "../network/client/ClientTools.h"
-#include "../tools/ImageTools.h"
+#include "../imageTools/ImageTools.h"
+#include "../imageTools/Filter.h"
 
 
 namespace ConsoleArt

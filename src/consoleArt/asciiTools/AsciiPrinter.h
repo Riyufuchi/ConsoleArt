@@ -16,7 +16,7 @@
 #include <locale>
 #include <fstream>
 
-#include "../tools/AsciiConverter.h"
+#include "AsciiConverter.h"
 #include "IConsole.hpp"
 #include "ConsoleUtils.h"
 

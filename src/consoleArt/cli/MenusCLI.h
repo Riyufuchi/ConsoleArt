@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "ColorUtils.h"
 #include "ConsoleUtils.h"
@@ -21,23 +22,15 @@ namespace ConsoleArt
 {
 class MenusCLI : public IMenu
 {
+public:
 private:
 	int choice{0};
 	ConsoleLib::IConsole* console;
 	void confConsoleTextColor();
 protected:
-	std::vector<std::vector<const char*>> menus;
+	//std::vector<std::vector<const char*>> menus;
+	std::map<Menu, std::vector<const char*>> menus;
 public:
-	enum Menu
-	{
-		MAIN_MENU,
-		CHAR_SET_SELECTION,
-		PRINT_OPTIONS,
-		IMAGE_ACTION_OPTIONS,
-		// Dynamic menus
-		COLOR_PICKER,
-		MENU_COUNT
-	};
 	MenusCLI();
 	MenusCLI(ConsoleLib::IConsole* console);
 	~MenusCLI();
@@ -48,7 +41,7 @@ public:
 	int charSetMenu() override;
 	int actionMenu() override;
 	int printMenu() override;
-	int handleMenu(int id) override;
+	int handleMenu(Menu id) override;
 	ConsoleLib::Color colorPicker() override;
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);

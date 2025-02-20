@@ -17,6 +17,12 @@ ImageTools::ImageTools()
 ImageTools::~ImageTools()
 {
 }
+void ImageTools::addToImageName(Images::Image& image,const std::string addStr)
+{
+	if (!image)
+		return;
+	image.rename(image.getFilename().substr(0, image.getFilename().find(".")) + addStr);
+}
 int ImageTools::compareImages(const Images::Image& image1, const Images::Image& image2)
 {
 	if (image1 == image2)
@@ -82,18 +88,59 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 	int x1 = 0;
 
 	Images::Pixel pixel;
+	Images::Pixel pixelCanvas;
+	Images::Pixel pixelBlend;
 
-	for (int y = Y, y1 = 0; y < canvasInfo.height; y++, y1++)
+	if (canvasImage.isInverted())
 	{
-		for (x = X, x1 = 0; x < canvasInfo.width; x++, x1++)
+		for (int y = 0, y1 = targetHeight; y1 >= 0; y++, y1--)
 		{
-			pixel = resizedSignature.getPixel(x1, y1);
-			if (pixel.alpha == 255)
-				canvasImage.setPixel(x, y, resizedSignature.getPixel(x1, y1));
+			for (x = X, x1 = 0; x < canvasInfo.width; x++, x1++)
+			{
+				pixel = resizedSignature.getPixel(x1, y1);
+				switch (pixel.alpha)
+				{
+					case 0: continue;
+					case 255: canvasImage.setPixel(x, y, pixel); break;
+					default:
+						pixelCanvas = canvasImage.getPixel(x, y);
+						pixelBlend.red = (pixel.red * pixel.alpha + pixelCanvas.red * (255 - pixel.alpha)) / 255;
+						pixelBlend.green = (pixel.green * pixel.alpha + pixelCanvas.green * (255 - pixel.alpha)) / 255;
+						pixelBlend.blue = (pixel.blue * pixel.alpha + pixelCanvas.blue * (255 - pixel.alpha)) / 255;
+						//pixelBlend.alpha = 255; // Result is fully opaquexel = resizedSignature.getPixel(x1, y1);
+						canvasImage.setPixel(x, y, pixelBlend);
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int y = Y, y1 = 0; y < canvasInfo.height; y++, y1++)
+		{
+			for (x = X, x1 = 0; x < canvasInfo.width; x++, x1++)
+			{
+				pixel = resizedSignature.getPixel(x1, y1);
+				switch (pixel.alpha)
+				{
+					case 0: continue;
+					case 255:
+						canvasImage.setPixel(x, y, pixel);
+					break;
+					default:
+						pixelCanvas = canvasImage.getPixel(x, y);
+						pixelBlend.red = (pixel.red * pixel.alpha + pixelCanvas.red * (255 - pixel.alpha)) / 255;
+						pixelBlend.green = (pixel.green * pixel.alpha + pixelCanvas.green * (255 - pixel.alpha)) / 255;
+						pixelBlend.blue = (pixel.blue * pixel.alpha + pixelCanvas.blue * (255 - pixel.alpha)) / 255;
+						//pixelBlend.alpha = 255; // Result is fully opaquexel = resizedSignature.getPixel(x1, y1);
+						canvasImage.setPixel(x, y, pixelBlend);
+					break;
+				}
+			}
 		}
 	}
 
-	canvasImage.rename(canvasImage.getFilename().substr(0, canvasImage.getFilename().find(".")) + "-signed");
+	addToImageName(canvasImage, "-signed");
 	return canvasImage.saveImage();
 }
 } /* namespace ImageUtils */

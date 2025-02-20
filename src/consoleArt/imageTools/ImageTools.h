@@ -22,6 +22,7 @@ class ImageTools
 public:
 	ImageTools();
 	virtual ~ImageTools();
+	static void addToImageName(Images::Image& image, const std::string addStr);
 	static int compareImages(const Images::Image& image1, const Images::Image& image2);
 	static bool signatureToImage(Images::Image& canvasImage, const Images::Image& signature);
 	static void nearestNeighbor(const Images::Image& originalImage, Images::Image& scaledImage);

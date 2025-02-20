@@ -10,25 +10,24 @@ namespace ConsoleArt
 {
 MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
-	menus =
-	{
-		{ "Load image", "Load all images", "Image actions", "List images", "Settings", "About", "Exit"},
-		{ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█", "BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" },
-		{ "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"},
-		{"Convert to ASCII", "Add signature"}
-	};
+	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Image actions", "List images", "Settings", "About", "Exit"};
+	menus[Menu::CHAR_SET_SELECTION] ={ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
+			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
+	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};
+	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 }
-int MenusCLI::handleMenu(int menu)
+int MenusCLI::handleMenu(Menu menu)
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus[menu]);
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(menu));
 }
 void MenusCLI::printMainMenu()
 {
 	console->enableCustomFG();
-	const int LENGHT = menus[0].size();
+	std::vector<const char*> & mm = menus.at(MAIN_MENU);
+	const int LENGHT = mm.size();
 	for(int i = 0; i < LENGHT; i++)
 	{
-		printf("%d. %s \n", i + 1, menus[0][i]);
+		printf("%d. %s \n", i + 1, mm[i]);
 	}
 	console->disableCustomFG();
 }
@@ -39,7 +38,7 @@ int MenusCLI::invokeMenu(Menu menu)
 	{
 		case CHAR_SET_SELECTION: choice = handleMenu(menu); break;
 		case PRINT_OPTIONS: choice = handleMenu(menu); break;
-		case MAIN_MENU: choice = handleMenu((int)menu); break;
+		case MAIN_MENU: choice = handleMenu(menu); break;
 		case COLOR_PICKER: confConsoleTextColor(); break;
 		case IMAGE_ACTION_OPTIONS: choice = handleMenu(menu); break;
 		default: choice = -1;

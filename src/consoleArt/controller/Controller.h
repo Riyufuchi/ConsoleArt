@@ -20,7 +20,7 @@
 #include "../../images/ImagePCX.h"
 #include "../../images/ImagePPM.h"
 #include "../../images/ImagePNG.h"
-#include "../tools/AsciiConverter.h"
+#include "../asciiTools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../tools/Messenger.h"
