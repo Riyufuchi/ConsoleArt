@@ -19,8 +19,8 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 	this->button = new ButtonSDL(0, 0, 200, 100);
-	this->button->setX((width/2)-100);
-	this->button->setY((height/2)-50);
+	this->button->setX((width / 2) - button->getWidth() / 2);
+	this->button->setY((height / 2) - button->getHeight() / 2);
 }
 
 ControllerSDL::~ControllerSDL()
@@ -58,13 +58,13 @@ void ControllerSDL::run()
 		SDL_PollEvent(&event);
 		SDL_GetMouseState(&mouseX, &mouseY);
 
-		button->setHover(button->isMouseInside(mouseX, mouseY));
+		button->setMouseOver(button->isMouseInside(mouseX, mouseY));
 
 		switch (event.type)
 		{
 			case SDL_QUIT: isRunnable = false; break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (button->getHover())
+				if (button->isMouseOver())
 					std::cout << "Button Clicked!" << std::endl;
 			break;
 			case SDL_WINDOWEVENT:
@@ -76,10 +76,9 @@ void ControllerSDL::run()
 
 					// (Optional) Adjust renderer size if needed
 					SDL_RenderSetLogicalSize(renderer, width, height);
-					button->setX((width/2)-button->getWidth()/2);
-					button->setY((height/2)-button->getHeight()/2);
+					button->setX((width / 2) - button->getWidth() / 2);
+					button->setY((height / 2) - button->getHeight() / 2);
 				}
-			break;
 			break;
 		}
 

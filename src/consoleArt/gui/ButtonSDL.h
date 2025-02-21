@@ -12,37 +12,18 @@
 
 #include <SDL2/SDL.h>
 
+#include "ComponentSDL.h"
+
 namespace ConsoleArt
 {
-class ButtonSDL
+class ButtonSDL : public ComponentSDL
 {
 private:
-	int x;
-	int y;
-	int width;
-	int height;
-	bool hovered;
-	SDL_Color baseColor;
 	SDL_Color hoverColor;
-	SDL_Rect rect;
 public:
 	ButtonSDL(int x, int y, int width, int height);
 	~ButtonSDL();
-	void draw(SDL_Renderer* renderer);
-
-	bool isMouseInside(int x, int y);
-
-	void setHover(bool hover);
-	bool getHover();
-
-	int getHeight() const;
-	void setHeight(int height);
-	int getWidth() const;
-	void setWidth(int width);
-	int getX() const;
-	void setX(int x);
-	int getY() const;
-	void setY(int y);
+	virtual void draw(SDL_Renderer* renderer) override;
 };
 
 } /* namespace ConsoleArt */

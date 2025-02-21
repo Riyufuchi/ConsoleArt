@@ -15,7 +15,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 *The libraries below are listed in the order they were added to the project.*
 
-| Name | Used for | Included |
+| Name | Used for | Included in this repository |
 | :------: | :----------: | :---: |
 | [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟠 |
 | [stb](https://github.com/nothings/stb) | Working with PNG picture format | 🟢 |
