@@ -29,7 +29,15 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 ## Compilation
 
-- Don't forget to compile this project with required libraries
+  ### Linux
+  
+  *Makefile automatically gets ConsoleLib and compiles it before program*
+  
+   ```bash
+   git clone https://github.com/Riyufuchi/ConsoleArt.git
+   cd ConsoleArt
+   make
+   ```
 
 ## Project guide
 
