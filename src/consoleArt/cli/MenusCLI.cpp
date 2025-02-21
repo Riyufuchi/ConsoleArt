@@ -10,7 +10,7 @@ namespace ConsoleArt
 {
 MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 {
-	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Image actions", "List images", "Settings", "About", "Exit"};
+	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Select image", "Image actions", "List images", "Settings", "About", "Exit"};
 	menus[Menu::CHAR_SET_SELECTION] ={ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
 	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};

@@ -11,8 +11,8 @@
 #include <string.h>
 #include <map>
 
-#include "consoleArt/cli/ControllerCLI.h"
-#include "consoleArt/gui/zenity/ControllerGuiZen.h"
+#include "consoleArt/controller/ControllerCLI.h"
+#include "consoleArt/controller/ControllerZenity.h"
 #include "consoleArt/network/server/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
 #include "ConsoleUtils.h"
@@ -81,11 +81,13 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 	if (argPairs.contains("--zen"))
-		consoleArt = new ConsoleArt::ControllerGuiZen(&systemConsole);
+		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
+	else if (argPairs.contains("--gui"))
+		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 	else
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 
-	switch(checkArgs(argPairs, systemConsole))
+	switch (checkArgs(argPairs, systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;

@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : ControllerGuiZen.cpp
+// File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
 // Last edit  : Jan 24, 2025
@@ -7,18 +7,18 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "ControllerGuiZen.h"
+#include "ControllerZenity.h"
 
 namespace ConsoleArt
 {
-ControllerGuiZen::ControllerGuiZen(ConsoleLib::IConsole* console) : ControllerCLI(console)
+ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
 	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Started in CLI mode using zenity\n");
 }
-ControllerGuiZen::~ControllerGuiZen()
+ControllerZenity::~ControllerZenity()
 {
 }
-std::string ControllerGuiZen::inputImageName()
+std::string ControllerZenity::inputImageName()
 {
 	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + workspacePath + "\"";
 

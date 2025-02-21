@@ -45,6 +45,7 @@ protected:
 	std::mutex mutexImageFormats;
 	bool isRunnable;
 	Messenger* messenger;
+	Images::Image* selectedImage;
 	// Virtual
 	virtual void refreshMenu() = 0;
 	virtual void convertImage(Images::Image* image) = 0;

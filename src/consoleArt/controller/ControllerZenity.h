@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : ControllerGuiZen.h
+// File       : ControllerZenity.h
 // Author     : Riyufuchi
 // Created on : May 30, 2024
 // Last edit  : May 30, 2024
@@ -10,15 +10,15 @@
 #ifndef CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 #define CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 
-#include "../../cli/ControllerCLI.h"
+#include "ControllerCLI.h"
 
 namespace ConsoleArt
 {
-class ControllerGuiZen: public ControllerCLI
+class ControllerZenity: public ControllerCLI
 {
 public:
-	ControllerGuiZen(ConsoleLib::IConsole* console);
-	virtual ~ControllerGuiZen();
+	ControllerZenity(ConsoleLib::IConsole* console);
+	virtual ~ControllerZenity();
 	std::string inputImageName() override;
 };
 } /* namespace ConsoleArt */

@@ -150,39 +150,37 @@ void ControllerCLI::refreshMenu()
 
 void ControllerCLI::imageAction()
 {
+	if (selectedImage == nullptr)
+	{
+		messenger->messageUser(Messenger::MessageType::WARNING, "No image is selected!\n");
+		return;
+	}
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::IMAGE_ACTION_OPTIONS))
 	{
-		case 0: convertImage(selectImage()); break;
+		case 0: convertImage(selectedImage); break;
 		case 1:
 		{
-			console->out("Select image:\n");
+			console->out("Select signature:\n");
 			Images::Image* image = selectImage();
 			if (image == nullptr || !*image)
 				return;
-			console->out("Select signature:\n");
-			Images::Image* image2 = selectImage();
-			if (image2 == nullptr || !*image2)
-				return;
-			ImageUtils::ImageTools::signatureToImage(*image, *image2);
+			ImageUtils::ImageTools::signatureToImage(*selectedImage, *image);
 		}
 		break;
 		case 2:
 		{
-			Images::Image* image = selectImage();
-			if (image == nullptr)
-				return;
 			bool res = false;
 			switch (menuCLI.invokeMenu(MenusCLI::Menu::FILTERS))
 			{
-				case 0: res = ImageUtils::Filter::matrixFilter(*image); break;
-				case 1: res = ImageUtils::Filter::purplefier(*image); break;
-				case 2: res = ImageUtils::Filter::purplefierShading(*image); break;
-				case 3: res = ImageUtils::Filter::purplefierSoft(*image); break;
+				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
+				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
+				case 2: res = ImageUtils::Filter::purplefierShading(*selectedImage); break;
+				case 3: res = ImageUtils::Filter::purplefierSoft(*selectedImage); break;
 			}
 			if (res)
-				console->out("Filer successfully applied.\n");
+				messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
 			else
-				console->err("An error occurred while applying filter to image " + image->getFilename());
+				messenger->messageUser(Messenger::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
 		}
 		break;
 	}
@@ -200,24 +198,36 @@ void ControllerCLI::run()
 		if(ConsoleLib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
 			return;
 	}
+	Images::Image* imageHolder = nullptr;
 	menu:
+	console->out("Selected image: ");
+	if (selectedImage != nullptr)
+		console->out(selectedImage->getFilename());
+	else
+		console->out("None");
+	std::cout << "\n";
 	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
 		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
-		case 2: imageAction(); goto menu;
-		case 3:
+		case 2:
+			imageHolder = selectImage();
+			if (imageHolder != nullptr)
+				selectedImage = imageHolder;
+		goto menu;
+		case 3: imageAction(); goto menu;
+		case 4:
 			console->enableCustomFG();
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->disableCustomFG();
 			goto menu;
-		case 4: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
-		case 5:
+		case 5: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
+		case 6:
 			console->enableCustomFG();
 			GeneralTools::aboutApplication();
 			console->disableCustomFG();
 		goto menu;
-		case 6: return;
+		case 7: return;
 	}
 }
 
@@ -305,6 +315,8 @@ ControllerCLI::~ControllerCLI()
 {
 	//for(size_t i = 0; i < images.size(); i++)
 		//delete images[i];
+	delete messenger;
+	messenger = 0;
 	std::cout << "ControllerCLI destructed\n";
 }
 }

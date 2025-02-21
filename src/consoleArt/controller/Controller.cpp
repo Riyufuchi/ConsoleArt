@@ -13,7 +13,7 @@ namespace ConsoleArt
 Controller::Controller() : Controller("") // Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr)
+Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr), selectedImage(nullptr)
 {
 	suppertedImageFormats[".pcx"] = Format::PCX;
 	suppertedImageFormats[".bmp"] = Format::BMP;
