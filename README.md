@@ -15,8 +15,11 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 *The libraries below are listed in the order they were added to the project.*
 
-- [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib)
-- [stb](https://github.com/nothings/stb) - For working with PNG picture format
+| Name | Used for | Included |
+| :------: | :----------: | :---: |
+| [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟠 |
+| [stb](https://github.com/nothings/stb) | Working with PNG picture format | 🟢 |
+| [SDL2](https://www.libsdl.org/) | Gui | 🔴 |
 
 ## Testing
 
@@ -30,6 +33,11 @@ This project started quite some time ago, the initial commit was on 13th of July
 ## Compilation
 
   ### Linux
+
+   ```bash
+   sudo apt install libsdl2-dev
+   sudo apt install libgl-dev
+   ```
   
   *Makefile automatically gets ConsoleLib and compiles it before program*
   

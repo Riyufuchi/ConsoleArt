@@ -36,7 +36,7 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.7 - beta 4";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.7 - beta 5";
 	GeneralTools();
 	~GeneralTools();
 	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()

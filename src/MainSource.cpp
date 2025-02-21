@@ -13,6 +13,7 @@
 
 #include "consoleArt/controller/ControllerCLI.h"
 #include "consoleArt/controller/ControllerZenity.h"
+#include "consoleArt/controller/ControllerSDL.h"
 #include "consoleArt/network/server/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
 #include "ConsoleUtils.h"
@@ -83,7 +84,7 @@ int main(int argc, char** argv)
 	if (argPairs.contains("--zen"))
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
 	else if (argPairs.contains("--gui"))
-		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
+		consoleArt = new ConsoleArt::ControllerSDL(systemConsole);
 	else
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 
