@@ -2,7 +2,7 @@
 // File       : IMenu.h
 // Author     : Riyufuchi
 // Created on : Dec 19, 2023
-// Last edit  : Feb 13, 2025
+// Last edit  : Feb 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: This interface specifies all menus that must be implemented
 //==============================================================================
@@ -24,6 +24,7 @@ public:
 		CHAR_SET_SELECTION,
 		PRINT_OPTIONS,
 		IMAGE_ACTION_OPTIONS,
+		FILTERS,
 		// Dynamic menus
 		COLOR_PICKER,
 		MENU_COUNT

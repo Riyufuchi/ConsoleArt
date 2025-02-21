@@ -1,8 +1,8 @@
 //============================================================================
 // Name        : MenusCLI
 // Author      : Riyufuchi
-// Created on  : 28.12.2023
-// Last Edit   : Feb 18, 2025
+// Created on  : Dec 28,2023
+// Last Edit   : Feb 21, 2025
 //============================================================================
 #include "MenusCLI.h"
 
@@ -15,6 +15,7 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
 	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
+	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier shading", "Purplefier soft"};
 }
 int MenusCLI::handleMenu(Menu menu)
 {
@@ -36,12 +37,8 @@ int MenusCLI::invokeMenu(Menu menu)
 	console->enableCustomFG();
 	switch (menu)
 	{
-		case CHAR_SET_SELECTION: choice = handleMenu(menu); break;
-		case PRINT_OPTIONS: choice = handleMenu(menu); break;
-		case MAIN_MENU: choice = handleMenu(menu); break;
 		case COLOR_PICKER: confConsoleTextColor(); break;
-		case IMAGE_ACTION_OPTIONS: choice = handleMenu(menu); break;
-		default: choice = -1;
+		default: choice = handleMenu(menu);
 	}
 	console->disableCustomFG();
 	return choice;

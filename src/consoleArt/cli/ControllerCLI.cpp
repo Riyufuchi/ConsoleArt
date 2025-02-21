@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Feb 18, 2025
+// Last Edit   : Feb 21, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -171,8 +171,18 @@ void ControllerCLI::imageAction()
 			Images::Image* image = selectImage();
 			if (image == nullptr)
 				return;
-			if (ImageUtils::Filter::matrixFilter(*image))
-				console->out("Matrix filer successfully applied.");
+			bool res = false;
+			switch (menuCLI.invokeMenu(MenusCLI::Menu::FILTERS))
+			{
+				case 0: res = ImageUtils::Filter::matrixFilter(*image); break;
+				case 1: res = ImageUtils::Filter::purplefier(*image); break;
+				case 2: res = ImageUtils::Filter::purplefierShading(*image); break;
+				case 3: res = ImageUtils::Filter::purplefierSoft(*image); break;
+			}
+			if (res)
+				console->out("Filer successfully applied.\n");
+			else
+				console->err("An error occurred while applying filter to image " + image->getFilename());
 		}
 		break;
 	}
