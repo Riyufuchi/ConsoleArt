@@ -174,8 +174,9 @@ void ControllerCLI::imageAction()
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
 				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
-				case 2: res = ImageUtils::Filter::purplefierShading(*selectedImage); break;
-				case 3: res = ImageUtils::Filter::purplefierSoft(*selectedImage); break;
+				case 2: res = ImageUtils::Filter::purplefierSoft(*selectedImage); break;
+				case 3: res = ImageUtils::Filter::purplefierShading(*selectedImage); break;
+				case 4: res = ImageUtils::Filter::purplefierShadingSoft(*selectedImage); break;
 			}
 			if (res)
 				messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");

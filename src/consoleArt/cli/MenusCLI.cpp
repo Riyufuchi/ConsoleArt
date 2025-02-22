@@ -15,7 +15,7 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
 	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
-	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier shading", "Purplefier soft"};
+	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
 }
 int MenusCLI::handleMenu(Menu menu)
 {
@@ -24,7 +24,7 @@ int MenusCLI::handleMenu(Menu menu)
 void MenusCLI::printMainMenu()
 {
 	console->enableCustomFG();
-	std::vector<const char*> & mm = menus.at(MAIN_MENU);
+	std::vector<const char*>& mm = menus.at(MAIN_MENU);
 	const int LENGHT = mm.size();
 	for(int i = 0; i < LENGHT; i++)
 	{

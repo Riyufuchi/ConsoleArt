@@ -35,6 +35,35 @@ bool Filter::purplefier(Images::Image& image)
 	ImageTools::addToImageName(image, "-purplefied");
 	return image.saveImage();
 }
+bool Filter::purplefierSoft(Images::Image& image)
+{
+	if (!image)
+		return false;
+	const Images::ImageInfo& info = image.getImageInfo();
+	ConsoleArt::ProgressBarCLI bar(info.height);
+	Images::Pixel pixel;
+	bar.drawProgressBar();
+	for (int y = 0; y < info.height; y++)
+	{
+		for (int x = 0; x < info.width; x++)
+		{
+			pixel = image.getPixel(x, y);
+			pixel.red = static_cast<uint16_t>(pixel.blue + pixel.red) / 2;
+			pixel.blue = pixel.red;
+			if (pixel.blue < pixel.green)
+			{
+				pixel.green = static_cast<uint16_t>(pixel.blue + pixel.red + pixel.green) / 3;
+				pixel.red = pixel.green;
+				pixel.blue = pixel.green;
+			}
+			image.setPixel(x,y, pixel);
+		}
+		bar.drawProgressBar();
+	}
+	std::cout << "\n";
+	ImageTools::addToImageName(image, "-purplefiedSoft");
+	return image.saveImage();
+}
 bool Filter::purplefierShading(Images::Image& image)
 {
 	if (!image)
@@ -55,7 +84,7 @@ bool Filter::purplefierShading(Images::Image& image)
 	ImageTools::addToImageName(image, "-purplefiedShaded");
 	return image.saveImage();
 }
-bool Filter::purplefierSoft(Images::Image& image)
+bool Filter::purplefierShadingSoft(Images::Image& image)
 {
 	if (!image)
 		return false;
@@ -70,15 +99,20 @@ bool Filter::purplefierSoft(Images::Image& image)
 			pixel = image.getPixel(x, y);
 			if (pixel.blue < pixel.green)
 			{
-				pixel.green = pixel.blue / 2;
+				pixel.green = static_cast<uint16_t>(pixel.blue + pixel.red + pixel.green) / 3;
+				pixel.red = pixel.green;
+				pixel.blue = pixel.green;
 			}
-			pixel.red = pixel.blue;
+			else
+			{
+				pixel.red = static_cast<uint16_t>(pixel.blue + pixel.red) / 2;
+			}
 			image.setPixel(x,y, pixel);
 		}
 		bar.drawProgressBar();
 	}
 	std::cout << "\n";
-	ImageTools::addToImageName(image, "-purplefiedSoft");
+	ImageTools::addToImageName(image, "-purplefiedShadedSoft");
 	return image.saveImage();
 }
 bool Filter::matrixFilter(Images::Image& image)

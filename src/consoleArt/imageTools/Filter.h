@@ -24,8 +24,9 @@ public:
 	Filter();
 	~Filter();
 	static bool purplefier(Images::Image& image);
-	static bool purplefierShading(Images::Image& image);
 	static bool purplefierSoft(Images::Image& image);
+	static bool purplefierShading(Images::Image& image);
+	static bool purplefierShadingSoft(Images::Image& image);
 	static bool matrixFilter(Images::Image& image);
 };
 } /* namespace ConsoleArt */
