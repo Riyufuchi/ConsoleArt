@@ -19,7 +19,8 @@ class ControllerZenity: public ControllerCLI
 public:
 	ControllerZenity(ConsoleLib::IConsole* console);
 	virtual ~ControllerZenity();
-	std::string inputImageName() override;
+	virtual std::string inputImageName() override;
+
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_ */

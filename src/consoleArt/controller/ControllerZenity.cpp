@@ -13,7 +13,7 @@ namespace ConsoleArt
 {
 ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
-	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Started in CLI mode using zenity\n");
+	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Started in CLI mode using Zenity\n");
 }
 ControllerZenity::~ControllerZenity()
 {

@@ -37,7 +37,7 @@ $(LIB_PATH):
 
 # Link executable
 $(APP_TARGET): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) -o $@ $^ -L$(LIB_DIR) -I$(INC_DIR) -lConsoleLib -lSDL2
+	$(CXX) $(CXXFLAGS) -o $@ $^ -L$(LIB_DIR) -I$(INC_DIR) -lConsoleLib -lSDL2 -lSDL2_image
 
 # Compile object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)

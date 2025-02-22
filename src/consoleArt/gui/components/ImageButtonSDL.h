@@ -7,23 +7,24 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_GUI_UTILS_BUTTON_H_
-#define CONSOLEART_GUI_UTILS_BUTTON_H_
+#ifndef CONSOLEART_GUI_UTILS_IMAGE_BUTTON_H_
+#define CONSOLEART_GUI_UTILS_IMAGE_BUTTON_H_
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "ComponentSDL.h"
+#include "../ComponentSDL.h"
 
 namespace ConsoleArt
 {
-class ButtonSDL : public ComponentSDL
+class ImageButtonSDL : public ComponentSDL
 {
 private:
-	SDL_Color hoverColor;
+	SDL_Texture* texture;
+	SDL_Texture* textureHover;
 public:
-	ButtonSDL(int x, int y, int width, int height);
-	~ButtonSDL();
+	ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover);
+	~ImageButtonSDL();
 	virtual void draw(SDL_Renderer* renderer) override;
 };
 
