@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 21, 2025
+// Last edit  : Feb 32, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,32 +18,34 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+	std::pair<int, int> square(32, 32);
+	std::pair<int, int> rectangle(64, 32);
+	std::pair<std::string, std::string> addImageBtn("1", "1H");
+	std::pair<std::string, std::string> exitBtn("2", "2H");
+	std::pair<std::string, std::string> configBtn("3", "3H");
+	std::pair<std::string, std::string> selectBtn("4", "4H");
+	std::pair<std::string, std::string> asyncBtn("5", "5H");
+	std::pair<std::string, std::string> editBtn("6", "6H");
+	std::pair<std::string, std::string> aboutBtn("7", "7H");
 	this->sheet = new SpriteSheet("UI.png", renderer);
-	std::string AddImageBtn = "1";
-	std::string AddImageBtnHover = "1H";
-	std::string ExitBtn = "2";
-	std::string ExitBtnHover = "2H";
-	std::string ConfigBtn = "3";
-	std::string ConfigBtnHover = "3H";
-	std::string SelectBtn = "4";
-	std::string SelectBtnHover = "4H";
-	std::string AsyncBtn = "5";
-	std::string AsyncBtnHover = "5H";
-	std::string EditBtn = "6";
-	std::string EditBtnHover = "6H";
-	this->sheet->prepareTexturePair(AddImageBtnHover, AddImageBtn, 0, 0, 64, 32);
-	this->sheet->prepareTexturePair(ExitBtnHover, ExitBtn, 0, 64, 64, 32);
-	this->sheet->prepareTexturePair(ConfigBtnHover, ConfigBtn, 0, 96, 32, 32);
-	this->sheet->prepareTexturePair(SelectBtnHover, SelectBtn, 0, 32, 64, 32);
-	this->sheet->prepareTexturePair(AsyncBtnHover, AsyncBtn, 128, 0, 32, 32);
-	this->sheet->prepareTexturePair(EditBtnHover, EditBtn, 128, 32, 32, 32);
+	this->sheet->prepareTexturePair(addImageBtn, 0, 0, rectangle);
+	this->sheet->prepareTexturePair(exitBtn, 0, 160, square);
+	this->sheet->prepareTexturePair(configBtn, 0, 96, square);
+	this->sheet->prepareTexturePair(selectBtn, 0, 32, rectangle);
+	this->sheet->prepareTexturePair(asyncBtn, 128, 0, square);
+	this->sheet->prepareTexturePair(editBtn, 128, 32, square);
+	this->sheet->prepareTexturePair(aboutBtn, 128, 64, square);
 	this->pane = new ContentPanelSDL(0, 0);
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexture(AddImageBtn), sheet->getTexture(AddImageBtnHover)));
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexture(AsyncBtn), sheet->getTexture(AsyncBtnHover)));
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexture(SelectBtn), sheet->getTexture(SelectBtnHover)));
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexture(EditBtn), sheet->getTexture(EditBtnHover)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexture(ConfigBtn), sheet->getTexture(ConfigBtnHover)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexture(ExitBtn), sheet->getTexture(ExitBtnHover)));
+	// 0
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(addImageBtn)));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn)));
+	// 1
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(selectBtn)));
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(editBtn)));
+	// 2
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(configBtn)));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(aboutBtn)));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(exitBtn)));
 	pane->setX((width / 2) - pane->getWidth() / 2);
 	pane->setY((height / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -52,7 +54,7 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 ControllerSDL::~ControllerSDL()
 {
 	delete sheet;
-	sheet = 0;
+	delete pane;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

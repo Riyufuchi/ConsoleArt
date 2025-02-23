@@ -2,7 +2,7 @@
 // File       : SpriteSheet.cpp
 // Author     : riyufuchi
 // Created on : Feb 22, 2025
-// Last edit  : Feb 22, 2025
+// Last edit  : Feb 32, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -111,6 +111,10 @@ SDL_Texture* SpriteSheet::getTexture(const std::string& textureName)
 	}
 	return nullptr;
 }
+std::pair<SDL_Texture*, SDL_Texture*> SpriteSheet::getTexturePair(std::pair<std::string, std::string> IDs)
+{
+	return { getTexture(IDs.first), getTexture(IDs.second)};
+}
 void SpriteSheet::prepareTexture(const std::string textureName, int x, int y, int width, int height)
 {
 	textureSheet = getCroppedTexture(x, y, width, height);
@@ -118,9 +122,9 @@ void SpriteSheet::prepareTexture(const std::string textureName, int x, int y, in
 		return;
 	textureCache[textureName] = textureSheet;
 }
-void SpriteSheet::prepareTexturePair(const std::string textureName, const std::string textureName2, int x, int y, int width, int height)
+void SpriteSheet::prepareTexturePair(std::pair<std::string, std::string> IDs, int x, int y, std::pair<int, int> size)
 {
-	prepareTexture(textureName, x, y, width, height);
-	prepareTexture(textureName2, x + width, y, width, height);
+	prepareTexture(IDs.first, x, y, size.first, size.second);
+	prepareTexture(IDs.second, x + size.first, y, size.first, size.second);
 }
 }

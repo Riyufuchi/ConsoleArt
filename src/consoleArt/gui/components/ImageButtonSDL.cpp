@@ -2,7 +2,7 @@
 // File       : Button.cpp
 // Author     : riyufuchi
 // Created on : Feb 18, 2025
-// Last edit  : Feb 18, 2025
+// Last edit  : Feb 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,6 +16,9 @@ ImageButtonSDL::ImageButtonSDL(int x, int y, int width, int height, SDL_Texture*
 {
 	this->texture = texture;
 	this->textureHover = textureHover;
+}
+ImageButtonSDL::ImageButtonSDL(int x, int y, int width, int height, std::pair<SDL_Texture*, SDL_Texture*> texturePair) : ImageButtonSDL(x, y, width, height, texturePair.first, texturePair.second)
+{
 }
 ImageButtonSDL::~ImageButtonSDL()
 {

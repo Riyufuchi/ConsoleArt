@@ -17,6 +17,13 @@ ContentPanelSDL::ContentPanelSDL(int x, int y) : ComponentSDL(x, y, 10, 10)
 
 ContentPanelSDL::~ContentPanelSDL()
 {
+	for (size_t yc = 0; yc < componentsAtY.size(); yc++)
+	{
+		for (ComponentSDL* component : componentsAtY[yc])
+		{
+			delete component;
+		}
+	}
 }
 
 void ContentPanelSDL::draw(SDL_Renderer* renderer)

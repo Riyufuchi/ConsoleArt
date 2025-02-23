@@ -4,7 +4,7 @@
 // Created on : Feb 23, 2025
 // Last edit  : Feb 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: This class assumes ownership of the components
 //==============================================================================
 
 #ifndef CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_

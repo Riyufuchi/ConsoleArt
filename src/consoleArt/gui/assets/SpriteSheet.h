@@ -1,3 +1,12 @@
+//==============================================================================
+// File       : SpriteSheet.h
+// Author     : riyufuchi
+// Created on : Feb 18, 2025
+// Last edit  : Feb 23, 2025
+// Copyright  : Copyright (c) 2025, riyufuchi
+// Description:
+//==============================================================================
+
 #ifndef CONSOLEART_GUI_ASSETS_SPRITE_SHEET_H_
 #define CONSOLEART_GUI_ASSETS_SPRITE_SHEET_H_
 
@@ -5,6 +14,7 @@
 #include <SDL2/SDL_image.h>
 #include <unordered_map>
 #include <string>
+#include <utility>
 
 namespace ConsoleArt
 {
@@ -21,8 +31,9 @@ public:
 	SpriteSheet(const char* path, SDL_Renderer* renderer);
 	~SpriteSheet();
 	SDL_Texture* getTexture(const std::string& textureName);
+	std::pair<SDL_Texture*, SDL_Texture*> getTexturePair(std::pair<std::string, std::string> IDs);
 	void prepareTexture(const std::string textureName, int x, int y, int width, int height);
-	void prepareTexturePair(const std::string textureName, const std::string textureName2, int x, int y, int width, int height);
+	void prepareTexturePair(std::pair<std::string, std::string> IDs, int x, int y, std::pair<int, int> size);
 };
 }
 #endif
