@@ -22,6 +22,7 @@ public:
 	~SpriteSheet();
 	SDL_Texture* getTexture(const std::string& textureName);
 	void prepareTexture(const std::string textureName, int x, int y, int width, int height);
+	void prepareTexturePair(const std::string textureName, const std::string textureName2, int x, int y, int width, int height);
 };
 }
 #endif

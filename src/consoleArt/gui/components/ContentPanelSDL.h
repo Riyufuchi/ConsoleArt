@@ -11,7 +11,8 @@
 #define CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_
 
 #include <vector>
-#include <map>
+#include <utility>
+#include <unordered_map>
 
 #include "../abstract/ComponentSDL.h"
 
@@ -20,17 +21,15 @@ namespace ConsoleArt
 class ContentPanelSDL: public ComponentSDL
 {
 private:
-	std::map<int, std::vector<ComponentSDL*>> components;
-	int padding;
+	std::unordered_map<int, std::vector<ComponentSDL*>> componentsAtY;
+	std::unordered_map<int, int> widthAtY;
 public:
-	ContentPanelSDL(int x, int y, int width, int height, int padding);
+	ContentPanelSDL(int x, int y);
 	~ContentPanelSDL();
 	virtual void draw(SDL_Renderer* renderer) override;
-	void addComponent(int x, int y, ComponentSDL* component);
-	void repose();
-	void checkHover(int& x, int& y);
+	void addComponent(int y, ComponentSDL* component);
+	void reposeContent();
+	void checkHoverOverContent(int& x, int& y);
 };
-
 } /* namespace ConsoleArt */
-
 #endif /* CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_ */

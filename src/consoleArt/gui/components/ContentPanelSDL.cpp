@@ -9,9 +9,9 @@
 
 #include "ContentPanelSDL.h"
 
-namespace ConsoleArt {
-
-ContentPanelSDL::ContentPanelSDL(int x, int y, int width, int height, int padding) : ComponentSDL(x, y, width, height), padding(padding)
+namespace ConsoleArt
+{
+ContentPanelSDL::ContentPanelSDL(int x, int y) : ComponentSDL(x, y, 10, 10)
 {
 }
 
@@ -21,102 +21,53 @@ ContentPanelSDL::~ContentPanelSDL()
 
 void ContentPanelSDL::draw(SDL_Renderer* renderer)
 {
-	for (std::pair<const int, std::vector<ConsoleArt::ComponentSDL*>>& row : components)
+	for (size_t yc = 0; yc < componentsAtY.size(); yc++)
+		for (ComponentSDL*& component : componentsAtY[yc])
+			component->draw(renderer);
+}
+
+void ContentPanelSDL::checkHoverOverContent(int& x, int& y)
+{
+	for (size_t yc = 0; yc < componentsAtY.size(); yc++)
 	{
-		for (ComponentSDL* comp : row.second)
+		for (ComponentSDL*& component : componentsAtY[yc])
 		{
-			comp->draw(renderer);
+			component->setMouseOver(component->isMouseInside(x, y));
 		}
 	}
 }
 
-void ContentPanelSDL::checkHover(int& x, int& y)
+void ContentPanelSDL::reposeContent()
 {
-	for (std::pair<const int, std::vector<ConsoleArt::ComponentSDL*>>& row : components)
-		{
-			for (ComponentSDL* comp : row.second)
-			{
-				comp->setMouseOver(comp->isMouseInside(x, y));
-			}
-		}
-}
-
-void ContentPanelSDL::repose()
-{
-	int offsetX = rect.x;
-	int lastY = 0;
-	int y = 0;
-	int x = 0;
-	for (std::pair<const int, std::vector<ConsoleArt::ComponentSDL*>>& row : components)
+	for (size_t y = 0; y < componentsAtY.size(); y++)
 	{
-		lastY = rect.y + x;
-		for (ComponentSDL* comp : row.second)
+		widthAtY[y] = rect.x;
+		for (ComponentSDL*& component : componentsAtY[y])
 		{
-			comp->setY(lastY);
-			comp->setX(offsetX);
-			offsetX += comp->getWidth() + padding;
-			y = comp->getHeight() + padding;
-			if (y > x)
-				x = y;
+			component->setX(widthAtY[y]);
+			widthAtY[y] += component->getWidth();
+			component->setY((y * component->getHeight()) + rect.y);
 		}
-		offsetX = rect.x;
 	}
 }
 
-void ContentPanelSDL::addComponent(int x, int y, ComponentSDL* component)
+void ContentPanelSDL::addComponent(int y, ComponentSDL* component)
 {
 	if (component == nullptr || y < 0)
 		return;
-	int offsetY = 0;
-	if (components.empty())
-	{
-		component->setX(rect.x);
-		SDL_Log("Here\n");
-		for (std::pair<const int, std::vector<ConsoleArt::ComponentSDL*>>& row : components)
-			if ((int)row.second.size() < x)
-				offsetY += row.second.at(x)->getHeight();
-		component->setY((int)components.size() * padding + rect.y + offsetY);
-		SDL_Log("There\n");
-		components[0] = std::vector{ component };
-		components[1] = {};
-		SDL_Log("Added\n");
-	}
+
+	if (componentsAtY.size() < (long unsigned int)y)
+		componentsAtY[y] = { component };
 	else
-	{
-		SDL_Log("1 - X: %d, Y: %d, Size: %ld\n", x, y, components.size());
-		for (int i = 0; i < y; i++)
-		{
-			SDL_Log("I: %d\n", i);
-			if ((int)components.at(y).size() > x)
-				offsetY += components.at(y).at(x)->getHeight();
-		}
-		SDL_Log("2\n");
-		component->setY((int)components.size() * padding + rect.y + offsetY);
-		component->setX(rect.x + components.at(y).size() * padding);
-		components[y].emplace_back(component);
-		components[y+1 ]= {};
-		SDL_Log("3\n");
-	}
-	rect.h += 0;
-	int o = 0;
-	offsetY = 0;
-	rect.w = 0;
-	for (std::pair<const int, std::vector<ConsoleArt::ComponentSDL*>>& row : components)
-	{
-		rect.w = (row.second.size() * padding) - padding;
-		rect.h = 0;
-		for (ComponentSDL* comp : row.second)
-		{
-			rect.h += component->getHeight() + padding;
-			rect.w += comp->getWidth();
-			if (rect.w > offsetY)
-				offsetY = rect.w;
-		}
-		if (rect.h > o)
-			o = rect.h;
-	}
-	rect.w = offsetY;
-	rect.h = o;
+		componentsAtY[y].emplace_back(component);
+
+	if (widthAtY.size() < (long unsigned int)y)
+		widthAtY[y] = rect.x;
+	component->setX(widthAtY[y]);
+	widthAtY[y] += component->getWidth();
+	component->setY((y * component->getHeight()) + rect.y);
+	rect.w = std::max(rect.w, component->getX() + component->getWidth());
+	rect.h = std::max(rect.h, component->getY() + component->getHeight());
 }
 
 } /* namespace ConsoleArt */

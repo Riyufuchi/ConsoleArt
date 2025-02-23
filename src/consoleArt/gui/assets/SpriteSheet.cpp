@@ -118,4 +118,9 @@ void SpriteSheet::prepareTexture(const std::string textureName, int x, int y, in
 		return;
 	textureCache[textureName] = textureSheet;
 }
+void SpriteSheet::prepareTexturePair(const std::string textureName, const std::string textureName2, int x, int y, int width, int height)
+{
+	prepareTexture(textureName, x, y, width, height);
+	prepareTexture(textureName2, x + width, y, width, height);
+}
 }
