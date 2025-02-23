@@ -21,6 +21,7 @@ protected:
 	SDL_Color baseColor;
 	SDL_Rect rect;
 public:
+	ComponentSDL(int x, int y, int width, int height);
 	ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor);
 	virtual ~ComponentSDL();
 	// Functions

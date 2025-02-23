@@ -12,6 +12,10 @@
 namespace ConsoleArt
 {
 
+ComponentSDL::ComponentSDL(int x, int y, int width, int height) : ComponentSDL(x, y, width, height, {128, 128, 128, 255})
+{
+}
+
 ComponentSDL::ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor) : mouseOver(false),baseColor(baseColor), rect({x, y, width, height})
 {
 }

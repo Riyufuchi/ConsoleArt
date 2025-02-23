@@ -14,9 +14,10 @@
 #include <iostream>
 
 #include "ControllerZenity.h"
-#include "../gui/ButtonSDL.h"
+#include "../gui/components/ButtonSDL.h"
 #include "../gui/components/ImageButtonSDL.h"
 #include "../gui/assets/SpriteSheet.h"
+#include "../gui/components/ContentPanelSDL.h"
 
 namespace ConsoleArt
 {
@@ -28,8 +29,7 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Color backgroundColor {80, 80, 80, 255};
 	SpriteSheet* sheet;
-	ButtonSDL* button;
-	ImageButtonSDL* imgButton;
+	ContentPanelSDL* pane;
 public:
 	ControllerSDL(ConsoleLib::UnixConsole& console);
 	~ControllerSDL();

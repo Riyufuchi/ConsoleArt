@@ -11,9 +11,8 @@
 #define CONSOLEART_GUI_UTILS_BUTTON_H_
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
-#include "ComponentSDL.h"
+#include "../abstract/ComponentSDL.h"
 
 namespace ConsoleArt
 {

@@ -12,7 +12,7 @@
 namespace ConsoleArt
 {
 
-ImageButtonSDL::ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover) : ComponentSDL(x, y, width, height, {0, 128, 255, 255})
+ImageButtonSDL::ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover) : ComponentSDL(x, y, width, height)
 {
 	this->texture = texture;
 	this->textureHover = textureHover;
