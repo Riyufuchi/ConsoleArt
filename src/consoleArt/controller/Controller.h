@@ -51,6 +51,7 @@ protected:
 	virtual void convertImage(Images::Image* image) = 0;
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
+	virtual void showAboutApplicationInfo() = 0;
 	// Methods
 	void loadAllImagesAsync();
 	// Functions

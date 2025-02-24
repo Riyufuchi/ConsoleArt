@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : Dec 28,2023
-// Last Edit   : Feb 21, 2025
+// Last Edit   : Feb 24, 2025
 //============================================================================
 #include "MenusCLI.h"
 
@@ -16,10 +16,6 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
-}
-int MenusCLI::handleMenu(Menu menu)
-{
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(menu));
 }
 void MenusCLI::printMainMenu()
 {
@@ -38,7 +34,7 @@ int MenusCLI::invokeMenu(Menu menu)
 	switch (menu)
 	{
 		case COLOR_PICKER: confConsoleTextColor(); break;
-		default: choice = handleMenu(menu);
+		default: choice = ConsoleLib::ConsoleUtils::basicMenu(menus.at(menu));
 	}
 	console->disableCustomFG();
 	return choice;
@@ -59,7 +55,7 @@ void MenusCLI::confConsoleTextColor()
 	}
 	else if(ConsoleLib::ConsoleUtils::yesNo("Custom color [Y/n]: "))
 	{
-		console->setDefaultTextColor(colorPicker());
+		console->setDefaultTextColor(MenusCLI::colorPicker());
 	}
 }
 // Menus

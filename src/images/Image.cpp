@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 18, 2025
+// Last edit  : Feb 24, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,6 +25,7 @@ void Image::rename(std::string imageName)
 	imageName = imageName.append(filename.substr(filename.find('.')));
 	filepath = filepath.substr(0, (filepath.length() - filename.length())).append(imageName);
 	filename = imageName;
+	imageInfo.name = imageName;
 }
 const ImageInfo& Image::getImageInfo() const
 {

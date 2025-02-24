@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Feb 21, 2025
+// Last Edit   : Feb 24, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -13,14 +13,22 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(MenusCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(new MenusCLI(console))
 {
 	if (console == nullptr)
 	{
 		this->console = &defaultConsole;
-		menuCLI.setConsole(this->console);
+		menuCLI->setConsole(this->console);
 	}
 	messenger = new MessengerCLI(this->console);
+}
+ControllerCLI::~ControllerCLI()
+{
+	//for(size_t i = 0; i < images.size(); i++)
+		//delete images[i];
+	if (menuCLI)
+		delete menuCLI;
+	std::cout << "ControllerCLI destructed\n";
 }
 void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
 {
@@ -43,7 +51,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 			break;
 			case NO_COLOR:
 				this->console = &defaultConsole;
-				menuCLI.setConsole(console);
+				menuCLI->setConsole(console);
 				console->out("No color option applied\n");
 				console->out("Text");
 			break;
@@ -145,7 +153,7 @@ void ControllerCLI::runAsClient(std::string ip)
 
 void ControllerCLI::refreshMenu()
 {
-	menuCLI.printMainMenu();
+	menuCLI->printMainMenu();
 }
 
 void ControllerCLI::imageAction()
@@ -155,7 +163,7 @@ void ControllerCLI::imageAction()
 		messenger->messageUser(Messenger::MessageType::WARNING, "No image is selected!\n");
 		return;
 	}
-	switch(menuCLI.invokeMenu(MenusCLI::Menu::IMAGE_ACTION_OPTIONS))
+	switch(menuCLI->invokeMenu(MenusCLI::Menu::IMAGE_ACTION_OPTIONS))
 	{
 		case 0: convertImage(selectedImage); break;
 		case 1:
@@ -170,7 +178,7 @@ void ControllerCLI::imageAction()
 		case 2:
 		{
 			bool res = false;
-			switch (menuCLI.invokeMenu(MenusCLI::Menu::FILTERS))
+			switch (menuCLI->invokeMenu(MenusCLI::Menu::FILTERS))
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
 				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
@@ -185,6 +193,11 @@ void ControllerCLI::imageAction()
 		}
 		break;
 	}
+}
+
+void ControllerCLI::showAboutApplicationInfo()
+{
+	console->out(GeneralTools::aboutApplication());
 }
 
 /*std::string command = "cd ";
@@ -207,7 +220,7 @@ void ControllerCLI::run()
 	else
 		console->out("None");
 	std::cout << "\n";
-	switch(menuCLI.invokeMenu(MenusCLI::Menu::MAIN_MENU))
+	switch(menuCLI->invokeMenu(MenusCLI::Menu::MAIN_MENU))
 	{
 		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
@@ -222,12 +235,8 @@ void ControllerCLI::run()
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->disableCustomFG();
 			goto menu;
-		case 5: menuCLI.invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
-		case 6:
-			console->enableCustomFG();
-			GeneralTools::aboutApplication();
-			console->disableCustomFG();
-		goto menu;
+		case 5: menuCLI->invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
+		case 6: showAboutApplicationInfo(); goto menu;
 		case 7: return;
 	}
 }
@@ -285,7 +294,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	std::cin.get();
 	std::cout << "\n";
 	ImageUtils::AsciiConverter ac(*image);
-	reconvert: int option = menuCLI.invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
+	reconvert: int option = menuCLI->invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
 	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(option);
@@ -300,7 +309,7 @@ void ControllerCLI::convertImage(Images::Image* image)
 	bool again = true;
 	while (again)
 	{
-		switch(menuCLI.invokeMenu(MenusCLI::Menu::PRINT_OPTIONS))
+		switch(menuCLI->invokeMenu(MenusCLI::Menu::PRINT_OPTIONS))
 		{
 			case 0: ap.printClassic(); break;
 			case 1: ap.printCharColored(); break;
@@ -310,14 +319,5 @@ void ControllerCLI::convertImage(Images::Image* image)
 			case 5: again = false; break;
 		}
 	}
-}
-
-ControllerCLI::~ControllerCLI()
-{
-	//for(size_t i = 0; i < images.size(); i++)
-		//delete images[i];
-	delete messenger;
-	messenger = 0;
-	std::cout << "ControllerCLI destructed\n";
 }
 }

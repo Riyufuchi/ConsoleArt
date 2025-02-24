@@ -2,7 +2,7 @@
 // Name        : MenusCLI
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : Feb 18, 2025
+// Last Edit   : Feb 24, 2025
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -24,25 +24,24 @@ class MenusCLI : public IMenu
 {
 public:
 private:
-	int choice{0};
-	ConsoleLib::IConsole* console;
-	void confConsoleTextColor();
+	int choice {0};
 protected:
-	//std::vector<std::vector<const char*>> menus;
 	std::map<Menu, std::vector<const char*>> menus;
+	ConsoleLib::IConsole* console;
+	virtual void confConsoleTextColor();
 public:
 	MenusCLI();
 	MenusCLI(ConsoleLib::IConsole* console);
-	~MenusCLI();
+	virtual ~MenusCLI();
 	// Utils
 	void printMainMenu();
-	int invokeMenu(Menu menu);
 	// Menus
 	int charSetMenu() override;
 	int actionMenu() override;
 	int printMenu() override;
-	int handleMenu(Menu id) override;
-	ConsoleLib::Color colorPicker() override;
+	[[deprecated("For backwards compatibility only")]]
+	int invokeMenu(Menu id) override;
+	virtual ConsoleLib::Color colorPicker() override;
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);
 };

@@ -36,7 +36,7 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.7 - beta 11";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.7 - pre1";
 	GeneralTools();
 	~GeneralTools();
 	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()
@@ -77,19 +77,22 @@ public:
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
-	static void aboutApplication()
+	static std::string aboutApplication()
 	{
-		std::cout << _COPYRIGHT_HEADER;
-		printf("This version was compiled on: %s %s\nC++ version: %ld\n\n", __DATE__, __TIME__, __cplusplus);
-		std::cout << "This is an C++ application for converting images into ASCII/UNICODE.\n\n";
+		std::stringstream aboutStringStream;
+		aboutStringStream << _COPYRIGHT_HEADER;
+		aboutStringStream << "This version was compiled on: " << __DATE__ << " " << __TIME__ << "\n";
+		aboutStringStream << "C++ version: " << __cplusplus << "\n";
 
-		std::cout << "How to use:\n";
-		std::cout << "1. Select font (in your console/terminal) where all characters have same width\n";
-		std::cout << "2. Load and select image\n";
-		std::cout << "3. Convert image\n";
-		std::cout << "4. In order to view the image, make font smaller. Size 2 is recommended for bigger images, however this depends on size of given image\n\n";
+		aboutStringStream << "This is an C++ application for converting images into ASCII/UNICODE.\n\n";
 
-		std::cout << "Supported image formats\n";
+		aboutStringStream << "How to use:\n";
+		aboutStringStream << "1. Select font (in your console/terminal) where all characters have same width\n";
+		aboutStringStream << "2. Load and select image\n";
+		aboutStringStream << "3. Convert image\n";
+		aboutStringStream << "4. In order to view the image, make font smaller. Size 2 is recommended for bigger images, however this depends on size of given image\n\n";
+
+		aboutStringStream << "Supported image formats\n";
 		std::string args[] = {
 					"Format| Bits; Notes",
 					"PCX| 24, 32; VGA palette",
@@ -97,7 +100,8 @@ public:
 					"PPM| 24;",
 					"PNG| 24, 32;"
 				};
-		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
+		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0]));
+		return aboutStringStream.str();
 	}
 	static void colorTest(ConsoleLib::IConsole& console)
 	{
