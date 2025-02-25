@@ -12,6 +12,7 @@
 
 #include "ControllerCLI.h"
 #include "../cliZenity/MenuZenity.h"
+#include "../cliZenity/NotifierZenity.h"
 
 namespace ConsoleArt
 {

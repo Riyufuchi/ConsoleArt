@@ -37,7 +37,7 @@ void Controller::loadAllImagesAsync()
 	}
 	catch (std::runtime_error& e)
 	{
-		messenger->messageUser(Messenger::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
+		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
 		return;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
@@ -45,7 +45,7 @@ void Controller::loadAllImagesAsync()
 	{
 		return a->getFilename() < b->getFilename();
 	});
-	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
+	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
 	refreshMenu();
 }
 Images::Image* Controller::loadImageAsync(const std::string path, const std::string& extension)
@@ -60,7 +60,7 @@ Images::Image* Controller::loadImageAsync(const std::string path, const std::str
 			case PNG: return new Images::ImagePNG(path);
 			default: return nullptr;
 		}
-	messenger->messageUser(Messenger::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
+	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
 	return nullptr;
 }
 bool Controller::addImageAsync(Images::Image* image)
@@ -69,7 +69,7 @@ bool Controller::addImageAsync(Images::Image* image)
 		return false;
 	if (!image->isLoaded())
 	{
-		messenger->messageUser(Messenger::MessageType::ERROR, image->getFileStatus() + "\n");
+		messenger->messageUser(AbstractNotifier::MessageType::ERROR, image->getFileStatus() + "\n");
 		delete image;
 		image = NULL;
 		return false;
@@ -100,7 +100,7 @@ Images::Image* Controller::loadImage(std::string path)
 	}
 	catch (std::exception& e)
 	{
-		messenger->messageUser(Messenger::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
+		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
 		return nullptr;
 	}
 	if (ext == ".pcx")
@@ -112,7 +112,7 @@ Images::Image* Controller::loadImage(std::string path)
 	else if (ext == ".png")
 		return new Images::ImagePNG(path);
 	else
-		messenger->messageUser(Messenger::MessageType::WARNING, ext + " is not supported\n");
+		messenger->messageUser(AbstractNotifier::MessageType::WARNING, ext + " is not supported\n");
 	return nullptr;
 }
 
@@ -123,7 +123,7 @@ void Controller::setWorkspace(std::string path)
 	if ((path.length() > 0) && (path.substr(path.length() - 1) != "/"))
 		path.append("/");
 	workspacePath = path;
-	messenger->messageUser(Messenger::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
+	messenger->messageUser(AbstractNotifier::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 }
 
 Controller::~Controller()

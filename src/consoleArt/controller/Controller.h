@@ -23,7 +23,7 @@
 #include "../asciiTools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
-#include "../tools/Messenger.h"
+#include "../tools/AbstractNotifier.h"
 
 
 namespace ConsoleArt
@@ -44,7 +44,7 @@ protected:
 	std::unordered_map<std::string, Format> suppertedImageFormats;
 	std::mutex mutexImageFormats;
 	bool isRunnable;
-	Messenger* messenger;
+	AbstractNotifier* messenger;
 	Images::Image* selectedImage;
 	// Virtual
 	virtual void refreshMenu() = 0;
@@ -66,7 +66,7 @@ public:
 	bool addImageAsync(Images::Image* image);
 	// Setters
 	void setWorkspace(std::string path);
-	Messenger& getMessenger()
+	AbstractNotifier& getMessenger()
 	{
 		return *messenger;
 	}

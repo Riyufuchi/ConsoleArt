@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-MenuZenity::MenuZenity(ConsoleLib::IConsole* console) : MenusCLI(console)
+MenuZenity::MenuZenity(ConsoleLib::IConsole* console) : MenuCLI(console)
 {
 }
 MenuZenity::~MenuZenity()
@@ -24,7 +24,7 @@ ConsoleLib::Color MenuZenity::colorPicker()
 	if (!pipe)
 	{
 		std::cerr << "Failed to open Zenity color picker!" << std::endl;
-		MenusCLI::confConsoleTextColor();
+		MenuCLI::confConsoleTextColor();
 		return color;
 	}
 
@@ -33,7 +33,7 @@ ConsoleLib::Color MenuZenity::colorPicker()
 	{
 		std::cerr << "No color selected!" << std::endl;
 		pclose(pipe);
-		MenusCLI::confConsoleTextColor();
+		MenuCLI::confConsoleTextColor();
 		return color;
 	}
 

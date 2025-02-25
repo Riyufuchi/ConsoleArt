@@ -1,14 +1,14 @@
 //============================================================================
-// Name        : MenusCLI
+// Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : Dec 28,2023
 // Last Edit   : Feb 24, 2025
 //============================================================================
-#include "MenusCLI.h"
+#include "MenuCLI.h"
 
 namespace ConsoleArt
 {
-MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
+MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
 {
 	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Select image", "Image actions", "List images", "Settings", "About", "Exit"};
 	menus[Menu::CHAR_SET_SELECTION] ={ "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
@@ -17,7 +17,7 @@ MenusCLI::MenusCLI(ConsoleLib::IConsole* console) : console(console)
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
 }
-void MenusCLI::printMainMenu()
+void MenuCLI::printMainMenu()
 {
 	console->enableCustomFG();
 	std::vector<const char*>& mm = menus.at(MAIN_MENU);
@@ -28,7 +28,7 @@ void MenusCLI::printMainMenu()
 	}
 	console->disableCustomFG();
 }
-int MenusCLI::invokeMenu(Menu menu)
+int MenuCLI::invokeMenu(Menu menu)
 {
 	console->enableCustomFG();
 	switch (menu)
@@ -39,7 +39,7 @@ int MenusCLI::invokeMenu(Menu menu)
 	console->disableCustomFG();
 	return choice;
 }
-void MenusCLI::confConsoleTextColor()
+void MenuCLI::confConsoleTextColor()
 {
 	if (ConsoleLib::ConsoleUtils::yesNo("Select color [Y/n]: "))
 	{
@@ -55,23 +55,23 @@ void MenusCLI::confConsoleTextColor()
 	}
 	else if(ConsoleLib::ConsoleUtils::yesNo("Custom color [Y/n]: "))
 	{
-		console->setDefaultTextColor(MenusCLI::colorPicker());
+		console->setDefaultTextColor(MenuCLI::colorPicker());
 	}
 }
 // Menus
-int MenusCLI::charSetMenu()
+int MenuCLI::charSetMenu()
 {
 	return -1;
 }
-int MenusCLI::actionMenu()
+int MenuCLI::actionMenu()
 {
 	return -1;
 }
-int MenusCLI::printMenu()
+int MenuCLI::printMenu()
 {
 	return -1;
 }
-ConsoleLib::Color MenusCLI::colorPicker()
+ConsoleLib::Color MenuCLI::colorPicker()
 {
 	std::cout << "Red: ";
 	short int red = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
@@ -81,11 +81,11 @@ ConsoleLib::Color MenusCLI::colorPicker()
 	short int blue = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
 	return ConsoleLib::Color{red, green, blue};
 }
-void MenusCLI::setConsole(ConsoleLib::IConsole* console2)
+void MenuCLI::setConsole(ConsoleLib::IConsole* console2)
 {
 	this->console = console2;
 }
-MenusCLI::~MenusCLI()
+MenuCLI::~MenuCLI()
 {
 }
 } // Namespace ConsoleArt

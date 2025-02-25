@@ -13,14 +13,14 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(new MenusCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(new MenuCLI(console))
 {
 	if (console == nullptr)
 	{
 		this->console = &defaultConsole;
 		menuCLI->setConsole(this->console);
 	}
-	messenger = new MessengerCLI(this->console);
+	messenger = new NotifierCLI(this->console);
 }
 ControllerCLI::~ControllerCLI()
 {
@@ -44,7 +44,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				params = config.at(argument.first);
 				if (params.empty() || (!ConsoleLib::DataUtils::isNumber(params.at(0))))
 				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Missing or wrong argument " + params.at(0) + " for --color\n");
+					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + params.at(0) + " for --color\n");
 					continue;
 				}
 				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(params.at(0)) - 1)));
@@ -89,7 +89,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 			case IMAGE: {
 				params = config.at(argument.first);
 				if (params.empty())
-					messenger->messageUser(Messenger::MessageType::ERROR, "Missing image parameter\n");
+					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing image parameter\n");
 				if (params.at(0).find("/") != std::string::npos)
 					addImageAsync(loadImage(params.at(0)));
 				else
@@ -101,19 +101,19 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				params = config.at(argument.first);
 				if (params.size() != 2)
 				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Argument " + std::string(argument.first) + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
+					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument " + std::string(argument.first) + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
 					continue;
 				}
 				Images::Image* image1 = loadImage(workspacePath + params.at(0));
 				Images::Image* image2 = loadImage(workspacePath + params.at(1));
 				if (image1 == nullptr || !*image1)
 				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
+					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
 					continue;
 				}
 				if (image2 == nullptr || !*image2)
 				{
-					messenger->messageUser(Messenger::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
+					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
 					continue;
 				}
 				switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
@@ -131,7 +131,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				isRunnable = false;
 			} break;
 			default:
-				messenger->messageUser(Messenger::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
+				messenger->messageUser(AbstractNotifier::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
 			break;
 		}
 	}
@@ -142,7 +142,7 @@ void ControllerCLI::runAsClient(std::string ip)
 	isRunnable = false;
 	const char* ipAdress = "127.0.0.1";
 	if (ip.size() == 0 || ip[0] == '-')
-		messenger->messageUser(Messenger::MessageType::INFO, "No server IP address was given, using loop back instead\n");
+		messenger->messageUser(AbstractNotifier::MessageType::INFO, "No server IP address was given, using loop back instead\n");
 	else
 		ipAdress = ip.c_str();
 	ConsoleArt::ClientTools client(*console, ipAdress);
@@ -160,10 +160,10 @@ void ControllerCLI::imageAction()
 {
 	if (selectedImage == nullptr)
 	{
-		messenger->messageUser(Messenger::MessageType::WARNING, "No image is selected!\n");
+		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image is selected!\n");
 		return;
 	}
-	switch(menuCLI->invokeMenu(MenusCLI::Menu::IMAGE_ACTION_OPTIONS))
+	switch(menuCLI->invokeMenu(MenuCLI::Menu::IMAGE_ACTION_OPTIONS))
 	{
 		case 0: convertImage(selectedImage); break;
 		case 1:
@@ -178,7 +178,7 @@ void ControllerCLI::imageAction()
 		case 2:
 		{
 			bool res = false;
-			switch (menuCLI->invokeMenu(MenusCLI::Menu::FILTERS))
+			switch (menuCLI->invokeMenu(MenuCLI::Menu::FILTERS))
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
 				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
@@ -187,9 +187,9 @@ void ControllerCLI::imageAction()
 				case 4: res = ImageUtils::Filter::purplefierShadingSoft(*selectedImage); break;
 			}
 			if (res)
-				messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
+				messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
 			else
-				messenger->messageUser(Messenger::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
+				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
 		}
 		break;
 	}
@@ -220,7 +220,7 @@ void ControllerCLI::run()
 	else
 		console->out("None");
 	std::cout << "\n";
-	switch(menuCLI->invokeMenu(MenusCLI::Menu::MAIN_MENU))
+	switch(menuCLI->invokeMenu(MenuCLI::Menu::MAIN_MENU))
 	{
 		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
@@ -235,7 +235,7 @@ void ControllerCLI::run()
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->disableCustomFG();
 			goto menu;
-		case 5: menuCLI->invokeMenu(MenusCLI::COLOR_PICKER); goto menu;
+		case 5: menuCLI->invokeMenu(MenuCLI::COLOR_PICKER); goto menu;
 		case 6: showAboutApplicationInfo(); goto menu;
 		case 7: return;
 	}
@@ -288,36 +288,32 @@ void ControllerCLI::convertImage(Images::Image* image)
 {
 	if (image == nullptr || !*image)
 		return;
-	messenger->messageUser(Messenger::MessageType::INFO, "Processing image:\n");
 	messenger->displayImageInfo(*image);
-	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Press Enter to continue...");
-	std::cin.get();
-	std::cout << "\n";
 	ImageUtils::AsciiConverter ac(*image);
-	reconvert: int option = menuCLI->invokeMenu(MenusCLI::Menu::CHAR_SET_SELECTION);
-	if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
-		return;
-	ac.setCharSet(option);
-	console->enableCustomFG();
-	if (!ac.convertToASCII())
-	{
-		messenger->messageUser(Messenger::MessageType::ERROR, "Image conversion has failed!\n");
-		return;
-	}
-	messenger->messageUser(Messenger::MessageType::SUCCESFUL_TASK, "Done!\n");
-	AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
+	int option = 0;
 	bool again = true;
-	while (again)
-	{
-		switch(menuCLI->invokeMenu(MenusCLI::Menu::PRINT_OPTIONS))
+	do {
+		option = menuCLI->invokeMenu(MenuCLI::Menu::CHAR_SET_SELECTION);
+		if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+			return;
+		ac.setCharSet(option);
+		messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));
+		if (!ac.convertToASCII())
+		{
+			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+			return;
+		}
+		messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
+		AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
+			switch(menuCLI->invokeMenu(MenuCLI::Menu::PRINT_OPTIONS))
 		{
 			case 0: ap.printClassic(); break;
 			case 1: ap.printCharColored(); break;
 			case 2: ap.printPixelColored(); break;
 			case 3: ap.printToFile(); break;
-			case 4: goto reconvert;
+			case 4: break; // Just continue
 			case 5: again = false; break;
 		}
-	}
+	} while (again);
 }
 }

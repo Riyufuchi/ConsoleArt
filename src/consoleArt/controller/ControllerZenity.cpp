@@ -13,10 +13,13 @@ namespace ConsoleArt
 {
 ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
-	messenger->messageUser(Messenger::MessageType::NOTIFICATION, "Started in CLI mode using Zenity\n");
 	if (menuCLI)
 		delete menuCLI;
 	this->menuCLI = new MenuZenity(console);
+	if (messenger)
+		delete messenger;
+	this->messenger = new NotifierZenity(console);
+	messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, "Started in CLI mode using Zenity\n");
 }
 ControllerZenity::~ControllerZenity()
 {
@@ -59,7 +62,6 @@ Images::Image* ControllerZenity::selectImage()
 	// Build the Zenity command
 	std::ostringstream cmd;
 	cmd << "zenity --list --title='Select an Image' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' ";
-
 
 	for (const auto &img : images)
 	{

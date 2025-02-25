@@ -19,7 +19,7 @@
 namespace ConsoleArt
 {
 
-class Messenger
+class AbstractNotifier
 {
 public:
 	enum MessageType
@@ -41,8 +41,8 @@ protected:
 		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED) // Notification
 	};
 public:
-	Messenger();
-	virtual ~Messenger();
+	AbstractNotifier();
+	virtual ~AbstractNotifier();
 	void messageUser(std::string message);
 	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
 	virtual void displayImageInfo(const Images::Image& image) = 0;

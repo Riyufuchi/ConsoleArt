@@ -22,12 +22,12 @@
 
 #include "../../math/distributions/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
-#include "../cli/MessengerCLI.h"
 #include "../../other/OtherUtils.hpp"
 #include "../../math/MathUtils.hpp"
 #include "../controller/Controller.h"
 #include "../asciiTools/AsciiPrinter.h"
-#include "../cli/MenusCLI.h"
+#include "../cli/MenuCLI.h"
+#include "../cli/NotifierCLI.h"
 #include "../network/client/ClientTools.h"
 #include "../imageTools/ImageTools.h"
 #include "../imageTools/Filter.h"
@@ -39,7 +39,7 @@ class ControllerCLI : public Controller
 {
 protected:
 	ConsoleLib::IConsole* console;
-	MenusCLI* menuCLI;
+	MenuCLI* menuCLI;
 	std::string inputImageName() override;
 	void convertImage(Images::Image* image) override;
 	virtual Images::Image* selectImage() override;

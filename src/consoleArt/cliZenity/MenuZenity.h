@@ -14,13 +14,13 @@
 #include <sstream>
 #include <cstdlib> // For popen()
 
-#include "../cli/MenusCLI.h"
 #include "ColorUtils.h"
+#include "../cli/MenuCLI.h"
 
 namespace ConsoleArt
 {
 
-class MenuZenity: public MenusCLI
+class MenuZenity: public MenuCLI
 {
 public:
 	MenuZenity(ConsoleLib::IConsole* console);

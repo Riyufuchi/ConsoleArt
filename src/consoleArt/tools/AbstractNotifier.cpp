@@ -7,20 +7,20 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "Messenger.h"
+#include "AbstractNotifier.h"
 
 namespace ConsoleArt
 {
 
-Messenger::Messenger()
+AbstractNotifier::AbstractNotifier()
 {
 }
 
-Messenger::~Messenger()
+AbstractNotifier::~AbstractNotifier()
 {
 }
 
-void Messenger::messageUser(std::string message)
+void AbstractNotifier::messageUser(std::string message)
 {
 	messageUser(MessageType::INFO, message);
 }

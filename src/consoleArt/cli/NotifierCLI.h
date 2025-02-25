@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : MessengerCLI.h
+// File       : NotifierCLI.h
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
 // Last edit  : Feb 13, 2025
@@ -7,30 +7,29 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_CLI_MESSENGERCLI_H_
-#define CONSOLEART_CLI_MESSENGERCLI_H_
+#ifndef CONSOLEART_CLI_NOTIFIERCLI_H_
+#define CONSOLEART_CLI_NOTIFIERCLI_H_
 
 #include <mutex>
 
-#include "../tools/Messenger.h"
 #include "IConsole.hpp"
+#include "../tools/AbstractNotifier.h"
 
 namespace ConsoleArt
 {
-class MessengerCLI : public Messenger
+class NotifierCLI : public AbstractNotifier
 {
 	private:
 		ConsoleLib::IConsole* console;
+	protected:
 		std::mutex mutexPrintMessage;
 	public:
-		MessengerCLI(ConsoleLib::IConsole* console);
-		virtual ~MessengerCLI();
+		NotifierCLI(ConsoleLib::IConsole* console);
+		virtual ~NotifierCLI();
 		void messageUser(MessageType messageSeverity, std::string message) override;
 		void displayImageInfo(const Images::Image& image) override;
 		// Setters
 		void setConsole(ConsoleLib::IConsole* console);
 };
-
 } /* namespace ConsoleArt */
-
-#endif /* CONSOLEART_CLI_MESSENGERCLI_H_ */
+#endif /* CONSOLEART_CLI_NOTIFIERCLI_H_ */

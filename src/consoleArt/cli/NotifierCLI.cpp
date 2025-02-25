@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : MessengerCLI.cpp
+// File       : NotifierCLI.cpp
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
 // Last edit  : Feb 18, 2025
@@ -7,25 +7,25 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "MessengerCLI.h"
+#include "NotifierCLI.h"
 
 namespace ConsoleArt
 {
 
-MessengerCLI::MessengerCLI(ConsoleLib::IConsole* console) : console(console)
+NotifierCLI::NotifierCLI(ConsoleLib::IConsole* console) : console(console)
 {
 }
 
-MessengerCLI::~MessengerCLI()
+NotifierCLI::~NotifierCLI()
 {
 }
 
-void MessengerCLI::setConsole(ConsoleLib::IConsole* console)
+void NotifierCLI::setConsole(ConsoleLib::IConsole* console)
 {
 	this->console = console;
 }
 
-void MessengerCLI::messageUser(MessageType messageSeverity, std::string message)
+void NotifierCLI::messageUser(MessageType messageSeverity, std::string message)
 {
 	std::lock_guard<std::mutex> lock(mutexPrintMessage);
 	switch(messageSeverity)
@@ -40,7 +40,7 @@ void MessengerCLI::messageUser(MessageType messageSeverity, std::string message)
 		case INFO: console->out(colors[messageSeverity], message); break;
 	}
 }
-void MessengerCLI::displayImageInfo(const Images::Image& image)
+void NotifierCLI::displayImageInfo(const Images::Image& image)
 {
 	if (!image)
 		return;

@@ -1,5 +1,5 @@
 //============================================================================
-// Name        : MenusCLI
+// Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
 // Last Edit   : Feb 24, 2025
@@ -20,7 +20,7 @@
 
 namespace ConsoleArt
 {
-class MenusCLI : public IMenu
+class MenuCLI : public IMenu
 {
 public:
 private:
@@ -30,9 +30,9 @@ protected:
 	ConsoleLib::IConsole* console;
 	virtual void confConsoleTextColor();
 public:
-	MenusCLI();
-	MenusCLI(ConsoleLib::IConsole* console);
-	virtual ~MenusCLI();
+	MenuCLI();
+	MenuCLI(ConsoleLib::IConsole* console);
+	virtual ~MenuCLI();
 	// Utils
 	void printMainMenu();
 	// Menus
