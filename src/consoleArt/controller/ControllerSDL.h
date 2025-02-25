@@ -12,16 +12,20 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <thread>
 
-#include "ControllerZenity.h"
+#include "Controller.h"
+#include "../guiSDL/NotifierSDL.h"
+#include "../gui/assets/SpriteSheet.h"
 #include "../gui/components/ButtonSDL.h"
 #include "../gui/components/ImageButtonSDL.h"
-#include "../gui/assets/SpriteSheet.h"
 #include "../gui/components/ContentPanelSDL.h"
+
+#include "../../include/tinyfiledialogs.h"
 
 namespace ConsoleArt
 {
-class ControllerSDL : public ControllerZenity
+class ControllerSDL : public Controller
 {
 private:
 	int width, height;
@@ -30,12 +34,18 @@ private:
 	SDL_Color backgroundColor {80, 80, 80, 255};
 	SpriteSheet* sheet;
 	ContentPanelSDL* pane;
+	void addImageButtonEvent();
 protected:
 	virtual void showAboutApplicationInfo() override;
+	virtual std::string inputImageName() override;
+	virtual Images::Image* selectImage() override;
+	virtual void refreshMenu() override;
+	virtual void convertImage(Images::Image *image) override;
 public:
-	ControllerSDL(ConsoleLib::UnixConsole& console);
+	ControllerSDL();
 	~ControllerSDL();
 	virtual void run() override;
+	virtual void configure(std::map<std::string, std::vector<std::string>>& config) override;
 };
 
 } /* namespace ConsoleArt */

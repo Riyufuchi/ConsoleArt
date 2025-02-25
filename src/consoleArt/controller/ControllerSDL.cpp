@@ -11,8 +11,7 @@
 
 namespace ConsoleArt
 {
-
-ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenity(&console), width(800), height(600)
+ControllerSDL::ControllerSDL() : Controller(new NotifierSDL()), width(800), height(600)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
@@ -37,8 +36,8 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 	this->sheet->prepareTexturePair(aboutBtn, 128, 64, square);
 	this->pane = new ContentPanelSDL(0, 0);
 	// 0
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(addImageBtn)));
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn), [&]() { loadAllImagesAsync(); }));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(addImageBtn), [&](){ addImageButtonEvent(); }));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn), [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); }));
 	// 1
 	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(selectBtn)));
 	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(editBtn)));
@@ -49,6 +48,7 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 	pane->setX((width / 2) - pane->getWidth() / 2);
 	pane->setY((height / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
+	setenv("TINYFD_FORCE_XDG", "1", 1);
 }
 
 ControllerSDL::~ControllerSDL()
@@ -58,6 +58,15 @@ ControllerSDL::~ControllerSDL()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+}
+
+void ControllerSDL::addImageButtonEvent()
+{
+	std::thread([&]()
+	{
+		if (addImageAsync(loadImageAsync(inputImageName())))
+			messenger->messageUser("Image successfully loaded.");
+	}).detach();
 }
 
 void ControllerSDL::run()
@@ -133,7 +142,32 @@ void ControllerSDL::run()
 
 void ControllerSDL::showAboutApplicationInfo()
 {
-	std::thread([&](){ ControllerZenity::showAboutApplicationInfo(); }).detach();
+}
+
+std::string ControllerSDL::inputImageName()
+{
+	const char* filterPatterns[] = { "*.png", "*.png", "*.bmp", "*.ppm" };
+	const char* result = tinyfd_openFileDialog("Select an Image", workspacePath.c_str(), 3, filterPatterns, "Image Files", 0);
+	if (result)
+		return std::string(result);
+	return "";
+}
+
+void ControllerSDL::configure(std::map<std::string, std::vector<std::string>>& config)
+{
+}
+
+
+Images::Image* ControllerSDL::selectImage()
+{
+	return nullptr;
+}
+
+void ControllerSDL::refreshMenu() {
+}
+
+void ControllerSDL::convertImage(Images::Image *image)
+{
 }
 
 } /* namespace ConsoleArt */

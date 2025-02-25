@@ -31,15 +31,6 @@ public:
 		INFO,
 		NOTIFICATION
 	};
-protected:
-	ConsoleLib::Color colors[6] = {
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS), // Exception
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE), // Error
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE), // Warning
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY), // TAKS DONE
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT), // Info
-		ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED) // Notification
-	};
 public:
 	AbstractNotifier();
 	virtual ~AbstractNotifier();

@@ -13,13 +13,19 @@
 #include <mutex>
 
 #include "IConsole.hpp"
-#include "../tools/AbstractNotifier.h"
+#include "../abstract/AbstractNotifier.h"
 
 namespace ConsoleArt
 {
 class NotifierCLI : public AbstractNotifier
 {
 	private:
+		ConsoleLib::Color warning = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE);
+		ConsoleLib::Color error = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE);
+		ConsoleLib::Color exception = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS);
+		ConsoleLib::Color taskDone = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY);
+		ConsoleLib::Color info = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+		ConsoleLib::Color notification = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED);
 		ConsoleLib::IConsole* console;
 	protected:
 		std::mutex mutexPrintMessage;

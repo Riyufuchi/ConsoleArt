@@ -20,6 +20,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 | [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟠 |
 | [stb](https://github.com/nothings/stb) | Working with PNG picture format | 🟢 |
 | [SDL2](https://www.libsdl.org/) | Gui | 🔴 |
+| [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Dialogs for SDL gui | 🟢 |
 
 ## Testing
 

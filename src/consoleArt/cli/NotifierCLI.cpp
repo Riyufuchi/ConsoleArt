@@ -31,13 +31,16 @@ void NotifierCLI::messageUser(MessageType messageSeverity, std::string message)
 	switch(messageSeverity)
 	{
 		// Errors
-		case EXCEPTION:
-		case ERROR: console->err(colors[messageSeverity], message); break;
+		case EXCEPTION: console->err(exception, message); break;
+		case ERROR: console->err(error, message); break;
 		// Messages
-		case WARNING:
-		case SUCCESFUL_TASK:
+		case WARNING: console->out(warning, message); break;
+		case SUCCESFUL_TASK: console->out(taskDone, message); break;
 		case NOTIFICATION:
-		case INFO: console->out(colors[messageSeverity], message); break;
+			console->out(notification, message);
+			std::cout << "\a";
+		break;
+		case INFO: console->out(info, message); break;
 	}
 }
 void NotifierCLI::displayImageInfo(const Images::Image& image)

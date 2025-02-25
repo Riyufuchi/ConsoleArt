@@ -23,7 +23,7 @@
 #include "../asciiTools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
-#include "../tools/AbstractNotifier.h"
+#include "../abstract/AbstractNotifier.h"
 
 
 namespace ConsoleArt
@@ -56,6 +56,7 @@ protected:
 	void loadAllImagesAsync();
 	// Functions
 	Images::Image* loadImage(std::string path);
+	Images::Image* loadImageAsync(const std::string& path);
 	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
 public:
 	Controller(AbstractNotifier* notifier);

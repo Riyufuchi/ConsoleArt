@@ -81,10 +81,11 @@ int main(int argc, char** argv)
 	#endif
 
 	ConsoleArt::Controller* consoleArt;
-	if (argPairs.contains("--zen"))
+
+	if (argPairs.contains("--gui"))
+		consoleArt = new ConsoleArt::ControllerSDL();
+	else if (argPairs.contains("--zen"))
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
-	else if (argPairs.contains("--gui"))
-		consoleArt = new ConsoleArt::ControllerSDL(systemConsole);
 	else
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 

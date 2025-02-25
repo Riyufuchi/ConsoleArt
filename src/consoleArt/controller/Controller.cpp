@@ -52,7 +52,7 @@ void Controller::loadAllImagesAsync()
 	{
 		return a->getFilename() < b->getFilename();
 	});
-	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\a\n");
+	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\n");
 	refreshMenu();
 }
 Images::Image* Controller::loadImageAsync(const std::string path, const std::string& extension)
@@ -67,7 +67,7 @@ Images::Image* Controller::loadImageAsync(const std::string path, const std::str
 			case PNG: return new Images::ImagePNG(path);
 			default: return nullptr;
 		}
-	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
+	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
 	return nullptr;
 }
 bool Controller::addImageAsync(Images::Image* image)
@@ -96,6 +96,32 @@ bool Controller::addImageAsync(Images::Image* image)
 	}
 	images.emplace_back(std::unique_ptr<Images::Image>(image));
 	return true;
+}
+
+Images::Image* Controller::loadImageAsync(const std::string& path)
+{
+	std::string extension = "";
+	try
+	{
+		extension = path.substr(path.find_last_of("."));
+	}
+	catch (std::exception& e)
+	{
+		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
+		return nullptr;
+	}
+	std::lock_guard<std::mutex> lock(mutexImageFormats);
+	if (suppertedImageFormats.contains(extension))
+		switch (suppertedImageFormats.at(extension))
+		{
+			case BMP: return new Images::ImageBMP(path);
+			case PCX: return new Images::ImagePCX(path);
+			case PPM: return new Images::ImagePPM(path);
+			case PNG: return new Images::ImagePNG(path);
+			default: return nullptr;
+		}
+	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
+	return nullptr;
 }
 
 Images::Image* Controller::loadImage(std::string path)
