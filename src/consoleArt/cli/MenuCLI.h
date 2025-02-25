@@ -26,22 +26,22 @@ public:
 private:
 	int choice {0};
 protected:
-	std::map<Menu, std::vector<const char*>> menus;
+	std::map<Menu, std::vector<std::string>> menus;
 	ConsoleLib::IConsole* console;
-	virtual void confConsoleTextColor();
 public:
 	MenuCLI();
 	MenuCLI(ConsoleLib::IConsole* console);
 	virtual ~MenuCLI();
 	// Utils
-	void printMainMenu();
+	int printMainMenu();
 	// Menus
 	int charSetMenu() override;
 	int actionMenu() override;
 	int printMenu() override;
-	[[deprecated("For backwards compatibility only")]]
-	int invokeMenu(Menu id) override;
 	virtual ConsoleLib::Color colorPicker() override;
+	virtual int imageFilterOptions() override;
+	virtual int imageEditOptions() override;
+	virtual void confConsoleTextColor();
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);
 };

@@ -35,11 +35,13 @@ This project started quite some time ago, the initial commit was on 13th of July
 
   ### Linux
 
+   *For debian based systems*
+
    ```bash
-   sudo apt install libsdl2-dev
    sudo apt install libgl-dev
+   sudo apt install libsdl2-dev
    sudo apt install libsdl2-image-dev
-   
+   sudo apt install libsdl2-ttf-dev
    ```
   
   *Makefile automatically gets ConsoleLib and compiles it before program*

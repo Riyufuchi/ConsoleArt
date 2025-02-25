@@ -13,9 +13,9 @@ namespace ConsoleArt
 {
 ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
-	if (menuCLI)
-		delete menuCLI;
-	this->menuCLI = new MenuZenity(console);
+	if (menuInterface)
+		delete menuInterface;
+	this->menuInterface = new MenuZenity(console);
 	if (messenger)
 		delete messenger;
 	this->messenger = new NotifierZenity(console);

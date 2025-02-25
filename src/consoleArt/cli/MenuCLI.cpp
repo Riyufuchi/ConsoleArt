@@ -17,27 +17,12 @@ MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
 }
-void MenuCLI::printMainMenu()
+MenuCLI::~MenuCLI()
 {
-	console->enableCustomFG();
-	std::vector<const char*>& mm = menus.at(MAIN_MENU);
-	const int LENGHT = mm.size();
-	for(int i = 0; i < LENGHT; i++)
-	{
-		printf("%d. %s \n", i + 1, mm[i]);
-	}
-	console->disableCustomFG();
 }
-int MenuCLI::invokeMenu(Menu menu)
+int MenuCLI::printMainMenu()
 {
-	console->enableCustomFG();
-	switch (menu)
-	{
-		case COLOR_PICKER: confConsoleTextColor(); break;
-		default: choice = ConsoleLib::ConsoleUtils::basicMenu(menus.at(menu));
-	}
-	console->disableCustomFG();
-	return choice;
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::MAIN_MENU), *console);
 }
 void MenuCLI::confConsoleTextColor()
 {
@@ -61,15 +46,15 @@ void MenuCLI::confConsoleTextColor()
 // Menus
 int MenuCLI::charSetMenu()
 {
-	return -1;
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::CHAR_SET_SELECTION), *console);
 }
 int MenuCLI::actionMenu()
 {
-	return -1;
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
 }
 int MenuCLI::printMenu()
 {
-	return -1;
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::PRINT_OPTIONS), *console);
 }
 ConsoleLib::Color MenuCLI::colorPicker()
 {
@@ -85,7 +70,15 @@ void MenuCLI::setConsole(ConsoleLib::IConsole* console2)
 {
 	this->console = console2;
 }
-MenuCLI::~MenuCLI()
+
+int MenuCLI::imageFilterOptions()
 {
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
 }
+
+int MenuCLI::imageEditOptions()
+{
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::FILTERS), *console);
+}
+
 } // Namespace ConsoleArt

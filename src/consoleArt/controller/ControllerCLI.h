@@ -25,7 +25,7 @@
 #include "../../other/OtherUtils.hpp"
 #include "../../math/MathUtils.hpp"
 #include "../controller/Controller.h"
-#include "../asciiTools/AsciiPrinter.h"
+#include "../cli/AsciiPrinterCLI.h"
 #include "../cli/MenuCLI.h"
 #include "../cli/NotifierCLI.h"
 #include "../network/client/ClientTools.h"
@@ -39,9 +39,7 @@ class ControllerCLI : public Controller
 {
 protected:
 	ConsoleLib::IConsole* console;
-	MenuCLI* menuCLI;
 	std::string inputImageName() override;
-	void convertImage(Images::Image* image) override;
 	virtual Images::Image* selectImage() override;
 	virtual void showAboutApplicationInfo() override;
 	void loadAllImagesAsync();

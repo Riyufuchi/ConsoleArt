@@ -24,6 +24,8 @@
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../abstract/AbstractNotifier.h"
+#include "../interfaces/IMenu.hpp"
+#include "../abstract/AbstractAsciiPrinter.h"
 
 
 namespace ConsoleArt
@@ -45,22 +47,24 @@ protected:
 	std::mutex mutexImageFormats;
 	bool isRunnable;
 	AbstractNotifier* messenger;
+	IMenu* menuInterface;
+	AbstractAsciiPrinter* abstractAsciiPrinter;
 	Images::Image* selectedImage;
 	// Virtual
 	virtual void refreshMenu() = 0;
-	virtual void convertImage(Images::Image* image) = 0;
 	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	virtual void showAboutApplicationInfo() = 0;
 	// Methods
 	void loadAllImagesAsync();
+	void convertImage(Images::Image* image);
 	// Functions
 	Images::Image* loadImage(std::string path);
 	Images::Image* loadImageAsync(const std::string& path);
 	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
 public:
-	Controller(AbstractNotifier* notifier);
-	Controller(std::string path, AbstractNotifier* notifier);
+	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
+	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
 	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
 	virtual void run() = 0;

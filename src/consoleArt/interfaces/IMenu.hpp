@@ -25,15 +25,14 @@ public:
 		PRINT_OPTIONS,
 		IMAGE_ACTION_OPTIONS,
 		FILTERS,
-		// Dynamic menus
-		COLOR_PICKER,
 		MENU_COUNT
 	};
 	virtual ~IMenu() = default;
 	virtual int charSetMenu() = 0;
 	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
-	virtual int invokeMenu(Menu id) = 0;
+	virtual int imageEditOptions() = 0;
+	virtual int imageFilterOptions() = 0;
 	virtual ConsoleLib::Color colorPicker() = 0;
 };
 }

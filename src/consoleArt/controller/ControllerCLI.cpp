@@ -13,19 +13,17 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console)), console(console), menuCLI(new MenuCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console), new MenuCLI(console), new AsciiPrinterCLI(console ? *console : defaultConsole)), console(console)
 {
 	if (console == nullptr)
 	{
 		this->console = &defaultConsole;
-		menuCLI->setConsole(this->console);
+		((MenuCLI*)menuInterface)->setConsole(this->console);
 	}
 	((NotifierCLI*)messenger)->setConsole(console);
 }
 ControllerCLI::~ControllerCLI()
 {
-	if (menuCLI)
-		delete menuCLI;
 	std::cout << "ControllerCLI destructed\n";
 }
 void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
@@ -49,7 +47,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 			break;
 			case NO_COLOR:
 				this->console = &defaultConsole;
-				menuCLI->setConsole(console);
+				((MenuCLI*)menuInterface)->setConsole(console);
 				console->out("No color option applied\n");
 				console->out("Text");
 			break;
@@ -151,7 +149,7 @@ void ControllerCLI::runAsClient(std::string ip)
 
 void ControllerCLI::refreshMenu()
 {
-	menuCLI->printMainMenu();
+	((MenuCLI*)menuInterface)->printMainMenu();
 }
 
 void ControllerCLI::imageAction()
@@ -161,7 +159,7 @@ void ControllerCLI::imageAction()
 		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image is selected!\n");
 		return;
 	}
-	switch(menuCLI->invokeMenu(MenuCLI::Menu::IMAGE_ACTION_OPTIONS))
+	switch(menuInterface->imageEditOptions())
 	{
 		case 0: convertImage(selectedImage); break;
 		case 1:
@@ -176,7 +174,7 @@ void ControllerCLI::imageAction()
 		case 2:
 		{
 			bool res = false;
-			switch (menuCLI->invokeMenu(MenuCLI::Menu::FILTERS))
+			switch (menuInterface->imageFilterOptions())
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
 				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
@@ -218,7 +216,7 @@ void ControllerCLI::run()
 	else
 		console->out("None");
 	std::cout << "\n";
-	switch(menuCLI->invokeMenu(MenuCLI::Menu::MAIN_MENU))
+	switch(((MenuCLI*)menuInterface)->printMainMenu())
 	{
 		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
@@ -233,7 +231,7 @@ void ControllerCLI::run()
 			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->disableCustomFG();
 			goto menu;
-		case 5: menuCLI->invokeMenu(MenuCLI::COLOR_PICKER); goto menu;
+		case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); goto menu;
 		case 6: showAboutApplicationInfo(); goto menu;
 		case 7: return;
 	}
@@ -280,38 +278,5 @@ std::string ControllerCLI::inputImageName()
 	std::cin >> imgName;
 	std::cin.get(); // Clears enter from console
 	return workspacePath + imgName;
-}
-
-void ControllerCLI::convertImage(Images::Image* image)
-{
-	if (image == nullptr || !*image)
-		return;
-	messenger->displayImageInfo(*image);
-	ImageUtils::AsciiConverter ac(*image);
-	int option = 0;
-	bool again = true;
-	do {
-		option = menuCLI->invokeMenu(MenuCLI::Menu::CHAR_SET_SELECTION);
-		if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
-			return;
-		ac.setCharSet(option);
-		messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));
-		if (!ac.convertToASCII())
-		{
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
-			return;
-		}
-		messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
-		AsciiPrinter ap(ac, *console, console->getDefaultTextColor());
-			switch(menuCLI->invokeMenu(MenuCLI::Menu::PRINT_OPTIONS))
-		{
-			case 0: ap.printClassic(); break;
-			case 1: ap.printCharColored(); break;
-			case 2: ap.printPixelColored(); break;
-			case 3: ap.printToFile(); break;
-			case 4: break; // Just continue
-			case 5: again = false; break;
-		}
-	} while (again);
 }
 }

@@ -11,12 +11,14 @@
 #define CONSOLEART_CONTROLLER_CONTROLLERSDL_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <thread>
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
 #include "../gui/assets/SpriteSheet.h"
+#include "../gui/assets/StringPrinter.h"
 #include "../gui/components/ButtonSDL.h"
 #include "../gui/components/ImageButtonSDL.h"
 #include "../gui/components/ContentPanelSDL.h"
@@ -32,6 +34,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Color backgroundColor {80, 80, 80, 255};
+	StringPrinter* mainFont;
 	SpriteSheet* sheet;
 	ContentPanelSDL* pane;
 	void addImageButtonEvent();
@@ -40,7 +43,6 @@ protected:
 	virtual std::string inputImageName() override;
 	virtual Images::Image* selectImage() override;
 	virtual void refreshMenu() override;
-	virtual void convertImage(Images::Image *image) override;
 public:
 	ControllerSDL();
 	~ControllerSDL();

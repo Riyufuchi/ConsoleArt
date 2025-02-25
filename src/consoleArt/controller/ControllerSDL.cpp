@@ -11,12 +11,17 @@
 
 namespace ConsoleArt
 {
-ControllerSDL::ControllerSDL() : Controller(new NotifierSDL()), width(800), height(600)
+ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr), width(800), height(600)
 {
 	SDL_Init(SDL_INIT_VIDEO);
+	if (TTF_Init() == -1)
+	{
+		SDL_Log("ERROR: Failed to initialize SDL_ttf: %s", TTF_GetError());
+	}
 	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+	this->mainFont = new StringPrinter(renderer, "TF2Build.ttf", 24);
 	std::pair<int, int> square(32, 32);
 	std::pair<int, int> rectangle(64, 32);
 	std::pair<std::string, std::string> addImageBtn("1", "1H");
@@ -57,6 +62,7 @@ ControllerSDL::~ControllerSDL()
 	delete pane;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -64,8 +70,12 @@ void ControllerSDL::addImageButtonEvent()
 {
 	std::thread([&]()
 	{
-		if (addImageAsync(loadImageAsync(inputImageName())))
+		Images::Image* img = loadImageAsync(inputImageName());
+		if (addImageAsync(img))
+		{
 			messenger->messageUser("Image successfully loaded.");
+			selectedImage = img;
+		}
 	}).detach();
 }
 
@@ -128,6 +138,8 @@ void ControllerSDL::run()
 		SDL_RenderClear(renderer);
 
 		pane->draw(renderer);
+		if (selectedImage)
+			mainFont->renderTextAt(0, 0, selectedImage->getFilename(), {255, 105, 180, 255});
 
 		SDL_RenderPresent(renderer);
 
@@ -164,10 +176,6 @@ Images::Image* ControllerSDL::selectImage()
 }
 
 void ControllerSDL::refreshMenu() {
-}
-
-void ControllerSDL::convertImage(Images::Image *image)
-{
 }
 
 } /* namespace ConsoleArt */
