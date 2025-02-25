@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : ProgressBarCLI.h
+// File       : AbstrProgressBar.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
 // Last edit  : Feb 21, 2025
@@ -7,21 +7,22 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_CLI_PROGRESSBARCLI_H_
-#define CONSOLEART_CLI_PROGRESSBARCLI_H_
-
-#include <iostream>
-
-#include "../abstract/AbstractProgressBar.h"
+#ifndef CONSOLEART_INTERFACES_ABSTRACTPROGRESSBAR_H_
+#define CONSOLEART_INTERFACES_ABSTRACTPROGRESSBAR_H_
 
 namespace ConsoleArt
 {
-class ProgressBarCLI : AbstractProgressBar
+class AbstractProgressBar
 {
+protected:
+	int maxStep;
+	int currentStep;
 public:
-	ProgressBarCLI(int maxStep);
-	~ProgressBarCLI();
-	virtual void drawProgressBar() override;
+	AbstractProgressBar(int maxStep);
+	virtual ~AbstractProgressBar();
+	virtual void drawProgressBar() = 0;
 };
+
 } /* namespace ConsoleArt */
-#endif /* CONSOLEART_CLI_PROGRESSBARCLI_H_ */
+
+#endif /* CONSOLEART_INTERFACES_ABSTRPROGRESSBAR_H_ */

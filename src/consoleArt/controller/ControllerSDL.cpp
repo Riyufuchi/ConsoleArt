@@ -21,7 +21,8 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-	this->mainFont = new StringPrinter(renderer, "TF2Build.ttf", 24);
+	this->selectedImageString = new StringSDL("A", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
+	this->selectedImageString->setY(16);
 	std::pair<int, int> square(32, 32);
 	std::pair<int, int> rectangle(64, 32);
 	std::pair<std::string, std::string> addImageBtn("1", "1H");
@@ -54,12 +55,14 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	pane->setY((height / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
 	setenv("TINYFD_FORCE_XDG", "1", 1);
+	textUpdated = false;
 }
 
 ControllerSDL::~ControllerSDL()
 {
 	delete sheet;
 	delete pane;
+	delete selectedImageString;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
@@ -75,6 +78,7 @@ void ControllerSDL::addImageButtonEvent()
 		{
 			messenger->messageUser("Image successfully loaded.");
 			selectedImage = img;
+			textUpdated = true;
 		}
 	}).detach();
 }
@@ -129,6 +133,8 @@ void ControllerSDL::run()
 					pane->setX((width / 2) - pane->getWidth() / 2);
 					pane->setY((height / 2) - pane->getHeight() / 2);
 					pane->reposeContent();
+					selectedImageString->setX((width / 2) - (selectedImageString->getWidth() / 2));
+					selectedImageString->setY((pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 				}
 			break;
 		}
@@ -138,8 +144,14 @@ void ControllerSDL::run()
 		SDL_RenderClear(renderer);
 
 		pane->draw(renderer);
-		if (selectedImage)
-			mainFont->renderTextAt(0, 0, selectedImage->getFilename(), {255, 105, 180, 255});
+		if (textUpdated && selectedImage)
+		{
+			textUpdated = false;
+			selectedImageString->setText(std::string("Selected image: ").append(selectedImage->getFilename()));
+			selectedImageString->setX((width / 2) - (selectedImageString->getWidth() / 2));
+			selectedImageString->setY((pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+		}
+		selectedImageString->draw(renderer);
 
 		SDL_RenderPresent(renderer);
 

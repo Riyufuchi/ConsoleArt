@@ -14,16 +14,17 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <thread>
+#include <atomic>
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
 #include "../gui/assets/SpriteSheet.h"
-#include "../gui/assets/StringPrinter.h"
 #include "../gui/components/ButtonSDL.h"
 #include "../gui/components/ImageButtonSDL.h"
 #include "../gui/components/ContentPanelSDL.h"
 
 #include "../../include/tinyfiledialogs.h"
+#include "../gui/assets/StringSDL.h"
 
 namespace ConsoleArt
 {
@@ -34,9 +35,10 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Color backgroundColor {80, 80, 80, 255};
-	StringPrinter* mainFont;
+	StringSDL* selectedImageString;
 	SpriteSheet* sheet;
 	ContentPanelSDL* pane;
+	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 protected:
 	virtual void showAboutApplicationInfo() override;

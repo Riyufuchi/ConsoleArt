@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : AbstrProgressBar.h
+// File       : AbstrProgressBar.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
 // Last edit  : Feb 21, 2025
@@ -7,22 +7,15 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_INTERFACES_ABSTRPROGRESSBAR_H_
-#define CONSOLEART_INTERFACES_ABSTRPROGRESSBAR_H_
+#include "AbstractProgressBar.h"
 
 namespace ConsoleArt
 {
-class AbstrProgressBar
+AbstractProgressBar::AbstractProgressBar(int maxStep) : maxStep(maxStep), currentStep(-1)
 {
-protected:
-	int maxStep;
-	int currentStep;
-public:
-	AbstrProgressBar(int maxStep);
-	virtual ~AbstrProgressBar();
-	virtual void drawProgressBar() = 0;
-};
+}
 
+AbstractProgressBar::~AbstractProgressBar()
+{
+}
 } /* namespace ConsoleArt */
-
-#endif /* CONSOLEART_INTERFACES_ABSTRPROGRESSBAR_H_ */

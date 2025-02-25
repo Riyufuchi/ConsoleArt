@@ -30,6 +30,7 @@ public:
 	bool isMouseInside(int x, int y) const;
 	//Methods
 	void onClick();
+	void repose(int x, int y);
 	virtual void draw(SDL_Renderer* renderer) = 0;
 	// Setters
 	void setX(int x);

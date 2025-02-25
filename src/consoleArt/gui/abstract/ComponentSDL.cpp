@@ -24,6 +24,12 @@ ComponentSDL::~ComponentSDL()
 {
 }
 
+void ComponentSDL::repose(int x, int y)
+{
+	rect.x = x;
+	rect.y = y;
+}
+
 void ComponentSDL::onClick()
 {
 	if (onClickEvent && mouseOver)

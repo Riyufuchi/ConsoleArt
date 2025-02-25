@@ -9,9 +9,9 @@
 
 #include "ProgressBarCLI.h"
 
-namespace ConsoleArt {
-
-ProgressBarCLI::ProgressBarCLI(int maxStep) : AbstrProgressBar(maxStep)
+namespace ConsoleArt
+{
+ProgressBarCLI::ProgressBarCLI(int maxStep) : AbstractProgressBar(maxStep)
 {
 }
 
@@ -24,5 +24,4 @@ void ProgressBarCLI::drawProgressBar()
 	currentStep++;
 	std::cout << "\r" << "[" << currentStep << " / " << maxStep << "]";
 }
-
 } /* namespace ConsoleArt */
