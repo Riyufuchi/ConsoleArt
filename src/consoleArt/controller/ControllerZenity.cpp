@@ -2,7 +2,7 @@
 // File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Feb 24, 2025
+// Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,7 +19,7 @@ ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCL
 	if (messenger)
 		delete messenger;
 	this->messenger = new NotifierZenity(console);
-	messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, "Started in CLI mode using Zenity\n");
+	console->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
 }
 ControllerZenity::~ControllerZenity()
 {
@@ -97,13 +97,8 @@ Images::Image* ControllerZenity::selectImage()
 
 void ControllerZenity::showAboutApplicationInfo()
 {
-	std::string command = "echo \"" + GeneralTools::aboutApplication() + "\" | zenity --text-info --title='About ConsoleArt' --width=600 --height=600";
-	FILE* pipe = popen(command.c_str(), "r");
-	if (!pipe)
-	{
+	if (std::system(std::string("echo \"").append(GeneralTools::aboutApplication()).append("\" | zenity --text-info --title='About ConsoleArt' --width=600 --height=600").c_str()))
 		ControllerCLI::showAboutApplicationInfo();
-	}
-	pclose(pipe);
 }
 
 } /* namespace ConsoleArt */

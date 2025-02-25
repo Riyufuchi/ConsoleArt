@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 17, 2025
+// Last Edit   : Feb 25, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -10,15 +10,22 @@
 
 namespace ConsoleArt
 {
-Controller::Controller() : Controller("") // Calls constructor with parameter to construct class
+Controller::Controller(AbstractNotifier* notifier) : Controller("", notifier) // Calls constructor with parameter to construct class
 {
 }
-Controller::Controller(std::string path) : workspacePath(path), isRunnable(true), messenger(nullptr), selectedImage(nullptr)
+Controller::Controller(std::string path, AbstractNotifier* notifier) : workspacePath(path), isRunnable(true), messenger(notifier), selectedImage(nullptr)
 {
 	suppertedImageFormats[".pcx"] = Format::PCX;
 	suppertedImageFormats[".bmp"] = Format::BMP;
 	suppertedImageFormats[".ppm"] = Format::PPM;
 	suppertedImageFormats[".png"] = Format::PNG;
+}
+Controller::~Controller()
+{
+	delete messenger;
+	//for(size_t i = 0; i < images.size(); i++)
+	//	delete images[i];
+	std::cout << "Controller " << "destructed" << std::endl;
 }
 void Controller::loadAllImagesAsync()
 {
@@ -124,13 +131,5 @@ void Controller::setWorkspace(std::string path)
 		path.append("/");
 	workspacePath = path;
 	messenger->messageUser(AbstractNotifier::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
-}
-
-Controller::~Controller()
-{
-	delete messenger;
-	//for(size_t i = 0; i < images.size(); i++)
-	//	delete images[i];
-	//std::cout << "Controller " << "destructed" << std::endl;
 }
 }

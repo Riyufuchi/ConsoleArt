@@ -16,6 +16,7 @@
 
 #include "ConsoleUtils.h"
 #include "IConsole.hpp"
+#include "Library.h"
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
@@ -36,7 +37,7 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.7";
+	static constexpr const char* CONSOLE_ART_VERSION = "2.8 - beta 1";
 	GeneralTools();
 	~GeneralTools();
 	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()
@@ -101,6 +102,15 @@ public:
 					"PNG| 24, 32;"
 				};
 		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0]));
+
+		aboutStringStream << "\n" << "Used libraries:\n" << ConsoleLib::Library::aboutLibrary();
+
+		std::string libs[] = {
+					"Name| Used for",
+					"stb | complex images",
+					"SDL2| GUI",
+				};
+		aboutStringStream << "\n" << ConsoleLib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
 		return aboutStringStream.str();
 	}
 	static void colorTest(ConsoleLib::IConsole& console)

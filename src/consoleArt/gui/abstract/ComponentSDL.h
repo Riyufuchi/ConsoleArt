@@ -11,6 +11,7 @@
 #define CONSOLEART_GUI_COMPONENTSDL_H_
 
 #include <SDL2/SDL.h>
+#include <functional>
 
 namespace ConsoleArt
 {
@@ -20,13 +21,15 @@ protected:
 	bool mouseOver;
 	SDL_Color baseColor;
 	SDL_Rect rect;
+	std::function<void()> onClickEvent;
 public:
-	ComponentSDL(int x, int y, int width, int height);
-	ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor);
+	ComponentSDL(int x, int y, int width, int height, std::function<void()> onClickEvent = nullptr);
+	ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor, std::function<void()> onClickEvent = nullptr);
 	virtual ~ComponentSDL();
 	// Functions
 	bool isMouseInside(int x, int y) const;
 	//Methods
+	void onClick();
 	virtual void draw(SDL_Renderer* renderer) = 0;
 	// Setters
 	void setX(int x);

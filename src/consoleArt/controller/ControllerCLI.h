@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Feb 24, 2025
+// Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -44,11 +44,11 @@ protected:
 	void convertImage(Images::Image* image) override;
 	virtual Images::Image* selectImage() override;
 	virtual void showAboutApplicationInfo() override;
+	void loadAllImagesAsync();
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	ConsoleLib::Color warningColor{255, 255, 0};
 	void refreshMenu() override;
-	void loadAllImagesAsync();
 	void runAsClient(std::string ip);
 	void imageAction();
 public:

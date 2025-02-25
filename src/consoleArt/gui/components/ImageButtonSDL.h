@@ -23,13 +23,12 @@ class ImageButtonSDL : public ComponentSDL
 private:
 	SDL_Texture* texture;
 	SDL_Texture* textureHover;
+	std::function<void()> onClickEvt;
 public:
-	ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover);
-	ImageButtonSDL(int x, int y, int width, int height, std::pair<SDL_Texture*, SDL_Texture*> texturePair);
+	ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover, std::function<void()> callback = nullptr);
+	ImageButtonSDL(int x, int y, int width, int height, std::pair<SDL_Texture*, SDL_Texture*> texturePair, std::function<void()> callback = nullptr);
 	~ImageButtonSDL();
 	virtual void draw(SDL_Renderer* renderer) override;
 };
-
 } /* namespace ConsoleArt */
-
 #endif /* CONSOLEART_GUI_UTILS_BUTTON_H_ */

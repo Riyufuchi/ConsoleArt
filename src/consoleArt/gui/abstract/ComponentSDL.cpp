@@ -12,16 +12,22 @@
 namespace ConsoleArt
 {
 
-ComponentSDL::ComponentSDL(int x, int y, int width, int height) : ComponentSDL(x, y, width, height, {128, 128, 128, 255})
+ComponentSDL::ComponentSDL(int x, int y, int width, int height, std::function<void()> onClickEvent) : ComponentSDL(x, y, width, height, {128, 128, 128, 255}, onClickEvent)
 {
 }
 
-ComponentSDL::ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor) : mouseOver(false),baseColor(baseColor), rect({x, y, width, height})
+ComponentSDL::ComponentSDL(int x, int y, int width, int height, SDL_Color baseColor, std::function<void()>  onClickEvent) : mouseOver(false),baseColor(baseColor), rect({x, y, width, height}), onClickEvent(onClickEvent)
 {
 }
 
 ComponentSDL::~ComponentSDL()
 {
+}
+
+void ComponentSDL::onClick()
+{
+	if (onClickEvent && mouseOver)
+		onClickEvent();
 }
 
 bool ComponentSDL::isMouseInside(int mouseX, int mouseY) const

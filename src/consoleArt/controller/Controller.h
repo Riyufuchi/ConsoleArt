@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 17, 2025
+// Last Edit   : Feb 25, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -58,8 +58,8 @@ protected:
 	Images::Image* loadImage(std::string path);
 	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
 public:
-	Controller();
-	Controller(std::string path);
+	Controller(AbstractNotifier* notifier);
+	Controller(std::string path, AbstractNotifier* notifier);
 	virtual ~Controller();
 	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
 	virtual void run() = 0;

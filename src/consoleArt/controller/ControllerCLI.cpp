@@ -13,19 +13,17 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path), console(console), menuCLI(new MenuCLI(console))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console)), console(console), menuCLI(new MenuCLI(console))
 {
 	if (console == nullptr)
 	{
 		this->console = &defaultConsole;
 		menuCLI->setConsole(this->console);
 	}
-	messenger = new NotifierCLI(this->console);
+	((NotifierCLI*)messenger)->setConsole(console);
 }
 ControllerCLI::~ControllerCLI()
 {
-	//for(size_t i = 0; i < images.size(); i++)
-		//delete images[i];
 	if (menuCLI)
 		delete menuCLI;
 	std::cout << "ControllerCLI destructed\n";

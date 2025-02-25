@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 32, 2025
+// Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,7 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 	std::pair<std::string, std::string> asyncBtn("5", "5H");
 	std::pair<std::string, std::string> editBtn("6", "6H");
 	std::pair<std::string, std::string> aboutBtn("7", "7H");
-	this->sheet = new SpriteSheet("UI.png", renderer);
+	this->sheet = new SpriteSheet("ui.png", renderer);
 	this->sheet->prepareTexturePair(addImageBtn, 0, 0, rectangle);
 	this->sheet->prepareTexturePair(exitBtn, 0, 160, square);
 	this->sheet->prepareTexturePair(configBtn, 0, 96, square);
@@ -38,14 +38,14 @@ ControllerSDL::ControllerSDL(ConsoleLib::UnixConsole& console) : ControllerZenit
 	this->pane = new ContentPanelSDL(0, 0);
 	// 0
 	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(addImageBtn)));
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn)));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn), [&]() { loadAllImagesAsync(); }));
 	// 1
 	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(selectBtn)));
 	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(editBtn)));
 	// 2
 	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(configBtn)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(aboutBtn)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(exitBtn)));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(aboutBtn), [&]() { showAboutApplicationInfo(); }));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(exitBtn), [&]() { isRunnable = false; }));
 	pane->setX((width / 2) - pane->getWidth() / 2);
 	pane->setY((height / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -94,6 +94,7 @@ void ControllerSDL::run()
 		{
 			case SDL_QUIT: isRunnable = false; break;
 			case SDL_MOUSEBUTTONDOWN:
+				pane->tickOnClick();
 				/*if (button->isMouseOver())
 					std::cout << "Button Clicked!" << std::endl;*/
 			break;
@@ -128,6 +129,11 @@ void ControllerSDL::run()
 			SDL_Delay(frameDelay - frameTime); // Delay to maintain 60 FPS
 		}
 	}
+}
+
+void ControllerSDL::showAboutApplicationInfo()
+{
+	std::thread([&](){ ControllerZenity::showAboutApplicationInfo(); }).detach();
 }
 
 } /* namespace ConsoleArt */

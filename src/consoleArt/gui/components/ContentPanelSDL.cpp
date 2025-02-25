@@ -44,6 +44,17 @@ void ContentPanelSDL::checkHoverOverContent(int& x, int& y)
 	}
 }
 
+void ContentPanelSDL::tickOnClick()
+{
+	for (size_t yc = 0; yc < componentsAtY.size(); yc++)
+	{
+		for (ComponentSDL*& component : componentsAtY[yc])
+		{
+			component->onClick();
+		}
+	}
+}
+
 void ContentPanelSDL::reposeContent()
 {
 	for (size_t y = 0; y < componentsAtY.size(); y++)

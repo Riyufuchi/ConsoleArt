@@ -2,7 +2,7 @@
 // File       : ControllerSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 21, 2025
+// Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -30,11 +30,12 @@ private:
 	SDL_Color backgroundColor {80, 80, 80, 255};
 	SpriteSheet* sheet;
 	ContentPanelSDL* pane;
+protected:
+	virtual void showAboutApplicationInfo() override;
 public:
 	ControllerSDL(ConsoleLib::UnixConsole& console);
 	~ControllerSDL();
 	virtual void run() override;
-	
 };
 
 } /* namespace ConsoleArt */

@@ -27,6 +27,7 @@ public:
 	ContentPanelSDL(int x, int y);
 	~ContentPanelSDL();
 	virtual void draw(SDL_Renderer* renderer) override;
+	void tickOnClick();
 	void addComponent(int y, ComponentSDL* component);
 	void reposeContent();
 	void checkHoverOverContent(int& x, int& y);
