@@ -80,5 +80,8 @@ void StringSDL::setText(std::string text, SDL_Color color)
 	textTexture = t;
 	SDL_QueryTexture(t, nullptr, nullptr, &rect.w, &rect.h);
 }
-
+TTF_Font* StringSDL::getFont()
+{
+	return font;
+}
 } /* namespace ConsoleArt */

@@ -38,6 +38,7 @@ private:
 	StringSDL* selectedImageString;
 	SpriteSheet* sheet;
 	ContentPanelSDL* pane;
+	TTF_Font* font;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 protected:

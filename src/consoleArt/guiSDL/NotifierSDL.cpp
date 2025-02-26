@@ -21,15 +21,39 @@ NotifierSDL::~NotifierSDL()
 {
 }
 
-void NotifierSDL::displayImageInfo(const Images::Image &image)
+void NotifierSDL::displayImageInfo(const Images::Image& image)
 {
+	std::thread([&image]()
+	{
+		const Images::ImageInfo &info = image.getImageInfo();
+
+		// Format the image details
+		std::ostringstream message;
+		message << "Image Name: " << info.name << "\n" << "Width: " << info.width << " px\n"
+				<< "Height: " << info.height << " px\n"
+				<< "Bits: " << info.bits << "\n"
+				<< "Inverted: " << (image.isInverted() ? "Yes" : "No");
+
+		// Show the dialog (blocking, but running in another thread)
+		tinyfd_messageBox("Image Info", message.str().c_str(), "ok", "info", 1);
+	}).join();  // Detach to avoid blocking the main SDL loop
 }
 
 void NotifierSDL::messageUser(MessageType messageSeverity, std::string message)
 {
 	std::thread t([&]()
 	{
-		tinyfd_messageBox("Information", message.c_str(),  "ok", "info", 1);
+		switch(messageSeverity)
+		{
+			// Errors
+			case EXCEPTION: tinyfd_messageBox("Exception", message.c_str(),  "ok", "error", 1); break;
+			case ERROR: tinyfd_messageBox("Error", message.c_str(),  "ok", "error", 1); break;
+			// Messages
+			case WARNING: tinyfd_messageBox("Warning", message.c_str(),  "ok", "warning", 1); break;
+			case SUCCESFUL_TASK: tinyfd_messageBox("Task successful", message.c_str(),  "ok", "info", 1); break;
+			case NOTIFICATION: tinyfd_messageBox("Notification", message.c_str(), "ok", "info", 1); break;
+			case INFO: tinyfd_messageBox("Information", message.c_str(), "ok", "info", 1); break;
+		}
 	}); // Prevents blocking dialog from blocking main window thread and freezing whole app
 	t.join(); // One dialog at time
 }

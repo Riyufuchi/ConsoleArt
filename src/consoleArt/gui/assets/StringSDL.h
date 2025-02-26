@@ -32,6 +32,8 @@ public:
 	void draw();
 	void setText(std::string text);
 	void setText(std::string text, SDL_Color color);
+	TTF_Font* getFont();
+
 };
 
 } /* namespace ConsoleArt */

@@ -21,7 +21,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-	this->selectedImageString = new StringSDL("A", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
+	this->selectedImageString = new StringSDL("A\nB", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	std::pair<int, int> square(32, 32);
 	std::pair<int, int> rectangle(64, 32);
@@ -56,6 +56,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	pane->reposeContent();
 	setenv("TINYFD_FORCE_XDG", "1", 1);
 	textUpdated = false;
+	font = selectedImageString->getFont();
 }
 
 ControllerSDL::~ControllerSDL()
@@ -133,8 +134,7 @@ void ControllerSDL::run()
 					pane->setX((width / 2) - pane->getWidth() / 2);
 					pane->setY((height / 2) - pane->getHeight() / 2);
 					pane->reposeContent();
-					selectedImageString->setX((width / 2) - (selectedImageString->getWidth() / 2));
-					selectedImageString->setY((pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+					selectedImageString->repose((width / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 				}
 			break;
 		}
@@ -148,8 +148,7 @@ void ControllerSDL::run()
 		{
 			textUpdated = false;
 			selectedImageString->setText(std::string("Selected image: ").append(selectedImage->getFilename()));
-			selectedImageString->setX((width / 2) - (selectedImageString->getWidth() / 2));
-			selectedImageString->setY((pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+			selectedImageString->repose((width / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 		}
 		selectedImageString->draw(renderer);
 
@@ -170,8 +169,14 @@ void ControllerSDL::showAboutApplicationInfo()
 
 std::string ControllerSDL::inputImageName()
 {
-	const char* filterPatterns[] = { "*.png", "*.png", "*.bmp", "*.ppm" };
-	const char* result = tinyfd_openFileDialog("Select an Image", workspacePath.c_str(), 3, filterPatterns, "Image Files", 0);
+	std::vector<std::string> formatStrings;
+	std::vector<char*> formatCStrs;
+	for (const auto& p : suppertedImageFormats)
+	{
+		formatStrings.push_back("*" + p.first);
+		formatCStrs.push_back(strdup(formatStrings.back().c_str())); // Duplicate for C compatibility
+	}
+	const char* result = tinyfd_openFileDialog("Select an Image", workspacePath.c_str(), formatCStrs.size(), formatCStrs.data(), "Image Files", 0);
 	if (result)
 		return std::string(result);
 	return "";
