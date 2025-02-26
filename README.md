@@ -47,7 +47,7 @@ This project started quite some time ago, the initial commit was on 13th of July
   *Makefile automatically gets ConsoleLib and compiles it before program*
   
    ```bash
-   git clone https://github.com/Riyufuchi/ConsoleArt.git
+   git clone --branch master --single-branch https://github.com/Riyufuchi/ConsoleArt.git 
    cd ConsoleArt
    make
    ```
