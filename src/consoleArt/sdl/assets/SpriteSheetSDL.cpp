@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : SpriteSheet.cpp
+// File       : SpriteSheetSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 22, 2025
 // Last edit  : Feb 32, 2025
@@ -7,11 +7,11 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "SpriteSheet.h"
+#include "../../sdl/assets/SpriteSheetSDL.h"
 
 namespace ConsoleArt
 {
-SpriteSheet::SpriteSheet(const char* path, SDL_Renderer* renderer)
+SpriteSheetSDL::SpriteSheetSDL(const char* path, SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
 
@@ -37,7 +37,7 @@ SpriteSheet::SpriteSheet(const char* path, SDL_Renderer* renderer)
 	this->sourceSurface = nullptr;
 }
 
-SpriteSheet::~SpriteSheet()
+SpriteSheetSDL::~SpriteSheetSDL()
 {
 	if (textureSheet)
 		SDL_DestroyTexture(textureSheet);
@@ -45,7 +45,7 @@ SpriteSheet::~SpriteSheet()
 		SDL_FreeSurface(spriteSheet);
 }
 
-SDL_Texture* SpriteSheet::getCroppedTexture(int x, int y, int width, int height)
+SDL_Texture* SpriteSheetSDL::getCroppedTexture(int x, int y, int width, int height)
 {
 	if (!spriteSheet)
 	{
@@ -103,7 +103,7 @@ SDL_Texture* SpriteSheet::getCroppedTexture(int x, int y, int width, int height)
 	return croppedTexture;
 }
 
-SDL_Texture* SpriteSheet::getTexture(const std::string& textureName)
+SDL_Texture* SpriteSheetSDL::getTexture(const std::string& textureName)
 {
 	if (textureCache.find(textureName) != textureCache.end())
 	{
@@ -111,18 +111,18 @@ SDL_Texture* SpriteSheet::getTexture(const std::string& textureName)
 	}
 	return nullptr;
 }
-std::pair<SDL_Texture*, SDL_Texture*> SpriteSheet::getTexturePair(std::pair<std::string, std::string> IDs)
+std::pair<SDL_Texture*, SDL_Texture*> SpriteSheetSDL::getTexturePair(std::pair<std::string, std::string> IDs)
 {
 	return { getTexture(IDs.first), getTexture(IDs.second)};
 }
-void SpriteSheet::prepareTexture(const std::string textureName, int x, int y, int width, int height)
+void SpriteSheetSDL::prepareTexture(const std::string textureName, int x, int y, int width, int height)
 {
 	textureSheet = getCroppedTexture(x, y, width, height);
 	if (!textureSheet)
 		return;
 	textureCache[textureName] = textureSheet;
 }
-void SpriteSheet::prepareTexturePair(std::pair<std::string, std::string> IDs, int x, int y, std::pair<int, int> size)
+void SpriteSheetSDL::prepareTexturePair(std::pair<std::string, std::string> IDs, int x, int y, std::pair<int, int> size)
 {
 	prepareTexture(IDs.first, x, y, size.first, size.second);
 	prepareTexture(IDs.second, x + size.first, y, size.first, size.second);

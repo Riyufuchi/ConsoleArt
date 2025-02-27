@@ -7,7 +7,7 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "ContentPanelSDL.h"
+#include "../../sdl/components/ContentPanelSDL.h"
 
 namespace ConsoleArt
 {

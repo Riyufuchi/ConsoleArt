@@ -7,8 +7,8 @@
 // Description: This class assumes ownership of the components
 //==============================================================================
 
-#ifndef CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_
-#define CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_
+#ifndef CONSOLEART_SDL_COMPONENTS_CONTENTPANELSDL_H_
+#define CONSOLEART_SDL_COMPONENTS_CONTENTPANELSDL_H_
 
 #include <vector>
 #include <utility>
@@ -33,4 +33,4 @@ public:
 	void checkHoverOverContent(int& x, int& y);
 };
 } /* namespace ConsoleArt */
-#endif /* CONSOLEART_GUI_COMPONENTS_CONTENTPANELSDL_H_ */
+#endif /* CONSOLEART_SDL_COMPONENTS_CONTENTPANELSDL_H_ */

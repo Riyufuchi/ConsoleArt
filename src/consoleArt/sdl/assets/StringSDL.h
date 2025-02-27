@@ -7,8 +7,8 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_GUI_ASSETS_STRINGSDL_H_
-#define CONSOLEART_GUI_ASSETS_STRINGSDL_H_
+#ifndef CONSOLEART_SDL_ASSETS_STRINGSDL_H_
+#define CONSOLEART_SDL_ASSETS_STRINGSDL_H_
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -38,4 +38,4 @@ public:
 
 } /* namespace ConsoleArt */
 
-#endif /* CONSOLEART_GUI_ASSETS_STRINGSDL_H_ */
+#endif /* CONSOLEART_SDL_ASSETS_STRINGSDL_H_ */

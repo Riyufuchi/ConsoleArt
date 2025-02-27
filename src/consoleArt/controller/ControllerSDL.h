@@ -18,13 +18,14 @@
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
-#include "../gui/assets/SpriteSheet.h"
-#include "../gui/components/ButtonSDL.h"
-#include "../gui/components/ImageButtonSDL.h"
-#include "../gui/components/ContentPanelSDL.h"
-
 #include "../../include/tinyfiledialogs.h"
-#include "../gui/assets/StringSDL.h"
+#include "../sdl/assets/SpriteSheetSDL.h"
+#include "../sdl/assets/StringSDL.h"
+#include "../sdl/components/ButtonSDL.h"
+#include "../sdl/components/ContentPanelSDL.h"
+#include "../sdl/components/ImageButtonSDL.h"
+#include "../sdl/abstract/StateSDL.h"
+#include "../guiSDL/MainState.h"
 
 namespace ConsoleArt
 {
@@ -34,13 +35,8 @@ private:
 	int width, height;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Color backgroundColor {80, 80, 80, 255};
-	StringSDL* selectedImageString;
-	SpriteSheet* sheet;
-	ContentPanelSDL* pane;
-	TTF_Font* font;
-	std::atomic<bool> textUpdated;
-	void addImageButtonEvent();
+	WindowInfo winInfo;
+	StateSDL* currentState;
 protected:
 	virtual void showAboutApplicationInfo() override;
 	virtual std::string inputImageName() override;

@@ -7,7 +7,7 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "ImageButtonSDL.h"
+#include "../../sdl/components/ImageButtonSDL.h"
 
 namespace ConsoleArt
 {

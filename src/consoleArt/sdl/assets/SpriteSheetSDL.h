@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : SpriteSheet.h
+// File       : SpriteSheetSDL.h
 // Author     : riyufuchi
 // Created on : Feb 18, 2025
 // Last edit  : Feb 23, 2025
@@ -18,7 +18,7 @@
 
 namespace ConsoleArt
 {
-class SpriteSheet
+class SpriteSheetSDL
 {
 private:
 	SDL_Surface* spriteSheet;
@@ -28,8 +28,8 @@ private:
 	std::unordered_map<std::string, SDL_Texture*> textureCache;
 	SDL_Texture* getCroppedTexture(int x, int y, int width, int height);
 public:
-	SpriteSheet(const char* path, SDL_Renderer* renderer);
-	~SpriteSheet();
+	SpriteSheetSDL(const char* path, SDL_Renderer* renderer);
+	~SpriteSheetSDL();
 	SDL_Texture* getTexture(const std::string& textureName);
 	std::pair<SDL_Texture*, SDL_Texture*> getTexturePair(std::pair<std::string, std::string> IDs);
 	void prepareTexture(const std::string textureName, int x, int y, int width, int height);

@@ -12,7 +12,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "../abstract/ComponentSDL.h"
+#include "../../sdl/abstract/ComponentSDL.h"
 
 namespace ConsoleArt
 {

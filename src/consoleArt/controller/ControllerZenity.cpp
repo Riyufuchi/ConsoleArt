@@ -28,7 +28,7 @@ ControllerZenity::~ControllerZenity()
 
 std::string ControllerZenity::inputImageName()
 {
-	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + workspacePath + "\"";
+	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + stateController.getWorkspace() + "\"";
 
 	FILE* pipe = popen(command.c_str(), "r");
 	if (!pipe)
@@ -53,7 +53,7 @@ std::string ControllerZenity::inputImageName()
 
 Images::Image* ControllerZenity::selectImage()
 {
-	if (images.empty())
+	if (stateController.getImages().empty())
 	{
 		std::cerr << "No images loaded!" << std::endl;
 		return nullptr;
@@ -63,7 +63,7 @@ Images::Image* ControllerZenity::selectImage()
 	std::ostringstream cmd;
 	cmd << "zenity --list --title='Select an Image' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' ";
 
-	for (const auto &img : images)
+	for (const auto &img : stateController.getImages())
 	{
 		const Images::ImageInfo& info = img->getImageInfo();
 		cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (img->isInverted() ? "Yes" : "No") << " ";
@@ -89,7 +89,7 @@ Images::Image* ControllerZenity::selectImage()
 	std::string selectedImage(buffer);
 	selectedImage.erase(selectedImage.find_last_not_of("\n") + 1);
 
-	for (std::unique_ptr<Images::Image>& img : images)
+	for (auto& img : stateController.getImages())
 		if (img->getFilename() == selectedImage)
 			return img.get();
 	return nullptr;

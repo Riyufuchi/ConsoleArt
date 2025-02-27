@@ -28,6 +28,7 @@ ControllerCLI::~ControllerCLI()
 }
 void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
 {
+	/*
 	std::vector<std::string> params;
 	constexpr auto checkForArgs = GeneralTools::arguments();
 	for (const std::pair<const char*, Argumemts>& argument : checkForArgs)
@@ -130,7 +131,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				messenger->messageUser(AbstractNotifier::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
 			break;
 		}
-	}
+	}*/
 }
 
 void ControllerCLI::runAsClient(std::string ip)
@@ -218,7 +219,7 @@ void ControllerCLI::run()
 	std::cout << "\n";
 	switch(((MenuCLI*)menuInterface)->printMainMenu())
 	{
-		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
+		case 0: /*addImageAsync(loadImage(inputImageName())); */goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
 		case 2:
 			imageHolder = selectImage();
@@ -228,7 +229,7 @@ void ControllerCLI::run()
 		case 3: imageAction(); goto menu;
 		case 4:
 			console->enableCustomFG();
-			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
+			ConsoleLib::ConsoleUtils::listFilesInFolder(stateController.getWorkspace());
 			console->disableCustomFG();
 			goto menu;
 		case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); goto menu;
@@ -241,34 +242,34 @@ void ControllerCLI::loadAllImagesAsync()
 {
 	std::thread thread([this]()
 	{
-		Controller::loadAllImagesAsync();
+		stateController.loadAllImagesAsync();
 	});
 	thread.detach();
 }
 
 Images::Image* ControllerCLI::selectImage()
 {
-	if (images.empty())
+	if (stateController.getImages().empty())
 	{
 		console->out(warningColor, "No images has been loaded yet!\n");
 		return 0;
 	}
 	console->enableCustomFG();
 	std::cout << "Currently loaded images (0 to exit):" << std::endl;
-	int max = images.size();
+	int max = stateController.getImages().size();
 	for (int index = 0; index < max; index++) // or for(Images::Image* img : images)
 	{
-		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
+		std::cout << index + 1 << ". " << stateController.getImages()[index]->getFilename() << std::endl;
 	}
 
 	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(0, max) - 1;
 	if (selectedIndex == -1)
 		return nullptr;
 	std::cout << "\n";
-	messenger->displayImageInfo(*images[selectedIndex].get());
+	messenger->displayImageInfo(*stateController.getImages()[selectedIndex].get());
 	std::cout << "\n";
 	console->disableCustomFG();
-	return images[selectedIndex].get();
+	return stateController.getImages()[selectedIndex].get();
 }
 
 std::string ControllerCLI::inputImageName()
@@ -277,6 +278,6 @@ std::string ControllerCLI::inputImageName()
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); // Clears enter from console
-	return workspacePath + imgName;
+	return stateController.getWorkspace() + imgName;
 }
 }
