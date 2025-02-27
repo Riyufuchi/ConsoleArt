@@ -2,7 +2,7 @@
 // File       : ControllerSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 25, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -37,6 +37,14 @@ private:
 	SDL_Renderer* renderer;
 	WindowInfo winInfo;
 	StateSDL* currentState;
+	std::atomic<bool> textUpdated;
+	void addImageButtonEvent();
+	std::atomic<bool> getTextUpdated();
+	bool updateString(StringSDL* stringSDL);
+protected:
+	virtual Images::Image* selectImage() override;
+	virtual void showAboutApplicationInfo() override;
+	virtual std::string inputImageName() override;
 public:
 	ControllerSDL();
 	~ControllerSDL();

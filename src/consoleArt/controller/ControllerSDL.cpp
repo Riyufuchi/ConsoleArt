@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 25, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,9 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.mouseX = 0;
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
-	currentState = new MainState(renderer, stateController, winInfo, messenger);
+	this->textUpdated = false;
+	currentState = new MainState(renderer, winInfo, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
+			[&](StringSDL* strSDL) { return updateString(strSDL); });
 }
 
 ControllerSDL::~ControllerSDL()
@@ -36,6 +38,31 @@ ControllerSDL::~ControllerSDL()
 	SDL_DestroyWindow(window);
 	TTF_Quit();
 	SDL_Quit();
+}
+
+bool ControllerSDL::updateString(StringSDL* stringSDL)
+{
+	if (textUpdated && selectedImage && stringSDL)
+	{
+		textUpdated = false;
+		stringSDL->setText(std::string("Selected image: ").append(selectedImage->getFilename()));
+		return true;
+	}
+	return false;
+}
+
+void ControllerSDL::addImageButtonEvent()
+{
+	std::thread([&]()
+	{
+		Images::Image* img = loadImageAsync(inputImageName());
+		if (addImageAsync(img))
+		{
+			messenger->messageUser("Image successfully loaded.");
+			selectedImage = img;
+			textUpdated = true;
+		}
+	}).detach();
 }
 
 void ControllerSDL::run()
@@ -83,6 +110,30 @@ void ControllerSDL::run()
 
 void ControllerSDL::configure(std::map<std::string, std::vector<std::string>>& config)
 {
+}
+
+Images::Image* ControllerSDL::selectImage()
+{
+	return nullptr;
+}
+
+void ControllerSDL::showAboutApplicationInfo()
+{
+}
+
+std::string ControllerSDL::inputImageName()
+{
+	std::vector<std::string> formatStrings;
+	std::vector<char*> formatCStrs;
+	for (const auto& p : suppertedImageFormats)
+	{
+		formatStrings.push_back("*" + p.first);
+		formatCStrs.push_back(strdup(formatStrings.back().c_str())); // Duplicate for C compatibility
+	}
+	const char* result = tinyfd_openFileDialog("Select an Image", workspacePath.c_str(), formatCStrs.size(), formatCStrs.data(), "Image Files", 0);
+	if (result)
+		return std::string(result);
+	return "";
 }
 
 } /* namespace ConsoleArt */

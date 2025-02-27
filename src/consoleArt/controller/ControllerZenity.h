@@ -2,7 +2,7 @@
 // File       : ControllerZenity.h
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Feb 24, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,6 +18,10 @@ namespace ConsoleArt
 {
 class ControllerZenity: public ControllerCLI
 {
+protected:
+	virtual std::string inputImageName() override;
+	virtual Images::Image* selectImage() override;
+	virtual void showAboutApplicationInfo() override;
 public:
 	ControllerZenity(ConsoleLib::IConsole* console);
 	virtual ~ControllerZenity();

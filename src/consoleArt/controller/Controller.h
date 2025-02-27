@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 25, 2025
+// Last Edit   : Feb 27, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -23,21 +23,33 @@
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"
-#include "StateController.h"
 
 namespace ConsoleArt
 {
 class Controller
 {
 protected:
-	StateController stateController;
 	bool isRunnable;
 	AbstractNotifier* messenger;
 	IMenu* menuInterface;
 	AbstractAsciiPrinter* abstractAsciiPrinter;
 	Images::Image* selectedImage;
-	// Virtual
+	std::string workspacePath;
+	std::vector<std::unique_ptr<Images::Image>> images;
+	std::mutex mutexImages;
+	std::unordered_map<std::string, Images::ImageType> suppertedImageFormats;
+	std::mutex mutexImageFormats;
 	void convertImage(Images::Image* image);
+	// For main state
+	virtual std::string inputImageName() = 0;
+	virtual Images::Image* selectImage() = 0;
+	virtual void showAboutApplicationInfo() = 0;
+	// Controller
+	bool addImageAsync(Images::Image* image);
+	Images::Image* loadImage(std::string path);
+	Images::Image* loadImageAsync(const std::string& path);
+	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
+	void loadAllImagesAsync();
 public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
@@ -45,10 +57,11 @@ public:
 	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
 	virtual void run() = 0;
 	// Setters
-	AbstractNotifier& getMessenger()
-	{
-		return *messenger;
-	}
+	void setWorkspace(std::string path);
+	// Getters
+	AbstractNotifier& getMessenger();
+	const std::string& getWorkspace();
+	const Images::Image* getSelectedImage();
 };
 }
 #endif

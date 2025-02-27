@@ -2,7 +2,7 @@
 // File       : MenuZenity.cpp
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : Feb 24, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -55,6 +55,43 @@ void MenuZenity::confConsoleTextColor()
 	ConsoleLib::Color c = colorPicker();
 	if (c.red != -1)
 		console->setDefaultTextColor(c);
+}
+
+int MenuZenity::imageFilterOptions()
+{
+	std::ostringstream cmd;
+	cmd << "zenity --list --title='Select filter' --width=600 --height=400 --column='Filter name' ";
+
+	for (const std::string& f : menus[Menu::FILTERS])
+	{
+		cmd << "'"<< f << "' ";
+	}
+
+	FILE *pipe = popen(cmd.str().c_str(), "r");
+	if (!pipe)
+	{
+		std::cerr << "Failed to open Zenity list dialog!" << std::endl;
+		return MenuCLI::imageFilterOptions();
+	}
+
+	char buffer[256]; // Store selected filename
+	if (fgets(buffer, sizeof(buffer), pipe) == nullptr)
+	{
+		pclose(pipe);
+		return -1; // No selection (canceled)
+	}
+	pclose(pipe);
+
+	std::string selectionResult(buffer);
+	selectionResult = selectionResult.substr(0, selectionResult.length() - 1); // Removes '\n'
+	int i = 0;
+	for (const std::string& f : menus[Menu::FILTERS])
+	{
+		if (f == selectionResult)
+			return i;
+		i++;
+	}
+	return -2;
 }
 
 } /* namespace ConsoleArt */

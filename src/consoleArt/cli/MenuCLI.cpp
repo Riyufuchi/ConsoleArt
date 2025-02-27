@@ -2,7 +2,7 @@
 // Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : Dec 28,2023
-// Last Edit   : Feb 24, 2025
+// Last Edit   : Feb 27, 2025
 //============================================================================
 #include "MenuCLI.h"
 
@@ -71,12 +71,12 @@ void MenuCLI::setConsole(ConsoleLib::IConsole* console2)
 	this->console = console2;
 }
 
-int MenuCLI::imageFilterOptions()
+int MenuCLI::imageEditOptions()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
 }
 
-int MenuCLI::imageEditOptions()
+int MenuCLI::imageFilterOptions()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::FILTERS), *console);
 }

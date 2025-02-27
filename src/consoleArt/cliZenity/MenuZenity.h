@@ -2,7 +2,7 @@
 // File       : MenuZenity.h
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : Feb 24, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,6 +26,7 @@ public:
 	MenuZenity(ConsoleLib::IConsole* console);
 	~MenuZenity();
 	virtual ConsoleLib::Color colorPicker() override;
+	virtual int imageFilterOptions() override;
 protected:
 	virtual void confConsoleTextColor() override;
 };

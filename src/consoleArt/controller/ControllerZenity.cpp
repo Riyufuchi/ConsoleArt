@@ -2,7 +2,7 @@
 // File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Feb 25, 2025
+// Last edit  : Feb 27, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,10 +25,10 @@ ControllerZenity::~ControllerZenity()
 {
 	std::cout << "ControllerZenity destroyed\n";
 }
-/*
+
 std::string ControllerZenity::inputImageName()
 {
-	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + stateController.getWorkspace() + "\"";
+	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + workspacePath + "\"";
 
 	FILE* pipe = popen(command.c_str(), "r");
 	if (!pipe)
@@ -53,7 +53,7 @@ std::string ControllerZenity::inputImageName()
 
 Images::Image* ControllerZenity::selectImage()
 {
-	if (stateController.getImages().empty())
+	if (images.empty())
 	{
 		std::cerr << "No images loaded!" << std::endl;
 		return nullptr;
@@ -63,7 +63,7 @@ Images::Image* ControllerZenity::selectImage()
 	std::ostringstream cmd;
 	cmd << "zenity --list --title='Select an Image' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' ";
 
-	for (const auto &img : stateController.getImages())
+	for (const auto &img : images)
 	{
 		const Images::ImageInfo& info = img->getImageInfo();
 		cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (img->isInverted() ? "Yes" : "No") << " ";
@@ -89,16 +89,16 @@ Images::Image* ControllerZenity::selectImage()
 	std::string selectedImage(buffer);
 	selectedImage.erase(selectedImage.find_last_not_of("\n") + 1);
 
-	for (auto& img : stateController.getImages())
+	for (auto& img : images)
 		if (img->getFilename() == selectedImage)
 			return img.get();
 	return nullptr;
-}/*
-/*
+}
+
 void ControllerZenity::showAboutApplicationInfo()
 {
 	if (std::system(std::string("echo \"").append(GeneralTools::aboutApplication()).append("\" | zenity --text-info --title='About ConsoleArt' --width=600 --height=600").c_str()))
 		ControllerCLI::showAboutApplicationInfo();
 }
-*/
+
 } /* namespace ConsoleArt */

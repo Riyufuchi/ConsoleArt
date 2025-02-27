@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Feb 24, 2025
+// Last Edit   : Feb 27, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -28,7 +28,6 @@ ControllerCLI::~ControllerCLI()
 }
 void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
 {
-	/*
 	std::vector<std::string> params;
 	constexpr auto checkForArgs = GeneralTools::arguments();
 	for (const std::pair<const char*, Argumemts>& argument : checkForArgs)
@@ -131,7 +130,7 @@ void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& c
 				messenger->messageUser(AbstractNotifier::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
 			break;
 		}
-	}*/
+	}
 }
 
 void ControllerCLI::runAsClient(std::string ip)
@@ -175,13 +174,15 @@ void ControllerCLI::imageAction()
 		case 2:
 		{
 			bool res = false;
-			switch (menuInterface->imageFilterOptions())
+			int option = menuInterface->imageFilterOptions();
+			switch (option)
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
 				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
 				case 2: res = ImageUtils::Filter::purplefierSoft(*selectedImage); break;
 				case 3: res = ImageUtils::Filter::purplefierShading(*selectedImage); break;
 				case 4: res = ImageUtils::Filter::purplefierShadingSoft(*selectedImage); break;
+				default: messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid filter selection [" + std::to_string(option) + "]\n"); break;
 			}
 			if (res)
 				messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
@@ -189,14 +190,15 @@ void ControllerCLI::imageAction()
 				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
 		}
 		break;
+		default: messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid filter selection!\n"); break;
 	}
 }
-/*
+
 void ControllerCLI::showAboutApplicationInfo()
 {
 	console->out(GeneralTools::aboutApplication());
 }
-*/
+
 /*std::string command = "cd ";
 command += workspacePath;
 command += " && ";
@@ -219,21 +221,21 @@ void ControllerCLI::run()
 	std::cout << "\n";
 	switch(((MenuCLI*)menuInterface)->printMainMenu())
 	{
-		case 0: /*addImageAsync(loadImage(inputImageName())); */goto menu;
+		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
 		case 2:
-			/*imageHolder = selectImage();
+			imageHolder = selectImage();
 			if (imageHolder != nullptr)
-				selectedImage = imageHolder;*/
+				selectedImage = imageHolder;
 		goto menu;
 		case 3: imageAction(); goto menu;
 		case 4:
 			console->enableCustomFG();
-			ConsoleLib::ConsoleUtils::listFilesInFolder(stateController.getWorkspace());
+			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
 			console->disableCustomFG();
 			goto menu;
 		case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); goto menu;
-		case 6: /*showAboutApplicationInfo(); */ goto menu;
+		case 6: showAboutApplicationInfo(); goto menu;
 		case 7: return;
 	}
 }
@@ -242,34 +244,34 @@ void ControllerCLI::loadAllImagesAsync()
 {
 	std::thread thread([this]()
 	{
-		stateController.loadAllImagesAsync();
+		Controller::loadAllImagesAsync();
 	});
 	thread.detach();
 }
-/*
+
 Images::Image* ControllerCLI::selectImage()
 {
-	if (stateController.getImages().empty())
+	if (images.empty())
 	{
 		console->out(warningColor, "No images has been loaded yet!\n");
 		return 0;
 	}
 	console->enableCustomFG();
 	std::cout << "Currently loaded images (0 to exit):" << std::endl;
-	int max = stateController.getImages().size();
+	int max = images.size();
 	for (int index = 0; index < max; index++) // or for(Images::Image* img : images)
 	{
-		std::cout << index + 1 << ". " << stateController.getImages()[index]->getFilename() << std::endl;
+		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
 	}
 
 	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(0, max) - 1;
 	if (selectedIndex == -1)
 		return nullptr;
 	std::cout << "\n";
-	messenger->displayImageInfo(*stateController.getImages()[selectedIndex].get());
+	messenger->displayImageInfo(*images[selectedIndex].get());
 	std::cout << "\n";
 	console->disableCustomFG();
-	return stateController.getImages()[selectedIndex].get();
+	return images[selectedIndex].get();
 }
 
 std::string ControllerCLI::inputImageName()
@@ -278,6 +280,6 @@ std::string ControllerCLI::inputImageName()
 	std::string imgName;
 	std::cin >> imgName;
 	std::cin.get(); // Clears enter from console
-	return stateController.getWorkspace() + imgName;
-}*/
+	return workspacePath + imgName;
+}
 }
