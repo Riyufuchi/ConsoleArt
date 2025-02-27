@@ -159,7 +159,8 @@ void ControllerCLI::imageAction()
 		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image is selected!\n");
 		return;
 	}
-	switch(menuInterface->imageEditOptions())
+	int option = menuInterface->imageEditOptions();
+	switch(option)
 	{
 		case 0: convertImage(selectedImage); break;
 		case 1:
@@ -174,7 +175,7 @@ void ControllerCLI::imageAction()
 		case 2:
 		{
 			bool res = false;
-			int option = menuInterface->imageFilterOptions();
+			option = menuInterface->imageFilterOptions();
 			switch (option)
 			{
 				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
@@ -186,11 +187,14 @@ void ControllerCLI::imageAction()
 			}
 			if (res)
 				messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
-			else
+			else if (option != -1)
 				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
 		}
 		break;
-		default: messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid filter selection!\n"); break;
+		default:
+			if (option == -1)
+				messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid image action selection!\n");
+		break;
 	}
 }
 

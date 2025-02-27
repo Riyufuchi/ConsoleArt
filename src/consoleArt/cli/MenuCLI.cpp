@@ -48,10 +48,6 @@ int MenuCLI::charSetMenu()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::CHAR_SET_SELECTION), *console);
 }
-int MenuCLI::actionMenu()
-{
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
-}
 int MenuCLI::printMenu()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::PRINT_OPTIONS), *console);

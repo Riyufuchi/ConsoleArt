@@ -36,7 +36,6 @@ public:
 	int printMainMenu();
 	// Menus
 	int charSetMenu() override;
-	int actionMenu() override;
 	int printMenu() override;
 	virtual ConsoleLib::Color colorPicker() override;
 	virtual int imageFilterOptions() override;

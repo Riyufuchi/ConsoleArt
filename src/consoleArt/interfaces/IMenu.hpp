@@ -29,7 +29,6 @@ public:
 	};
 	virtual ~IMenu() = default;
 	virtual int charSetMenu() = 0;
-	virtual int actionMenu() = 0;
 	virtual int printMenu() = 0;
 	virtual int imageEditOptions() = 0;
 	virtual int imageFilterOptions() = 0;
