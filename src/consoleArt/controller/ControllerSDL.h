@@ -18,7 +18,6 @@
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
-#include "../../include/tinyfiledialogs.h"
 #include "../sdl/assets/SpriteSheetSDL.h"
 #include "../sdl/assets/StringSDL.h"
 #include "../sdl/components/ButtonSDL.h"
@@ -26,6 +25,11 @@
 #include "../sdl/components/ImageButtonSDL.h"
 #include "../sdl/abstract/StateSDL.h"
 #include "../guiSDL/MainState.h"
+
+extern "C"
+{
+	#include "../../include/tinyfiledialogs.h"
+}
 
 namespace ConsoleArt
 {
