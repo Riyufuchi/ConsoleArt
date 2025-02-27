@@ -166,7 +166,7 @@ void ControllerCLI::imageAction()
 		case 1:
 		{
 			console->out("Select signature:\n");
-			Images::Image* image = selectImage();
+			Images::Image* image = 0;//selectImage();
 			if (image == nullptr || !*image)
 				return;
 			ImageUtils::ImageTools::signatureToImage(*selectedImage, *image);
@@ -191,12 +191,12 @@ void ControllerCLI::imageAction()
 		break;
 	}
 }
-
+/*
 void ControllerCLI::showAboutApplicationInfo()
 {
 	console->out(GeneralTools::aboutApplication());
 }
-
+*/
 /*std::string command = "cd ";
 command += workspacePath;
 command += " && ";
@@ -222,9 +222,9 @@ void ControllerCLI::run()
 		case 0: /*addImageAsync(loadImage(inputImageName())); */goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
 		case 2:
-			imageHolder = selectImage();
+			/*imageHolder = selectImage();
 			if (imageHolder != nullptr)
-				selectedImage = imageHolder;
+				selectedImage = imageHolder;*/
 		goto menu;
 		case 3: imageAction(); goto menu;
 		case 4:
@@ -233,7 +233,7 @@ void ControllerCLI::run()
 			console->disableCustomFG();
 			goto menu;
 		case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); goto menu;
-		case 6: showAboutApplicationInfo(); goto menu;
+		case 6: /*showAboutApplicationInfo(); */ goto menu;
 		case 7: return;
 	}
 }
@@ -246,7 +246,7 @@ void ControllerCLI::loadAllImagesAsync()
 	});
 	thread.detach();
 }
-
+/*
 Images::Image* ControllerCLI::selectImage()
 {
 	if (stateController.getImages().empty())
@@ -279,5 +279,5 @@ std::string ControllerCLI::inputImageName()
 	std::cin >> imgName;
 	std::cin.get(); // Clears enter from console
 	return stateController.getWorkspace() + imgName;
-}
+}*/
 }

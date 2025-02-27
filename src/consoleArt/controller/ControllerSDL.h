@@ -37,11 +37,6 @@ private:
 	SDL_Renderer* renderer;
 	WindowInfo winInfo;
 	StateSDL* currentState;
-protected:
-	virtual void showAboutApplicationInfo() override;
-	virtual std::string inputImageName() override;
-	virtual Images::Image* selectImage() override;
-	virtual void refreshMenu() override;
 public:
 	ControllerSDL();
 	~ControllerSDL();

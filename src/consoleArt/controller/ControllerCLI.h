@@ -39,14 +39,11 @@ class ControllerCLI : public Controller
 {
 protected:
 	ConsoleLib::IConsole* console;
-	std::string inputImageName() override;
-	virtual Images::Image* selectImage() override;
-	virtual void showAboutApplicationInfo() override;
 	void loadAllImagesAsync();
+	virtual void refreshMenu();
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	ConsoleLib::Color warningColor{255, 255, 0};
-	void refreshMenu() override;
 	void runAsClient(std::string ip);
 	void imageAction();
 public:

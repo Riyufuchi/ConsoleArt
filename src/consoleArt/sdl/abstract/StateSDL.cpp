@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-StateSDL::StateSDL(SDL_Renderer* renderer, StateController& controller, WindowInfo& winInfo) : AbstrctState(controller), renderer(renderer), winInfo(winInfo)
+StateSDL::StateSDL(SDL_Renderer* renderer, WindowInfo& winInfo) : renderer(renderer), winInfo(winInfo)
 {
 }
 
@@ -20,6 +20,6 @@ StateSDL::~StateSDL()
 }
 void StateSDL::exitApplication()
 {
-
+	winInfo.keepRunning = false;
 }
 } /* namespace ConsoleArt */

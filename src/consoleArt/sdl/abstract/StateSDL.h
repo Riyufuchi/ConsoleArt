@@ -12,8 +12,6 @@
 
 #include <SDL2/SDL.h>
 
-#include "../../abstract/AbstrctState.h"
-
 namespace ConsoleArt
 {
 struct WindowInfo
@@ -24,17 +22,18 @@ struct WindowInfo
 	int mouseY;
 	bool keepRunning;
 };
-class StateSDL : public AbstrctState
+class StateSDL
 {
 protected:
 	SDL_Color backgroundColor {80, 80, 80, 255};
 	SDL_Renderer* renderer;
 	WindowInfo& winInfo;
 public:
-	StateSDL(SDL_Renderer* renderer, StateController& controller, WindowInfo& winInfo);
+	StateSDL(SDL_Renderer* renderer, WindowInfo& winInfo);
 	virtual ~StateSDL();
 	void exitApplication();
 	virtual void handleTick(SDL_Event& event) = 0;
+	virtual void render() = 0;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_SDL_ABSTRACT_STATESDL_H_ */

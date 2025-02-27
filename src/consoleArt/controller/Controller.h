@@ -38,10 +38,6 @@ protected:
 	Images::Image* selectedImage;
 	// Virtual
 	void convertImage(Images::Image* image);
-	virtual void refreshMenu() = 0;
-	virtual std::string inputImageName() = 0;
-	virtual Images::Image* selectImage() = 0;
-	virtual void showAboutApplicationInfo() = 0;
 public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);

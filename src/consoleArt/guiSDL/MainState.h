@@ -13,6 +13,9 @@
 #include <atomic>
 #include <thread>
 
+#include "../abstract/AbstractState.h"
+#include "../interfaces/IMainState.hpp"
+
 #include "../sdl/abstract/StateSDL.h"
 #include "../sdl/assets/StringSDL.h"
 #include "../sdl/assets/SpriteSheetSDL.h"
@@ -21,7 +24,7 @@
 
 namespace ConsoleArt
 {
-class MainState : public StateSDL
+class MainState : public StateSDL, public AbstractState, private IMainState
 {
 private:
 	StringSDL* selectedImageString;
@@ -31,10 +34,13 @@ private:
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 public:
-	MainState(SDL_Renderer* renderer, StateController& stateController, WindowInfo& winInfo);
+	MainState(SDL_Renderer* renderer, StateController& stateController, WindowInfo& winInfo, AbstractNotifier* notifier);
 	virtual ~MainState();
 	virtual void handleTick(SDL_Event &event) override;
 	virtual void render() override;
+	virtual Images::Image* selectImage() override;
+	virtual void showAboutApplicationInfo() override;
+	virtual std::string inputImageName() override;
 };
 
 } /* namespace ConsoleArt */

@@ -1,5 +1,5 @@
 //==============================================================================
-// File       : AbstrctState.cpp
+// File       : AbstractState.cpp
 // Author     : riyufuchi
 // Created on : Feb 27, 2025
 // Last edit  : Feb 27, 2025
@@ -7,15 +7,15 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "AbstrctState.h"
+#include "AbstractState.h"
 
-namespace ConsoleArt {
-
-AbstrctState::AbstrctState(StateController& controller) : controller(controller)
+namespace ConsoleArt
+{
+AbstractState::AbstractState(StateController& controller, AbstractNotifier* notifier) : controller(controller), notifier(notifier)
 {
 }
 
-AbstrctState::~AbstrctState()
+AbstractState::~AbstractState()
 {
 }
 } /* namespace ConsoleArt */

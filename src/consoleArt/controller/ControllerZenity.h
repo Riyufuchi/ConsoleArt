@@ -21,10 +21,6 @@ class ControllerZenity: public ControllerCLI
 public:
 	ControllerZenity(ConsoleLib::IConsole* console);
 	virtual ~ControllerZenity();
-protected:
-	virtual Images::Image* selectImage() override;
-	virtual std::string inputImageName() override;
-	virtual void showAboutApplicationInfo() override;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_ */

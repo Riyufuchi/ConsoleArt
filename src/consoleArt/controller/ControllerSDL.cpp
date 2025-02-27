@@ -27,7 +27,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.mouseX = 0;
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
-	currentState = new MainState(renderer, stateController, winInfo);
+	currentState = new MainState(renderer, stateController, winInfo, messenger);
 }
 
 ControllerSDL::~ControllerSDL()
@@ -81,36 +81,8 @@ void ControllerSDL::run()
 	}
 }
 
-void ControllerSDL::showAboutApplicationInfo()
-{
-}
-
-std::string ControllerSDL::inputImageName()
-{
-	/*std::vector<std::string> formatStrings;
-	std::vector<char*> formatCStrs;
-	for (const auto& p : suppertedImageFormats)
-	{
-		formatStrings.push_back("*" + p.first);
-		formatCStrs.push_back(strdup(formatStrings.back().c_str())); // Duplicate for C compatibility
-	}
-	const char* result = tinyfd_openFileDialog("Select an Image", stateController.getWorkspace().c_str(), formatCStrs.size(), formatCStrs.data(), "Image Files", 0);
-	if (result)
-		return std::string(result);*/
-	return "";
-}
-
 void ControllerSDL::configure(std::map<std::string, std::vector<std::string>>& config)
 {
-}
-
-
-Images::Image* ControllerSDL::selectImage()
-{
-	return nullptr;
-}
-
-void ControllerSDL::refreshMenu() {
 }
 
 } /* namespace ConsoleArt */

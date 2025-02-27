@@ -25,7 +25,7 @@ ControllerZenity::~ControllerZenity()
 {
 	std::cout << "ControllerZenity destroyed\n";
 }
-
+/*
 std::string ControllerZenity::inputImageName()
 {
 	std::string command = "zenity --file-selection --title=\"Select a File\" --filename=\"" + stateController.getWorkspace() + "\"";
@@ -93,12 +93,12 @@ Images::Image* ControllerZenity::selectImage()
 		if (img->getFilename() == selectedImage)
 			return img.get();
 	return nullptr;
-}
-
+}/*
+/*
 void ControllerZenity::showAboutApplicationInfo()
 {
 	if (std::system(std::string("echo \"").append(GeneralTools::aboutApplication()).append("\" | zenity --text-info --title='About ConsoleArt' --width=600 --height=600").c_str()))
 		ControllerCLI::showAboutApplicationInfo();
 }
-
+*/
 } /* namespace ConsoleArt */

@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-MainState::MainState(SDL_Renderer* renderer, StateController& stateController, WindowInfo& winInfo) : StateSDL(renderer, stateController, winInfo)
+MainState::MainState(SDL_Renderer* renderer, StateController& stateController, WindowInfo& winInfo, AbstractNotifier* notifier) : StateSDL(renderer, winInfo), AbstractState(stateController, notifier), IMainState()
 {
 	this->selectedImageString = new StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
@@ -60,17 +60,16 @@ MainState::~MainState()
 
 void MainState::addImageButtonEvent()
 {
-	/*
 	std::thread([&]()
 	{
 		Images::Image* img = controller.loadImageAsync(inputImageName());
 		if (controller.addImageAsync(img))
 		{
-			messenger->messageUser("Image successfully loaded.");
-			selectedImage = img;
+			notifier->messageUser("Image successfully loaded.");
+			//selectedImage = img;
 			textUpdated = true;
 		}
-	}).detach();*/
+	}).detach();
 }
 
 void MainState::handleTick(SDL_Event &event)
@@ -106,6 +105,30 @@ void MainState::render()
 		selectedImageString->repose((width / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 	}*/
 	selectedImageString->draw(renderer);
+}
+
+Images::Image* MainState::selectImage()
+{
+	return nullptr;
+}
+
+void MainState::showAboutApplicationInfo()
+{
+}
+
+std::string MainState::inputImageName()
+{
+	/*std::vector<std::string> formatStrings;
+	std::vector<char*> formatCStrs;
+	for (const auto& p : suppertedImageFormats)
+	{
+	formatStrings.push_back("*" + p.first);
+		formatCStrs.push_back(strdup(formatStrings.back().c_str())); // Duplicate for C compatibility
+	}
+	const char* result = tinyfd_openFileDialog("Select an Image", stateController.getWorkspace().c_str(), formatCStrs.size(), formatCStrs.data(), "Image Files", 0);
+	if (result)
+		return std::string(result);*/
+	return "";
 }
 
 } /* namespace ConsoleArt */
