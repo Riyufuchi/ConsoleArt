@@ -25,6 +25,8 @@
 #include "../sdl/components/ImageButtonSDL.h"
 #include "../sdl/abstract/StateSDL.h"
 #include "../guiSDL/MainState.h"
+#include "../guiSDL/EditImageState.h"
+#include "../guiSDL/WindowStates.hpp"
 
 extern "C"
 {
@@ -42,9 +44,12 @@ private:
 	WindowInfo winInfo;
 	StateSDL* currentState;
 	std::atomic<bool> textUpdated;
+	std::unordered_map<WindowState, StateSDL*> windowStates;
+	SDL_Event event;
 	void addImageButtonEvent();
 	std::atomic<bool> getTextUpdated();
 	bool updateString(StringSDL* stringSDL);
+	void switchState(WindowState windowState);
 protected:
 	virtual Images::Image* selectImage() override;
 	virtual void showAboutApplicationInfo() override;

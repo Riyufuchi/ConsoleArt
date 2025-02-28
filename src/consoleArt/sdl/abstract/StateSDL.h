@@ -34,6 +34,7 @@ public:
 	void exitApplication();
 	virtual void handleTick(SDL_Event& event) = 0;
 	virtual void render() = 0;
+	virtual void onReturn() = 0;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_SDL_ABSTRACT_STATESDL_H_ */

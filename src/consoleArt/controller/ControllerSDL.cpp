@@ -29,7 +29,9 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.keepRunning = isRunnable;
 	this->textUpdated = false;
 	currentState = new MainState(renderer, winInfo, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
-			[&](StringSDL* strSDL) { return updateString(strSDL); });
+			[&](StringSDL* strSDL) { return updateString(strSDL); }, [&](){ switchState(WindowState::EDIT_IMAGE); });
+	windowStates[WindowState::MAIN] = currentState;
+	windowStates[WindowState::EDIT_IMAGE] = new EditImageState(renderer, winInfo, [&](){ switchState(WindowState::MAIN); });
 }
 
 ControllerSDL::~ControllerSDL()
@@ -38,6 +40,16 @@ ControllerSDL::~ControllerSDL()
 	SDL_DestroyWindow(window);
 	TTF_Quit();
 	SDL_Quit();
+}
+
+void ControllerSDL::switchState(WindowState windowState)
+{
+	auto it = windowStates.find(windowState);
+	if (it != windowStates.end())
+	{
+		currentState = it->second;
+		currentState->onReturn();
+	}
 }
 
 bool ControllerSDL::updateString(StringSDL* stringSDL)
@@ -77,7 +89,6 @@ void ControllerSDL::run()
 		std::cout << "Driver " << i << ": " << info.name << std::endl;
 	}
 
-	SDL_Event event;
 	const int targetFPS = 60;
 	const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
 	unsigned int frameStart = 0;
@@ -89,16 +100,22 @@ void ControllerSDL::run()
 		// Handle events
 		SDL_PollEvent(&event);
 		SDL_GetMouseState(&winInfo.mouseX, &winInfo.mouseY);
-		currentState->handleTick(event);
 		switch (event.type)
 		{
 			case SDL_QUIT: winInfo.keepRunning = false; break;
+			case SDL_WINDOWEVENT:
+				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					winInfo.w = event.window.data1;
+					winInfo.h = event.window.data2;
+				}
+			break;
 		}
-
+		currentState->handleTick(event);
 		// Rendering
-		currentState->render();
-		SDL_RenderPresent(renderer);
-
+		SDL_RenderClear(renderer); // Clear window
+		currentState->render(); // Render content
+		SDL_RenderPresent(renderer); // Present content
 		// Frame rate control
 		frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
 		if (frameTime > frameDelay)
