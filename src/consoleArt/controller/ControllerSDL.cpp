@@ -29,10 +29,10 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
 	this->textUpdated = false;
-	currentState = new MainState(renderer, winInfo, *buttons, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
-			[&](StringSDL* strSDL) { return updateString(strSDL); }, [&](){ switchState(WindowState::EDIT_IMAGE); });
+	currentState = new MainStateSDL(renderer, winInfo, *buttons, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
+			[&](sdl::StringSDL* strSDL) { return updateString(strSDL); }, [&](){ switchState(WindowState::EDIT_IMAGE); });
 	windowStates[WindowState::MAIN] = currentState;
-	windowStates[WindowState::EDIT_IMAGE] = new EditImageState(renderer, winInfo, *buttons, [&](){ switchState(WindowState::MAIN); });
+	windowStates[WindowState::EDIT_IMAGE] = new EditImageStateSDL(renderer, winInfo, *buttons, [&](){ switchState(WindowState::MAIN); });
 }
 
 ControllerSDL::~ControllerSDL()
@@ -54,7 +54,7 @@ void ControllerSDL::switchState(WindowState windowState)
 	}
 }
 
-bool ControllerSDL::updateString(StringSDL* stringSDL)
+bool ControllerSDL::updateString(sdl::StringSDL* stringSDL)
 {
 	if (textUpdated && selectedImage && stringSDL)
 	{

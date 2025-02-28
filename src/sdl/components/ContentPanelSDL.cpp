@@ -7,9 +7,9 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/components/ContentPanelSDL.h"
+#include "ContentPanelSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 ContentPanelSDL::ContentPanelSDL(int x, int y) : ComponentSDL(x, y, 10, 10)
 {

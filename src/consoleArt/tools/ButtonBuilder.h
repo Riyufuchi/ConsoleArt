@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "../sdl/assets/SpriteSheetSDL.h"
+#include "../../sdl/assets/SpriteSheetSDL.h"
 
 namespace ConsoleArt
 {
@@ -36,9 +36,8 @@ private:
 	const std::pair<int, int> SQUARE{32, 32};
 	const std::pair<int, int> RECTANGLE{64, 32};
 	std::unordered_map<ButtonType, std::pair<std::string, std::string>> IDs;
-	SpriteSheetSDL* buttonSheet;
-	SpriteSheetSDL* buttonSheetSmall;
-	void prepareTextures();
+	sdl::SpriteSheetSDL* buttonSheet;
+	sdl::SpriteSheetSDL* buttonSheetSmall;
 	void logButton(int x, int y, ButtonType type, const std::pair<int, int>& size);
 public:
 	ButtonBuilder(SDL_Renderer* renderer);

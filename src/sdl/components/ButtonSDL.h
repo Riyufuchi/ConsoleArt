@@ -12,9 +12,9 @@
 
 #include <SDL2/SDL.h>
 
-#include "../../sdl/abstract/ComponentSDL.h"
+#include "../abstract/ComponentSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 class ButtonSDL : public ComponentSDL
 {

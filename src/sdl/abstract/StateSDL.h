@@ -12,7 +12,7 @@
 
 #include <SDL2/SDL.h>
 
-namespace ConsoleArt
+namespace sdl
 {
 struct WindowInfo
 {

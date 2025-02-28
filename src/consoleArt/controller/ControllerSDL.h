@@ -18,14 +18,12 @@
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
-#include "../sdl/assets/SpriteSheetSDL.h"
-#include "../sdl/assets/StringSDL.h"
-#include "../sdl/components/ButtonSDL.h"
-#include "../sdl/components/ContentPanelSDL.h"
-#include "../sdl/components/ImageButtonSDL.h"
-#include "../sdl/abstract/StateSDL.h"
-#include "../guiSDL/MainState.h"
-#include "../guiSDL/EditImageState.h"
+#include "../../sdl/assets/SpriteSheetSDL.h"
+#include "../../sdl/assets/StringSDL.h"
+#include "../../sdl/components/ButtonSDL.h"
+#include "../../sdl/components/ContentPanelSDL.h"
+#include "../../sdl/components/ImageButtonSDL.h"
+#include "../../sdl/abstract/StateSDL.h"
 #include "../guiSDL/WindowStates.hpp"
 
 extern "C"
@@ -41,15 +39,15 @@ private:
 	int width, height;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	WindowInfo winInfo;
-	StateSDL* currentState;
+	sdl::WindowInfo winInfo;
+	sdl::StateSDL* currentState;
 	ButtonBuilder* buttons;
 	std::atomic<bool> textUpdated;
-	std::unordered_map<WindowState, StateSDL*> windowStates;
+	std::unordered_map<WindowState, sdl::StateSDL*> windowStates;
 	SDL_Event event;
 	void addImageButtonEvent();
 	std::atomic<bool> getTextUpdated();
-	bool updateString(StringSDL* stringSDL);
+	bool updateString(sdl::StringSDL* stringSDL);
 	void switchState(WindowState windowState);
 protected:
 	virtual Images::Image* selectImage() override;
@@ -60,7 +58,5 @@ public:
 	~ControllerSDL();
 	virtual void run() override;
 };
-
 } /* namespace ConsoleArt */
-
 #endif /* CONSOLEART_CONTROLLER_CONTROLLERSDL_H_ */

@@ -13,7 +13,7 @@
 #include <SDL2/SDL.h>
 #include <functional>
 
-namespace ConsoleArt
+namespace sdl
 {
 class ComponentSDL
 {

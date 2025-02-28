@@ -7,9 +7,9 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/assets/SpriteSheetSDL.h"
+#include "SpriteSheetSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 SpriteSheetSDL::SpriteSheetSDL(const char* path, SDL_Renderer* renderer)
 {

@@ -7,10 +7,10 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/assets/StringSDL.h"
+#include "StringSDL.h"
 
-namespace ConsoleArt {
-
+namespace sdl
+{
 StringSDL::StringSDL(std::string text, std::string fontname, int size, SDL_Color color, SDL_Renderer* renderer) : ComponentSDL(0, 0, 0, 0, color), renderer(renderer), font(nullptr), textTexture(nullptr)
 {
 	font = TTF_OpenFont(fontname.c_str(), size);
