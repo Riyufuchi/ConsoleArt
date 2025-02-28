@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <mutex>
 #include <unordered_map>
+#include <functional>
 
 #include "../../images/Formats.hpp"
 #include "../asciiTools/AsciiConverter.h"
@@ -23,6 +24,8 @@
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"
+#include "../../other/OtherUtils.hpp"
+#include "../../math/MathUtils.hpp"
 
 namespace ConsoleArt
 {
@@ -39,6 +42,7 @@ protected:
 	std::mutex mutexImages;
 	std::unordered_map<std::string, Images::ImageType> suppertedImageFormats;
 	std::mutex mutexImageFormats;
+	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
 	void convertImage(Images::Image* image);
 	// For main state
 	virtual std::string inputImageName() = 0;
@@ -48,13 +52,13 @@ protected:
 	bool addImageAsync(Images::Image* image);
 	Images::Image* loadImage(std::string path);
 	Images::Image* loadImageAsync(const std::string& path);
-	Images::Image* loadImageAsync(const std::string path, const std::string& extension);
+	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
 public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
-	virtual void configure(std::map<std::string, std::vector<std::string>>& config) = 0;
+	void configure(std::map<std::string, std::vector<std::string>>& config);
 	virtual void run() = 0;
 	// Setters
 	void setWorkspace(std::string path);

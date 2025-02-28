@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Feb 24, 2025
+// Last Edit   : Feb 27, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 	#endif
 	systemConsole.setDefaultTextColor(color);
 
-	ConsoleLib::ConsoleUtils::header("\n    ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole, color);
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole, color);
 
 	bool success = true;
 	std::string resultMsg = "";
@@ -83,11 +83,19 @@ int main(int argc, char** argv)
 	ConsoleArt::Controller* consoleArt;
 
 	if (argPairs.contains("--gui"))
+	{
+		argPairs.erase("--gui");
 		consoleArt = new ConsoleArt::ControllerSDL();
+	}
 	else if (argPairs.contains("--zen"))
+	{
+		argPairs.erase("--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
+	}
 	else
+	{
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
+	}
 
 	switch (checkArgs(argPairs, systemConsole))
 	{

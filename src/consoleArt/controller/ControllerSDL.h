@@ -53,7 +53,6 @@ public:
 	ControllerSDL();
 	~ControllerSDL();
 	virtual void run() override;
-	virtual void configure(std::map<std::string, std::vector<std::string>>& config) override;
 };
 
 } /* namespace ConsoleArt */

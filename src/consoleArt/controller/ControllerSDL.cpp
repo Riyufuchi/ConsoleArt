@@ -18,7 +18,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	{
 		SDL_Log("ERROR: Failed to initialize SDL_ttf: %s", TTF_GetError());
 	}
-	this->window = SDL_CreateWindow(("ConsoleArt v" + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION)).c_str(),
+	this->window = SDL_CreateWindow(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 	setenv("TINYFD_FORCE_XDG", "1", 1);
@@ -106,10 +106,6 @@ void ControllerSDL::run()
 			SDL_Delay(frameDelay - frameTime); // Delay to maintain 60 FPS
 		}
 	}
-}
-
-void ControllerSDL::configure(std::map<std::string, std::vector<std::string>>& config)
-{
 }
 
 Images::Image* ControllerSDL::selectImage()

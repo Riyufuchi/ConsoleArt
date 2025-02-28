@@ -19,15 +19,40 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	suppertedImageFormats[".bmp"] = Images::ImageType::BMP;
 	suppertedImageFormats[".ppm"] = Images::ImageType::PPM;
 	suppertedImageFormats[".png"] = Images::ImageType::PNG;
+	// Functions
+	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(path)); };
+	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
+	argumentMethods["--p"] = argumentMethods["--path"];
+	argumentMethods["--loadAll"] = [&](const std::vector<std::string>&) { loadAllImagesAsync(); };
+	argumentMethods["--binomial"] = [&](const auto& vector)
+	{
+		auto res = Math::MathUtils::binomialDistribution(vector);
+		Other::OtherhUtils::printResults<int, long double>(res);
+		isRunnable = false;
+	};
 }
 Controller::~Controller()
 {
-	delete menuInterface;
-	delete messenger;
-	delete abstractAsciiPrinter;
-	//for(size_t i = 0; i < images.size(); i++)
-	//	delete images[i];
-	std::cout << "Controller " << "destructed" << std::endl;
+	if (menuInterface)
+		delete menuInterface;
+	if (messenger)
+		delete messenger;
+	if (abstractAsciiPrinter)
+		delete abstractAsciiPrinter;
+	std::cout << "Controller deleted" << std::endl;
+}
+
+void Controller::configure(std::map<std::string, std::vector<std::string>>& config)
+{
+	auto it = argumentMethods.find("");
+	for (const std::pair<const std::string, std::vector<std::string>>& argument : config)
+	{
+		it = argumentMethods.find(argument.first);
+		if (it != argumentMethods.end())
+			it->second(argument.second);
+		else
+			messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid argument [" + argument.first + "]\n");
+	}
 }
 
 void Controller::convertImage(Images::Image* image)
@@ -170,7 +195,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 	return nullptr;
 }
 
-Images::Image* Controller::loadImageAsync(const std::string path, const std::string& extension)
+Images::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)
 {
 	std::lock_guard<std::mutex> lock(mutexImageFormats);
 	if (suppertedImageFormats.contains(extension))
