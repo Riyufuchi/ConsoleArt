@@ -12,38 +12,22 @@
 namespace ConsoleArt
 {
 MainState::MainState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
-		std::function<bool(StringSDL*)> updateText) : StateSDL(renderer, winInfo), updateText(updateText)
+		std::function<bool(StringSDL*)> updateText, std::function<void()> switchState) : StateSDL(renderer, winInfo), updateText(updateText)
 {
 	this->selectedImageString = new StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
-	std::pair<int, int> square(32, 32);
-	std::pair<int, int> rectangle(64, 32);
-	std::pair<std::string, std::string> addImageBtn("1", "1H");
-	std::pair<std::string, std::string> exitBtn("2", "2H");
-	std::pair<std::string, std::string> configBtn("3", "3H");
-	std::pair<std::string, std::string> selectBtn("4", "4H");
-	std::pair<std::string, std::string> asyncBtn("5", "5H");
-	std::pair<std::string, std::string> editBtn("6", "6H");
-	std::pair<std::string, std::string> aboutBtn("7", "7H");
-	this->sheet = new SpriteSheetSDL("ui.png", renderer);
-	this->sheet->prepareTexturePair(addImageBtn, 0, 0, rectangle);
-	this->sheet->prepareTexturePair(exitBtn, 0, 160, square);
-	this->sheet->prepareTexturePair(configBtn, 0, 96, square);
-	this->sheet->prepareTexturePair(selectBtn, 0, 32, rectangle);
-	this->sheet->prepareTexturePair(asyncBtn, 128, 0, square);
-	this->sheet->prepareTexturePair(editBtn, 128, 32, square);
-	this->sheet->prepareTexturePair(aboutBtn, 128, 64, square);
+	this->buttons = new ButtonBuilder(renderer);
 	this->pane = new ContentPanelSDL(0, 0);
 	// 0
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(addImageBtn), addImageFunc));
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(asyncBtn), addImageAsyncFunc));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, buttons->getButtonTextureFor(ButtonType::LOAD), addImageFunc));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::LOAD_ALL), addImageAsyncFunc));
 	// 1
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, sheet->getTexturePair(selectBtn)));
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(editBtn)));
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, buttons->getButtonTextureFor(ButtonType::SELECT_IMAGE)));
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::EDIT_IMAGE), switchState));
 	// 2
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(configBtn)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(aboutBtn), [&]() {  }));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, sheet->getTexturePair(exitBtn), [&]() { exitApplication(); }));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::SETTINGS)));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::ABOUT), [&]() {  }));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::EXIT), [&]() { exitApplication(); }));
 	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -53,7 +37,7 @@ MainState::MainState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<
 
 MainState::~MainState()
 {
-	delete sheet;
+	delete buttons;
 	delete pane;
 	delete selectedImageString;
 }
@@ -81,12 +65,18 @@ void MainState::handleTick(SDL_Event &event)
 void MainState::render()
 {
 	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);  // R, G, B, A (0-255)
-	SDL_RenderClear(renderer);
-
 	pane->draw(renderer);
 	if (updateText(selectedImageString))
 		selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 	selectedImageString->draw(renderer);
+}
+
+void MainState::onReturn()
+{
+	pane->setX((winInfo.w/ 2) - pane->getWidth() / 2);
+	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
+	pane->reposeContent();
+	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 }
 
 } /* namespace ConsoleArt */
