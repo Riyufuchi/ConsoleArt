@@ -21,116 +21,86 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 		((MenuCLI*)menuInterface)->setConsole(this->console);
 	}
 	((NotifierCLI*)messenger)->setConsole(console);
+	// Arguments
+	argumentMethods["--no-colo"] = [&](const auto&)
+	{
+		this->console = &defaultConsole;
+		((MenuCLI*)menuInterface)->setConsole(console);
+		console->out("No color option applied\n");
+	};
+	argumentMethods["--client"] = [&](const auto& vector)
+	{
+		if (vector.empty()) runAsClient("");
+		else runAsClient(vector.at(0));
+	};
+	argumentMethods["--color"] = [&](const auto& vector)
+	{
+		if (vector.empty() || (!ConsoleLib::DataUtils::isNumber(vector.at(0))))
+		{
+			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + vector.at(0) + " for --color\n");
+			return;
+		}
+		console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(vector.at(0)) - 1)));
+	};
+	argumentMethods["--benchmark"] = [&](const auto& vector) { benchmark(vector); };
+	argumentMethods["--compare"] = [&](const auto& vector) { compareImages(vector); };
 }
 ControllerCLI::~ControllerCLI()
 {
-	std::cout << "ControllerCLI destructed\n";
+	std::cout << "ControllerCLI destroyed\n";
 }
-void ControllerCLI::configure(std::map<std::string, std::vector<std::string>>& config)
+
+void ControllerCLI::benchmark(const std::vector<std::string>& vector)
 {
-	std::vector<std::string> params;
-	constexpr auto checkForArgs = GeneralTools::arguments();
-	for (const std::pair<const char*, Argumemts>& argument : checkForArgs)
+	isRunnable = false;
+	std::string image = "bench.pcx";
+	if (!vector.empty())
+		image = vector.at(0);
+	auto start = std::chrono::steady_clock::now();
+	auto end = start;
+	Images::Image* img = loadImage(image);
+	if (img == nullptr)
+		return;
+	ImageUtils::AsciiConverter ac(*img);
+	ac.setCharSet(ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
+	ac.convertToASCII();
+	end = std::chrono::steady_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
+}
+
+void ControllerCLI::compareImages(const std::vector<std::string>& vector)
+{
+	if (vector.size() != 2)
 	{
-		if (!config.contains(argument.first))
-			continue;
-		switch (argument.second)
-		{
-			case COLOR:
-				params = config.at(argument.first);
-				if (params.empty() || (!ConsoleLib::DataUtils::isNumber(params.at(0))))
-				{
-					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + params.at(0) + " for --color\n");
-					continue;
-				}
-				console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(params.at(0)) - 1)));
-			break;
-			case NO_COLOR:
-				this->console = &defaultConsole;
-				((MenuCLI*)menuInterface)->setConsole(console);
-				console->out("No color option applied\n");
-				console->out("Text");
-			break;
-			case CLIENT:
-				if (config.at(argument.first).empty())
-					runAsClient("");
-				else
-					runAsClient(config.at(argument.first).at(0));
-			break;
-			case BENCHMARK: {
-				isRunnable = false;
-				std::string image = "bench.pcx";
-				params = config.at(argument.first);
-				if (!params.empty())
-					image = params.at(0);
-				auto start = std::chrono::steady_clock::now();
-				auto end = start;
-				Images::Image* img = loadImage(image);
-				if (img == nullptr)
-					continue;
-				ImageUtils::AsciiConverter ac(*img);
-				ac.setCharSet(ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
-				ac.convertToASCII();
-				end = std::chrono::steady_clock::now();
-				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				std::cout << "Benchmark time: " << duration.count() << " ms" << " => " <<  duration.count() / 1000.0 << " seconds" << std::endl;
-			} break;
-			case BINOM: {
-				auto res = Math::MathUtils::binomialDistribution(config.at(argument.first));
-				Other::OtherhUtils::printResults<int, long double>(res);
-				isRunnable = false;
-			} break;
-			case LOAD_ALL: loadAllImagesAsync(); break;
-			case PATH: setWorkspace(config.at(argument.first).at(0)); break;
-			case IMAGE: {
-				params = config.at(argument.first);
-				if (params.empty())
-					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing image parameter\n");
-				if (params.at(0).find("/") != std::string::npos)
-					addImageAsync(loadImage(params.at(0)));
-				else
-					addImageAsync(loadImage(workspacePath + params.at(0)));
-				if (images.size() > 0)
-					console->out("Images loaded successfully\n");
-			} break;
-			case COMPARE: {
-				params = config.at(argument.first);
-				if (params.size() != 2)
-				{
-					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument " + std::string(argument.first) + " missing " + std::to_string((2 - params.size())) + " parameters!\n");
-					continue;
-				}
-				Images::Image* image1 = loadImage(workspacePath + params.at(0));
-				Images::Image* image2 = loadImage(workspacePath + params.at(1));
-				if (image1 == nullptr || !*image1)
-				{
-					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
-					continue;
-				}
-				if (image2 == nullptr || !*image2)
-				{
-					messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
-					continue;
-				}
-				switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
-				{
-					case 1:
-						console->out("Image " + image1->getFilename() + " is bigger than " + image2->getFilename() + "\n");
-					break;
-					case 0:
-						console->out("Image " + image1->getFilename() + " is equal to " + image2->getFilename() + "\n");
-					break;
-					case -1:
-						console->out("Image " + image2->getFilename() + " is bigger than " + image1->getFilename() + "\n");
-					break;
-				}
-				isRunnable = false;
-			} break;
-			default:
-				messenger->messageUser(AbstractNotifier::MessageType::ERROR, GeneralTools::createArgErrorMessage(argument.first));
-			break;
-		}
+		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument --compare is missing " + std::to_string((2 - vector.size())) + " parameters!\n");
+		return;
 	}
+	Images::Image* image1 = loadImage(workspacePath + vector.at(0));
+	Images::Image* image2 = loadImage(workspacePath + vector.at(1));
+	if (image1 == nullptr || !*image1)
+	{
+		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
+		return;
+	}
+	if (image2 == nullptr || !*image2)
+	{
+		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
+		return;
+	}
+	switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
+	{
+		case 1:
+			console->out("Image " + image1->getFilename() + " is bigger than " + image2->getFilename() + "\n");
+		break;
+		case 0:
+			console->out("Image " + image1->getFilename() + " is equal to " + image2->getFilename() + "\n");
+		break;
+		case -1:
+			console->out("Image " + image2->getFilename() + " is bigger than " + image1->getFilename() + "\n");
+		break;
+	}
+	isRunnable = false;
 }
 
 void ControllerCLI::runAsClient(std::string ip)

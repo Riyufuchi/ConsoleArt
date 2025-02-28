@@ -41,6 +41,8 @@ freely, subject to the following restrictions:
 
 ## TinyFileDialogs
 
-SPDX-License-Identifier: Zlib
+SPDX-License-Identifier: Zlib 
+
 Copyright (c) 2014 - 2024 Guillaume Vareille http://ysengrin.com
+
 Official web site: http://tinyfiledialogs.sourceforge.net

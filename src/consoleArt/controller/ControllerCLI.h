@@ -20,10 +20,7 @@
 #include "DataUtils.h"
 #include "Library.h"
 
-#include "../../math/distributions/BinomialDistribution.h"
 #include "../../other/ScheduleTracker.h"
-#include "../../other/OtherUtils.hpp"
-#include "../../math/MathUtils.hpp"
 #include "../controller/Controller.h"
 #include "../cli/AsciiPrinterCLI.h"
 #include "../cli/MenuCLI.h"
@@ -49,10 +46,11 @@ private:
 	ConsoleLib::Color warningColor{255, 255, 0};
 	void runAsClient(std::string ip);
 	void imageAction();
+	void benchmark(const std::vector<std::string>& vector);
+	void compareImages(const std::vector<std::string>& vector);
 public:
 	ControllerCLI(ConsoleLib::IConsole* console);
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
-	void configure(std::map<std::string, std::vector<std::string>>& config) override;
 	void run() override;
 	~ControllerCLI();
 };

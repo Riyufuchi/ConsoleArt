@@ -37,24 +37,13 @@ enum Argumemts
 class GeneralTools
 {
 public:
-	static constexpr const char* CONSOLE_ART_VERSION = "2.8 - beta 9";
+	#ifdef DEBUG
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - beta 10 (debug)";
+	#else
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8";
+	#endif
 	GeneralTools();
 	~GeneralTools();
-	static constexpr  std::array<std::pair<const char*, Argumemts>, (Argumemts::COMPARE + 2)> arguments()
-	{
-		return {{
-			{"-p", Argumemts::PATH},
-			{"--path", Argumemts::PATH},
-			{"--loadAll", Argumemts::LOAD_ALL},
-			{"--image", Argumemts::IMAGE},
-			{"--color", Argumemts::COLOR},
-			{"--no-color", Argumemts::NO_COLOR},
-			{"--client", Argumemts::CLIENT},
-			{"--benchmark", Argumemts::BENCHMARK},
-			{"--BI", Argumemts::BINOM},
-			{"--compare", Argumemts::COMPARE}
-		}};
-	}
 	static void createManual()
 	{
 		std::cout << _COPYRIGHT_HEADER;
@@ -63,17 +52,17 @@ public:
 			"-p --path [path]| Specify workspace folder",
 			"--colorTest| Print colored text for testing",
 			"--loadAll| Loads all images in workspace (should be after --path)",
-			"--image [path]| Loads given image (in workspace if defined)",
+			"--image [path...]| Loads given image or images (in workspace if defined)",
 			"--no-color| Disable colored outputs, for when they are not supported",
 			"--color [colorID]| Sets default text color",
 			"--about| Shows details about this application",
 			"--client [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
 			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
-			"--BI [N, P, K...]| Binomial distribution",
+			"--binomial [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compares two images",
-			"--cli| Starts application in CLI mode (default)",
+			"--gui| Starts application in GUI mode using SDL2",
 			"--zen| Starts application in CLI mode using Zenity"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
