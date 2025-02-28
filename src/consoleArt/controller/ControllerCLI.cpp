@@ -195,7 +195,15 @@ void ControllerCLI::run()
 	std::cout << "\n";
 	switch(((MenuCLI*)menuInterface)->printMainMenu())
 	{
-		case 0: addImageAsync(loadImage(inputImageName())); goto menu;
+		case 0:
+		{
+			imageHolder = loadImage(inputImageName());
+			if (imageHolder != nullptr)
+			{
+				selectedImage = imageHolder;
+				addImageAsync(imageHolder);
+			}
+		} goto menu;
 		case 1: loadAllImagesAsync(); goto menu;
 		case 2:
 			imageHolder = selectImage();
