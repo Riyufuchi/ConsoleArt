@@ -10,6 +10,9 @@
 #ifndef CONSOLEART_GUISDL_WINDOWSTATES_HPP_
 #define CONSOLEART_GUISDL_WINDOWSTATES_HPP_
 
+#include "states/MainStateSDL.h"
+#include "states/EditImageStateSDL.h"
+
 namespace ConsoleArt
 {
 enum WindowState

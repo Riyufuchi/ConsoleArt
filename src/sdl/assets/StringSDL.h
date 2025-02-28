@@ -16,7 +16,7 @@
 
 #include "../abstract/ComponentSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 class StringSDL : public ComponentSDL
 {

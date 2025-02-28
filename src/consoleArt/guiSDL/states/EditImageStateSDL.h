@@ -12,23 +12,23 @@
 
 #include <functional>
 
-#include "../sdl/abstract/StateSDL.h"
-#include "../sdl/assets/StringSDL.h"
-#include "../sdl/components/ContentPanelSDL.h"
-#include "../sdl/components/ImageButtonSDL.h"
-#include "../tools/ButtonBuilder.h"
+#include "../../../sdl/abstract/StateSDL.h"
+#include "../../../sdl/assets/StringSDL.h"
+#include "../../../sdl/components/ContentPanelSDL.h"
+#include "../../../sdl/components/ImageButtonSDL.h"
+#include "../../tools/ButtonBuilder.h"
 
 namespace ConsoleArt
 {
-class EditImageState: public StateSDL
+class EditImageStateSDL: public sdl::StateSDL
 {
 private:
 	ButtonBuilder& buttons;
-	ContentPanelSDL* pane;
+	sdl::ContentPanelSDL* pane;
 public:
-	EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt);
-	virtual ~EditImageState();
-	virtual void handleTick(SDL_Event &event) override;
+	EditImageStateSDL(SDL_Renderer* renderer, sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt);
+	virtual ~EditImageStateSDL();
+	virtual void handleTick(SDL_Event& event) override;
 	virtual void render() override;
 	virtual void onReturn() override;
 };

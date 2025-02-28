@@ -9,7 +9,7 @@
 
 #include "StateSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 StateSDL::StateSDL(SDL_Renderer* renderer, WindowInfo& winInfo) : renderer(renderer), winInfo(winInfo)
 {

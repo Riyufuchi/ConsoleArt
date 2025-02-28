@@ -7,9 +7,9 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/components/ButtonSDL.h"
+#include "ButtonSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 
 ButtonSDL::ButtonSDL(int x, int y, int width, int height) : ComponentSDL(x, y, width, height, {0, 128, 255, 255})

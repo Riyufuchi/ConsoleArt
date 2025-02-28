@@ -7,9 +7,9 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/abstract/ComponentSDL.h"
+#include "ComponentSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 
 ComponentSDL::ComponentSDL(int x, int y, int width, int height, std::function<void()> onClickEvent) : ComponentSDL(x, y, width, height, {128, 128, 128, 255}, onClickEvent)

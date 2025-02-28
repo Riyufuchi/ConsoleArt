@@ -7,9 +7,9 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../../sdl/components/ImageButtonSDL.h"
+#include "ImageButtonSDL.h"
 
-namespace ConsoleArt
+namespace sdl
 {
 
 ImageButtonSDL::ImageButtonSDL(int x, int y, int width, int height, SDL_Texture* texture, SDL_Texture* textureHover, std::function<void()> callback) : ComponentSDL(x, y, width, height, callback)

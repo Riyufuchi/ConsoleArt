@@ -16,7 +16,7 @@
 #include <string>
 #include <utility>
 
-namespace ConsoleArt
+namespace sdl
 {
 class SpriteSheetSDL
 {
