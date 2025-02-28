@@ -28,14 +28,14 @@ namespace ConsoleArt
 class MainState : public StateSDL
 {
 private:
+	ButtonBuilder& buttons;
 	StringSDL* selectedImageString;
-	ButtonBuilder* buttons;
 	ContentPanelSDL* pane;
 	TTF_Font* font;
 	std::function<bool(StringSDL*)> updateText;
 	void addImageButtonEvent();
 public:
-	MainState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
+	MainState(SDL_Renderer* renderer, WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
 			std::function<bool(StringSDL*)> updateText, std::function<void()> switchState);
 	virtual ~MainState();
 	virtual void handleTick(SDL_Event &event) override;

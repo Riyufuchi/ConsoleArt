@@ -22,23 +22,11 @@
 
 namespace ConsoleArt
 {
-enum Argumemts
-{
-	LOAD_ALL,
-	IMAGE,
-	PATH,
-	COLOR,
-	NO_COLOR,
-	CLIENT,
-	BENCHMARK,
-	BINOM,
-	COMPARE
-};
 class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - beta 11 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - beta 12 (debug)";
 	#else
 		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8";
 	#endif

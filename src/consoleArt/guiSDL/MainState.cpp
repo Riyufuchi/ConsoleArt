@@ -11,23 +11,22 @@
 
 namespace ConsoleArt
 {
-MainState::MainState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
-		std::function<bool(StringSDL*)> updateText, std::function<void()> switchState) : StateSDL(renderer, winInfo), updateText(updateText)
+MainState::MainState(SDL_Renderer* renderer, WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
+		std::function<bool(StringSDL*)> updateText, std::function<void()> switchState) : StateSDL(renderer, winInfo), buttons(buttons), updateText(updateText)
 {
 	this->selectedImageString = new StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
-	this->buttons = new ButtonBuilder(renderer);
 	this->pane = new ContentPanelSDL(0, 0);
 	// 0
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, buttons->getButtonTextureFor(ButtonType::LOAD), addImageFunc));
-	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::LOAD_ALL), addImageAsyncFunc));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::LOAD, false), addImageFunc));
+	pane->addComponent(0, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), addImageAsyncFunc));
 	// 1
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, buttons->getButtonTextureFor(ButtonType::SELECT_IMAGE)));
-	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::EDIT_IMAGE), switchState));
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false)));
+	pane->addComponent(1, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), switchState));
 	// 2
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::SETTINGS)));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::ABOUT), [&]() {  }));
-	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons->getButtonTextureFor(ButtonType::EXIT), [&]() { exitApplication(); }));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SETTINGS, true)));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() {  }));
+	pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EXIT, true), [&]() { exitApplication(); }));
 	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -37,7 +36,6 @@ MainState::MainState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<
 
 MainState::~MainState()
 {
-	delete buttons;
 	delete pane;
 	delete selectedImageString;
 }

@@ -11,13 +11,13 @@
 
 namespace ConsoleArt {
 
-EditImageState::EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<void()> baclBtnEvt) : StateSDL(renderer, winInfo)
+EditImageState::EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt) : StateSDL(renderer, winInfo), buttons(buttons)
 {
-	this->text = new StringSDL("Test state 2", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
-	this->text->repose(16, 16);
-	this->buttons = new ButtonBuilder(renderer);
 	this->pane = new ContentPanelSDL(0, 0);
-	this->pane->addComponent(0, new ImageButtonSDL(0,0,100,100, buttons->getButtonTextureFor(ButtonType::BACK), baclBtnEvt));
+	this->pane->addComponent(0, new ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), baclBtnEvt));
+	this->pane->addComponent(1, new ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), baclBtnEvt));
+	this->pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), baclBtnEvt));
+	this->pane->addComponent(2, new ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), baclBtnEvt));
 	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -25,7 +25,7 @@ EditImageState::EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, std:
 
 EditImageState::~EditImageState()
 {
-	delete text;
+	delete pane;
 }
 
 void EditImageState::handleTick(SDL_Event& event)
@@ -50,7 +50,6 @@ void EditImageState::handleTick(SDL_Event& event)
 void EditImageState::render()
 {
 	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);  // R, G, B, A (0-255)
-	text->draw();
 	pane->draw(renderer);
 }
 

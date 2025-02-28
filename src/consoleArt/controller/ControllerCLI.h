@@ -29,7 +29,6 @@
 #include "../imageTools/ImageTools.h"
 #include "../imageTools/Filter.h"
 
-
 namespace ConsoleArt
 {
 class ControllerCLI : public Controller

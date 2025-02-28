@@ -23,11 +23,10 @@ namespace ConsoleArt
 class EditImageState: public StateSDL
 {
 private:
-	StringSDL* text;
-	ButtonBuilder* buttons;
+	ButtonBuilder& buttons;
 	ContentPanelSDL* pane;
 public:
-	EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, std::function<void()> baclBtnEvt);
+	EditImageState(SDL_Renderer* renderer, WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt);
 	virtual ~EditImageState();
 	virtual void handleTick(SDL_Event &event) override;
 	virtual void render() override;

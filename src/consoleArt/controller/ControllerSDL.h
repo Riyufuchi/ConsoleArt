@@ -43,6 +43,7 @@ private:
 	SDL_Renderer* renderer;
 	WindowInfo winInfo;
 	StateSDL* currentState;
+	ButtonBuilder* buttons;
 	std::atomic<bool> textUpdated;
 	std::unordered_map<WindowState, StateSDL*> windowStates;
 	SDL_Event event;

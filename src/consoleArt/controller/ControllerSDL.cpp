@@ -22,20 +22,22 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 	setenv("TINYFD_FORCE_XDG", "1", 1);
+	this->buttons = new ButtonBuilder(renderer);
 	winInfo.w = width;
 	winInfo.h = height;
 	winInfo.mouseX = 0;
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
 	this->textUpdated = false;
-	currentState = new MainState(renderer, winInfo, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
+	currentState = new MainState(renderer, winInfo, *buttons, [&]() { addImageButtonEvent(); }, [&]() { std::thread([&](){ loadAllImagesAsync(); }).detach(); },
 			[&](StringSDL* strSDL) { return updateString(strSDL); }, [&](){ switchState(WindowState::EDIT_IMAGE); });
 	windowStates[WindowState::MAIN] = currentState;
-	windowStates[WindowState::EDIT_IMAGE] = new EditImageState(renderer, winInfo, [&](){ switchState(WindowState::MAIN); });
+	windowStates[WindowState::EDIT_IMAGE] = new EditImageState(renderer, winInfo, *buttons, [&](){ switchState(WindowState::MAIN); });
 }
 
 ControllerSDL::~ControllerSDL()
 {
+	delete buttons;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
