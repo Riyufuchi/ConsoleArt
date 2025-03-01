@@ -12,6 +12,7 @@
 
 #include <atomic>
 #include <thread>
+#include <string>
 
 #include "../WindowStates.hpp"
 
@@ -32,11 +33,12 @@ private:
 	sdl::StringSDL* selectedImageString;
 	sdl::ContentPanelSDL* pane;
 	TTF_Font* font;
-	std::function<bool(sdl::StringSDL*)> updateText;
+	Controller& controller;
+	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
+	bool updateString(sdl::StringSDL* stringSDL);
 public:
-	MainStateSDL(SDL_Renderer* renderer, sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
-			std::function<bool(sdl::StringSDL*)> updateText, std::function<void()> switchState);
+	MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, std::function<void()> switchState);
 	virtual ~MainStateSDL();
 	virtual void handleTick(SDL_Event &event) override;
 	virtual void render() override;

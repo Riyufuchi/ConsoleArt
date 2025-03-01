@@ -13,7 +13,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
-#include <thread>
 #include <atomic>
 
 #include "Controller.h"
@@ -42,13 +41,8 @@ private:
 	sdl::WindowInfo winInfo;
 	sdl::StateSDL* currentState;
 	ButtonBuilder* buttons;
-	std::atomic<bool> textUpdated;
 	std::unordered_map<WindowState, sdl::StateSDL*> windowStates;
 	SDL_Event event;
-	void addImageButtonEvent();
-	std::atomic<bool> getTextUpdated();
-	bool updateString(sdl::StringSDL* stringSDL);
-	void switchState(WindowState windowState);
 protected:
 	virtual Images::Image* selectImage() override;
 	virtual void showAboutApplicationInfo() override;
@@ -57,6 +51,7 @@ public:
 	ControllerSDL();
 	~ControllerSDL();
 	virtual void run() override;
+	void switchState(WindowState windowState);
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_CONTROLLER_CONTROLLERSDL_H_ */

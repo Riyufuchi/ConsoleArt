@@ -19,11 +19,13 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	suppertedImageFormats[".bmp"] = Images::ImageType::BMP;
 	suppertedImageFormats[".ppm"] = Images::ImageType::PPM;
 	suppertedImageFormats[".png"] = Images::ImageType::PNG;
+	suppertedImageFormats[".jpg"] = Images::ImageType::JPG;
+	suppertedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(path)); };
 	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
 	argumentMethods["--p"] = argumentMethods["--path"];
-	argumentMethods["--loadAll"] = [&](const std::vector<std::string>&) { loadAllImagesAsync(); };
+	argumentMethods["--loadAll"] = [&](const std::vector<std::string>&) { std::thread([&]() { loadAllImagesAsync(); }).detach(); };
 	argumentMethods["--binomial"] = [&](const auto& vector)
 	{
 		auto res = Math::MathUtils::binomialDistribution(vector);
@@ -164,6 +166,8 @@ Images::Image* Controller::loadImage(std::string path)
 		return new Images::ImagePPM(path);
 	else if (ext == ".png")
 		return new Images::ImagePNG(path);
+	else if (ext == ".jpg" || ext == ".jpeg")
+			return new Images::ImagePNG(path);
 	else
 		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Format [" + ext + "] is not supported\n");
 	return nullptr;
@@ -179,20 +183,22 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 	catch (std::exception& e)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
+		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, path);
 		return nullptr;
 	}
 	std::lock_guard<std::mutex> lock(mutexImageFormats);
-	if (suppertedImageFormats.contains(extension))
-		switch (suppertedImageFormats.at(extension))
-		{
-			case Images::BMP: return new Images::ImageBMP(path);
-			case Images::PCX: return new Images::ImagePCX(path);
-			case Images::PPM: return new Images::ImagePPM(path);
-			case Images::PNG: return new Images::ImagePNG(path);
-			default: return nullptr;
-		}
-	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format \"" + extension + "\"\n");
-	return nullptr;
+		if (suppertedImageFormats.contains(extension))
+			switch (suppertedImageFormats.at(extension))
+			{
+				case Images::BMP: return new Images::ImageBMP(path);
+				case Images::PCX: return new Images::ImagePCX(path);
+				case Images::PPM: return new Images::ImagePPM(path);
+				case Images::PNG: return new Images::ImagePNG(path);
+				case Images::JPG: return new Images::ImageJPG(path);
+				default: return nullptr;
+			}
+		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
+		return nullptr;
 }
 
 Images::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)
@@ -205,6 +211,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 			case Images::PCX: return new Images::ImagePCX(path);
 			case Images::PPM: return new Images::ImagePPM(path);
 			case Images::PNG: return new Images::ImagePNG(path);
+			case Images::JPG: return new Images::ImageJPG(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
@@ -219,6 +226,11 @@ void Controller::setWorkspace(std::string path)
 		path.append("/");
 	workspacePath = path;
 	messenger->messageUser(AbstractNotifier::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
+}
+
+void Controller::setSelectedImage(Images::Image* selectedImage)
+{
+	this->selectedImage = selectedImage;
 }
 
 const std::string& Controller::getWorkspace()

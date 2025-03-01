@@ -11,15 +11,15 @@
 
 namespace ConsoleArt
 {
-MainStateSDL::MainStateSDL(SDL_Renderer* renderer, sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> addImageFunc, std::function<void()> addImageAsyncFunc,
-		std::function<bool(sdl::StringSDL*)> updateText, std::function<void()> switchState) : sdl::StateSDL(renderer, winInfo), buttons(buttons), updateText(updateText)
+MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, std::function<void()> switchState) : sdl::StateSDL(winInfo), buttons(buttons), controller(controller)
 {
+	this->textUpdated = false;
 	this->selectedImageString = new sdl::StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	this->pane = new sdl::ContentPanelSDL(0, 0);
 	// 0
-	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::LOAD, false), addImageFunc));
-	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), addImageAsyncFunc));
+	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::LOAD, false), [&]() { addImageButtonEvent(); }));
+	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), [&]() { std::thread([&](){ controller.loadAllImagesAsync(); }).detach(); }));
 	// 1
 	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false)));
 	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), switchState));
@@ -40,6 +40,31 @@ MainStateSDL::~MainStateSDL()
 	delete selectedImageString;
 }
 
+bool MainStateSDL::updateString(sdl::StringSDL* stringSDL)
+{
+	if (textUpdated && controller.getSelectedImage() && stringSDL)
+	{
+		textUpdated = false;
+		stringSDL->setText(std::string("Selected image: ").append(controller.getSelectedImage()->getFilename()));
+		return true;
+	}
+	return false;
+}
+
+void MainStateSDL::addImageButtonEvent()
+{
+	std::thread([&]()
+	{
+		Images::Image* img = controller.loadImageAsync(controller.inputImageName());
+		if (controller.addImageAsync(img))
+		{
+			controller.getMessenger().messageUser("Image successfully loaded.");
+			controller.setSelectedImage(img);
+			textUpdated = true;
+		}
+	}).detach();
+}
+
 void MainStateSDL::handleTick(SDL_Event &event)
 {
 	pane->checkHoverOverContent(winInfo.mouseX, winInfo.mouseY);
@@ -57,6 +82,29 @@ void MainStateSDL::handleTick(SDL_Event &event)
 				selectedImageString->repose((event.window.data1 / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 			}
 		break;
+		case SDL_DROPFILE:
+		{
+			std::thread([&]()
+			{
+				char* droppedFile = event.drop.file;
+				if (droppedFile)
+				{
+					std::string filePath(droppedFile);
+					SDL_Log("%s", filePath.c_str());
+					Images::Image* img = controller.loadImageAsync(filePath);
+					if (controller.addImageAsync(img))
+					{
+						controller.getMessenger().messageUser("Image successfully loaded.");
+						controller.setSelectedImage(img);
+						textUpdated = true;
+					}
+					else
+						controller.getMessenger().messageUser("Image unsuccessfully loaded.");
+					SDL_free(droppedFile);  // Free the allocated string
+				}
+			}).detach(); // Your existing loading logic
+		}
+		break;
 	}
 }
 
@@ -64,7 +112,7 @@ void MainStateSDL::render()
 {
 	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);  // R, G, B, A (0-255)
 	pane->draw(renderer);
-	if (updateText(selectedImageString))
+	if (updateString(selectedImageString))
 		selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
 	selectedImageString->draw(renderer);
 }

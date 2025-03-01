@@ -16,9 +16,10 @@
 #include <mutex>
 #include <unordered_map>
 #include <functional>
+#include <thread>
 
 #include "../../images/Formats.hpp"
-#include "../asciiTools/AsciiConverter.h"
+#include "../imageTools/AsciiConverter.h"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../abstract/AbstractNotifier.h"
@@ -45,23 +46,25 @@ protected:
 	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
 	void convertImage(Images::Image* image);
 	// For main state
-	virtual std::string inputImageName() = 0;
 	virtual Images::Image* selectImage() = 0;
 	virtual void showAboutApplicationInfo() = 0;
-	// Controller
-	bool addImageAsync(Images::Image* image);
-	Images::Image* loadImage(std::string path);
-	Images::Image* loadImageAsync(const std::string& path);
-	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
-	void loadAllImagesAsync();
 public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
 	void configure(std::map<std::string, std::vector<std::string>>& config);
 	virtual void run() = 0;
+	// Controller
+	virtual std::string inputImageName() = 0;
+	bool addImageAsync(Images::Image* image);
+	[[deprecated("Not thread safe")]]
+	Images::Image* loadImage(std::string path);
+	Images::Image* loadImageAsync(const std::string& path);
+	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
+	void loadAllImagesAsync();
 	// Setters
 	void setWorkspace(std::string path);
+	void setSelectedImage(Images::Image* selectedImage);
 	// Getters
 	AbstractNotifier& getMessenger();
 	const std::string& getWorkspace();

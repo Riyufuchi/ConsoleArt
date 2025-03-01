@@ -21,6 +21,7 @@ struct WindowInfo
 	int mouseX;
 	int mouseY;
 	bool keepRunning;
+	SDL_Renderer* renderer;
 };
 class StateSDL
 {
@@ -29,7 +30,7 @@ protected:
 	SDL_Renderer* renderer;
 	WindowInfo& winInfo;
 public:
-	StateSDL(SDL_Renderer* renderer, WindowInfo& winInfo);
+	StateSDL(WindowInfo& winInfo);
 	virtual ~StateSDL();
 	void exitApplication();
 	virtual void handleTick(SDL_Event& event) = 0;
