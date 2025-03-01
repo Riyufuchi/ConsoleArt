@@ -15,6 +15,7 @@
 #include "ImagePCX.h"
 #include "ImagePPM.h"
 #include "ImagePNG.h"
+#include "ImageJPG.h"
 
 namespace Images
 {
@@ -23,8 +24,8 @@ enum ImageType
 	BMP,
 	PCX,
 	PPM,
-	PNG
+	PNG,
+	JPG
 };
 }
-
 #endif /* IMAGES_FORMATS_HPP_ */

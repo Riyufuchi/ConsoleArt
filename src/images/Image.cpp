@@ -11,7 +11,7 @@
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false)
+Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), pixelFormat(PixelFormat::RGB), imageData(nullptr), CHANNELS(3)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
@@ -50,5 +50,42 @@ bool Image::isLoaded() const
 bool Image::isInverted() const
 {
 	return inverted;
+}
+int Image::getWidth() const
+{
+	return imageInfo.width;
+}
+int Image::getHeight() const
+{
+	return imageInfo.height;
+}
+int Image::getBits() const
+{
+	return imageInfo.bits;
+}
+PixelFormat Image::getPixelFormat()
+{
+	return pixelFormat;
+}
+unsigned char* Image::getImageData() const
+{
+	if (imageData)
+		return imageData;
+	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * 4];
+	Pixel pixel;
+	int xyCord = 0;
+	for(int y = 0; y < imageInfo.height; y++)
+	{
+		for (int x = 0; x < imageInfo.width; x++)
+		{
+			pixel = getPixel(x, y);
+			xyCord = y * imageInfo.width + x;
+			imageDat[xyCord] = pixel.red;
+			imageDat[xyCord + 1] = pixel.green;
+			imageDat[xyCord + 2] = pixel.blue;
+			imageDat[xyCord + 2] = pixel.alpha;
+		}
+	}
+	return imageDat;
 }
 } /* namespace Images */
