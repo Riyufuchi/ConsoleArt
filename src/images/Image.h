@@ -43,6 +43,9 @@ protected:
 	bool inverted;
 	ImageInfo imageInfo;
 	std::vector<uint8_t> pixelData; //Or unsigned char can be used
+	PixelFormat pixelFormat;
+	unsigned char* imageData;
+	int CHANNELS;
 public:
 	Image(std::string filepath);
 	virtual ~Image() = default;
@@ -90,6 +93,11 @@ public:
 	virtual const std::string& getFileStatus() const final;
 	virtual const ImageInfo& getImageInfo() const final;
 	virtual Pixel getPixel(int x, int y) const = 0;
+	int getWidth() const;
+	int getHeight() const;
+	int getBits() const;
+	PixelFormat getPixelFormat();
+	unsigned char* getImageData() const;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
 };
