@@ -28,7 +28,8 @@ enum class ButtonType
 	BACK,
 	SELECT_IMAGE,
 	CONVER_TO_ASCII,
-	IMAGE_FILTER
+	IMAGE_FILTER,
+	SHOW_IMAGE
 };
 class ButtonBuilder
 {

@@ -13,14 +13,6 @@ namespace ConsoleArt {
 
 ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
-	/*IDs[ButtonType::LOAD] = {"1", "1H"};
-	IDs[ButtonType::EXIT] = {"2", "2H"};
-	IDs[ButtonType::SETTINGS] = {"3", "3H"};
-	IDs[ButtonType::LOAD_ALL] = {"4", "4H"};
-	IDs[ButtonType::SELECT_IMAGE] = {"5", "5H"};
-	IDs[ButtonType::EDIT_IMAGE] = {"6", "6H"};
-	IDs[ButtonType::ABOUT] = {"7", "7H"};
-	IDs[ButtonType::BACK] = {"8", "8H"};*/
 	this->buttonSheet = new sdl::SpriteSheetSDL("ui_big.png", renderer);
 	this->buttonSheetSmall = new sdl::SpriteSheetSDL("ui_small.png", renderer);
 	if (!buttonSheet || !buttonSheetSmall)
@@ -30,10 +22,12 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
 	logButton(1, 0, ButtonType::IMAGE_FILTER, RECTANGLE);
 	logButton(2, 0, ButtonType::CONVER_TO_ASCII, RECTANGLE);
+	logButton(0, 3, ButtonType::BACK, RECTANGLE);
 	// SmallButtons
 	logButton(0, 0, ButtonType::SETTINGS, SQUARE);
 	logButton(0, 1, ButtonType::BACK, SQUARE);
 	logButton(0, 2, ButtonType::EXIT, SQUARE);
+	logButton(0, 4, ButtonType::SHOW_IMAGE, SQUARE);
 	logButton(1, 1, ButtonType::LOAD_ALL, SQUARE);
 	logButton(1, 2, ButtonType::EDIT_IMAGE, SQUARE);
 	logButton(1, 3, ButtonType::ABOUT, SQUARE);
@@ -61,6 +55,8 @@ ButtonBuilder::~ButtonBuilder()
 {
 	if (buttonSheet)
 		delete buttonSheet;
+	if (buttonSheetSmall)
+		delete buttonSheetSmall;
 }
 
 } /* namespace ConsoleArt */
