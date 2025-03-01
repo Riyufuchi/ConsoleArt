@@ -11,7 +11,7 @@
 
 namespace sdl
 {
-StateSDL::StateSDL(SDL_Renderer* renderer, WindowInfo& winInfo) : renderer(renderer), winInfo(winInfo)
+StateSDL::StateSDL(WindowInfo& winInfo) : renderer(winInfo.renderer), winInfo(winInfo)
 {
 }
 

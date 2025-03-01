@@ -12,13 +12,15 @@
 
 #include "states/MainStateSDL.h"
 #include "states/EditImageStateSDL.h"
+#include "states/ImageStateSDL.h"
 
 namespace ConsoleArt
 {
 enum WindowState
 {
 	MAIN,
-	EDIT_IMAGE
+	EDIT_IMAGE,
+	SHOW_IMAGE
 };
 }
 #endif /* CONSOLEART_GUISDL_WINDOWSTATES_HPP_ */

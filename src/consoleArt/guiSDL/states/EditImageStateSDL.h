@@ -26,7 +26,7 @@ private:
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;
 public:
-	EditImageStateSDL(SDL_Renderer* renderer, sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt);
+	EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt);
 	virtual ~EditImageStateSDL();
 	virtual void handleTick(SDL_Event& event) override;
 	virtual void render() override;
