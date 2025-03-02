@@ -2,7 +2,7 @@
 // File       : MainStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Feb 27, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,8 @@
 #include <thread>
 #include <string>
 
-#include "../WindowStates.hpp"
+#include "../StateManager.h"
+#include "../../controller/Controller.h"
 
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/assets/StringSDL.h"
@@ -34,15 +35,17 @@ private:
 	sdl::ContentPanelSDL* pane;
 	TTF_Font* font;
 	Controller& controller;
+	StateManager& stateManager;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 	bool updateString(sdl::StringSDL* stringSDL);
 public:
-	MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, std::function<void()> switchState);
+	MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);
 	virtual ~MainStateSDL();
 	virtual void handleTick(SDL_Event &event) override;
 	virtual void render() override;
 	virtual void onReturn() override;
+	virtual void onWindowResize() override;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_GUISDL_MAINSTATE_H_ */

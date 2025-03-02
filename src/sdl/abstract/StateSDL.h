@@ -2,7 +2,7 @@
 // File       : StateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Feb 26, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,6 +36,7 @@ public:
 	virtual void handleTick(SDL_Event& event) = 0;
 	virtual void render() = 0;
 	virtual void onReturn() = 0;
+	virtual void onWindowResize() = 0;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_SDL_ABSTRACT_STATESDL_H_ */

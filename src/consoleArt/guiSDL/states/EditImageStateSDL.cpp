@@ -2,7 +2,7 @@
 // File       : EditImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Feb 28, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,13 +11,13 @@
 
 namespace ConsoleArt {
 
-EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, std::function<void()> baclBtnEvt) : StateSDL(winInfo), buttons(buttons)
+EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, StateManager& stateManager) : StateSDL(winInfo), buttons(buttons), stateManager(stateManager)
 {
 	this->pane = new sdl::ContentPanelSDL(0, 0);
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), baclBtnEvt));
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), baclBtnEvt));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), baclBtnEvt));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), baclBtnEvt));
+	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false)));
+	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]() { stateManager.switchState(WindowState::SHOW_IMAGE); }));
+	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false)));
+	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), [&]() { stateManager.switchState(WindowState::MAIN); }));
 	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
@@ -34,16 +34,6 @@ void EditImageStateSDL::handleTick(SDL_Event& event)
 	switch (event.type)
 	{
 		case SDL_MOUSEBUTTONDOWN: pane->tickOnClick();break;
-		case SDL_WINDOWEVENT:
-			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-			{
-				// (Optional) Adjust renderer size if needed
-				SDL_RenderSetLogicalSize(renderer, event.window.data1, event.window.data2);
-				pane->setX((event.window.data1 / 2) - pane->getWidth() / 2);
-				pane->setY((event.window.data2 / 2) - pane->getHeight() / 2);
-				pane->reposeContent();
-			}
-		break;
 	}
 }
 
@@ -56,6 +46,14 @@ void EditImageStateSDL::render()
 void EditImageStateSDL::onReturn()
 {
 	pane->setX((winInfo.w/ 2) - pane->getWidth() / 2);
+	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
+	pane->reposeContent();
+}
+
+void EditImageStateSDL::onWindowResize()
+{
+	SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
+	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
 }
