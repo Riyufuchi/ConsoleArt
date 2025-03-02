@@ -26,7 +26,7 @@ class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - beta 16 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - beta 17 (debug)";
 	#else
 		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8";
 	#endif

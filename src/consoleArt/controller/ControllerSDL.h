@@ -23,6 +23,7 @@
 #include "../../sdl/components/ContentPanelSDL.h"
 #include "../../sdl/components/ImageButtonSDL.h"
 #include "../../sdl/abstract/StateSDL.h"
+#include "../guiSDL/StateManager.h"
 #include "../guiSDL/WindowStates.hpp"
 
 extern "C"
@@ -38,10 +39,10 @@ private:
 	int width, height;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	StateManager* stateManager;
 	sdl::WindowInfo winInfo;
 	sdl::StateSDL* currentState;
 	ButtonBuilder* buttons;
-	std::unordered_map<WindowState, sdl::StateSDL*> windowStates;
 	SDL_Event event;
 protected:
 	virtual Images::Image* selectImage() override;
@@ -51,7 +52,6 @@ public:
 	ControllerSDL();
 	~ControllerSDL();
 	virtual void run() override;
-	void switchState(WindowState windowState);
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_CONTROLLER_CONTROLLERSDL_H_ */

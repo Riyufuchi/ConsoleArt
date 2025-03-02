@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Feb 27, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, std::function<void()> switchState) : sdl::StateSDL(winInfo), buttons(buttons), controller(controller)
+MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), buttons(buttons), controller(controller), stateManager(stateManager)
 {
 	this->textUpdated = false;
 	this->selectedImageString = new sdl::StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
@@ -22,7 +22,12 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), [&]() { std::thread([&](){ controller.loadAllImagesAsync(); }).detach(); }));
 	// 1
 	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false)));
-	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), switchState));
+	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
+	{
+		controller.getSelectedImage() ?
+		stateManager.switchState(WindowState::EDIT_IMAGE) :
+		std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!"); }).detach();
+	}));
 	// 2
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SETTINGS, true)));
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() {  }));
@@ -71,17 +76,6 @@ void MainStateSDL::handleTick(SDL_Event &event)
 	switch (event.type)
 	{
 		case SDL_MOUSEBUTTONDOWN: pane->tickOnClick();break;
-		case SDL_WINDOWEVENT:
-			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-			{
-				// (Optional) Adjust renderer size if needed
-				SDL_RenderSetLogicalSize(renderer, event.window.data1, event.window.data2);
-				pane->setX((event.window.data1 / 2) - pane->getWidth() / 2);
-				pane->setY((event.window.data2 / 2) - pane->getHeight() / 2);
-				pane->reposeContent();
-				selectedImageString->repose((event.window.data1 / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
-			}
-		break;
 		case SDL_DROPFILE:
 		{
 			std::thread([&]()
@@ -120,6 +114,15 @@ void MainStateSDL::render()
 void MainStateSDL::onReturn()
 {
 	pane->setX((winInfo.w/ 2) - pane->getWidth() / 2);
+	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
+	pane->reposeContent();
+	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+}
+
+void MainStateSDL::onWindowResize()
+{
+	SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
+	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();
 	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));

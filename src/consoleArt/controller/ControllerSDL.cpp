@@ -29,11 +29,11 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
 	winInfo.renderer = renderer;
-	currentState = new MainStateSDL(winInfo, *buttons, *this,
-		[&]() { selectedImage ? switchState(WindowState::EDIT_IMAGE) : std::thread([&](){ messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!"); }).detach(); });
-	windowStates[WindowState::MAIN] = currentState;
-	windowStates[WindowState::EDIT_IMAGE] = new EditImageStateSDL(winInfo, *buttons, [&]() { switchState(WindowState::SHOW_IMAGE);});
-	windowStates[WindowState::SHOW_IMAGE] = new ImageStateSDL(winInfo, *this);
+	this->stateManager = new StateManager(currentState);
+	currentState = new MainStateSDL(winInfo, *buttons, *this, *stateManager);
+	this->stateManager->addNewState(WindowState::MAIN, currentState);
+	this->stateManager->addNewState(WindowState::EDIT_IMAGE, new EditImageStateSDL(winInfo, *buttons, *stateManager));
+	this->stateManager->addNewState(WindowState::SHOW_IMAGE, new ImageStateSDL(winInfo, *this, *stateManager));
 }
 
 ControllerSDL::~ControllerSDL()
@@ -44,17 +44,6 @@ ControllerSDL::~ControllerSDL()
 	TTF_Quit();
 	SDL_Quit();
 }
-
-void ControllerSDL::switchState(WindowState windowState)
-{
-	auto it = windowStates.find(windowState);
-	if (it != windowStates.end())
-	{
-		currentState = it->second;
-		currentState->onReturn();
-	}
-}
-
 void ControllerSDL::run()
 {
 	SDL_RendererInfo info;
@@ -86,6 +75,7 @@ void ControllerSDL::run()
 				{
 					winInfo.w = event.window.data1;
 					winInfo.h = event.window.data2;
+					currentState->onWindowResize();
 				}
 			break;
 		}
