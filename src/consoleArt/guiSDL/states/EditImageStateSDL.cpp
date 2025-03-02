@@ -11,13 +11,19 @@
 
 namespace ConsoleArt {
 
-EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, StateManager& stateManager) : StateSDL(winInfo), buttons(buttons), stateManager(stateManager)
+EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), buttons(buttons), controller(controller), stateManager(stateManager)
 {
 	this->pane = new sdl::ContentPanelSDL(0, 0);
 	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false)));
 	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]() { stateManager.switchState(WindowState::SHOW_IMAGE); }));
 	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false)));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), [&]() { stateManager.switchState(WindowState::MAIN); }));
+	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_INFO, true), [&]()
+	{
+		if (controller.getSelectedImage())
+			controller.getMessenger().displayImageInfo(*controller.getSelectedImage());
+	}));
+	this->pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::WATERMARK, false)));
+	this->pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::BACK, true), [&]() { stateManager.switchState(WindowState::MAIN); }));
 	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
 	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
 	pane->reposeContent();

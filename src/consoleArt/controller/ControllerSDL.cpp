@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 27, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -30,15 +30,16 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.keepRunning = isRunnable;
 	winInfo.renderer = renderer;
 	this->stateManager = new StateManager(currentState);
-	currentState = new MainStateSDL(winInfo, *buttons, *this, *stateManager);
+	this->currentState = new MainStateSDL(winInfo, *buttons, *this, *stateManager);
 	this->stateManager->addNewState(WindowState::MAIN, currentState);
-	this->stateManager->addNewState(WindowState::EDIT_IMAGE, new EditImageStateSDL(winInfo, *buttons, *stateManager));
+	this->stateManager->addNewState(WindowState::EDIT_IMAGE, new EditImageStateSDL(winInfo, *buttons, *this, *stateManager));
 	this->stateManager->addNewState(WindowState::SHOW_IMAGE, new ImageStateSDL(winInfo, *this, *stateManager));
 }
 
 ControllerSDL::~ControllerSDL()
 {
 	delete buttons;
+	delete stateManager;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();

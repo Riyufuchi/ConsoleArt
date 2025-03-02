@@ -20,9 +20,10 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 	// BigButtons
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
+	logButton(0, 3, ButtonType::BACK, RECTANGLE);
+	logButton(0, 4, ButtonType::WATERMARK, RECTANGLE);
 	logButton(1, 0, ButtonType::IMAGE_FILTER, RECTANGLE);
 	logButton(2, 0, ButtonType::CONVER_TO_ASCII, RECTANGLE);
-	logButton(0, 3, ButtonType::BACK, RECTANGLE);
 	// SmallButtons
 	logButton(0, 0, ButtonType::SETTINGS, SQUARE);
 	logButton(0, 1, ButtonType::BACK, SQUARE);
@@ -31,6 +32,7 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 	logButton(1, 1, ButtonType::LOAD_ALL, SQUARE);
 	logButton(1, 2, ButtonType::EDIT_IMAGE, SQUARE);
 	logButton(1, 3, ButtonType::ABOUT, SQUARE);
+	logButton(1, 4, ButtonType::IMAGE_INFO, SQUARE);
 }
 
 void ButtonBuilder::logButton(int x, int y, ButtonType type, const std::pair<int, int>& size)

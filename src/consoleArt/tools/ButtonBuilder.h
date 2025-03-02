@@ -29,7 +29,9 @@ enum class ButtonType
 	SELECT_IMAGE,
 	CONVER_TO_ASCII,
 	IMAGE_FILTER,
-	SHOW_IMAGE
+	SHOW_IMAGE,
+	WATERMARK,
+	IMAGE_INFO
 };
 class ButtonBuilder
 {

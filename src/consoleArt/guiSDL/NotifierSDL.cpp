@@ -26,17 +26,14 @@ void NotifierSDL::displayImageInfo(const Images::Image& image)
 	std::thread([&image]()
 	{
 		const Images::ImageInfo &info = image.getImageInfo();
-
-		// Format the image details
 		std::ostringstream message;
-		message << "Image Name: " << info.name << "\n" << "Width: " << info.width << " px\n"
+		message << "Image Name: " << info.name << "\n"
+				<< "Width: " << info.width << " px\n"
 				<< "Height: " << info.height << " px\n"
 				<< "Bits: " << info.bits << "\n"
 				<< "Inverted: " << (image.isInverted() ? "Yes" : "No");
-
-		// Show the dialog (blocking, but running in another thread)
 		tinyfd_messageBox("Image Info", message.str().c_str(), "ok", "info", 1);
-	}).join();  // Detach to avoid blocking the main SDL loop
+	}).detach(); // Shows the dialog (blocking, but running in another thread)
 }
 
 void NotifierSDL::messageUser(MessageType messageSeverity, std::string message)
