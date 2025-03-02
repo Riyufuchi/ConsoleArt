@@ -54,7 +54,6 @@ private:
 		} bmp_color_header;
 	#pragma pack(pop)
 	uint32_t row_stride;
-	uint32_t CHANNELS;
 	// Methods
 	void checkHeader(std::ifstream& inf);
 	void readImageData(std::ifstream& inf);

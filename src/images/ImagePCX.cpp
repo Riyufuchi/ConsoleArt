@@ -17,6 +17,10 @@ ImagePCX::ImagePCX(std::string filename) : Image(filename)
 	loadImage();
 	this->BLUE_OFFSET = 2 * headerPCX.bytesPerLine;
 	this->ALPHA_OFFSET = 3 * headerPCX.bytesPerLine;
+	if (headerPCX.numOfColorPlanes == 4)
+	{
+		imageInfo.bits = 32;
+	}
 }
 ImagePCX::~ImagePCX()
 {

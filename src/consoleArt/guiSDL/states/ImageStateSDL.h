@@ -15,6 +15,7 @@
 
 #include "../../../images/Image.h"
 #include "../../../sdl/abstract/StateSDL.h"
+#include "../../imageTools/ImageTools.h"
 #include "../../controller/Controller.h"
 #include "../StateManager.h"
 
@@ -27,6 +28,7 @@ private:
 	StateManager& stateManager;
 	const Images::Image* IMAGE;
 	SDL_Texture* texture;
+	unsigned char* imageRGBA;
 	float scaleX;
 	float scaleY;
 	float scale;

@@ -43,12 +43,12 @@ protected:
 	bool inverted;
 	ImageInfo imageInfo;
 	std::vector<uint8_t> pixelData; //Or unsigned char can be used
-	PixelFormat pixelFormat;
+	PixelByteOrder pixelByteOrder;
 	unsigned char* imageData;
 	int CHANNELS;
 public:
 	Image(std::string filepath);
-	virtual ~Image() = default;
+	virtual ~Image();
 	explicit operator bool() const
 	{
 		return fileState == FileState::OK;
@@ -96,7 +96,7 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	int getBits() const;
-	PixelFormat getPixelFormat();
+	PixelByteOrder getPixelFormat() const;
 	unsigned char* getImageData() const;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
