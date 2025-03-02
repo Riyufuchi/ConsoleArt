@@ -32,11 +32,8 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SETTINGS, true)));
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() {  }));
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EXIT, true), [&]() { exitApplication(); }));
-	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
-	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
-	pane->reposeContent();
 	this->font = selectedImageString->getFont();
-	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+	onReturn();
 }
 
 MainStateSDL::~MainStateSDL()
@@ -113,19 +110,16 @@ void MainStateSDL::render()
 
 void MainStateSDL::onReturn()
 {
-	pane->setX((winInfo.w/ 2) - pane->getWidth() / 2);
-	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
+	pane->setX((winInfo.w - pane->getWidth()) / 2);
+	pane->setY((winInfo.h - pane->getHeight()) / 2);
 	pane->reposeContent();
-	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+	selectedImageString->repose((winInfo.w - selectedImageString->getWidth()) / 2, (pane->getY() - selectedImageString->getHeight()) / 2);
 }
 
 void MainStateSDL::onWindowResize()
 {
 	SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
-	pane->setX((winInfo.w / 2) - pane->getWidth() / 2);
-	pane->setY((winInfo.h / 2) - pane->getHeight() / 2);
-	pane->reposeContent();
-	selectedImageString->repose((winInfo.w / 2) - (selectedImageString->getWidth() / 2), (pane->getY() / 2) - (selectedImageString->getHeight() / 2));
+	onReturn();
 }
 
 } /* namespace ConsoleArt */

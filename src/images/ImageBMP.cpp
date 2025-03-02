@@ -21,6 +21,7 @@ ImageBMP::ImageBMP(std::string filename) : Image(filename)
 	imageInfo.file_type = headerBMP.file_type;
 	imageInfo.bits = bmp_info_header.bit_count;
 	this->CHANNELS = bmp_info_header.bit_count / 8;
+	pixelByteOrder = PixelByteOrder::BGRA;
 }
 
 void ImageBMP::loadImage()

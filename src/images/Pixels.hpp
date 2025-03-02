@@ -14,6 +14,11 @@
 
 namespace Images
 {
+enum PixelByteOrder
+{
+	RGBA,
+	BGRA
+};
 struct PixelRGB
 {
 	uint8_t red;

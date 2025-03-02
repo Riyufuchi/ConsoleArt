@@ -26,6 +26,7 @@ public:
 	static int compareImages(const Images::Image& image1, const Images::Image& image2);
 	static bool signatureToImage(Images::Image& canvasImage, const Images::Image& signature);
 	static void nearestNeighbor(const Images::Image& originalImage, Images::Image& scaledImage);
+	static unsigned char* normalizeToRGBA(const Images::Image& image, Images::ImageInfo& info);
 };
 
 } /* namespace ImageUtils */

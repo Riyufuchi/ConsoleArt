@@ -19,9 +19,6 @@ namespace Images
 {
 class ImagePNG: public Image
 {
-private:
-	unsigned char* imageData;
-	int CHANNELS;
 public:
 	ImagePNG(std::string filepath);
 	ImagePNG(std::string filepath, int width, int height, int channels);

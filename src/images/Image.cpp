@@ -11,7 +11,7 @@
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), pixelFormat(PixelFormat::RGB), imageData(nullptr), CHANNELS(3)
+Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), pixelByteOrder(PixelByteOrder::RGBA), imageData(nullptr), CHANNELS(3)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
@@ -19,6 +19,11 @@ Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), 
 	else
 		this->filename = filepath;
 
+}
+Image::~Image()
+{
+	if (imageData)
+		delete[] imageData;
 }
 void Image::rename(std::string imageName)
 {
@@ -63,14 +68,16 @@ int Image::getBits() const
 {
 	return imageInfo.bits;
 }
-PixelFormat Image::getPixelFormat()
+PixelByteOrder Image::getPixelFormat() const
 {
-	return pixelFormat;
+	return pixelByteOrder;
 }
 unsigned char* Image::getImageData() const
 {
 	if (imageData)
 		return imageData;
+	if (CHANNELS < 3) // This fixes pcx image with pallete
+		return 0;
 	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * CHANNELS];
 	Pixel pixel;
 	int xyCord = 0;

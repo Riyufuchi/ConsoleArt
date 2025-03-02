@@ -17,6 +17,47 @@ ImageTools::ImageTools()
 ImageTools::~ImageTools()
 {
 }
+unsigned char* ImageTools::normalizeToRGBA(const Images::Image& image, Images::ImageInfo& imageInfo)
+{
+	int CHANNELS = imageInfo.bits / 8;
+	if (CHANNELS < 3)
+	{
+		CHANNELS = 3;
+		imageInfo.bits = 24;
+	}
+	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * CHANNELS];
+	Images::Pixel pixel;
+	int xyCord = 0;
+	if (image.isInverted())
+		for(int y = 0; y < imageInfo.height; y++)
+		{
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = image.getPixel(x, y);
+				xyCord = ((imageInfo.height - 1 - y) * imageInfo.width + x) * CHANNELS; // Fix: Flip row position
+				imageDat[xyCord] = pixel.red;
+				imageDat[xyCord + 1] = pixel.green;
+				imageDat[xyCord + 2] = pixel.blue;
+				if (CHANNELS == 4)
+					imageDat[xyCord + 3] = pixel.alpha;
+			}
+		}
+	else
+		for(int y = 0; y < imageInfo.height; y++)
+		{
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = image.getPixel(x, y);
+				xyCord = (y * imageInfo.width + x) * CHANNELS;
+				imageDat[xyCord] = pixel.red;
+				imageDat[xyCord + 1] = pixel.green;
+				imageDat[xyCord + 2] = pixel.blue;
+				if (CHANNELS == 4)
+					imageDat[xyCord + 3] = pixel.alpha;
+			}
+		}
+	return imageDat;
+}
 void ImageTools::addToImageName(Images::Image& image,const std::string addStr)
 {
 	if (!image)

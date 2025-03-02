@@ -14,6 +14,7 @@ namespace ConsoleArt
 ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), controller(controller), stateManager(stateManager), IMAGE(nullptr)
 {
 	this->texture = nullptr;
+	this->imageRGBA = nullptr;
 	this->scaleX = 0;
 	this->scaleY = 0;
 	this->newW = 0;
@@ -23,7 +24,11 @@ ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, S
 
 ImageStateSDL::~ImageStateSDL()
 {
-	SDL_free(texture);
+	if (texture)
+	{
+		SDL_DestroyTexture(texture);
+		texture = nullptr;
+	}
 }
 
 void ImageStateSDL::handleTick(SDL_Event& event)
@@ -37,11 +42,13 @@ void ImageStateSDL::handleTick(SDL_Event& event)
 void ImageStateSDL::onReturn()
 {
 	this->IMAGE = controller.getSelectedImage();
-	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-			(void*) IMAGE->getImageData(), IMAGE->getWidth(),
-			IMAGE->getHeight(), IMAGE->getBits(), IMAGE->getWidth() * (IMAGE->getBits() / 8), // Assuming 4 bytes per pixel (RGBA)
-			0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 // RGBA masks
-			);
+	Images::ImageInfo info = IMAGE->getImageInfo();
+
+	if (info.bits < 24)
+		info.bits = 24;
+	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*) IMAGE->getImageData(),
+		info.width, info.height, info.bits, info.width * (info.bits / 8),
+		0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 
 	if (!surface)
 	{

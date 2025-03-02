@@ -26,6 +26,7 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 	imageData.reserve(w * h);
 	for (size_t x = 0; x < imageData.size(); x++)
 		imageData.emplace_back(Pixel{255, 255, 255});
+	// Image info
 	imageInfo.name = this->filename;
 	imageInfo.width = headerPPM.width;
 	imageInfo.height = headerPPM.height;

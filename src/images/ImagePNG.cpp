@@ -21,7 +21,9 @@ ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 	imageInfo.name = filename;
 	this->imageData = stbi_load(filepath.c_str(), &imageInfo.width, &imageInfo.height, &CHANNELS, 0);
 	if (CHANNELS == 4)
+	{
 		imageInfo.bits = 32;
+	}
 	if (imageData == nullptr)
 	{
 		fileState = ERROR;
