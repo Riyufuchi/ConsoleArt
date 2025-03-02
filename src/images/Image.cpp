@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 24, 2025
+// Last edit  : Mar 2, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -71,21 +71,37 @@ unsigned char* Image::getImageData() const
 {
 	if (imageData)
 		return imageData;
-	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * 4];
+	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * CHANNELS];
 	Pixel pixel;
 	int xyCord = 0;
-	for(int y = 0; y < imageInfo.height; y++)
-	{
-		for (int x = 0; x < imageInfo.width; x++)
+	if (inverted)
+		for(int y = 0; y < imageInfo.height; y++)
 		{
-			pixel = getPixel(x, y);
-			xyCord = y * imageInfo.width + x;
-			imageDat[xyCord] = pixel.red;
-			imageDat[xyCord + 1] = pixel.green;
-			imageDat[xyCord + 2] = pixel.blue;
-			imageDat[xyCord + 2] = pixel.alpha;
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = getPixel(x, y);
+				xyCord = ((imageInfo.height - 1 - y) * imageInfo.width + x) * CHANNELS; // Fix: Flip row position
+				imageDat[xyCord] = pixel.red;
+				imageDat[xyCord + 1] = pixel.green;
+				imageDat[xyCord + 2] = pixel.blue;
+				if (CHANNELS == 4)
+					imageDat[xyCord + 3] = pixel.alpha;
+			}
 		}
-	}
+	else
+		for(int y = 0; y < imageInfo.height; y++)
+		{
+			for (int x = 0; x < imageInfo.width; x++)
+			{
+				pixel = getPixel(x, y);
+				xyCord = (y * imageInfo.width + x) * CHANNELS;
+				imageDat[xyCord] = pixel.red;
+				imageDat[xyCord + 1] = pixel.green;
+				imageDat[xyCord + 2] = pixel.blue;
+				if (CHANNELS == 4)
+					imageDat[xyCord + 3] = pixel.alpha;
+			}
+		}
 	return imageDat;
 }
 } /* namespace Images */

@@ -18,6 +18,7 @@
 #include "../../../sdl/components/ImageButtonSDL.h"
 #include "../../tools/ButtonBuilder.h"
 #include "../StateManager.h"
+#include "../../controller/Controller.h"
 
 namespace ConsoleArt
 {
@@ -25,10 +26,11 @@ class EditImageStateSDL: public sdl::StateSDL
 {
 private:
 	ButtonBuilder& buttons;
+	Controller& controller;
 	StateManager& stateManager;
 	sdl::ContentPanelSDL* pane;
 public:
-	EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, StateManager& stateManager);
+	EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);
 	virtual ~EditImageStateSDL();
 	virtual void handleTick(SDL_Event& event) override;
 	virtual void render() override;
