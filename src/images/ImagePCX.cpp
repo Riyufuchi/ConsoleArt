@@ -21,6 +21,7 @@ ImagePCX::ImagePCX(std::string filename) : Image(filename)
 	{
 		imageInfo.bits = 32;
 	}
+	this->imageInfo.planar = true;
 }
 ImagePCX::~ImagePCX()
 {

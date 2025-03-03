@@ -22,8 +22,6 @@ Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), 
 }
 Image::~Image()
 {
-	if (imageData)
-		delete[] imageData;
 }
 void Image::rename(std::string imageName)
 {
@@ -76,39 +74,22 @@ unsigned char* Image::getImageData() const
 {
 	if (imageData)
 		return imageData;
-	if (CHANNELS < 3) // This fixes pcx image with pallete
-		return 0;
-	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * CHANNELS];
-	Pixel pixel;
-	int xyCord = 0;
-	if (inverted)
-		for(int y = 0; y < imageInfo.height; y++)
-		{
-			for (int x = 0; x < imageInfo.width; x++)
-			{
-				pixel = getPixel(x, y);
-				xyCord = ((imageInfo.height - 1 - y) * imageInfo.width + x) * CHANNELS; // Fix: Flip row position
-				imageDat[xyCord] = pixel.red;
-				imageDat[xyCord + 1] = pixel.green;
-				imageDat[xyCord + 2] = pixel.blue;
-				if (CHANNELS == 4)
-					imageDat[xyCord + 3] = pixel.alpha;
-			}
-		}
-	else
-		for(int y = 0; y < imageInfo.height; y++)
-		{
-			for (int x = 0; x < imageInfo.width; x++)
-			{
-				pixel = getPixel(x, y);
-				xyCord = (y * imageInfo.width + x) * CHANNELS;
-				imageDat[xyCord] = pixel.red;
-				imageDat[xyCord + 1] = pixel.green;
-				imageDat[xyCord + 2] = pixel.blue;
-				if (CHANNELS == 4)
-					imageDat[xyCord + 3] = pixel.alpha;
-			}
-		}
-	return imageDat;
+	if (!inverted)
+		return (unsigned char*)pixelData.data();
+	int cp = 4;
+	if (CHANNELS <= 3)
+		cp = 3;
+	unsigned char* imageDat = (unsigned char*)pixelData.data();
+	unsigned char* flippedData = new unsigned char[imageInfo.width * imageInfo.height * cp];
+	int rowSize = imageInfo.width * cp;
+	int srcRow = 0;
+	int dstRow = 0;
+	for (int y = 0; y < imageInfo.height; y++)
+	{
+		srcRow = (imageInfo.height - 1 - y) * rowSize;
+		dstRow = y * rowSize;
+		std::memcpy(&flippedData[dstRow], &imageDat[srcRow], rowSize);
+	}
+	return flippedData;
 }
 } /* namespace Images */

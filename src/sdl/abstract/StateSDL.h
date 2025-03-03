@@ -21,6 +21,7 @@ struct WindowInfo
 	int mouseX;
 	int mouseY;
 	bool keepRunning;
+	SDL_Window* window;
 	SDL_Renderer* renderer;
 };
 class StateSDL

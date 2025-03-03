@@ -19,7 +19,7 @@ namespace Images
 {
 class ImagePCX : public Image
 {
-private:
+public:
 	#pragma pack(push, 1)
 	struct PCXHeader
 	{
@@ -41,8 +41,10 @@ private:
 		uint16_t xResSourSysScrn {0} ;
 		uint16_t yResSourSysScrn {0};
 		uint8_t reserved2[54] {0};
-	} headerPCX;
+	};
 	#pragma pack(pop)
+private:
+	PCXHeader headerPCX;
 	//std::vector<Pixel> pixels;
 	PixelRGB* paletteVGA;
 	int BLUE_OFFSET;
