@@ -14,6 +14,7 @@
 #include <fstream>
 #include <cstdint>
 #include <vector>
+#include <cstring>
 
 #include "Pixels.hpp"
 
@@ -32,6 +33,7 @@ struct ImageInfo
 	//int sizeInBytes;
 	uint16_t bits {24};
 	uint16_t file_type {0};
+	bool planar {false};
 };
 class Image
 {

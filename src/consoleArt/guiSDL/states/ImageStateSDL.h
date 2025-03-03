@@ -35,6 +35,7 @@ private:
 	int newW;
 	int newH;
 	SDL_Rect imgSize;
+	unsigned int detectSDLFormat();
 public:
 	ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager);
 	virtual ~ImageStateSDL();

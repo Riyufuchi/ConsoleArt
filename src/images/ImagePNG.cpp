@@ -58,7 +58,8 @@ ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : 
 
 ImagePNG::~ImagePNG()
 {
-	stbi_image_free(imageData);
+	if (imageData)
+		stbi_image_free(imageData);
 }
 
 Images::Pixel ImagePNG::getPixel(int x, int y) const

@@ -20,7 +20,8 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	}
 	this->window = SDL_CreateWindow(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+	SDL_SetWindowMinimumSize(window, 400, 300);
+	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED); // SDL_RENDERER_ACCELERATED);
 	setenv("TINYFD_FORCE_XDG", "1", 1);
 	this->buttons = new ButtonBuilder(renderer);
 	winInfo.w = width;
@@ -28,6 +29,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	winInfo.mouseX = 0;
 	winInfo.mouseY = 0;
 	winInfo.keepRunning = isRunnable;
+	winInfo.window = window;
 	winInfo.renderer = renderer;
 	this->stateManager = new StateManager(currentState);
 	this->currentState = new MainStateSDL(winInfo, *buttons, *this, *stateManager);
@@ -82,15 +84,16 @@ void ControllerSDL::run()
 		}
 		currentState->handleTick(event);
 		// Rendering
+
 		SDL_RenderClear(renderer); // Clear window
 		currentState->render(); // Render content
 		SDL_RenderPresent(renderer); // Present content
 		// Frame rate control
-		frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
+		/*frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
 		if (frameTime > frameDelay)
 		{
 			SDL_Delay(frameDelay - frameTime); // Delay to maintain 60 FPS
-		}
+		}*/
 	}
 }
 
