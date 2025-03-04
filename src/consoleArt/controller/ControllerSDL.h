@@ -17,6 +17,7 @@
 
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
+#include "../guiSDL/AsciiPrinterSDL.h"
 #include "../../sdl/assets/SpriteSheetSDL.h"
 #include "../../sdl/assets/StringSDL.h"
 #include "../../sdl/components/ButtonSDL.h"

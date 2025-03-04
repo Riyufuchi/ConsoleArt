@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr), width(800), height(600)
+ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new AsciiPrinterSDL(new NotifierSDL())), width(800), height(600)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	if (TTF_Init() == -1)
@@ -43,6 +43,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	this->stateManager->addNewState(WindowState::SHOW_IMAGE, new ImageStateSDL(winInfo, *this, *stateManager));
 	this->stateManager->addNewState(WindowState::SELECT_IMAGE, new SelectImageStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
+	this->stateManager->addNewState(WindowState::ASCII_CONVERTER, new AsciiConvertStateSDL(winInfo, *this, *stateManager, *buttons));
 }
 
 ControllerSDL::~ControllerSDL()
@@ -68,7 +69,7 @@ void ControllerSDL::run()
 		std::cout << "Driver " << i << ": " << info.name << std::endl;
 	}
 
-	const int targetFPS = 60;
+	const int targetFPS = 360;
 	const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
 	unsigned int frameStart = 0;
 	unsigned int frameTime = 0;
@@ -77,32 +78,37 @@ void ControllerSDL::run()
 	{
 		frameStart = SDL_GetTicks();
 		// Handle events
-		SDL_PollEvent(&event);
 		SDL_GetMouseState(&winInfo.mouseX, &winInfo.mouseY);
-		switch (event.type)
+		while (SDL_PollEvent(&event))
 		{
-			case SDL_QUIT: winInfo.keepRunning = false; break;
-			case SDL_WINDOWEVENT:
-				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-				{
-					winInfo.w = event.window.data1;
-					winInfo.h = event.window.data2;
-					currentState->onWindowResize();
-				}
-			break;
+			switch (event.type)
+			{
+				case SDL_QUIT: winInfo.keepRunning = false; break;
+				case SDL_WINDOWEVENT:
+					if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+					{
+						winInfo.w = event.window.data1;
+						winInfo.h = event.window.data2;
+						currentState->onWindowResize();
+					}
+				break;
+				default: currentState->handleTick(event); break;
+			}
 		}
-		currentState->handleTick(event);
 		// Rendering
-
 		SDL_RenderClear(renderer); // Clear window
 		currentState->render(); // Render content
 		SDL_RenderPresent(renderer); // Present content
 		// Frame rate control
-		/*frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
-		if (frameTime > frameDelay)
+		frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
+		if (frameTime < frameDelay)
 		{
-			SDL_Delay(frameDelay - frameTime); // Delay to maintain 60 FPS
-		}*/
+			SDL_Delay(frameDelay - frameTime); // Delay only if needed
+		}
+		else
+		{
+			SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
+		}
 	}
 }
 

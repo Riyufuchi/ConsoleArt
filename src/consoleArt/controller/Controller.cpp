@@ -57,6 +57,25 @@ void Controller::configure(std::map<std::string, std::vector<std::string>>& conf
 	}
 }
 
+void Controller::convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet)
+{
+	if (image == nullptr || !*image || abstractAsciiPrinter == nullptr)
+		return;
+	ImageUtils::AsciiConverter ac(*image);
+	if (charSet == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+		return;
+	ac.setCharSet(charSet);
+	messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));
+	if (!ac.convertToASCII())
+	{
+		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+		return;
+	}
+	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Conversion to ascii done!\n");
+	abstractAsciiPrinter->setTarget(&ac);
+	abstractAsciiPrinter->printToFile();
+}
+
 void Controller::convertImage(Images::Image* image)
 {
 	if (image == nullptr || !*image || abstractAsciiPrinter == nullptr)
@@ -242,7 +261,7 @@ AbstractNotifier& Controller::getMessenger()
 {
 	return *messenger;
 }
-const Images::Image* Controller::getSelectedImage()
+Images::Image* Controller::getSelectedImage()
 {
 	return selectedImage;
 }

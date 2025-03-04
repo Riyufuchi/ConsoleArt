@@ -67,35 +67,35 @@ void MainStateSDL::addImageButtonEvent()
 	}).detach();
 }
 
+void MainStateSDL::loadDropedFile(char* droppedFile)
+{
+	if (!droppedFile)
+		return;
+	std::thread([filePath = std::string(droppedFile), droppedFile, this]()
+	{
+		SDL_Log("%s", filePath.c_str());
+		Images::Image* img = controller.loadImageAsync(filePath);
+		if (controller.addImageAsync(img))
+		{
+			controller.getMessenger().messageUser("Image successfully loaded.");
+			controller.setSelectedImage(img);
+			textUpdated = true;
+		}
+		else
+		{
+			controller.getMessenger().messageUser("Image unsuccessfully loaded.");
+		}
+		SDL_free(droppedFile);
+	}).detach();
+}
+
 void MainStateSDL::handleTick(SDL_Event &event)
 {
 	pane->checkHoverOverContent(winInfo.mouseX, winInfo.mouseY);
 	switch (event.type)
 	{
-		case SDL_MOUSEBUTTONDOWN: pane->tickOnClick();break;
-		case SDL_DROPFILE:
-		{
-			std::thread([&]()
-			{
-				char* droppedFile = event.drop.file;
-				if (droppedFile)
-				{
-					std::string filePath(droppedFile);
-					SDL_Log("%s", filePath.c_str());
-					Images::Image* img = controller.loadImageAsync(filePath);
-					if (controller.addImageAsync(img))
-					{
-						controller.getMessenger().messageUser("Image successfully loaded.");
-						controller.setSelectedImage(img);
-						textUpdated = true;
-					}
-					else
-						controller.getMessenger().messageUser("Image unsuccessfully loaded.");
-					SDL_free(droppedFile);  // Free the allocated string
-				}
-			}).detach(); // Your existing loading logic
-		}
-		break;
+		case SDL_MOUSEBUTTONDOWN: pane->tickOnClick(); break;
+		case SDL_DROPFILE: loadDropedFile(event.drop.file); break;
 	}
 }
 

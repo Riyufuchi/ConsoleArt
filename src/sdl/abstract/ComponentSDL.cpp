@@ -30,6 +30,17 @@ void ComponentSDL::repose(int x, int y)
 	rect.y = y;
 }
 
+void ComponentSDL::center(int width, int height)
+{
+	rect.x = std::max(0, (width - rect.w) / 2);
+	rect.y = std::max(0, (height - rect.h) / 2);
+}
+
+void ComponentSDL::centerHorizontal(int width)
+{
+	rect.x = std::max(0, (width - rect.w) / 2);
+}
+
 void ComponentSDL::onClick()
 {
 	if (onClickEvent && mouseOver)

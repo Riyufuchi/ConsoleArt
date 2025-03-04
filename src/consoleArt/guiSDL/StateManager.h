@@ -22,7 +22,8 @@ enum WindowState
 	EDIT_IMAGE,
 	SHOW_IMAGE,
 	SELECT_IMAGE,
-	ABOUT
+	ABOUT,
+	ASCII_CONVERTER
 };
 class StateManager
 {

@@ -14,6 +14,7 @@
 
 #include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"
+#include "../../imageTools/Filter.h"
 
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/assets/StringSDL.h"

@@ -12,7 +12,7 @@
 namespace ConsoleArt
 {
 
-NotifierSDL::NotifierSDL()
+NotifierSDL::NotifierSDL() : AbstractNotifier()
 {
 
 }
