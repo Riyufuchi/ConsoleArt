@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Feb 27, 2025
+// Last Edit   : Mar 4, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -22,7 +22,7 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 	}
 	((NotifierCLI*)messenger)->setConsole(console);
 	// Arguments
-	argumentMethods["--no-colo"] = [&](const auto&)
+	argumentMethods["--no-color"] = [&](const auto&)
 	{
 		this->console = &defaultConsole;
 		((MenuCLI*)menuInterface)->setConsole(console);
@@ -58,7 +58,7 @@ void ControllerCLI::benchmark(const std::vector<std::string>& vector)
 		image = vector.at(0);
 	auto start = std::chrono::steady_clock::now();
 	auto end = start;
-	Images::Image* img = loadImage(image);
+	Images::Image* img = loadImageAsync(image);
 	if (img == nullptr)
 		return;
 	ImageUtils::AsciiConverter ac(*img);
@@ -76,8 +76,8 @@ void ControllerCLI::compareImages(const std::vector<std::string>& vector)
 		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument --compare is missing " + std::to_string((2 - vector.size())) + " parameters!\n");
 		return;
 	}
-	Images::Image* image1 = loadImage(workspacePath + vector.at(0));
-	Images::Image* image2 = loadImage(workspacePath + vector.at(1));
+	Images::Image* image1 = loadImageAsync(workspacePath + vector.at(0));
+	Images::Image* image2 = loadImageAsync(workspacePath + vector.at(1));
 	if (image1 == nullptr || !*image1)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
@@ -197,7 +197,7 @@ void ControllerCLI::run()
 	{
 		case 0:
 		{
-			imageHolder = loadImage(inputImageName());
+			imageHolder = loadImageAsync(inputImageName());
 			if (imageHolder != nullptr)
 			{
 				selectedImage = imageHolder;
