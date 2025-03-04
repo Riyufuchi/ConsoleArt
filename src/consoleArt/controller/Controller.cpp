@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 27, 2025
+// Last Edit   : Mar 4, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -165,33 +165,6 @@ bool Controller::addImageAsync(Images::Image* image)
 	return true;
 }
 
-Images::Image* Controller::loadImage(std::string path)
-{
-	std::string ext = "";
-	try
-	{
-		ext = path.substr(path.find_last_of("."));
-	}
-	catch (std::exception& e)
-	{
-		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
-		return nullptr;
-	}
-	if (ext == ".pcx")
-		return new Images::ImagePCX(path);
-	else if (ext == ".bmp")
-		return new Images::ImageBMP(path);
-	else if (ext == ".ppm")
-		return new Images::ImagePPM(path);
-	else if (ext == ".png")
-		return new Images::ImagePNG(path);
-	else if (ext == ".jpg" || ext == ".jpeg")
-			return new Images::ImagePNG(path);
-	else
-		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Format [" + ext + "] is not supported\n");
-	return nullptr;
-}
-
 Images::Image* Controller::loadImageAsync(const std::string& path)
 {
 	std::string extension = "";
@@ -202,22 +175,9 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 	catch (std::exception& e)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
-		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, path);
 		return nullptr;
 	}
-	std::lock_guard<std::mutex> lock(mutexImageFormats);
-		if (suppertedImageFormats.contains(extension))
-			switch (suppertedImageFormats.at(extension))
-			{
-				case Images::BMP: return new Images::ImageBMP(path);
-				case Images::PCX: return new Images::ImagePCX(path);
-				case Images::PPM: return new Images::ImagePPM(path);
-				case Images::PNG: return new Images::ImagePNG(path);
-				case Images::JPG: return new Images::ImageJPG(path);
-				default: return nullptr;
-			}
-		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
-		return nullptr;
+	return loadImageAsync(path, extension);
 }
 
 Images::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)

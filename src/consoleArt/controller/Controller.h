@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Feb 27, 2025
+// Last Edit   : Mar 4, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -58,8 +58,6 @@ public:
 	// Controller
 	virtual std::string inputImageName() = 0;
 	bool addImageAsync(Images::Image* image);
-	[[deprecated("Not thread safe")]]
-	Images::Image* loadImage(std::string path);
 	Images::Image* loadImageAsync(const std::string& path);
 	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
