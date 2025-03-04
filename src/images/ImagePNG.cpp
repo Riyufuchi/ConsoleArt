@@ -2,7 +2,7 @@
 // File       : ImagePNG.cpp
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Feb 18, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,7 +18,6 @@ namespace Images
 ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 {
 	fileState = OK;
-	imageInfo.name = filename;
 	this->imageData = stbi_load(filepath.c_str(), &imageInfo.width, &imageInfo.height, &CHANNELS, 0);
 	if (CHANNELS == 4)
 	{
@@ -59,7 +58,10 @@ ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : 
 ImagePNG::~ImagePNG()
 {
 	if (imageData)
+	{
 		stbi_image_free(imageData);
+		imageData = nullptr;
+	}
 }
 
 Images::Pixel ImagePNG::getPixel(int x, int y) const

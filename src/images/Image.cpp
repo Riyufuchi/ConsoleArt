@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 2, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,6 +18,7 @@ Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), 
 		this->filename = filepath.substr(xPos + 1);
 	else
 		this->filename = filepath;
+	imageInfo.name = filename;
 
 }
 Image::~Image()
@@ -70,26 +71,35 @@ PixelByteOrder Image::getPixelFormat() const
 {
 	return pixelByteOrder;
 }
-unsigned char* Image::getImageData() const
+std::unique_ptr<unsigned char[]> Image::getImageData() const
 {
 	if (imageData)
-		return imageData;
+	{
+		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(imageInfo.width * imageInfo.height * CHANNELS);
+		std::memcpy(dataCopy.get(), imageData, imageInfo.width * imageInfo.height * CHANNELS);
+		return dataCopy; // Copy existing data
+	}
+
 	if (!inverted)
-		return (unsigned char*)pixelData.data();
-	int cp = 4;
-	if (CHANNELS <= 3)
-		cp = 3;
-	unsigned char* imageDat = (unsigned char*)pixelData.data();
-	unsigned char* flippedData = new unsigned char[imageInfo.width * imageInfo.height * cp];
+	{
+		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(pixelData.size());
+		std::memcpy(dataCopy.get(), pixelData.data(), pixelData.size());
+		return dataCopy; // Returning a copy of pixelData, since caller will own it
+	}
+
+	int cp = (CHANNELS <= 3) ? 3 : 4;
+	std::unique_ptr<unsigned char[]> flippedData = std::make_unique<unsigned char[]>(imageInfo.width * imageInfo.height * cp);
+
 	int rowSize = imageInfo.width * cp;
-	int srcRow = 0;
-	int dstRow = 0;
+	int srcRow = 0, dstRow = 0;
 	for (int y = 0; y < imageInfo.height; y++)
 	{
 		srcRow = (imageInfo.height - 1 - y) * rowSize;
 		dstRow = y * rowSize;
-		std::memcpy(&flippedData[dstRow], &imageDat[srcRow], rowSize);
+		std::memcpy(&flippedData[dstRow], &pixelData[srcRow], rowSize);
 	}
+
 	return flippedData;
 }
+
 } /* namespace Images */

@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Feb 18, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <vector>
 #include <cstring>
+#include <memory>
 
 #include "Pixels.hpp"
 
@@ -99,7 +100,7 @@ public:
 	int getHeight() const;
 	int getBits() const;
 	PixelByteOrder getPixelFormat() const;
-	unsigned char* getImageData() const;
+	std::unique_ptr<unsigned char[]> getImageData() const;
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
 };

@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 17, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -40,7 +40,6 @@ void ImagePCX::loadImage()
 		return;
 	}
 	inf.read(reinterpret_cast<char*>(&headerPCX), sizeof(headerPCX));
-	imageInfo.name = filename;
 	imageInfo.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
 	imageInfo.height = (headerPCX.yMax - headerPCX.yMin) + 1;
 	imageInfo.file_type = headerPCX.file_type;

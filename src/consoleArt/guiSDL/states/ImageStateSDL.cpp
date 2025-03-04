@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 2, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), controller(controller), stateManager(stateManager), IMAGE(nullptr)
+ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), IMAGE(nullptr)
 {
 	this->texture = nullptr;
 	this->imageRGBA = nullptr;
@@ -98,11 +98,11 @@ void ImageStateSDL::onReturn()
 	else
 		imageRGBA = IMAGE->getImageData();
 
-	// Create the surface with the correct color masks
-	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)imageRGBA,
-			info.width, info.height, info.bits, info.width * (info.bits / 8),
-			rmask, gmask, bmask, amask);
+	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+			(void*)imageRGBA.get(), info.width, info.height, info.bits, info.width * (info.bits / 8),
+		rmask, gmask, bmask, amask);
 
+	// Attach SDL's memory management to avoid leaks
 	if (!surface)
 	{
 		SDL_Log("Failed to create surface: %s", SDL_GetError());
@@ -127,17 +127,13 @@ void ImageStateSDL::onWindowResize()
 {
 	if (!IMAGE)
 		return;
-	//SDL_QueryTexture(texture, NULL, NULL, &imgSize.w, &imgSize.h);
 	// Calculate scaling factor (preserve aspect ratio)
 	scaleX = static_cast<float>(winInfo.w) / IMAGE->getWidth();
 	scaleY = static_cast<float>(winInfo.h) / IMAGE->getHeight();
 	scale = std::max(0.01f, std::min(scaleX, scaleY)); // Ensure scale is never zero
-	SDL_Log("Scale: %f", scale);
 	// Calculate new width and height
 	newW = static_cast<int>(IMAGE->getWidth() * scale);
 	newH = static_cast<int>(IMAGE->getHeight() * scale);
-	SDL_Log("Window %d x %d", winInfo.w, winInfo.h);
-	SDL_Log("Image %d x %d", newW, newH);
 	imgSize.w = std::max(1, std::min(winInfo.w, newW));
 	imgSize.h = std::max(1, std::min(winInfo.h, newH));
 	imgSize.x = std::max(0, (winInfo.w - newW) / 2);
