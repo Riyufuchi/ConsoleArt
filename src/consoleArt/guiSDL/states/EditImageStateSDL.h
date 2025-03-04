@@ -12,22 +12,20 @@
 
 #include <functional>
 
+#include "../../abstract/AbstractState.h"
+#include "../../tools/ButtonBuilder.h"
+
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/assets/StringSDL.h"
 #include "../../../sdl/components/ContentPanelSDL.h"
 #include "../../../sdl/components/ImageButtonSDL.h"
-#include "../../tools/ButtonBuilder.h"
-#include "../StateManager.h"
-#include "../../controller/Controller.h"
 
 namespace ConsoleArt
 {
-class EditImageStateSDL: public sdl::StateSDL
+class EditImageStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
 	ButtonBuilder& buttons;
-	Controller& controller;
-	StateManager& stateManager;
 	sdl::ContentPanelSDL* pane;
 public:
 	EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);

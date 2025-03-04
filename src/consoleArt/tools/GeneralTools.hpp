@@ -68,7 +68,7 @@ public:
 		aboutStringStream << "1. Select font (in your console/terminal) where all characters have same width\n";
 		aboutStringStream << "2. Load and select image\n";
 		aboutStringStream << "3. Convert image\n";
-		aboutStringStream << "4. In order to view the image, make font smaller. Size 2 is recommended for bigger images, however this depends on size of given image\n\n";
+		aboutStringStream << "4. In order to view the image, make font smaller.\nSize 2 is recommended for bigger images, however this depends on size of given image\n\n";
 
 		aboutStringStream << "Supported image formats\n";
 		std::string args[] = {
@@ -84,8 +84,9 @@ public:
 
 		std::string libs[] = {
 					"Name| Used for",
-					"stb | complex images",
+					"stb | Complex images",
 					"SDL2| GUI",
+					"TinyFileDialogs| Cross-platform dialogs"
 				};
 		aboutStringStream << "\n" << ConsoleLib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
 		return aboutStringStream.str();

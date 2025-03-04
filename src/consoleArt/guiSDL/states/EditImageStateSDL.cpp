@@ -11,7 +11,7 @@
 
 namespace ConsoleArt {
 
-EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), buttons(buttons), controller(controller), stateManager(stateManager)
+EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->pane = new sdl::ContentPanelSDL(0, 0);
 	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false)));

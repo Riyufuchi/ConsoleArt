@@ -14,28 +14,24 @@
 #include <thread>
 #include <string>
 
-#include "../StateManager.h"
-#include "../../controller/Controller.h"
-
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/assets/StringSDL.h"
 #include "../../../sdl/assets/SpriteSheetSDL.h"
 #include "../../../sdl/components/ContentPanelSDL.h"
 #include "../../../sdl/components/ImageButtonSDL.h"
 
+#include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"
 
 namespace ConsoleArt
 {
-class MainStateSDL : public sdl::StateSDL
+class MainStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
 	ButtonBuilder& buttons;
 	sdl::StringSDL* selectedImageString;
 	sdl::ContentPanelSDL* pane;
 	TTF_Font* font;
-	Controller& controller;
-	StateManager& stateManager;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 	bool updateString(sdl::StringSDL* stringSDL);

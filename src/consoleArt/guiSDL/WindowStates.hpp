@@ -13,5 +13,7 @@
 #include "states/MainStateSDL.h"
 #include "states/EditImageStateSDL.h"
 #include "states/ImageStateSDL.h"
+#include "states/SelectImageStateSDL.h"
+#include "states/AboutStateSDL.h"
 
 #endif /* CONSOLEART_GUISDL_WINDOWSTATES_HPP_ */

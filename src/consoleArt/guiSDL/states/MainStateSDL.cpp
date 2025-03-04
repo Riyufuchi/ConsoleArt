@@ -11,17 +11,17 @@
 
 namespace ConsoleArt
 {
-MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), buttons(buttons), controller(controller), stateManager(stateManager)
+MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->textUpdated = false;
-	this->selectedImageString = new sdl::StringSDL("No image selected", "TF2Build.ttf", 24, {255, 105, 180, 255}, renderer);
+	this->selectedImageString = new sdl::StringSDL("No image selected", "TF2secondary.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	this->pane = new sdl::ContentPanelSDL(0, 0);
 	// 0
 	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::LOAD, false), [&]() { addImageButtonEvent(); }));
 	pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), [&]() { std::thread([&](){ controller.loadAllImagesAsync(); }).detach(); }));
 	// 1
-	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false)));
+	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false), [&]() { stateManager.switchState(WindowState::SELECT_IMAGE); }));
 	pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
 	{
 		controller.getSelectedImage() ?
@@ -30,7 +30,7 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	}));
 	// 2
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SETTINGS, true)));
-	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() {  }));
+	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
 	pane->addComponent(2, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::EXIT, true), [&]() { exitApplication(); }));
 	this->font = selectedImageString->getFont();
 	onReturn();
@@ -47,7 +47,7 @@ bool MainStateSDL::updateString(sdl::StringSDL* stringSDL)
 	if (textUpdated && controller.getSelectedImage() && stringSDL)
 	{
 		textUpdated = false;
-		stringSDL->setText(std::string("Selected image: ").append(controller.getSelectedImage()->getFilename()));
+		stringSDL->setText(controller.getSelectedImage()->getFilename());
 		return true;
 	}
 	return false;
