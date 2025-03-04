@@ -2,7 +2,7 @@
 // File       : ImageTools.h
 // Author     : riyufuchi
 // Created on : Dec 1, 2023
-// Last edit  : Feb 18, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -42,13 +42,13 @@ public:
 
 	    return interleavedData;
 	}
-	static unsigned char* convertPlanarPCXToInterleaved(const Images::ImagePCX& image)
+	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const Images::ImagePCX& image)
 	{
 		const Images::ImagePCX::PCXHeader &header = image.getHeader();
 		int totalPixels = image.getWidth() * image.getHeight();
 
-		unsigned char *planarData = image.getImageData();
-		unsigned char *interleavedData = new unsigned char[totalPixels * header.numOfColorPlanes]; // Supports RGB or RGBA
+		std::unique_ptr planarData = image.getImageData();
+		unsigned char* interleavedData = new unsigned char[totalPixels * header.numOfColorPlanes]; // Supports RGB or RGBA
 
 		int pixelIndex = 0;
 		int RGBpos = 0;
@@ -63,7 +63,7 @@ public:
 				interleavedData[RGBpos + 2] = planarData[(header.bytesPerLine * 2) + pixelIndex];
 			}
 		}
-		return interleavedData;
+		return std::unique_ptr<unsigned char []>(interleavedData);
 	}
 };
 

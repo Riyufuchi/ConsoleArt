@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 2, 2025
+// Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,22 +13,20 @@
 #include <SDL2/SDL_image.h>
 #include <functional>
 
+#include "../../abstract/AbstractState.h"
+
 #include "../../../images/Image.h"
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../imageTools/ImageTools.h"
-#include "../../controller/Controller.h"
-#include "../StateManager.h"
 
 namespace ConsoleArt
 {
-class ImageStateSDL : public sdl::StateSDL
+class ImageStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
-	Controller& controller;
-	StateManager& stateManager;
 	const Images::Image* IMAGE;
 	SDL_Texture* texture;
-	unsigned char* imageRGBA;
+	std::unique_ptr<unsigned char[]> imageRGBA;
 	float scaleX;
 	float scaleY;
 	float scale;
