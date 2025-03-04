@@ -31,10 +31,12 @@ public:
 	//Methods
 	void onClick();
 	void repose(int x, int y);
+	void center(int width, int height);
+	void centerHorizontal(int width);
 	virtual void draw(SDL_Renderer* renderer) = 0;
 	// Setters
-	void setX(int x);
-	void setY(int y);
+	virtual void setX(int x);
+	virtual void setY(int y);
 	void setWidth(int width);
 	void setHeight(int height);
 	void setMouseOver(bool mouseOver);

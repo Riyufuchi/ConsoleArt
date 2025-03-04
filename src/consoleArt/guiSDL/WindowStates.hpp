@@ -15,5 +15,6 @@
 #include "states/ImageStateSDL.h"
 #include "states/SelectImageStateSDL.h"
 #include "states/AboutStateSDL.h"
+#include "states/AsciiConvertStateSDL.h"
 
 #endif /* CONSOLEART_GUISDL_WINDOWSTATES_HPP_ */

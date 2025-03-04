@@ -44,6 +44,7 @@ protected:
 	std::unordered_map<std::string, Images::ImageType> suppertedImageFormats;
 	std::mutex mutexImageFormats;
 	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
+	[[deprecated("CLI only")]]
 	void convertImage(Images::Image* image);
 	// For main state
 	virtual Images::Image* selectImage() = 0;
@@ -62,13 +63,14 @@ public:
 	Images::Image* loadImageAsync(const std::string& path);
 	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
+	void convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
 	// Setters
 	void setWorkspace(std::string path);
 	void setSelectedImage(Images::Image* selectedImage);
 	// Getters
 	AbstractNotifier& getMessenger();
 	const std::string& getWorkspace();
-	const Images::Image* getSelectedImage();
+	Images::Image* getSelectedImage();
 };
 }
 #endif

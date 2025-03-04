@@ -14,9 +14,12 @@ namespace ConsoleArt {
 EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->pane = new sdl::ContentPanelSDL(0, 0);
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false)));
+	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), [&]() { stateManager.switchState(WindowState::ASCII_CONVERTER); }));
 	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]() { stateManager.switchState(WindowState::SHOW_IMAGE); }));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false)));
+	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), [&]()
+	{
+		Images::Image* img = controller.getSelectedImage();
+		ImageUtils::Filter::purplefierSoft(*img); }));
 	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::IMAGE_INFO, true), [&]()
 	{
 		if (controller.getSelectedImage())

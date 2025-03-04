@@ -38,6 +38,7 @@ private:
 public:
 	MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);
 	virtual ~MainStateSDL();
+	void loadDropedFile(char* droppedFile);
 	virtual void handleTick(SDL_Event &event) override;
 	virtual void render() override;
 	virtual void onReturn() override;
