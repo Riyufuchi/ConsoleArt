@@ -22,6 +22,11 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED); // SDL_RENDERER_ACCELERATED);
+	if (!renderer)
+	{
+		isRunnable = false;
+		return;
+	}
 	setenv("TINYFD_FORCE_XDG", "1", 1);
 	this->buttons = new ButtonBuilder(renderer);
 	winInfo.w = width;
@@ -36,6 +41,8 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, nullptr)
 	this->stateManager->addNewState(WindowState::MAIN, currentState);
 	this->stateManager->addNewState(WindowState::EDIT_IMAGE, new EditImageStateSDL(winInfo, *buttons, *this, *stateManager));
 	this->stateManager->addNewState(WindowState::SHOW_IMAGE, new ImageStateSDL(winInfo, *this, *stateManager));
+	this->stateManager->addNewState(WindowState::SELECT_IMAGE, new SelectImageStateSDL(winInfo, *this, *stateManager, *buttons));
+	this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
 }
 
 ControllerSDL::~ControllerSDL()
@@ -49,6 +56,8 @@ ControllerSDL::~ControllerSDL()
 }
 void ControllerSDL::run()
 {
+	if (!isRunnable)
+		return;
 	SDL_RendererInfo info;
 	SDL_GetRendererInfo(renderer, &info);
 

@@ -20,7 +20,9 @@ enum WindowState
 {
 	MAIN,
 	EDIT_IMAGE,
-	SHOW_IMAGE
+	SHOW_IMAGE,
+	SELECT_IMAGE,
+	ABOUT
 };
 class StateManager
 {
