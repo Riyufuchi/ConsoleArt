@@ -34,6 +34,8 @@ void SelectImageStateSDL::onWindowResize()
 
 void SelectImageStateSDL::onReturn()
 {
+	std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach();
+	stateManager.switchState(WindowState::MAIN);
 }
 
 void SelectImageStateSDL::render()
