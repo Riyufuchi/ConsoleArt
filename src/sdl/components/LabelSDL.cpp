@@ -7,40 +7,24 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "StringSDL.h"
+#include "LabelSDL.h"
 
 namespace sdl
 {
-StringSDL::StringSDL(std::string text, std::string fontname, int size, SDL_Color color, SDL_Renderer* renderer) : renderer(renderer), textTexture(nullptr), text(text), size(size), color(color)
+LabelSDL::LabelSDL(std::string text, std::string fontname, int size, SDL_Color color, SDL_Renderer* renderer) : ComponentSDL(0, 0, 0, 0, color), renderer(renderer), font(nullptr), textTexture(nullptr)
 {
 	font = FontManagerSDL::getInstance().getFont(fontname, size);
-	if (!font)
-	{
-		SDL_Log("ERROR: Failed to load font: %s", TTF_GetError());
-		return; // Prevent further execution
-	}
 
 	setText(text, color); // Initialize text texture
 }
 
-StringSDL::StringSDL(std::string text, TTF_Font* font, int size, SDL_Color color, SDL_Renderer* renderer) : renderer(renderer), textTexture(nullptr), text(text), size(size), color(color)
-{
-	this->font = font;
-	if (!font)
-	{
-		SDL_Log("ERROR: Failed to load font: %s", TTF_GetError());
-		return; // Prevent further execution
-	}
-	setText(text, color); // Initialize text texture
-}
-
-StringSDL::~StringSDL()
+LabelSDL::~LabelSDL()
 {
 	if (textTexture)
 		SDL_DestroyTexture(textTexture);
 }
 
-SDL_Texture* StringSDL::prepareText(std::string& text, SDL_Color& color)
+SDL_Texture* LabelSDL::prepareText(std::string& text, SDL_Color& color)
 {
 	if (textTexture)
 		SDL_DestroyTexture(textTexture);
@@ -62,16 +46,26 @@ SDL_Texture* StringSDL::prepareText(std::string& text, SDL_Color& color)
 	return textTexture;
 }
 
-void StringSDL::setText(std::string text)
+void LabelSDL::draw(SDL_Renderer *renderer)
 {
-	SDL_Texture* t = prepareText(text, color);
+	SDL_RenderCopy(renderer, textTexture, nullptr, &rect);
+}
+
+void LabelSDL::draw()
+{
+	SDL_RenderCopy(renderer, textTexture, nullptr, &rect);
+}
+
+void LabelSDL::setText(std::string text)
+{
+	SDL_Texture* t = prepareText(text, baseColor);
 	if (!t)
 		return;
 	textTexture = t;
 	SDL_QueryTexture(t, nullptr, nullptr, &rect.w, &rect.h);
 }
 
-void StringSDL::setText(std::string text, SDL_Color color)
+void LabelSDL::setText(std::string text, SDL_Color color)
 {
 	SDL_Texture* t = prepareText(text, color);
 	if (!t)
@@ -79,32 +73,8 @@ void StringSDL::setText(std::string text, SDL_Color color)
 	textTexture = t;
 	SDL_QueryTexture(t, nullptr, nullptr, &rect.w, &rect.h);
 }
-TTF_Font* StringSDL::getFont() const
+TTF_Font* LabelSDL::getFont()
 {
 	return font;
 }
-
-int StringSDL::getSize() const {
-	return size;
-}
-
-const std::string& StringSDL::getText() const
-{
-	return text;
-}
-
-SDL_Texture* StringSDL::getTexture() const
-{
-	return textTexture;
-}
-
-int StringSDL::getWidth() const
-{
-	return rect.w;
-}
-int StringSDL::getHeight() const
-{
-	return rect.h;
-}
-
 } /* namespace ConsoleArt */

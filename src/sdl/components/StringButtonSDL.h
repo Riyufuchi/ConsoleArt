@@ -21,11 +21,9 @@ private:
 	StringSDL* text;
 	StringSDL* textHover;
 public:
-	StringButtonSDL(int x, int y, StringSDL* text, StringSDL* textHover, std::function<void()> callback = nullptr);
+	StringButtonSDL(int x, int y, StringSDL* text, SDL_Color hoverColor, std::function<void()> callback = nullptr);
 	virtual ~StringButtonSDL();
 	virtual void draw(SDL_Renderer *renderer) override;
-	virtual void setY(int y) override;
-	virtual void setX(int x) override;
 };
 } /* namespace sdl */
 #endif /* SDL_COMPONENTS_STRINGBUTTONSDL_H_ */
