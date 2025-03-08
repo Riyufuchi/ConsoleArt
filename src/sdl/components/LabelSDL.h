@@ -7,43 +7,34 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_SDL_ASSETS_STRINGSDL_H_
-#define CONSOLEART_SDL_ASSETS_STRINGSDL_H_
+#ifndef CONSOLEART_SDL_ASSETS_LABELSDL_H_
+#define CONSOLEART_SDL_ASSETS_LABELSDL_H_
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
-#include "FontManagerSDL.h"
+#include "../abstract/ComponentSDL.h"
+#include "../assets/FontManagerSDL.h"
 
 namespace sdl
 {
-class StringSDL
+class LabelSDL : public ComponentSDL
 {
-protected:
+private:
 	SDL_Renderer* renderer;
 	TTF_Font* font;
 	SDL_Texture* textTexture;
-	std::string text;
-	int size;
-	SDL_Rect rect;
-	SDL_Color color;
 	SDL_Texture* prepareText(std::string& text, SDL_Color& color);
 public:
-	StringSDL(std::string text, std::string fontname, int size, SDL_Color color, SDL_Renderer* renderer);
-	StringSDL(std::string text, TTF_Font* fontname, int size, SDL_Color color, SDL_Renderer* renderer);
-	virtual ~StringSDL();
+	LabelSDL(std::string text, std::string fontname, int size, SDL_Color color, SDL_Renderer* renderer);
+	virtual ~LabelSDL();
+	virtual void draw(SDL_Renderer *renderer) override;
+	void draw();
 	void setText(std::string text);
 	void setText(std::string text, SDL_Color color);
-	TTF_Font* getFont() const;
-	SDL_Texture* getTexture() const;
-	const std::string& getText() const;
-	int getSize() const;
-	SDL_Renderer* getRenderer() const {
-		return renderer;
-	}
-	int getWidth() const;
-	int getHeight() const;
+	TTF_Font* getFont();
+
 };
 
 } /* namespace ConsoleArt */

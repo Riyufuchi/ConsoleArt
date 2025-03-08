@@ -14,7 +14,7 @@ namespace ConsoleArt
 MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->textUpdated = false;
-	this->selectedImageString = new sdl::StringSDL("No image selected", "TF2secondary.ttf", 24, {255, 105, 180, 255}, renderer);
+	this->selectedImageString = new sdl::LabelSDL("No image selected", "TF2secondary.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	this->pane = new sdl::ContentPanelSDL(0, 0);
 	// 0
@@ -42,7 +42,7 @@ MainStateSDL::~MainStateSDL()
 	delete selectedImageString;
 }
 
-bool MainStateSDL::updateString(sdl::StringSDL* stringSDL)
+bool MainStateSDL::updateString(sdl::LabelSDL* stringSDL)
 {
 	if (textUpdated && controller.getSelectedImage() && stringSDL)
 	{

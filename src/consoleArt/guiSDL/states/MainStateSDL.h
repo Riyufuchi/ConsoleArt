@@ -15,10 +15,10 @@
 #include <string>
 
 #include "../../../sdl/abstract/StateSDL.h"
-#include "../../../sdl/assets/StringSDL.h"
 #include "../../../sdl/assets/SpriteSheetSDL.h"
 #include "../../../sdl/components/ContentPanelSDL.h"
 #include "../../../sdl/components/ImageButtonSDL.h"
+#include "../../../sdl/components/LabelSDL.h"
 
 #include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"
@@ -29,12 +29,12 @@ class MainStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
 	ButtonBuilder& buttons;
-	sdl::StringSDL* selectedImageString;
+	sdl::LabelSDL* selectedImageString;
 	sdl::ContentPanelSDL* pane;
 	TTF_Font* font;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
-	bool updateString(sdl::StringSDL* stringSDL);
+	bool updateString(sdl::LabelSDL* stringSDL);
 public:
 	MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);
 	virtual ~MainStateSDL();

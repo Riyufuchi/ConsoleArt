@@ -14,7 +14,7 @@
 #include <memory>
 #include <future>
 
-#include "../../abstract/AbstractState.h"
+#include "../../abstract/AbstractAciiConversionState.h"
 #include "../../tools/ButtonBuilder.h"
 
 #include "../../../sdl/assets/StringSDL.h"
@@ -24,14 +24,12 @@
 
 namespace ConsoleArt
 {
-class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractState
+class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractAciiConversionState
 {
 private:
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;
-	std::vector<std::pair<ImageUtils::AsciiConverter::CHAR_SETS, std::string>> texts;
-	void converImage(ImageUtils::AsciiConverter::CHAR_SETS charSet);
 public:
 	AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
 	virtual ~AsciiConvertStateSDL();

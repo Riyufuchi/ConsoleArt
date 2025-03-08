@@ -18,7 +18,7 @@
 #include "../../tools/ButtonBuilder.h"
 #include "../../tools/GeneralTools.hpp"
 
-#include "../../../sdl/abstract/StateSDL.h"
+#include "../../../sdl/components/LabelSDL.h"
 #include "../../../sdl/components/ContentPanelSDL.h"
 #include "../../../sdl/assets/StringSDL.h"
 

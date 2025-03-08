@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
+AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractAciiConversionState(controller, stateManager), buttons(buttons)
 {
 	const std::string FONT = "TF2Build.ttf";
 	const int SIZE = 32;
@@ -20,18 +20,10 @@ AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller&
 	//
 	this->y = 0;
 	this->pane = new sdl::ContentPanelSDL(0, 0);
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::BASIC, "BASIC"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::BASIC_INVERTED, "BASIC INVERTED"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::PRECISE, "PRECISE"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::PRECISE_INVERTED, "PRECISE INVERTED"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::DETAILED, "DETAILED"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED, "DETAILED INVERTED"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::SHADES, "SHADES"});
-	texts.push_back({ImageUtils::AsciiConverter::CHAR_SETS::SHADES_INVERTED, "SHADES INVERTED"});
 	for (const auto& textPair : texts)
 	{
 		pane->addComponent(y, new sdl::StringButtonSDL(0, 0, new sdl::StringSDL(textPair.second, FONT, SIZE, color, renderer),
-				new sdl::StringSDL(textPair.second, FONT, SIZE, colorHover, renderer), [&](){ converImage(textPair.first); }));
+				colorHover, [&](){ converImageEvent(textPair.first); }));
 		y++;
 	}
 	onWindowResize();
@@ -40,11 +32,6 @@ AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller&
 AsciiConvertStateSDL::~AsciiConvertStateSDL()
 {
 	delete pane;
-}
-
-void AsciiConvertStateSDL::converImage(ImageUtils::AsciiConverter::CHAR_SETS charSet)
-{
-	std::thread([asciiChar = charSet, this](){ controller.convertImage(controller.getSelectedImage(), asciiChar); }).detach();
 }
 
 void AsciiConvertStateSDL::handleTick(SDL_Event& event)

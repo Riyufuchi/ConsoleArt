@@ -11,10 +11,11 @@
 
 namespace sdl
 {
-StringButtonSDL::StringButtonSDL(int x, int y, StringSDL* text, StringSDL* textHover, std::function<void()> callback) : ComponentSDL(x, y, 10, 10, callback), text(text), textHover(textHover)
+StringButtonSDL::StringButtonSDL(int x, int y, StringSDL* text, SDL_Color hoverColor, std::function<void()> callback) : ComponentSDL(x, y, 10, 10, callback), text(text)
 {
 	this->rect.w = text->getWidth();
 	this->rect.h = text->getHeight();
+	this->textHover = new sdl::StringSDL(text->getText(), text->getFont(), text->getSize(), hoverColor, text->getRenderer());
 }
 
 StringButtonSDL::~StringButtonSDL()
@@ -25,24 +26,7 @@ StringButtonSDL::~StringButtonSDL()
 
 void StringButtonSDL::draw(SDL_Renderer *renderer)
 {
-	if (isMouseOver())
-		textHover->draw();
-	else
-		text->draw();
-}
-
-void StringButtonSDL::setY(int y)
-{
-	ComponentSDL::setY(y);
-	text->setY(y);
-	textHover->setY(y);
-}
-
-void StringButtonSDL::setX(int x)
-{
-	ComponentSDL::setX(x);
-	text->setX(x);
-	textHover->setX(x);
+	SDL_RenderCopy(renderer, isMouseOver() ? textHover->getTexture() : text->getTexture(), nullptr, &rect);
 }
 
 } /* namespace sdl */
