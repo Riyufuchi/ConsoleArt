@@ -2,33 +2,36 @@
 // File       : ButtonBuilder.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Feb 28, 2025
+// Last edit  : Mar 8, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "ButtonBuilder.h"
 
-namespace ConsoleArt {
-
+namespace ConsoleArt
+{
 ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
 	this->buttonSheet = new sdl::SpriteSheetSDL("ui_big.png", renderer);
 	this->buttonSheetSmall = new sdl::SpriteSheetSDL("ui_small.png", renderer);
 	if (!buttonSheet || !buttonSheetSmall)
 		return;
-	// BigButtons
+	// Big Buttons
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
 	logButton(0, 3, ButtonType::BACK, RECTANGLE);
 	logButton(0, 4, ButtonType::WATERMARK, RECTANGLE);
 	logButton(1, 0, ButtonType::IMAGE_FILTER, RECTANGLE);
 	logButton(2, 0, ButtonType::CONVER_TO_ASCII, RECTANGLE);
-	// SmallButtons
+	// Small Buttons
 	logButton(0, 0, ButtonType::SETTINGS, SQUARE);
 	logButton(0, 1, ButtonType::BACK, SQUARE);
 	logButton(0, 2, ButtonType::EXIT, SQUARE);
+	logButton(0, 3, ButtonType::APPLY, SQUARE);
 	logButton(0, 4, ButtonType::SHOW_IMAGE, SQUARE);
+	logButton(0, 5, ButtonType::SELECT, SQUARE);
+	// X = 1
 	logButton(1, 1, ButtonType::LOAD_ALL, SQUARE);
 	logButton(1, 2, ButtonType::EDIT_IMAGE, SQUARE);
 	logButton(1, 3, ButtonType::ABOUT, SQUARE);

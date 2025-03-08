@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : Mar 3, 2025
+// Last edit  : Mar 8, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -52,6 +52,7 @@ void AsciiConvertStateSDL::onWindowResize()
 
 void AsciiConvertStateSDL::onReturn()
 {
+	onWindowResize();
 }
 
 void AsciiConvertStateSDL::render()

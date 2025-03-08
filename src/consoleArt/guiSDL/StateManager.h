@@ -2,7 +2,7 @@
 // File       : StateManager.h
 // Author     : riyufuchi
 // Created on : Mar 2, 2025
-// Last edit  : Mar 2, 2025
+// Last edit  : Mar 8, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,7 +23,8 @@ enum WindowState
 	SHOW_IMAGE,
 	SELECT_IMAGE,
 	ABOUT,
-	ASCII_CONVERTER
+	ASCII_CONVERTER,
+	WATERMARK
 };
 class StateManager
 {

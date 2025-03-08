@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Feb 28, 2025
+// Last edit  : Mar 8, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -31,7 +31,9 @@ enum class ButtonType
 	IMAGE_FILTER,
 	SHOW_IMAGE,
 	WATERMARK,
-	IMAGE_INFO
+	IMAGE_INFO,
+	APPLY,
+	SELECT
 };
 class ButtonBuilder
 {
