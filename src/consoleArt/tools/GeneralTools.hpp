@@ -26,9 +26,9 @@ class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8 - pre 2 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - alpha 1 (debug)";
 	#else
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.8";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9";
 	#endif
 	GeneralTools();
 	~GeneralTools();
@@ -84,7 +84,7 @@ public:
 
 		std::string libs[] = {
 					"Name| Used for",
-					"stb | Complex images",
+					"stb| Complex images",
 					"SDL2| GUI",
 					"TinyFileDialogs| Cross-platform dialogs"
 				};

@@ -42,7 +42,6 @@ void AboutStateSDL::handleTick(SDL_Event& event)
 
 void AboutStateSDL::onWindowResize()
 {
-	SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
 	onReturn();
 }
 

@@ -90,6 +90,7 @@ void ControllerSDL::run()
 					{
 						winInfo.w = event.window.data1;
 						winInfo.h = event.window.data2;
+						SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
 						currentState->onWindowResize();
 					}
 				break;
