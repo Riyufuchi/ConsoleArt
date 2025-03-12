@@ -8,8 +8,13 @@ INC_DIR = libs/ConsoleLib/src/inc
 BUILD_DIR = build
 LIB_DIR = libs/ConsoleLib/build
 
-# Find all source files recursively
-SRC_FILES := $(shell find $(SRC_DIR) -type f -name "*.cpp")
+# Find all .cpp files
+CPP_SRC_FILES := $(shell find $(SRC_DIR) -type f -name "*.cpp")
+
+C_SRC_FILES := $(shell find $(SRC_DIR) -type f -name "*.c")
+
+# Combine both .cpp and .c source files
+SRC_FILES := $(CPP_SRC_FILES) $(C_SRC_FILES)
 
 # Generate object file names
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
