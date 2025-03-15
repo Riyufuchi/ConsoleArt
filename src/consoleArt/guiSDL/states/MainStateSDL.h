@@ -31,7 +31,6 @@ private:
 	ButtonBuilder& buttons;
 	sdl::LabelSDL* selectedImageString;
 	sdl::ContentPanelSDL* pane;
-	TTF_Font* font;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 	bool updateString(sdl::LabelSDL* stringSDL);

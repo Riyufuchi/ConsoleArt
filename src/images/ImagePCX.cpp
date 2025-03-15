@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 3, 2025
+// Last edit  : Mar 15, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,6 +14,7 @@ namespace Images
 ImagePCX::ImagePCX(std::string filename) : Image(filename)
 {
 	this->paletteVGA = NULL;
+	this->imageInfo.planar = true;
 	loadImage();
 	this->BLUE_OFFSET = 2 * headerPCX.bytesPerLine;
 	this->ALPHA_OFFSET = 3 * headerPCX.bytesPerLine;
@@ -21,7 +22,6 @@ ImagePCX::ImagePCX(std::string filename) : Image(filename)
 	{
 		imageInfo.bits = 32;
 	}
-	this->imageInfo.planar = true;
 }
 ImagePCX::~ImagePCX()
 {
@@ -108,6 +108,8 @@ void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 }
 bool ImagePCX::readImageData(std::ifstream& stream)
 {
+	imageInfo.palette = true;
+	imageInfo.planar = false;
 	// Read palete
 	if (!readPaletteVGA(stream))
 	{
@@ -124,10 +126,10 @@ bool ImagePCX::readImageData(std::ifstream& stream)
 	}
 	else
 	{
-		imageData.reserve((imageInfo.width * imageInfo.height));
+		imageData.resize((imageInfo.width * imageInfo.height));
 		stream.read(reinterpret_cast<char*>(imageData.data()), imageData.size());
 	}
-	pixelData.reserve(imageData.size() * 6);
+	pixelData.resize(imageInfo.width * imageInfo.height * 3);
 	int x = 0;
 	PixelRGB pRGB;
 	int i = 0;

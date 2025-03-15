@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <iostream>
 
 namespace sdl
 {
@@ -24,7 +25,8 @@ private:
 	{
 		void operator()(TTF_Font* font) const
 		{
-			TTF_CloseFont(font);
+			if (font)
+				TTF_CloseFont(font);
 		}
 	};
 	std::unordered_map<std::string, std::unique_ptr<TTF_Font, FontDeleter>> fonts;

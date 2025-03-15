@@ -8,6 +8,7 @@
 //==============================================================================
 
 #include "Image.h"
+#include "Pixels.hpp"
 
 namespace Images
 {
@@ -79,7 +80,7 @@ std::unique_ptr<unsigned char[]> Image::getImageData() const
 		std::memcpy(dataCopy.get(), imageData, imageInfo.width * imageInfo.height * CHANNELS);
 		return dataCopy; // Copy existing data
 	}
-
+	
 	if (!inverted)
 	{
 		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(pixelData.size());

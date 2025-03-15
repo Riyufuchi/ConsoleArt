@@ -107,10 +107,10 @@ void ControllerSDL::run()
 		{
 			SDL_Delay(frameDelay - frameTime); // Delay only if needed
 		}
-		else
+		/*else
 		{
 			SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
-		}
+		}*/
 	}
 }
 
@@ -127,7 +127,7 @@ std::string ControllerSDL::inputImageName()
 {
 	std::vector<std::string> formatStrings;
 	std::vector<char*> formatCStrs;
-	for (const auto& p : suppertedImageFormats)
+	for (const auto& p : supportedImageFormats)
 	{
 		formatStrings.push_back("*" + p.first);
 		formatCStrs.push_back(strdup(formatStrings.back().c_str())); // Duplicate for C compatibility

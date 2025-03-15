@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 9, 2025
+// Last edit  : Mar 15, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -22,9 +22,9 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 {
 	headerPPM.width = w;
 	headerPPM.height = h;
-	imageData.reserve(w * h);
-	for (size_t x = 0; x < imageData.size(); x++)
-		imageData.emplace_back(Pixel{255, 255, 255});
+	pixelData.resize(w * h * 3);
+	for (size_t x = 0; x < pixelData.size(); x++)
+		pixelData.emplace_back(255);
 	// Image info
 	imageInfo.width = headerPPM.width;
 	imageInfo.height = headerPPM.height;
@@ -81,24 +81,14 @@ void ImagePPM::loadImage()
 		return;
 	}
 
-	imageData.reserve(headerPPM.width * headerPPM.height);
-	int color = 0;
-	Pixel pixel;
+	pixelData.resize(headerPPM.width * headerPPM.height * 3);
+	size_t color = 0;
 	while (std::getline(inf, line))
 	{
 		iss = std::istringstream(line);
 		while (iss >> byte)
 		{
-			switch (color)
-			{
-				case 0: pixel.red =  std::stoi(byte); break;
-				case 1: pixel.green =  std::stoi(byte); break;
-				case 2:
-					pixel.blue =  std::stoi(byte);
-					imageData.emplace_back(pixel);
-					color = -1;
-				break;
-			}
+			pixelData[color] = static_cast<uint8_t>(std::stoi(byte));
 			color++;
 		}
 	}
@@ -108,7 +98,7 @@ void ImagePPM::virtualArtistLegacy()
 {
 	headerPPM.width = 255;
 	headerPPM.height = 255;
-	imageData.reserve(headerPPM.width * headerPPM.height * 3);
+	pixelData.resize(headerPPM.width * headerPPM.height * 3);
 
 	const int MOD = 256;
 
@@ -120,11 +110,13 @@ void ImagePPM::virtualArtistLegacy()
 // Overrides
 Pixel ImagePPM::getPixel(int x, int y) const
 {
-	return imageData[y * headerPPM.width + x];
+	return {pixelData[y * headerPPM.width + x], pixelData[y * headerPPM.width + x + 1], pixelData[y * headerPPM.width + x + 2]};
 }
 void ImagePPM::setPixel(int x, int y, Pixel newPixel)
 {
-	imageData[y * headerPPM.width + x] = newPixel;
+	pixelData[y * headerPPM.width + x] = newPixel.red;
+	pixelData[y * headerPPM.width + x + 1] = newPixel.green;
+	pixelData[y * headerPPM.width + x + 2] = newPixel.blue;
 }
 bool ImagePPM::saveImage() const
 {

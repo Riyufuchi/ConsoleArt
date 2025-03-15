@@ -8,6 +8,7 @@
 //==============================================================================
 
 #include "ContentPanelSDL.h"
+#include <SDL2/SDL_gesture.h>
 
 namespace sdl
 {
@@ -24,6 +25,22 @@ ContentPanelSDL::~ContentPanelSDL()
 			delete component;
 		}
 	}
+}
+
+void ContentPanelSDL::clear()
+{
+	for (size_t yc = 0; yc < componentsAtY.size(); yc++)
+	{
+		for (ComponentSDL* component : componentsAtY[yc])
+		{
+			delete component;
+		}
+		componentsAtY[yc].clear();
+	}
+	componentsAtY.clear();
+	widthAtY.clear();
+	rect.w = 10;
+	rect.h = 10;
 }
 
 void ContentPanelSDL::draw(SDL_Renderer* renderer)

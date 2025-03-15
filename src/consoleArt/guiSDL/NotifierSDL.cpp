@@ -31,7 +31,8 @@ void NotifierSDL::displayImageInfo(const Images::Image& image)
 				<< "Width: " << info.width << " px\n"
 				<< "Height: " << info.height << " px\n"
 				<< "Bits: " << info.bits << "\n"
-				<< "Inverted: " << (image.isInverted() ? "Yes" : "No");
+				<< "Inverted: " << (image.isInverted() ? "Yes" : "No") << "\n"
+				<< "Planar: " << ConsoleLib::DataUtils::boolToString(info.planar);
 		tinyfd_messageBox("Image Info", message.str().c_str(), "ok", "info", 1);
 	}).detach(); // Shows the dialog (blocking, but running in another thread)
 }

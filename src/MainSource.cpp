@@ -22,10 +22,10 @@
 #include "DefaultConsole.h"
 #include "consoleArt/network/server/Server.h"
 #include "other/ScheduleTracker.h"
+#include "sdl/assets/FontManagerSDL.h"
 #ifdef _WIN32
 	#include "WindowsConsole.h"
 #endif // _WIN32
-
 
 enum BootAction
 {
@@ -82,9 +82,9 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 
-	if (argPairs.contains("--gui"))
+	if (argPairs.contains("--sdl"))
 	{
-		argPairs.erase("--gui");
+		argPairs.erase("--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
 	else if (argPairs.contains("--zen"))
@@ -106,6 +106,7 @@ int main(int argc, char** argv)
 	}
 	conf: consoleArt->configure(argPairs);
 	start: consoleArt->run();
+	sdl::FontManagerSDL::getInstance().clear();
 	delete consoleArt;
 	return 0;
 }

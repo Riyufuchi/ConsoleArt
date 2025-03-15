@@ -31,10 +31,10 @@ struct ImageInfo
 	std::string name {"Unknown"};
 	int width {0};
 	int height {0};
-	//int sizeInBytes;
 	uint16_t bits {24};
 	uint16_t file_type {0};
 	bool planar {false};
+	bool palette {false};
 };
 class Image
 {

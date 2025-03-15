@@ -1,3 +1,4 @@
+
 //==============================================================================
 // File       : NotifierSDL.h
 // Author     : riyufuchi
@@ -13,9 +14,12 @@
 #include <thread>
 
 #include "../abstract/AbstractNotifier.h"
+#include "DataUtils.h"
 
-#include "../../include/tinyfiledialogs.h"
-
+extern "C"
+{
+	#include "../../include/tinyfiledialogs.h"
+}
 
 namespace ConsoleArt
 {

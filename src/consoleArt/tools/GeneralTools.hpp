@@ -12,7 +12,6 @@
 
 #include <iostream>
 #include <string>
-#include <array>
 
 #include "ConsoleUtils.h"
 #include "IConsole.hpp"
@@ -26,7 +25,7 @@ class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - alpha 1 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - alpha 3 (debug)";
 	#else
 		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9";
 	#endif
@@ -50,7 +49,7 @@ public:
 			"--binomial [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compares two images",
-			"--gui| Starts application in GUI mode using SDL2",
+			"--sdl| Starts application in GUI mode using SDL2",
 			"--zen| Starts application in CLI mode using Zenity"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));

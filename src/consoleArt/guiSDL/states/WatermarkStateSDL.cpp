@@ -13,7 +13,7 @@ namespace ConsoleArt
 {
 WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
-	const std::string FONT = "TF2secondary.ttf";
+	const std::string FONT = "assets/TF2secondary.ttf";
 	const int SIZE = 32;
 	const SDL_Color COLOR {255, 105, 180, 255};
 	this->watermark = nullptr;
@@ -21,9 +21,9 @@ WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& contr
 	this->selectedWatermark = new sdl::LabelSDL("No watermark selected", FONT, SIZE, COLOR, renderer);
 	this->selectedWatermark->setY(16);
 	this->pane = new sdl::ContentPanelSDL(0, 0);
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { std::thread([&](){ selectWatermarkEvent(); }).detach(); }));
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(0, 0, 100, 100, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(0, 0, 200, 100, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
+	this->pane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { std::thread([&](){ selectWatermarkEvent(); }).detach(); }));
+	this->pane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
+	this->pane->addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
 
 	onWindowResize();
 }

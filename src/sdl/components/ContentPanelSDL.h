@@ -31,6 +31,7 @@ public:
 	void addComponent(int y, ComponentSDL* component);
 	void reposeContent();
 	void checkHoverOverContent(int& x, int& y);
+	void clear();
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_SDL_COMPONENTS_CONTENTPANELSDL_H_ */

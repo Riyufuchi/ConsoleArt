@@ -2,7 +2,7 @@
 // File       : ImagePPM.h
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Feb 17, 2025
+// Last edit  : Mar 15, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -29,7 +29,6 @@ private:
 		int height{3};
 		short maxColorVal{255};
 	} headerPPM;
-	std::vector<Pixel> imageData;
 public:
 	ImagePPM(std::string filename);
 	ImagePPM(std::string filename, int width, int height);

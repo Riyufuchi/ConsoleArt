@@ -38,6 +38,7 @@ This project started quite some time ago, the initial commit was on 13th of July
    *For debian based systems*
 
    ```bash
+   # SDL2
    sudo apt install libgl-dev
    sudo apt install libsdl2-dev
    sudo apt install libsdl2-image-dev

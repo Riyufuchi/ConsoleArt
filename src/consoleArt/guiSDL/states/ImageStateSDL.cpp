@@ -70,8 +70,6 @@ void ImageStateSDL::onReturn()
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");  // Linear filtering (smoother scaling)
 
 
-	if (info.bits < 24)
-		info.bits = 24;
 	// Determine the correct pixel format and masks
 	Uint32 rmask, gmask, bmask, amask;
 	switch (IMAGE->getPixelFormat())
@@ -93,10 +91,22 @@ void ImageStateSDL::onReturn()
 		return;
 	}
 
-	if (info.planar)
+	if (info.bits < 24)
+		info.bits = 24;
+
+	if (info.planar || info.palette) // This program treats pallted PCX as standard 24-bit PCX
+	{
+		SDL_Log("imageRGBA is nullptr!");
 		imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((Images::ImagePCX&)*IMAGE);
+	}
 	else
 		imageRGBA = IMAGE->getImageData();
+
+	if (!imageRGBA.get())
+	{
+		SDL_Log("imageRGBA is nullptr!");
+		return;
+	}
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
 			(void*)imageRGBA.get(), info.width, info.height, info.bits, info.width * (info.bits / 8),

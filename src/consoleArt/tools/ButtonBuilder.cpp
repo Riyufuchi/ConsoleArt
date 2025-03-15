@@ -13,8 +13,8 @@ namespace ConsoleArt
 {
 ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
-	this->buttonSheet = new sdl::SpriteSheetSDL("ui_big.png", renderer);
-	this->buttonSheetSmall = new sdl::SpriteSheetSDL("ui_small.png", renderer);
+	this->buttonSheet = new sdl::SpriteSheetSDL("assets/ui_big.png", renderer);
+	this->buttonSheetSmall = new sdl::SpriteSheetSDL("assets/ui_small.png", renderer);
 	if (!buttonSheet || !buttonSheetSmall)
 		return;
 	// Big Buttons

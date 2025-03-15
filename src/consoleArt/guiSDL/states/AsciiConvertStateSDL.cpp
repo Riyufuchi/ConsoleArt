@@ -13,7 +13,7 @@ namespace ConsoleArt
 {
 AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractAciiConversionState(controller, stateManager), buttons(buttons)
 {
-	const std::string FONT = "TF2Build.ttf";
+	const std::string FONT = "assets/TF2Build.ttf";
 	const int SIZE = 32;
 	const SDL_Color color {255, 105, 180, 255};
 	const SDL_Color colorHover {255, 179, 222, 255};

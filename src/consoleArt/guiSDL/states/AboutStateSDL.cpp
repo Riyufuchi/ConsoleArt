@@ -21,7 +21,7 @@ AboutStateSDL::AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, S
 		string = std::string(line.begin(), line.end());
 		if (string.length() > 0)
 		{
-			pane->addComponent(y, new sdl::LabelSDL(string, "TF2Build.ttf", SIZE, {255, 105, 180, 255}, renderer));
+			pane->addComponent(y, new sdl::LabelSDL(string, "assets/TF2Build.ttf", SIZE, {255, 105, 180, 255}, renderer));
 			y++;
 		}
 	}

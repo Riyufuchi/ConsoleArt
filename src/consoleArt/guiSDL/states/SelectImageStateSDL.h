@@ -18,6 +18,7 @@
 
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/components/ContentPanelSDL.h"
+#include "../../../sdl/components/StringButtonSDL.h"
 #include "../../../sdl/assets/StringSDL.h"
 
 namespace ConsoleArt
@@ -27,10 +28,12 @@ class SelectImageStateSDL: public sdl::StateSDL, private AbstractState
 private:
 	int y;
 	ButtonBuilder& buttons;
+	sdl::ContentPanelSDL* pane;
 	std::vector<std::unique_ptr<sdl::StringSDL>> imageNames;
 public:
 	SelectImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
 	virtual ~SelectImageStateSDL();
+	void createUI();
 	virtual void handleTick(SDL_Event& event) override;
 	virtual void onWindowResize() override;
 	virtual void onReturn() override;

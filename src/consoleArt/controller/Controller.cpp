@@ -7,6 +7,7 @@
 //============================================================================
 
 #include "Controller.h"
+#include <memory>
 
 namespace ConsoleArt
 {
@@ -15,12 +16,12 @@ Controller::Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPri
 }
 Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) : isRunnable(true), messenger(notifier), menuInterface(menu), abstractAsciiPrinter(asciiPrinter), selectedImage(nullptr), workspacePath(path)
 {
-	suppertedImageFormats[".pcx"] = Images::ImageType::PCX;
-	suppertedImageFormats[".bmp"] = Images::ImageType::BMP;
-	suppertedImageFormats[".ppm"] = Images::ImageType::PPM;
-	suppertedImageFormats[".png"] = Images::ImageType::PNG;
-	suppertedImageFormats[".jpg"] = Images::ImageType::JPG;
-	suppertedImageFormats[".jpeg"] = Images::ImageType::JPG;
+	supportedImageFormats[".pcx"] = Images::ImageType::PCX;
+	supportedImageFormats[".bmp"] = Images::ImageType::BMP;
+	supportedImageFormats[".ppm"] = Images::ImageType::PPM;
+	supportedImageFormats[".png"] = Images::ImageType::PNG;
+	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
+	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(path)); };
 	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
@@ -183,8 +184,8 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 Images::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)
 {
 	std::lock_guard<std::mutex> lock(mutexImageFormats);
-	if (suppertedImageFormats.contains(extension))
-		switch (suppertedImageFormats.at(extension))
+	if (supportedImageFormats.contains(extension))
+		switch (supportedImageFormats.at(extension))
 		{
 			case Images::BMP: return new Images::ImageBMP(path);
 			case Images::PCX: return new Images::ImagePCX(path);
@@ -224,6 +225,13 @@ AbstractNotifier& Controller::getMessenger()
 Images::Image* Controller::getSelectedImage()
 {
 	return selectedImage;
+}
+
+void Controller::iterateImagesAsync(std::function<void(Images::Image*)> actionOnImage)
+{
+	std::lock_guard<std::mutex> lock(mutexImageFormats);
+	for (const std::unique_ptr<Images::Image>& image : images)
+		actionOnImage(image.get());
 }
 
 }

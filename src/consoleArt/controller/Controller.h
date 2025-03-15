@@ -41,7 +41,7 @@ protected:
 	std::string workspacePath;
 	std::vector<std::unique_ptr<Images::Image>> images;
 	std::mutex mutexImages;
-	std::unordered_map<std::string, Images::ImageType> suppertedImageFormats;
+	std::unordered_map<std::string, Images::ImageType> supportedImageFormats;
 	std::mutex mutexImageFormats;
 	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
 	[[deprecated("CLI only")]]
@@ -62,6 +62,7 @@ public:
 	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
 	void convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
+	void iterateImagesAsync(std::function<void(Images::Image*)> actionOnImage);
 	// Setters
 	void setWorkspace(std::string path);
 	void setSelectedImage(Images::Image* selectedImage);
