@@ -2,7 +2,7 @@
 // File       : ContentPanelSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 23, 2025
-// Last edit  : Feb 23, 2025
+// Last edit  : Mar 15, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -39,8 +39,11 @@ void ContentPanelSDL::clear()
 	}
 	componentsAtY.clear();
 	widthAtY.clear();
+	// This panel considers that it will be always centered in the window
 	rect.w = 10;
 	rect.h = 10;
+	rect.x = 0;
+	rect.y = 0;
 }
 
 void ContentPanelSDL::draw(SDL_Renderer* renderer)

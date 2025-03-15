@@ -23,7 +23,10 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	// 1
 	pane->addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false), [&]() 
 	{
-		stateManager.switchState(WindowState::SELECT_IMAGE);
+		if (controller.getNumberOfLoadedImages()) // There has to be at least one image loaded
+			stateManager.switchState(WindowState::SELECT_IMAGE);
+		else
+			std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No images to select from!"); }).detach();
 	}));
 	pane->addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
 	{
@@ -116,6 +119,7 @@ void MainStateSDL::onReturn()
 {
 	pane->center(winInfo.w, winInfo.h);
 	pane->reposeContent();
+	textUpdated = true; // Update text if another image was selected
 	selectedImageString->center(winInfo.w, pane->getY());
 }
 

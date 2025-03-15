@@ -27,7 +27,7 @@ namespace ConsoleArt
 class AboutStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
-	const int SIZE = 18;
+	const int SIZE = 22;
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;

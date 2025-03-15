@@ -67,6 +67,7 @@ public:
 	void setWorkspace(std::string path);
 	void setSelectedImage(Images::Image* selectedImage);
 	// Getters
+	int getNumberOfLoadedImages();
 	AbstractNotifier& getMessenger();
 	const std::string& getWorkspace();
 	Images::Image* getSelectedImage();

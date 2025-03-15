@@ -15,6 +15,8 @@ src/inc
 Release
 Debug
 .settings
+.clangd
+.clang-format
 
 # Visual studio
 .vs

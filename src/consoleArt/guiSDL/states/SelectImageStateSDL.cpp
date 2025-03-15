@@ -31,20 +31,26 @@ void SelectImageStateSDL::createUI()
 	
 	
 	controller.iterateImagesAsync([&](Images::Image* image) {
-		auto imgCopy = image;
+		Images::Image* imgCopy = image;
 		pane->addComponent(y, new sdl::StringButtonSDL(0, 0,
 		new sdl::StringSDL(image->getFilename(), FONT, SIZE, color, renderer), colorHover
-		, [imgCopy, this](){ controller.setSelectedImage(imgCopy); }));
+		, [imgCopy, this]()
+		{
+			controller.setSelectedImage(imgCopy);
+			stateManager.switchState(WindowState::MAIN);
+		}));
 		y++;
 	});
+	
 }
 
 void SelectImageStateSDL::handleTick(SDL_Event& event)
 {
 	pane->checkHoverOverContent(winInfo.mouseX, winInfo.mouseY);
-	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+	switch (event.type)
 	{
-		stateManager.switchState(WindowState::MAIN);
+		case SDL_MOUSEBUTTONDOWN: pane->tickOnClick(); break;
+		case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) stateManager.switchState(WindowState::MAIN); break;
 	}
 }
 

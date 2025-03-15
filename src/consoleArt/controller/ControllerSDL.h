@@ -45,6 +45,7 @@ private:
 	sdl::StateSDL* currentState;
 	ButtonBuilder* buttons;
 	SDL_Event event;
+	void setAppIcon(std::string iconPath);
 protected:
 	virtual Images::Image* selectImage() override;
 	virtual void showAboutApplicationInfo() override;

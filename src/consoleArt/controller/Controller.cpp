@@ -227,6 +227,12 @@ Images::Image* Controller::getSelectedImage()
 	return selectedImage;
 }
 
+int Controller::getNumberOfLoadedImages()
+{
+	std::lock_guard<std::mutex> lock(mutexImageFormats);
+	return images.size();
+}
+
 void Controller::iterateImagesAsync(std::function<void(Images::Image*)> actionOnImage)
 {
 	std::lock_guard<std::mutex> lock(mutexImageFormats);

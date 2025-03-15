@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Mar 8, 2025
+// Last edit  : Mar 15, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -21,6 +21,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 	this->window = SDL_CreateWindow(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
+	setAppIcon("assets/icon.png");
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED); // SDL_RENDERER_ACCELERATED);
 	if (!renderer)
 	{
@@ -112,6 +113,21 @@ void ControllerSDL::run()
 			SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
 		}*/
 	}
+}
+
+void ControllerSDL::setAppIcon(std::string iconPath)
+{
+	if (!window)
+		return;
+	SDL_Surface* icon = IMG_Load(iconPath.c_str());
+	if (!icon)
+	{
+		SDL_Log("Failed to load icon: %s", IMG_GetError());
+		return;
+	}
+
+	SDL_SetWindowIcon(window, icon); // Set the icon
+	SDL_FreeSurface(icon); // Free the surface (no longer needed)
 }
 
 Images::Image* ControllerSDL::selectImage()
