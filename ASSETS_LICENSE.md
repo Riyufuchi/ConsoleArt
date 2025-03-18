@@ -20,6 +20,7 @@ The assets (images, textures, fonts, sounds, etc.) included in assets folder are
 | ---------------- | ------------------------ | ------ | ------------------------------------------------------------ |
 | TF2Build.ttf     | Valve Fan Content Policy | Valve | [teamfortress.com](https://www.teamfortress.com/artwork.php) |
 | TF2secondary.ttf | Valve Fan Content Policy | Valve | [teamfortress.com](https://www.teamfortress.com/artwork.php) |
+| TF2proffesor.ttf | Valve Fan Content Policy | Valve | [teamfortress.com](https://www.teamfortress.com/artwork.php) |
 
 ## Contact
 

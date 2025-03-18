@@ -11,11 +11,17 @@
 
 namespace ConsoleArt
 {
-MenuZenity::MenuZenity(ConsoleLib::IConsole* console) : MenuCLI(console)
+MenuZenity::MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function) : MenuCLI(console), function(function)
 {
+	//this->mainMenu = new ConsoleLib::ConsoleMenu(*console, menus.at(Menu::MAIN_MENU), function);
 }
 MenuZenity::~MenuZenity()
 {
+	//delete mainMenu;
+}
+int MenuZenity::mainMenuOptions()
+{
+	return ConsoleLib::ConsoleMenu(*console, menus.at(Menu::MAIN_MENU), function).runMenuLoop();
 }
 int MenuZenity::createZenityMenu(std::vector<std::string>& menu)
 {
@@ -120,10 +126,7 @@ int MenuZenity::printMenu()
 
 int MenuZenity::imageEditOptions()
 {
-	int i = createZenityMenu(menus[Menu::IMAGE_ACTION_OPTIONS]);
-	if (i == -2)
-		return MenuCLI::imageEditOptions();
-	return i;
+	return ConsoleLib::ConsoleMenu(*console, menus.at(Menu::IMAGE_ACTION_OPTIONS), function).runMenuLoop();
 }
 
 } /* namespace ConsoleArt */

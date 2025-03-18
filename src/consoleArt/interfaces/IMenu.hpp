@@ -32,6 +32,7 @@ public:
 	virtual int printMenu() = 0;
 	virtual int imageEditOptions() = 0;
 	virtual int imageFilterOptions() = 0;
+	virtual int mainMenuOptions() = 0;
 	virtual ConsoleLib::Color colorPicker() = 0;
 };
 }

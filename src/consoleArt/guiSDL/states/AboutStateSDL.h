@@ -27,11 +27,11 @@ namespace ConsoleArt
 class AboutStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
-	const int SIZE = 22;
+	const int SIZE = 36;
+	const char* FONT = "assets/TF2professor.ttf";
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;
-	//std::vector<std::unique_ptr<sdl::StringSDL>> imageNames;
 public:
 	AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
 	virtual ~AboutStateSDL();

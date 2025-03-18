@@ -47,6 +47,9 @@ private:
 	void imageAction();
 	void benchmark(const std::vector<std::string>& vector);
 	void compareImages(const std::vector<std::string>& vector);
+	// Events
+	void loadImageEvent();
+	void selectImageEvent();
 public:
 	ControllerCLI(ConsoleLib::IConsole* console);
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);

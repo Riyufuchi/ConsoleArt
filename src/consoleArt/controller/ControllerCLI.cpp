@@ -40,11 +40,14 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + vector.at(0) + " for --color\n");
 			return;
 		}
-		console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(std::stoi(vector.at(0)) - 1)));
+		int colorID = std::stoi(vector.at(0)) - 1;
+		if (colorID >= 0 && colorID < ConsoleLib::ColorPallete::COLOR_COUNT)
+			this->console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(colorID)));
 	};
 	argumentMethods["--benchmark"] = [&](const auto& vector) { benchmark(vector); };
 	argumentMethods["--compare"] = [&](const auto& vector) { compareImages(vector); };
 }
+
 ControllerCLI::~ControllerCLI()
 {
 	std::cout << "ControllerCLI destroyed\n";
@@ -119,7 +122,7 @@ void ControllerCLI::runAsClient(std::string ip)
 
 void ControllerCLI::refreshMenu()
 {
-	((MenuCLI*)menuInterface)->printMainMenu();
+	menuInterface->mainMenuOptions();
 }
 
 void ControllerCLI::imageAction()
@@ -185,40 +188,29 @@ void ControllerCLI::run()
 		if(ConsoleLib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
 			return;
 	}
-	Images::Image* imageHolder = nullptr;
-	menu:
-	console->out("Selected image: ");
-	if (selectedImage != nullptr)
-		console->out(selectedImage->getFilename());
-	else
-		console->out("None");
-	std::cout << "\n";
-	switch(((MenuCLI*)menuInterface)->printMainMenu())
+
+	while (isRunnable)
 	{
-		case 0:
+		console->out("Selected image: ");
+		if (selectedImage != nullptr)
+			console->out(selectedImage->getFilename() + "\n");
+		else
+			console->out("None\n");
+		switch(menuInterface->mainMenuOptions())
 		{
-			imageHolder = loadImageAsync(inputImageName());
-			if (imageHolder != nullptr)
-			{
-				selectedImage = imageHolder;
-				addImageAsync(imageHolder);
-			}
-		} goto menu;
-		case 1: loadAllImagesAsync(); goto menu;
-		case 2:
-			imageHolder = selectImage();
-			if (imageHolder != nullptr)
-				selectedImage = imageHolder;
-		goto menu;
-		case 3: imageAction(); goto menu;
-		case 4:
-			console->enableCustomFG();
-			ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
-			console->disableCustomFG();
-			goto menu;
-		case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); goto menu;
-		case 6: showAboutApplicationInfo(); goto menu;
-		case 7: return;
+			case 0: loadImageEvent(); break;
+			case 1: loadAllImagesAsync(); break;
+			case 2: selectImageEvent(); break;
+			case 3: imageAction(); break;
+			case 4:
+				console->enableCustomFG();
+				ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
+				console->disableCustomFG();
+				break;
+			case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); break;
+			case 6: showAboutApplicationInfo(); break;
+			case 7: isRunnable = false; break;
+		}
 	}
 }
 
@@ -264,4 +256,19 @@ std::string ControllerCLI::inputImageName()
 	std::cin.get(); // Clears enter from console
 	return workspacePath + imgName;
 }
+
+void ControllerCLI::loadImageEvent()
+{
+	Images::Image* imageHolder = loadImageAsync(inputImageName());
+	if (addImageAsync(imageHolder))
+		selectedImage = imageHolder;
+}
+
+void ControllerCLI::selectImageEvent()
+{
+	Images::Image* imageHolder = selectImage();
+	if (imageHolder != nullptr)
+		selectedImage = imageHolder;
+}
+
 }

@@ -20,7 +20,7 @@ MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
 MenuCLI::~MenuCLI()
 {
 }
-int MenuCLI::printMainMenu()
+int MenuCLI::mainMenuOptions()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::MAIN_MENU), *console);
 }

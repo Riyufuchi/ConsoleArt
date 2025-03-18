@@ -10,6 +10,8 @@
 #ifndef CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 #define CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
 
+#include <ConsoleMenu.h>
+
 #include "ControllerCLI.h"
 #include "../cliZenity/MenuZenity.h"
 #include "../cliZenity/NotifierZenity.h"
@@ -18,6 +20,8 @@ namespace ConsoleArt
 {
 class ControllerZenity: public ControllerCLI
 {
+private:
+	void printHeader();
 protected:
 	virtual std::string inputImageName() override;
 	virtual Images::Image* selectImage() override;
@@ -25,6 +29,7 @@ protected:
 public:
 	ControllerZenity(ConsoleLib::IConsole* console);
 	virtual ~ControllerZenity();
+	//virtual void run() override;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_ */

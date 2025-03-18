@@ -8,6 +8,7 @@
 //==============================================================================
 
 #include "ControllerZenity.h"
+#include <utility>
 
 namespace ConsoleArt
 {
@@ -15,16 +16,42 @@ ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCL
 {
 	if (menuInterface)
 		delete menuInterface;
-	this->menuInterface = new MenuZenity(console);
+	this->menuInterface = new MenuZenity(console, [&]() { printHeader(); });
 	if (messenger)
 		delete messenger;
 	this->messenger = new NotifierZenity(console);
 	console->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
 }
+
+void ControllerZenity::printHeader()
+{
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	console->out("Selected image: ");
+	if (selectedImage != nullptr)
+		console->out(selectedImage->getFilename());
+	else
+		console->out("None");
+	//std::cout << "[DEBUG] Exiting printHeader()\n"; // Debug
+	std::cout << "\n";
+}
+
 ControllerZenity::~ControllerZenity()
 {
 	std::cout << "ControllerZenity destroyed\n";
 }
+
+/*void ControllerZenity::run()
+{
+	/*std::vector<std::pair<std::string, std::function<void()>>> menuZen;
+	ConsoleLib::ConsoleCallbackMenu consoleMenu(*console, menuZen);
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Load image", [&]() { loadImageAsync(inputImageName()); }});
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Load all images", [&]() { messenger->messageUser("Load all images"); }});
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Select image", [&]() {((MenuCLI*)menuInterface)->confConsoleTextColor(); }});
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Settings", [&]() {((MenuCLI*)menuInterface)->confConsoleTextColor(); }});
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "About", [&]() { showAboutApplicationInfo(); }});
+	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Exit", [&]() { consoleMenu.exitMenuLoop(); }});
+	consoleMenu.runMenuLoop();
+}*/
 
 std::string ControllerZenity::inputImageName()
 {

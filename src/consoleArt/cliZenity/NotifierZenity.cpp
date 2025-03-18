@@ -29,9 +29,10 @@ void NotifierZenity::showDialog(std::string type, std::string& text, MessageType
 void NotifierZenity::displayImageInfo(const Images::Image& image)
 {
 	std::ostringstream cmd;
-	cmd << "zenity --list --title='Image info' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' ";
+	cmd << "zenity --list --title='Image info' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' --column='Planar' ";
 	const Images::ImageInfo& info = image.getImageInfo();
-	cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (image.isInverted() ? "Yes" : "No") << " ";
+	cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (image.isInverted() ? "Yes" : "No") << " "
+	<< ConsoleLib::DataUtils::boolToString(info.planar);
 	if (std::system(cmd.str().c_str()))
 		NotifierCLI::displayImageInfo(image);
 

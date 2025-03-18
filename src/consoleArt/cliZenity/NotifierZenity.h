@@ -12,6 +12,9 @@
 
 #include <format>
 
+// ConsoleLib
+#include <DataUtils.h>
+
 #include "../cli/NotifierCLI.h"
 
 namespace ConsoleArt

@@ -59,7 +59,7 @@ public:
 		std::stringstream aboutStringStream;
 		aboutStringStream << _COPYRIGHT_HEADER;
 		aboutStringStream << "This version was compiled on: " << __DATE__ << " " << __TIME__ << "\n";
-		aboutStringStream << "C++ version: " << __cplusplus << "\n";
+		aboutStringStream << "C++ version: " << __cplusplus << "\n\n";
 
 		aboutStringStream << "This is an C++ application for converting images into ASCII/UNICODE.\n\n";
 
@@ -75,7 +75,8 @@ public:
 					"PCX| 24, 32; VGA palette",
 					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
 					"PPM| 24;",
-					"PNG| 24, 32;"
+					"PNG| 24, 32;",
+					"JPG| 24, 32;"
 				};
 		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0]));
 

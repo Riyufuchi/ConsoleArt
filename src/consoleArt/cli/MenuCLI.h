@@ -32,14 +32,13 @@ public:
 	MenuCLI();
 	MenuCLI(ConsoleLib::IConsole* console);
 	virtual ~MenuCLI();
-	// Utils
-	int printMainMenu();
 	// Menus
 	int charSetMenu() override;
 	int printMenu() override;
 	virtual ConsoleLib::Color colorPicker() override;
 	virtual int imageFilterOptions() override;
 	virtual int imageEditOptions() override;
+	virtual int mainMenuOptions() override;
 	virtual void confConsoleTextColor();
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);
