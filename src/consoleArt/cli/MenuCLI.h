@@ -2,7 +2,7 @@
 // Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : 10.03.2023
-// Last Edit   : Feb 24, 2025
+// Last Edit   : Mar 18, 2025
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -29,16 +29,16 @@ protected:
 	std::map<Menu, std::vector<std::string>> menus;
 	ConsoleLib::IConsole* console;
 public:
-	MenuCLI();
 	MenuCLI(ConsoleLib::IConsole* console);
 	virtual ~MenuCLI();
 	// Menus
-	int charSetMenu() override;
-	int printMenu() override;
+	virtual int charSetMenu() override;
+	virtual int printMenu() override;
 	virtual ConsoleLib::Color colorPicker() override;
 	virtual int imageFilterOptions() override;
 	virtual int imageEditOptions() override;
 	virtual int mainMenuOptions() override;
+	virtual int afterPrintOptions() override;
 	virtual void confConsoleTextColor();
 	// Setters
 	void setConsole(ConsoleLib::IConsole* console);

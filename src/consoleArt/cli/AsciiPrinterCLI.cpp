@@ -2,15 +2,15 @@
 // File       : AsciiPrinterCLI.cpp
 // Author     : riyufuchi
 // Created on : Feb 25, 2025
-// Last edit  : Feb 25, 2025
+// Last edit  : Mar 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "AsciiPrinterCLI.h"
 
-namespace ConsoleArt {
-
+namespace ConsoleArt
+{
 AsciiPrinterCLI::AsciiPrinterCLI(ConsoleLib::IConsole& console) : AbstractAsciiPrinter(), console(console)
 {
 }
@@ -81,7 +81,7 @@ void AsciiPrinterCLI::printClassic()
 	if (!converter)
 		return;
 	const int HEIGHT = converter->getSourceImg().getImageInfo().height - 1;
-	console.enableCustomFG(color);
+	console.enableCustomFG();
 	if (converter->getSourceImg().isInverted())
 		for(int i = HEIGHT; i >= 0; i--)
 			std::cout << converter->getLine(i) << "\n";

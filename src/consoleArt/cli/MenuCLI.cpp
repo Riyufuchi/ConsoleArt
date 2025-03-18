@@ -2,7 +2,7 @@
 // Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : Dec 28,2023
-// Last Edit   : Feb 27, 2025
+// Last Edit   : Mar 18, 2025
 //============================================================================
 #include "MenuCLI.h"
 
@@ -12,8 +12,9 @@ MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
 {
 	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Select image", "Image actions", "List images", "Settings", "About", "Exit"};
 	menus[Menu::CHAR_SET_SELECTION] = { "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
-			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Back" };
-	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Reconvert", "Back to main menu"};
+			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Exit" };
+	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Exit"};
+	menus[Menu::AFTER_PRINT_OPTIONS] = { "Reconvert", "Back to main menu"};
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
 }
@@ -75,6 +76,11 @@ int MenuCLI::imageEditOptions()
 int MenuCLI::imageFilterOptions()
 {
 	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::FILTERS), *console);
+}
+
+int MenuCLI::afterPrintOptions()
+{
+	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::AFTER_PRINT_OPTIONS), *console);
 }
 
 } // Namespace ConsoleArt

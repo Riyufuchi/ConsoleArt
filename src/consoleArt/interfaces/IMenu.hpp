@@ -2,7 +2,7 @@
 // File       : IMenu.h
 // Author     : Riyufuchi
 // Created on : Dec 19, 2023
-// Last edit  : Feb 24, 2025
+// Last edit  : Mar 18, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: This interface specifies all menus that must be implemented
 //==============================================================================
@@ -25,6 +25,7 @@ public:
 		PRINT_OPTIONS,
 		IMAGE_ACTION_OPTIONS,
 		FILTERS,
+		AFTER_PRINT_OPTIONS,
 		MENU_COUNT
 	};
 	virtual ~IMenu() = default;
@@ -33,6 +34,7 @@ public:
 	virtual int imageEditOptions() = 0;
 	virtual int imageFilterOptions() = 0;
 	virtual int mainMenuOptions() = 0;
+	virtual int afterPrintOptions() = 0;
 	virtual ConsoleLib::Color colorPicker() = 0;
 };
 }

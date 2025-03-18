@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Mar 4, 2025
+// Last Edit   : Mar 18, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -47,7 +47,6 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 	argumentMethods["--benchmark"] = [&](const auto& vector) { benchmark(vector); };
 	argumentMethods["--compare"] = [&](const auto& vector) { compareImages(vector); };
 }
-
 ControllerCLI::~ControllerCLI()
 {
 	std::cout << "ControllerCLI destroyed\n";
@@ -125,7 +124,7 @@ void ControllerCLI::refreshMenu()
 	menuInterface->mainMenuOptions();
 }
 
-void ControllerCLI::imageAction()
+void ControllerCLI::imageActionsSubmenu()
 {
 	if (selectedImage == nullptr)
 	{
@@ -135,7 +134,7 @@ void ControllerCLI::imageAction()
 	int option = menuInterface->imageEditOptions();
 	switch(option)
 	{
-		case 0: convertImage(selectedImage); break;
+		case 0: convertImageToAsciiEvent(); break;
 		case 1:
 		{
 			console->out("Select signature:\n");
@@ -201,7 +200,7 @@ void ControllerCLI::run()
 			case 0: loadImageEvent(); break;
 			case 1: loadAllImagesAsync(); break;
 			case 2: selectImageEvent(); break;
-			case 3: imageAction(); break;
+			case 3: imageActionsSubmenu(); break;
 			case 4:
 				console->enableCustomFG();
 				ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
@@ -269,6 +268,43 @@ void ControllerCLI::selectImageEvent()
 	Images::Image* imageHolder = selectImage();
 	if (imageHolder != nullptr)
 		selectedImage = imageHolder;
+}
+
+void ControllerCLI::convertImageToAsciiEvent()
+{
+	if (selectedImage == nullptr || abstractAsciiPrinter == nullptr)
+			return;
+	messenger->displayImageInfo(*selectedImage);
+	ImageUtils::AsciiConverter ac(*selectedImage);
+	int option = 0;
+	bool again = true;
+	do {
+		option = menuInterface->charSetMenu();
+		if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+			return;
+		ac.setCharSet(option);
+		messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(selectedImage->getFilename()));
+		if (!ac.convertToASCII())
+		{
+			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+			return;
+		}
+		messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
+		abstractAsciiPrinter->setTarget(&ac);
+		switch(menuInterface->printMenu())
+		{
+			case 0: abstractAsciiPrinter->printClassic(); break;
+			case 1: abstractAsciiPrinter->printCharColored(); break;
+			case 2: abstractAsciiPrinter->printPixelColored(); break;
+			case 3: abstractAsciiPrinter->printToFile(); break;
+			case 4: again = false; break;
+		}
+		switch(menuInterface->afterPrintOptions())
+		{
+			case 0: break;
+			case 1: again = false; break;
+		}
+	} while (again);
 }
 
 }

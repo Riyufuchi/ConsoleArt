@@ -44,8 +44,6 @@ protected:
 	std::unordered_map<std::string, Images::ImageType> supportedImageFormats;
 	std::mutex mutexImageFormats;
 	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
-	[[deprecated("CLI only")]]
-	void convertImage(Images::Image* image);
 	// For main state
 	virtual Images::Image* selectImage() = 0;
 	virtual void showAboutApplicationInfo() = 0;

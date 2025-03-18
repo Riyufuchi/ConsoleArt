@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Feb 27, 2025
+// Last edit  : Mar 18, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -44,12 +44,13 @@ private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	ConsoleLib::Color warningColor{255, 255, 0};
 	void runAsClient(std::string ip);
-	void imageAction();
+	void imageActionsSubmenu();
 	void benchmark(const std::vector<std::string>& vector);
 	void compareImages(const std::vector<std::string>& vector);
 	// Events
 	void loadImageEvent();
 	void selectImageEvent();
+	void convertImageToAsciiEvent();
 public:
 	ControllerCLI(ConsoleLib::IConsole* console);
 	ControllerCLI(std::string path, ConsoleLib::IConsole* console);

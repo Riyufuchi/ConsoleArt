@@ -77,39 +77,6 @@ void Controller::convertImage(Images::Image* image, ImageUtils::AsciiConverter::
 	abstractAsciiPrinter->printToFile();
 }
 
-void Controller::convertImage(Images::Image* image)
-{
-	if (image == nullptr || !*image || abstractAsciiPrinter == nullptr)
-		return;
-	messenger->displayImageInfo(*image);
-	ImageUtils::AsciiConverter ac(*image);
-	int option = 0;
-	bool again = true;
-	do {
-		option = menuInterface->charSetMenu();
-		if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
-			return;
-		ac.setCharSet(option);
-		messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));
-		if (!ac.convertToASCII())
-		{
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
-			return;
-		}
-		messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
-		abstractAsciiPrinter->setTarget(&ac);
-		switch(menuInterface->printMenu())
-		{
-			case 0: abstractAsciiPrinter->printClassic(); break;
-			case 1: abstractAsciiPrinter->printCharColored(); break;
-			case 2: abstractAsciiPrinter->printPixelColored(); break;
-			case 3: abstractAsciiPrinter->printToFile(); break;
-			case 4: break; // Just continue
-			case 5: again = false; break;
-		}
-	} while (again);
-}
-
 void Controller::loadAllImagesAsync()
 {
 	std::string extension = "";
