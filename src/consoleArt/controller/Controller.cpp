@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 4, 2025
+// Last Edit   : Mar 20, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -54,7 +54,7 @@ void Controller::configure(std::map<std::string, std::vector<std::string>>& conf
 		if (it != argumentMethods.end())
 			it->second(argument.second);
 		else
-			messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid argument [" + argument.first + "]\n");
+			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Invalid argument [" + argument.first + "]\n");
 	}
 }
 
