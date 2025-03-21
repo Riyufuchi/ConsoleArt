@@ -52,6 +52,7 @@ protected:
 public:
 	Image(std::string filepath);
 	virtual ~Image();
+
 	explicit operator bool() const
 	{
 		return fileState == FileState::OK;

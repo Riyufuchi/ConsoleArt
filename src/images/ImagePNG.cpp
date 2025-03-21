@@ -2,7 +2,7 @@
 // File       : ImagePNG.cpp
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Mar 3, 2025
+// Last edit  : Mar 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,10 +19,7 @@ ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 {
 	fileState = OK;
 	this->imageData = stbi_load(filepath.c_str(), &imageInfo.width, &imageInfo.height, &CHANNELS, 0);
-	if (CHANNELS == 4)
-	{
-		imageInfo.bits = 32;
-	}
+	imageInfo.bits = CHANNELS * 8;
 	if (imageData == nullptr)
 	{
 		fileState = ERROR;

@@ -18,8 +18,11 @@
 #include <functional>
 #include <thread>
 
-#include "../../images/Formats.hpp"
+//Image utils
 #include "../imageTools/AsciiConverter.h"
+#include "../imageTools/SimpleEdit.h"
+//
+#include "../../images/Formats.hpp"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../abstract/AbstractNotifier.h"
@@ -52,6 +55,7 @@ public:
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
 	void configure(std::map<std::string, std::vector<std::string>>& config);
+	void configure(std::vector<std::pair<std::string, std::vector<std::string>>>& config);
 	virtual void run() = 0;
 	// Controller
 	virtual std::string inputImageName() = 0;
