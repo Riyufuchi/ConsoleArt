@@ -23,7 +23,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
 	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	// Functions
-	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(path)); };
+	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(workspacePath + path)); };
 	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
 	argumentMethods["--p"] = argumentMethods["--path"];
 	argumentMethods["--loadAll"] = [&](const std::vector<std::string>&) { std::thread([&]() { loadAllImagesAsync(); }).detach(); };
@@ -31,6 +31,30 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	{
 		auto res = Math::MathUtils::binomialDistribution(vector);
 		Other::OtherhUtils::printResults<int, long double>(res);
+		isRunnable = false;
+	};
+	argumentMethods["--removeGray"] = [&](const auto&)
+	{
+		loadAllImagesAsync();
+		for (const std::unique_ptr<Images::Image>& image : images)
+			ImageUtils::SimpleEdit::removeGrayFromTexture(*image.get());
+		isRunnable = false;
+	};
+	argumentMethods["--overlayTextures"] = [&](const auto& vector)
+	{
+		if (vector.size() == 0)
+			return;
+		loadAllImagesAsync();
+		Images::Image* baseLayer = nullptr;
+		for (const std::string& baseImage : vector)
+		{
+			baseLayer = loadImageAsync(workspacePath + baseImage);
+			if (baseLayer == nullptr || !baseLayer->isLoaded())
+				return;
+			for (const std::unique_ptr<Images::Image>& image : images)
+				ImageUtils::SimpleEdit::overlayTextures(*baseLayer, *image.get());
+			delete baseLayer;
+		}
 		isRunnable = false;
 	};
 }
@@ -43,6 +67,19 @@ Controller::~Controller()
 	if (abstractAsciiPrinter)
 		delete abstractAsciiPrinter;
 	std::cout << "Controller deleted" << std::endl;
+}
+
+void Controller::configure(std::vector<std::pair<std::string, std::vector<std::string>>>& config)
+{
+	auto it = argumentMethods.find("");
+	for (const std::pair<std::string, std::vector<std::string>>& argument : config)
+	{
+		it = argumentMethods.find(argument.first);
+		if (it != argumentMethods.end())
+			it->second(argument.second);
+		else
+			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Invalid argument [" + argument.first + "]\n");
+	}
 }
 
 void Controller::configure(std::map<std::string, std::vector<std::string>>& config)

@@ -62,11 +62,12 @@ int main(int argc, char** argv)
 	#endif
 	systemConsole.setDefaultTextColor(color);
 
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole, color);
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole);
 
 	bool success = true;
 	std::string resultMsg = "";
-	std::map<std::string, std::vector<std::string>> argPairs = ConsoleLib::ConsoleUtils::analyzeArguments(argc, argv, success, resultMsg);
+	//std::map<std::string, std::vector<std::string>> argPairs = ConsoleLib::ConsoleUtils::analyzeArguments(argc, argv, success, resultMsg);
+	auto argPairs = ConsoleLib::ConsoleUtils::analyzeArgumentsInOrder(argc, argv, success, resultMsg);
 	if (success)
 		systemConsole.out(resultMsg + "\n");
 	else
@@ -82,14 +83,14 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 
-	if (argPairs.contains("--sdl"))
+	if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--sdl"))//if (argPairs.contains("--sdl"))
 	{
-		argPairs.erase("--sdl");
+		//argPairs.erase("--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
-	else if (argPairs.contains("--zen"))
+	else if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--zen"))//else if (argPairs.contains("--zen"))
 	{
-		argPairs.erase("--zen");
+		//argPairs.erase("--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
 	}
 	else
@@ -97,13 +98,13 @@ int main(int argc, char** argv)
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 	}
 
-	switch (checkArgs(argPairs, systemConsole))
+	/*switch (checkArgs(argPairs, systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
 		case CONFIGURE: goto conf;
 		default: return 0; // For other cases that result in success
-	}
+	}*/
 	conf: consoleArt->configure(argPairs);
 	start: consoleArt->run();
 	sdl::FontManagerSDL::getInstance().clear();
