@@ -23,7 +23,13 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
 	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	// Functions
-	argumentMethods["--image"] = [&](const std::vector<std::string>& vector) { for (const std::string& path : vector) addImageAsync(loadImageAsync(workspacePath + path)); };
+	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
+	{
+		for (const std::string& path : vector)
+			addImageAsync(loadImageAsync(workspacePath + path));
+		if (!images.empty())
+			selectedImage = images[0].get();
+	};
 	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
 	argumentMethods["--p"] = argumentMethods["--path"];
 	argumentMethods["--loadAll"] = [&](const std::vector<std::string>&) { std::thread([&]() { loadAllImagesAsync(); }).detach(); };

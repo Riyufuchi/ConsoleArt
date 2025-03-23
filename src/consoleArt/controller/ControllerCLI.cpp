@@ -28,11 +28,6 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 		((MenuCLI*)menuInterface)->setConsole(console);
 		console->out("No color option applied\n");
 	};
-	argumentMethods["--client"] = [&](const auto& vector)
-	{
-		if (vector.empty()) runAsClient("");
-		else runAsClient(vector.at(0));
-	};
 	argumentMethods["--color"] = [&](const auto& vector)
 	{
 		if (vector.empty() || (!ConsoleLib::DataUtils::isNumber(vector.at(0))))

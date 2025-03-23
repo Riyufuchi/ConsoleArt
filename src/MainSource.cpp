@@ -25,6 +25,8 @@
 	#include "WindowsConsole.h"
 #endif // _WIN32
 
+using ParsedArguments = std::vector<std::pair<std::string, std::vector<std::string>>>; // or std::map<std::string, std::vector<std::string>>
+
 enum BootAction
 {
 	ABORT,
@@ -37,7 +39,7 @@ enum BootAction
 	SCHEDULE
 };
 
-BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console);
+BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console);
 
 BootAction abort(ConsoleLib::IConsole& console)
 {
@@ -63,8 +65,7 @@ int main(int argc, char** argv)
 
 	bool success = true;
 	std::string resultMsg = "";
-	//std::map<std::string, std::vector<std::string>> argPairs = ConsoleLib::ConsoleUtils::analyzeArguments(argc, argv, success, resultMsg);
-	auto argPairs = ConsoleLib::ConsoleUtils::analyzeArgumentsInOrder(argc, argv, success, resultMsg);
+	ParsedArguments argPairs = ConsoleLib::ConsoleUtils::analyzeArgumentsInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
 	if (success)
 		systemConsole.out(resultMsg + "\n");
 	else
@@ -80,12 +81,14 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 
-	if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--sdl"))//if (argPairs.contains("--sdl"))
+	//if (argPairs.contains("--sdl"))
+	if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--sdl"))
 	{
 		//argPairs.erase("--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
-	else if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--zen"))//else if (argPairs.contains("--zen"))
+	//else if (argPairs.contains("--zen"))
+	else if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--zen"))
 	{
 		//argPairs.erase("--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
@@ -95,13 +98,13 @@ int main(int argc, char** argv)
 		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
 	}
 
-	/*switch (checkArgs(argPairs, systemConsole))
+	switch (checkArgs(argPairs, systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
 		case CONFIGURE: goto conf;
 		default: return 0; // For other cases that result in success
-	}*/
+	}
 	conf: consoleArt->configure(argPairs);
 	start: consoleArt->run();
 	sdl::FontManagerSDL::getInstance().clear();
@@ -109,7 +112,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, ConsoleLib::IConsole& console)
+BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 {
 	if (argPairs.empty()) // First argument is always app name
 		return BootAction::CONTINUE;
@@ -125,7 +128,7 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 
 	for (std::pair<std::string, BootAction> arg : checkFor)
 	{
-		if (argPairs.contains(arg.first))
+		if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, arg.first)) //if (argPairs.contains(arg.first))
 			switch (arg.second)
 			{
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;

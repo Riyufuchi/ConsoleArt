@@ -25,7 +25,6 @@
 #include "../cli/AsciiPrinterCLI.h"
 #include "../cli/MenuCLI.h"
 #include "../cli/NotifierCLI.h"
-#include "../network/client/ClientTools.h"
 #include "../imageTools/ImageTools.h"
 #include "../imageTools/Filter.h"
 
