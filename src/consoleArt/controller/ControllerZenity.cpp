@@ -2,7 +2,7 @@
 // File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Feb 27, 2025
+// Last edit  : Mar 23, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -26,32 +26,18 @@ ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCL
 void ControllerZenity::printHeader()
 {
 	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
-	console->out("Selected image: ");
+	console->out("\nSelected image: ");
 	if (selectedImage != nullptr)
 		console->out(selectedImage->getFilename());
 	else
 		console->out("None");
-	//std::cout << "[DEBUG] Exiting printHeader()\n"; // Debug
-	std::cout << "\n";
+	std::cout << "\n\n";
 }
 
 ControllerZenity::~ControllerZenity()
 {
 	std::cout << "ControllerZenity destroyed\n";
 }
-
-/*void ControllerZenity::run()
-{
-	/*std::vector<std::pair<std::string, std::function<void()>>> menuZen;
-	ConsoleLib::ConsoleCallbackMenu consoleMenu(*console, menuZen);
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Load image", [&]() { loadImageAsync(inputImageName()); }});
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Load all images", [&]() { messenger->messageUser("Load all images"); }});
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Select image", [&]() {((MenuCLI*)menuInterface)->confConsoleTextColor(); }});
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Settings", [&]() {((MenuCLI*)menuInterface)->confConsoleTextColor(); }});
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "About", [&]() { showAboutApplicationInfo(); }});
-	menuZen.emplace_back(std::pair<std::string, std::function<void()>>{ "Exit", [&]() { consoleMenu.exitMenuLoop(); }});
-	consoleMenu.runMenuLoop();
-}*/
 
 std::string ControllerZenity::inputImageName()
 {

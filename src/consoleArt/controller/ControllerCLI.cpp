@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Mar 18, 2025
+// Last Edit   : Mar 23, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -103,20 +103,6 @@ void ControllerCLI::compareImages(const std::vector<std::string>& vector)
 		break;
 	}
 	isRunnable = false;
-}
-
-void ControllerCLI::runAsClient(std::string ip)
-{
-	isRunnable = false;
-	const char* ipAdress = "127.0.0.1";
-	if (ip.size() == 0 || ip[0] == '-')
-		messenger->messageUser(AbstractNotifier::MessageType::INFO, "No server IP address was given, using loop back instead\n");
-	else
-		ipAdress = ip.c_str();
-	ConsoleArt::ClientTools client(*console, ipAdress);
-	if (!client.connectClient())
-		return;
-	client.runClient();
 }
 
 void ControllerCLI::refreshMenu()
