@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Mar 18, 2025
+// Last edit  : Mar 23, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -43,7 +43,6 @@ protected:
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
 	ConsoleLib::Color warningColor{255, 255, 0};
-	void runAsClient(std::string ip);
 	void imageActionsSubmenu();
 	void benchmark(const std::vector<std::string>& vector);
 	void compareImages(const std::vector<std::string>& vector);

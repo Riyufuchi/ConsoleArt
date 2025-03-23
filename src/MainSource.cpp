@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Feb 27, 2025
+// Last Edit   : Mar 23, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -14,13 +14,11 @@
 #include "consoleArt/controller/ControllerCLI.h"
 #include "consoleArt/controller/ControllerZenity.h"
 #include "consoleArt/controller/ControllerSDL.h"
-#include "consoleArt/network/server/ServerTools.h"
 #include "consoleArt/tools/GeneralTools.hpp"
 #include "ConsoleUtils.h"
 #include "UnixConsole.h"
 #include "IConsole.hpp"
 #include "DefaultConsole.h"
-#include "consoleArt/network/server/Server.h"
 #include "other/ScheduleTracker.h"
 #include "sdl/assets/FontManagerSDL.h"
 #ifdef _WIN32
@@ -34,7 +32,6 @@ enum BootAction
 	CONFIGURE,
 	CONTINUE,
 	TEST,
-	SERVER,
 	ABOUT,
 	LIBRARY,
 	SCHEDULE
@@ -121,7 +118,6 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 		{"--man", BootAction::DISPLAY_MANUAL},
 		{"--help", BootAction::DISPLAY_MANUAL},
 		{"--colorTest", BootAction::TEST},
-		{"--server", BootAction::SERVER},
 		{"--about", BootAction::ABOUT},
 		{"--library", BootAction::LIBRARY},
 		{"--schedule", BootAction::SCHEDULE}
@@ -134,15 +130,6 @@ BootAction checkArgs(std::map<std::string, std::vector<std::string>>& argPairs, 
 			{
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
 				case TEST: ConsoleArt::GeneralTools::colorTest(console); return arg.second;
-				case SERVER: {
-					#if defined(_WIN32)
-						console.out("Server is available only in Linux/Unix version.");
-					#else
-						ConsoleArt::ServerTools server;
-						server.startServerThread();
-					#endif
-					return arg.second;
-				}
 				case ABOUT: console.out(ConsoleArt::GeneralTools::aboutApplication()); return arg.second;
 				case LIBRARY:
 					console.out(ConsoleLib::Library::aboutLibrary());

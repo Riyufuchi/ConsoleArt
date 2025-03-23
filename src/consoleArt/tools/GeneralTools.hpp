@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Feb 17, 2025
+// Last edit  : Mar 23, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,7 +25,7 @@ class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta 1 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta 2 (debug)";
 	#else
 		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta";
 	#endif
@@ -43,8 +43,6 @@ public:
 			"--no-color| Disable colored outputs, for when they are not supported",
 			"--color [colorID]| Sets default text color",
 			"--about| Shows details about this application",
-			"--client [IP address (optional)]| Starts ConsoleArt as simple client, that connects to server",
-			"--server| Starts ConsoleArt as simple server (port 6969)",
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
 			"--binomial [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
