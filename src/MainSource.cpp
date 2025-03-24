@@ -85,12 +85,14 @@ int main(int argc, char** argv)
 	if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--sdl"))
 	{
 		//argPairs.erase("--sdl");
+		ConsoleLib::ConsoleUtils::argumentsRemove(argPairs, "--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
 	//else if (argPairs.contains("--zen"))
 	else if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--zen"))
 	{
 		//argPairs.erase("--zen");
+		ConsoleLib::ConsoleUtils::argumentsRemove(argPairs, "--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
 	}
 	else
@@ -128,7 +130,8 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 
 	for (std::pair<std::string, BootAction> arg : checkFor)
 	{
-		if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, arg.first)) //if (argPairs.contains(arg.first))
+		//if (argPairs.contains(arg.first))
+		if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, arg.first))
 			switch (arg.second)
 			{
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
@@ -141,7 +144,7 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 				case SCHEDULE: {
 					Other::ScheduleTracker schedule(console);
 					schedule.run();
-				}return arg.second;
+				} return arg.second;
 				default: abort(console);
 			}
 	}

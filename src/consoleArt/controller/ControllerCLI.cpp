@@ -171,11 +171,12 @@ void ControllerCLI::run()
 
 	while (isRunnable)
 	{
-		console->out("Selected image: ");
+		console->out("\nSelected image: ");
 		if (selectedImage != nullptr)
-			console->out(selectedImage->getFilename() + "\n");
+			console->out(selectedImage->getFilename());
 		else
-			console->out("None\n");
+			console->out("None");
+		std::cout << "\n\n";
 		switch(menuInterface->mainMenuOptions())
 		{
 			case 0: loadImageEvent(); break;

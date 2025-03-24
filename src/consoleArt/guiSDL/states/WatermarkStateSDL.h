@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 8, 2025
-// Last edit  : Mar 8, 2025
+// Last edit  : Mar 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -29,11 +29,18 @@ namespace ConsoleArt
 class WatermarkStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
+	const std::string FONT = "assets/TF2secondary.ttf";
+	const int SIZE = 32;
+	const SDL_Color COLOR {255, 105, 180, 255};
+	const SDL_Color COLOR_HOVER {255, 179, 222, 255};
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;
+	sdl::ContentPanelSDL* mainPane;
+	sdl::ContentPanelSDL* selectPane;
 	sdl::LabelSDL* selectedWatermark;
 	Images::Image* watermark;
 	std::atomic<bool> textUpdated;
+	int y;
 	void selectWatermarkEvent();
 	void applytWatermarkEvent();
 public:

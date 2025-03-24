@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 8, 2025
-// Last edit  : Mar 8, 2025
+// Last edit  : Mar 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,26 +11,26 @@
 
 namespace ConsoleArt
 {
-WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
+WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons), y(0)
 {
-	const std::string FONT = "assets/TF2secondary.ttf";
-	const int SIZE = 32;
-	const SDL_Color COLOR {255, 105, 180, 255};
 	this->watermark = nullptr;
 	this->textUpdated = false;
 	this->selectedWatermark = new sdl::LabelSDL("No watermark selected", FONT, SIZE, COLOR, renderer);
 	this->selectedWatermark->setY(16);
-	this->pane = new sdl::ContentPanelSDL(0, 0);
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { std::thread([&](){ selectWatermarkEvent(); }).detach(); }));
-	this->pane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
-	this->pane->addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
-
+	this->mainPane = new sdl::ContentPanelSDL();
+	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { selectWatermarkEvent(); }));
+	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
+	this->mainPane->addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
+	this->pane = mainPane;
+	this->selectPane = new sdl::ContentPanelSDL();
+	this->selectPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { pane = mainPane; }));
 	onWindowResize();
 }
 
 WatermarkStateSDL::~WatermarkStateSDL()
 {
-	delete pane;
+	delete mainPane;
+	delete selectPane;
 	delete selectedWatermark;
 }
 
@@ -55,16 +55,39 @@ void WatermarkStateSDL::onWindowResize()
 
 void WatermarkStateSDL::onReturn()
 {
+	if (!watermark)
+		selectedWatermark->setText("No watermark selected");
 	onWindowResize();
 }
 
 void WatermarkStateSDL::selectWatermarkEvent()
 {
-	watermark = controller.loadImageAsync(controller.inputImageName());
-	if (watermark && watermark->isLoaded())
+	if (controller.getNumberOfLoadedImages() < 2)
 	{
+		selectedWatermark->setText("No images to select from");
 		textUpdated = true;
+		return;
 	}
+	watermark = nullptr;
+	textUpdated = true;
+	selectPane->clear();
+	y = 0;
+	controller.iterateImagesAsync([&](Images::Image* image)
+	{
+		Images::Image* imgCopy = image;
+		selectPane->addComponent(y, new sdl::StringButtonSDL(0, 0,
+		new sdl::StringSDL(image->getFilename(), FONT, SIZE, COLOR, renderer), COLOR_HOVER
+		, [imgCopy, this]()
+		{
+			watermark = imgCopy;
+			textUpdated = true;
+			pane = mainPane;
+		}));
+		y++;
+	});
+	pane = selectPane;
+	selectedWatermark->setText("Select watermark");
+	onWindowResize();
 }
 
 void WatermarkStateSDL::applytWatermarkEvent()
@@ -80,7 +103,8 @@ void WatermarkStateSDL::render()
 	if (textUpdated)
 	{
 		textUpdated = false;
-		selectedWatermark->setText(watermark->getFilename());
+		if (watermark)
+			selectedWatermark->setText(watermark->getFilename());
 		selectedWatermark->center(winInfo.w, pane->getY());
 	}
 	selectedWatermark->draw();

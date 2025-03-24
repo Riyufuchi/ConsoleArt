@@ -2,7 +2,7 @@
 // File       : ContentPanelSDL.h
 // Author     : riyufuchi
 // Created on : Feb 23, 2025
-// Last edit  : Feb 23, 2025
+// Last edit  : Mar 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: This class assumes ownership of the components
 //==============================================================================
@@ -24,6 +24,7 @@ private:
 	std::unordered_map<int, std::vector<ComponentSDL*>> componentsAtY;
 	std::unordered_map<int, int> widthAtY;
 public:
+	ContentPanelSDL();
 	ContentPanelSDL(int x, int y);
 	~ContentPanelSDL();
 	virtual void draw(SDL_Renderer* renderer) override;
