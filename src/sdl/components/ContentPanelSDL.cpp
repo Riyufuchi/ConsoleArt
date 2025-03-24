@@ -2,7 +2,7 @@
 // File       : ContentPanelSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 23, 2025
-// Last edit  : Mar 15, 2025
+// Last edit  : Mar 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,6 +12,9 @@
 
 namespace sdl
 {
+ContentPanelSDL::ContentPanelSDL() : ContentPanelSDL(0, 0)
+{
+}
 ContentPanelSDL::ContentPanelSDL(int x, int y) : ComponentSDL(x, y, 10, 10)
 {
 }
