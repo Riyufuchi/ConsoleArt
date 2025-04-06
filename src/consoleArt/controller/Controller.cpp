@@ -75,10 +75,10 @@ Controller::~Controller()
 	std::cout << "Controller deleted" << std::endl;
 }
 
-void Controller::configure(std::vector<std::pair<std::string, std::vector<std::string>>>& config)
+void Controller::configure(ConsoleLib::argVector& config)
 {
 	auto it = argumentMethods.find("");
-	for (const std::pair<std::string, std::vector<std::string>>& argument : config)
+	for (const ConsoleLib::argVectorItem& argument : config)
 	{
 		it = argumentMethods.find(argument.first);
 		if (it != argumentMethods.end())
@@ -88,7 +88,7 @@ void Controller::configure(std::vector<std::pair<std::string, std::vector<std::s
 	}
 }
 
-void Controller::configure(std::map<std::string, std::vector<std::string>>& config)
+void Controller::configure(ConsoleLib::argMap& config)
 {
 	auto it = argumentMethods.find("");
 	for (const std::pair<const std::string, std::vector<std::string>>& argument : config)

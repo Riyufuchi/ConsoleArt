@@ -18,6 +18,8 @@
 #include <functional>
 #include <thread>
 
+// ConsoleLib
+#include "ArgumentParser.h"
 //Image utils
 #include "../imageTools/AsciiConverter.h"
 #include "../imageTools/SimpleEdit.h"
@@ -54,8 +56,8 @@ public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
-	void configure(std::map<std::string, std::vector<std::string>>& config);
-	void configure(std::vector<std::pair<std::string, std::vector<std::string>>>& config);
+	void configure(ConsoleLib::argMap& config);
+	void configure(ConsoleLib::argVector& config);
 	virtual void run() = 0;
 	// Controller
 	virtual std::string inputImageName() = 0;

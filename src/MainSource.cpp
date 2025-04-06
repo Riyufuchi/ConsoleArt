@@ -19,13 +19,14 @@
 #include "UnixConsole.h"
 #include "IConsole.hpp"
 #include "DefaultConsole.h"
+#include "ArgumentParser.h"
 #include "other/ScheduleTracker.h"
 #include "sdl/assets/FontManagerSDL.h"
 #ifdef _WIN32
 	#include "WindowsConsole.h"
 #endif // _WIN32
 
-using ParsedArguments = std::vector<std::pair<std::string, std::vector<std::string>>>; // or std::map<std::string, std::vector<std::string>>
+using ParsedArguments = ConsoleLib::argVector; // or ConsoleLib::argMap
 
 enum BootAction
 {
@@ -65,7 +66,7 @@ int main(int argc, char** argv)
 
 	bool success = true;
 	std::string resultMsg = "";
-	ParsedArguments argPairs = ConsoleLib::ConsoleUtils::analyzeArgumentsInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
+	ParsedArguments argPairs = ConsoleLib::ArgumentParser::analyzeInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
 	if (success)
 		systemConsole.out(resultMsg + "\n");
 	else
@@ -76,23 +77,23 @@ int main(int argc, char** argv)
 
 	#ifdef DEBUG
 		systemConsole.out(153, 102, 51, "!!! This is a debug build !!!\n");
-		ConsoleLib::ConsoleUtils::printArgumentPairs(argPairs);
+		ConsoleLib::ArgumentParser::printArgumentPairs(argPairs);
 	#endif
 
 	ConsoleArt::Controller* consoleArt;
 
 	//if (argPairs.contains("--sdl"))
-	if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--sdl"))
+	if (ConsoleLib::ArgumentParser::contains(argPairs, "--sdl"))
 	{
 		//argPairs.erase("--sdl");
-		ConsoleLib::ConsoleUtils::argumentsRemove(argPairs, "--sdl");
+		ConsoleLib::ArgumentParser::remove(argPairs, "--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
 	//else if (argPairs.contains("--zen"))
-	else if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, "--zen"))
+	else if (ConsoleLib::ArgumentParser::contains(argPairs, "--zen"))
 	{
 		//argPairs.erase("--zen");
-		ConsoleLib::ConsoleUtils::argumentsRemove(argPairs, "--zen");
+		ConsoleLib::ArgumentParser::remove(argPairs, "--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
 	}
 	else
@@ -131,7 +132,7 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 	for (std::pair<std::string, BootAction> arg : checkFor)
 	{
 		//if (argPairs.contains(arg.first))
-		if (ConsoleLib::ConsoleUtils::argumentsContains(argPairs, arg.first))
+		if (ConsoleLib::ArgumentParser::contains(argPairs, arg.first))
 			switch (arg.second)
 			{
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
