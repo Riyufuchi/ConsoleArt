@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Mar 23, 2025
+// Last Edit   : Apr 26, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -19,14 +19,15 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 	{
 		this->console = &defaultConsole;
 		((MenuCLI*)menuInterface)->setConsole(this->console);
+		((NotifierCLI*)messenger)->setConsole(this->console);
 	}
-	((NotifierCLI*)messenger)->setConsole(console);
 	// Arguments
 	argumentMethods["--no-color"] = [&](const auto&)
 	{
 		this->console = &defaultConsole;
-		((MenuCLI*)menuInterface)->setConsole(console);
-		console->out("No color option applied\n");
+		((MenuCLI*)menuInterface)->setConsole(this->console);
+		((NotifierCLI*)messenger)->setConsole(this->console);
+		this->console->out("No color option applied\n");
 	};
 	argumentMethods["--color"] = [&](const auto& vector)
 	{

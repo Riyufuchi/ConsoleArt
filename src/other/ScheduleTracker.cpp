@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Feb 13, 2025
+// Last edit  : Apr 24, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,38 +11,28 @@
 
 namespace Other
 {
-ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : console(console), fileLoaded(false)
+ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : console(console), fileLoaded(false), lastEvent(ButtonEvent::NONE), menu(console, menuTexts, [&](){ printHeader(); })
 {
+	menuTexts.emplace_back("Add time");
+	menuTexts.emplace_back("Calculate average time");
+	menuTexts.emplace_back("Exit");
 }
 ScheduleTracker::~ScheduleTracker()
 {
 }
 void ScheduleTracker::run()
 {
-	const char* menuItems[] = { "Add time", "Calculate average time", "Exit" };
-	const int SIZE = sizeof(menuItems)/sizeof(*menuItems);
-	std::string line;
 	readFile();
 	do
 	{
 		console.enableCustomFG();
-		switch (ConsoleLib::ConsoleUtils::basicMenu(SIZE, menuItems))
+		switch (menu.runMenuLoop())
 		{
-			case 0:
-				console.out("Enter: HOURS;MINUTES\n");
-				std::getline(std::cin, line);
-				writeFile(line, filename);
-			break;
-			case 1:
-				if (!readFile())
-					break;
-				calculateAvgTime();
-			break;
-			case 2:
-				line = "end";
-			break;
+			case 0: lastEvent = ButtonEvent::ADD_TIMESTAMP; break;
+			case 1: lastEvent = ButtonEvent::DISPLAY_DATA; break;
+			case 2: lastEvent = ButtonEvent::EXIT; break;
 		}
-	} while (line != "end");
+	} while (lastEvent != EXIT);
 	console.out("Press enter to exit...");
 	std::cin.get();
 }
@@ -172,4 +162,28 @@ void ScheduleTracker::calculateAvgTime()
 	if (days != 0)
 		std::cout << "Week " << week << ": " << (minutes / 60) / days << " " << days << "/7" <<"\n";
 }
+
+void ScheduleTracker::printHeader()
+{
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
+
+	switch (lastEvent)
+	{
+		case ADD_TIMESTAMP:
+			menu.enableLineBuffering();
+			console.out("Enter: HOURS;MINUTES\n");
+			std::getline(std::cin, line);
+			writeFile(line, filename);
+			menu.disableLineBuffering();
+		break;
+		case DISPLAY_DATA:
+			if (!readFile())
+				break;
+			calculateAvgTime();
+		break;
+		default: break;
+	}
+	lastEvent = ButtonEvent::NONE;
+}
+
 } /* namespace ConsoleArt */
