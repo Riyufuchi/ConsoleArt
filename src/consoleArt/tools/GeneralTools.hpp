@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Mar 23, 2025
+// Last edit  : Apr 22, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,7 +25,7 @@ class GeneralTools
 {
 public:
 	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta 5 (debug)";
+		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta 6 (debug)";
 	#else
 		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta";
 	#endif
@@ -52,6 +52,19 @@ public:
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
+	static std::string usedLibraries()
+	{
+		std::stringstream info;
+		info << "Used libraries:\n" << ConsoleLib::Library::aboutLibrary();
+		std::string libs[] = {
+			"Name| Used for",
+			"stb| Complex images",
+			"SDL2| GUI",
+			"TinyFileDialogs| Cross-platform dialogs"
+		};
+		info << "\n" << ConsoleLib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
+		return info.str();
+	}
 	static std::string aboutApplication()
 	{
 		std::stringstream aboutStringStream;
@@ -76,17 +89,8 @@ public:
 					"PNG| 24, 32;",
 					"JPG| 24, 32;"
 				};
-		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0]));
-
-		aboutStringStream << "\n" << "Used libraries:\n" << ConsoleLib::Library::aboutLibrary();
-
-		std::string libs[] = {
-					"Name| Used for",
-					"stb| Complex images",
-					"SDL2| GUI",
-					"TinyFileDialogs| Cross-platform dialogs"
-				};
-		aboutStringStream << "\n" << ConsoleLib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
+		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
+		aboutStringStream << usedLibraries();
 		return aboutStringStream.str();
 	}
 	static void colorTest(ConsoleLib::IConsole& console)

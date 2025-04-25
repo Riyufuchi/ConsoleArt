@@ -50,58 +50,59 @@ BootAction abort(ConsoleLib::IConsole& console)
 
 int main(int argc, char** argv)
 {
-	ConsoleLib::Color color = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE);
-	#if defined(__linux__) || defined(__APPLE__)
-		ConsoleLib::UnixConsole systemConsole;
-	#elif defined(_WIN32)
-		ConsoleLib::WindowsConsole systemConsole;
-		systemConsole.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::UNIQUE),
-			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
-	#else
-		ConsoleLib::DefaultConsole systemConsole;
-	#endif
-	systemConsole.setDefaultTextColor(color);
+	ConsoleLib::IConsole* systemConsole = ConsoleLib::ConsoleUtils::createPlatformConsole();
 
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", systemConsole);
+	if (systemConsole == nullptr)
+	{
+		std::cerr << "Failed to create platform console.\nExiting program!";
+		return 1;
+	}
+
+	systemConsole->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE));
+
+	#ifdef _WIN32
+		systemConsole->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE),
+			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
+	#endif
+
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
 
 	bool success = true;
 	std::string resultMsg = "";
 	ParsedArguments argPairs = ConsoleLib::ArgumentParser::analyzeInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
 	if (success)
-		systemConsole.out(resultMsg + "\n");
+		systemConsole->out(resultMsg + "\n");
 	else
 	{
-		systemConsole.err(resultMsg + "\n");
+		systemConsole->err(resultMsg + "\n");
 		return 1;
 	}
 
 	#ifdef DEBUG
-		systemConsole.out(153, 102, 51, "!!! This is a debug build !!!\n");
+		systemConsole->out(153, 102, 51, "!!! This is a debug build !!!\n");
 		ConsoleLib::ArgumentParser::printArgumentPairs(argPairs);
 	#endif
 
 	ConsoleArt::Controller* consoleArt;
 
 	//if (argPairs.contains("--sdl"))
-	if (ConsoleLib::ArgumentParser::contains(argPairs, "--sdl"))
+	if (ConsoleLib::ArgumentParser::remove(argPairs, "--sdl"))
 	{
 		//argPairs.erase("--sdl");
-		ConsoleLib::ArgumentParser::remove(argPairs, "--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
 	//else if (argPairs.contains("--zen"))
-	else if (ConsoleLib::ArgumentParser::contains(argPairs, "--zen"))
+	else if (ConsoleLib::ArgumentParser::remove(argPairs, "--zen"))
 	{
 		//argPairs.erase("--zen");
-		ConsoleLib::ArgumentParser::remove(argPairs, "--zen");
-		consoleArt = new ConsoleArt::ControllerZenity(&systemConsole);
+		consoleArt = new ConsoleArt::ControllerZenity(systemConsole);
 	}
 	else
 	{
-		consoleArt = new ConsoleArt::ControllerCLI(&systemConsole);
+		consoleArt = new ConsoleArt::ControllerCLI(systemConsole);
 	}
 
-	switch (checkArgs(argPairs, systemConsole))
+	switch (checkArgs(argPairs, *systemConsole))
 	{
 		case ABORT: return 1;
 		case CONTINUE: goto start;
@@ -112,12 +113,13 @@ int main(int argc, char** argv)
 	start: consoleArt->run();
 	sdl::FontManagerSDL::getInstance().clear();
 	delete consoleArt;
+	delete systemConsole;
 	return 0;
 }
 
 BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 {
-	if (argPairs.empty()) // First argument is always app name
+	if (argPairs.empty())
 		return BootAction::CONTINUE;
 
 	const std::vector<std::pair<std::string, BootAction>> checkFor = {
@@ -138,10 +140,7 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
 				case TEST: ConsoleArt::GeneralTools::colorTest(console); return arg.second;
 				case ABOUT: console.out(ConsoleArt::GeneralTools::aboutApplication()); return arg.second;
-				case LIBRARY:
-					console.out(ConsoleLib::Library::aboutLibrary());
-					console.out("\nstb\n");
-				return arg.second;
+				case LIBRARY: console.out(ConsoleArt::GeneralTools::usedLibraries()); return arg.second;
 				case SCHEDULE: {
 					Other::ScheduleTracker schedule(console);
 					schedule.run();
