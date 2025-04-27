@@ -7,7 +7,8 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "ContentPanelSDL.h"
+#include "../panels/ContentPanelSDL.h"
+
 #include <SDL2/SDL_gesture.h>
 
 namespace sdl
