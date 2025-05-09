@@ -2,7 +2,7 @@
 // File       : ImageJPG.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Feb 28, 2025
+// Last edit  : May 9, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@
 
 namespace Images
 {
-class ImageJPG: public Image
+class ImageJPG : public Image
 {
 public:
 	ImageJPG(std::string filepath);

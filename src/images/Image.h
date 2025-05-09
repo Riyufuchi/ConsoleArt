@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 3, 2025
+// Last edit  : May 9, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -51,7 +51,13 @@ protected:
 	int CHANNELS;
 public:
 	Image(std::string filepath);
+	Image(Image&) = delete;
+	Image(Image&&) = delete;
+
 	virtual ~Image();
+
+	Image& operator=(Image&) = delete;
+	Image& operator=(Image&&) = delete;
 
 	explicit operator bool() const
 	{
