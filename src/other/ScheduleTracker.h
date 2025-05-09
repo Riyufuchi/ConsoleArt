@@ -2,7 +2,7 @@
 // File       : SheduleTracker.h
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Apr 24, 2025
+// Last edit  : May 07, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -37,11 +37,11 @@ private:
 	};
 	static constexpr const char* filename = "stat.csv";
 	std::vector<ConsoleLib::TimeStamp> times;
+	std::vector<std::string> menuTexts, dates;
 	ConsoleLib::IConsole& console;
 	bool fileLoaded;
 	ButtonEvent lastEvent;
 	std::string line;
-	std::vector<std::string> menuTexts;
 	ConsoleLib::ConsoleMenu menu;
 	bool readFile();
 	bool writeFile(const std::string& line, const std::string& filename);
@@ -49,6 +49,8 @@ private:
 	void convertToLong(long& destination, std::string& number);
 	std::string fileSelect();
 	void printHeader();
+	std::pair<std::string, std::string> obtainWeekBounds(const size_t weekIndex, const size_t daysPerWeek = 7);
+	//bool addNewTimeStamp(const std::string& line);
 public:
 	ScheduleTracker(ConsoleLib::IConsole& console);
 	~ScheduleTracker();

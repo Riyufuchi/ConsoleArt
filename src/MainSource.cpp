@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Mar 23, 2025
+// Last Edit   : May 05, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -60,12 +60,12 @@ int main(int argc, char** argv)
 
 	systemConsole->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE));
 
+	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
+
 	#ifdef _WIN32
 		systemConsole->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE),
 			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
 	#endif
-
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
 
 	bool success = true;
 	std::string resultMsg = "";
@@ -85,16 +85,12 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 
-	//if (argPairs.contains("--sdl"))
 	if (ConsoleLib::ArgumentParser::remove(argPairs, "--sdl"))
 	{
-		//argPairs.erase("--sdl");
 		consoleArt = new ConsoleArt::ControllerSDL();
 	}
-	//else if (argPairs.contains("--zen"))
 	else if (ConsoleLib::ArgumentParser::remove(argPairs, "--zen"))
 	{
-		//argPairs.erase("--zen");
 		consoleArt = new ConsoleArt::ControllerZenity(systemConsole);
 	}
 	else
@@ -111,7 +107,6 @@ int main(int argc, char** argv)
 	}
 	conf: consoleArt->configure(argPairs);
 	start: consoleArt->run();
-	sdl::FontManagerSDL::getInstance().clear();
 	delete consoleArt;
 	delete systemConsole;
 	return 0;
@@ -141,10 +136,7 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 				case TEST: ConsoleArt::GeneralTools::colorTest(console); return arg.second;
 				case ABOUT: console.out(ConsoleArt::GeneralTools::aboutApplication()); return arg.second;
 				case LIBRARY: console.out(ConsoleArt::GeneralTools::usedLibraries()); return arg.second;
-				case SCHEDULE: {
-					Other::ScheduleTracker schedule(console);
-					schedule.run();
-				} return arg.second;
+				case SCHEDULE: Other::ScheduleTracker(console).run(); return arg.second;
 				default: abort(console);
 			}
 	}
