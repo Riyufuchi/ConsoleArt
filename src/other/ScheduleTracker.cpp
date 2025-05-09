@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Apr 24, 2025
+// Last edit  : May 07, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -44,13 +44,15 @@ bool ScheduleTracker::writeFile(const std::string& line, const std::string& file
 		std::cerr << "Error: Unable to open file for appending.\n";
 		return false;
 	}
-	file << line << std::endl; // Append line to file
+	std::string date = ConsoleLib::TimeUtils::dateToString(ConsoleLib::TimeUtils::todaysDate());
+	file << line << ";" << date << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
 	ConsoleLib::TimeStamp data;
 	std::string strNum = line.substr(0, line.find(';'));
 	convertToLong(data.hours, strNum);
 	convertToLong(data.minutes, strNum = line.substr(line.find(';') + 1, line.length()));
 	times.emplace_back(data);
+	dates.emplace_back(date);
 	return true;
 }
 void ScheduleTracker::convertToLong(long& destination, std::string& number)
@@ -85,7 +87,7 @@ bool ScheduleTracker::readFile()
 	}
 	std::string line, token;
 	ConsoleLib::TimeStamp timeStamp;
-	const int NUM_OF_ATTRIBUTES = 2;
+	const int NUM_OF_ATTRIBUTES = 3;
 	int x = 0;
 	std::istringstream iss;
 	while (std::getline(file, line))
@@ -101,6 +103,7 @@ bool ScheduleTracker::readFile()
 				{
 					case 0: convertToLong(timeStamp.hours, token); break;
 					case 1: convertToLong(timeStamp.minutes, token); break;
+					case 2: dates.emplace_back(token); break;
 				}
 			}
 			else
@@ -147,20 +150,30 @@ void ScheduleTracker::calculateAvgTime()
 	long double minutes = 0;
 	int week = 1;
 	int days = 0;
+	size_t itemNum = 0;
+	std::pair<std::string, std::string> weekBound;
 	for (ConsoleLib::TimeStamp& timeStamp : times)
 	{
 		minutes += ConsoleLib::TimeUtils::convertToMinutes(timeStamp);
 		days++;
-		if (days % 7 == 0)
+		itemNum++;
+		// If 7 days collected or it's the last item
+		if (days == 7 || itemNum == times.size() - 1)
 		{
-			std::cout << "Week " << week << ": " << (minutes / 60) / days << "\n";
-			week++;
+			weekBound = obtainWeekBounds(week - 1);
+
+			std::cout << "Week " << week << " [" << weekBound.first << " - " << weekBound.second << "]" << ": " << (minutes / 60.0) / days;
+
+			if (days < 7)
+				std::cout << " (" << days << "/7)";
+			std::cout << "\n";
+
+			// Reset for next week
 			days = 0;
 			minutes = 0;
+			week++;
 		}
 	}
-	if (days != 0)
-		std::cout << "Week " << week << ": " << (minutes / 60) / days << " " << days << "/7" <<"\n";
 }
 
 void ScheduleTracker::printHeader()
@@ -184,6 +197,19 @@ void ScheduleTracker::printHeader()
 		default: break;
 	}
 	lastEvent = ButtonEvent::NONE;
+}
+
+std::pair<std::string, std::string> ScheduleTracker::obtainWeekBounds(const size_t weekIndex, const size_t daysPerWeek)
+{
+	size_t startIndex = weekIndex * daysPerWeek;
+
+	if (startIndex >= dates.size())
+	{
+		throw std::out_of_range("Week index out of range");
+	}
+
+	size_t endIndex = std::min(startIndex + daysPerWeek - 1, dates.size() - 1);
+	return { dates[startIndex], dates[endIndex] };
 }
 
 } /* namespace ConsoleArt */

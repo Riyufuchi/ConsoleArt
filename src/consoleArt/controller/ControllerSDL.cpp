@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Mar 15, 2025
+// Last edit  : May 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -52,6 +52,7 @@ ControllerSDL::~ControllerSDL()
 {
 	delete buttons;
 	delete stateManager;
+	sdl::FontManagerSDL::getInstance().clear();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
