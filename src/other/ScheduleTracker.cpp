@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : May 07, 2025
+// Last edit  : May 09, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,32 +11,53 @@
 
 namespace Other
 {
-ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : console(console), fileLoaded(false), lastEvent(ButtonEvent::NONE), menu(console, menuTexts, [&](){ printHeader(); })
+ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : filename("stat.csv"), console(console), fileLoaded(false), lastEvent(ButtonEvent::NONE), menu(console, menuTexts, [&](){ printHeader(); })
 {
-	menuTexts.emplace_back("Add time");
+	menuTexts.emplace_back("Add new entry");
 	menuTexts.emplace_back("Calculate average time");
 	menuTexts.emplace_back("Exit");
 }
 ScheduleTracker::~ScheduleTracker()
 {
 }
+
+bool ScheduleTracker::inputNewTimeStamp()
+{
+	menu.enableLineBuffering();
+	console.out("Enter: HOURS;MINUTES\n");
+	std::getline(std::cin, line);
+	menu.disableLineBuffering();
+	return isFormatValid();
+}
+
+bool ScheduleTracker::isFormatValid()
+{
+	auto sepPos = line.find(';');
+
+	if (sepPos == std::string::npos || sepPos == 0 || sepPos == line.size() - 1)
+		return false;
+
+	return std::all_of(line.begin(), line.begin() + sepPos, ::isdigit) &&
+	std::all_of(line.begin() + sepPos + 1, line.end(), ::isdigit);
+}
+
 void ScheduleTracker::run()
 {
-	readFile();
-	do
+	if (readFile())
 	{
-		console.enableCustomFG();
-		switch (menu.runMenuLoop())
+		do
 		{
-			case 0: lastEvent = ButtonEvent::ADD_TIMESTAMP; break;
-			case 1: lastEvent = ButtonEvent::DISPLAY_DATA; break;
-			case 2: lastEvent = ButtonEvent::EXIT; break;
-		}
-	} while (lastEvent != EXIT);
-	console.out("Press enter to exit...");
-	std::cin.get();
+			console.enableCustomFG();
+			switch (menu.runMenuLoop())
+			{
+				case 0: lastEvent = ButtonEvent::ADD_TIMESTAMP; break;
+				case 1: lastEvent = ButtonEvent::DISPLAY_DATA; break;
+				case 2: lastEvent = ButtonEvent::EXIT; break;
+			}
+		} while (lastEvent != EXIT);
+	}
 }
-bool ScheduleTracker::writeFile(const std::string& line, const std::string& filename)
+bool ScheduleTracker::addNewDataEntry()
 {
 	std::ofstream file(filename, std::ios::app); // Open file in append mode
 	if (!file.is_open())
@@ -75,17 +96,21 @@ void ScheduleTracker::convertToLong(long& destination, std::string& number)
 
 bool ScheduleTracker::readFile()
 {
-	if (fileLoaded)
+	if (fileLoaded) // Prevents unnecessary file readings
 		return true;
 	times.clear();
+	dates.clear();
 	std::ifstream file(filename);
 	if (!file.is_open())
 	{
 		console.err("Error: Unable to open file \"stat.csv\"\n");
-		fileSelect();
-		return false;
+		filename = selectFile();
+		if (line == "ERROR")
+			return false;
+		line = "ERROR"; // Prevents infinite recursion
+		return readFile(); // Second attempt and reading the file
 	}
-	std::string line, token;
+	std::string token;
 	ConsoleLib::TimeStamp timeStamp;
 	const int NUM_OF_ATTRIBUTES = 3;
 	int x = 0;
@@ -119,7 +144,7 @@ bool ScheduleTracker::readFile()
 	return fileLoaded = true;
 }
 
-std::string ScheduleTracker::fileSelect()
+std::string ScheduleTracker::selectFile()
 {
 	const char* command = "zenity --file-selection --title=\"Select a File\"";
 	FILE *pipe = popen(command, "r");
@@ -183,16 +208,12 @@ void ScheduleTracker::printHeader()
 	switch (lastEvent)
 	{
 		case ADD_TIMESTAMP:
-			menu.enableLineBuffering();
-			console.out("Enter: HOURS;MINUTES\n");
-			std::getline(std::cin, line);
-			writeFile(line, filename);
-			menu.disableLineBuffering();
+			if (inputNewTimeStamp())
+				addNewDataEntry();
 		break;
 		case DISPLAY_DATA:
-			if (!readFile())
-				break;
-			calculateAvgTime();
+			if (fileLoaded)
+				calculateAvgTime();
 		break;
 		default: break;
 	}
