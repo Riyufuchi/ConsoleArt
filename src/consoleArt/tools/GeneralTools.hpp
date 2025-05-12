@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Apr 22, 2025
+// Last edit  : May 11, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,16 +19,21 @@
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
+#define _APP_NAME "ConsoleArt"
+#define _APP_VERSION "2.9"
+
+#ifdef DEBUG
+	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION " (debug)"
+#else
+	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION
+#endif
+
 namespace ConsoleArt
 {
 class GeneralTools
 {
 public:
-	#ifdef DEBUG
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta 9 (debug)";
-	#else
-		static constexpr const char* CONSOLE_ART_VERSION = "ConsoleArt v2.9 - beta";
-	#endif
+	static constexpr const char* CONSOLE_ART_VERSION = _CONSOLE_ART_VERSION;
 	GeneralTools();
 	~GeneralTools();
 	static void createManual()
@@ -46,7 +51,7 @@ public:
 			"--benchmark [path (optional)]| Starts simple benchmark that loads and convert image (default file: bench.pcx)",
 			"--binomial [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
-			"--compare [image1] [image2]| Compares two images",
+			"--compare [image1] [image2]| Compare dimensions of the two given images",
 			"--sdl| Starts application in GUI mode using SDL2",
 			"--zen| Starts application in CLI mode using Zenity"
 		};
@@ -102,9 +107,9 @@ public:
 			std::cout << "\n";
 		}
 	}
-	static std::string createArgErrorMessage(std::string arg)
+	static std::string createArgErrorMessage(const std::string& argument)
 	{
-		return std::string("Invalid or unknown ").append(arg).append(" inputed.\nUse --man or --help for help.\n");
+		return "Invalid or unknown " + argument + " inputed.\nUse --man or --help for help.\n";
 	}
 };
 } // Namespace

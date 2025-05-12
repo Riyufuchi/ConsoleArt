@@ -104,9 +104,9 @@ bool ScheduleTracker::readFile()
 	if (!file.is_open())
 	{
 		console.err("Error: Unable to open file \"stat.csv\"\n");
-		filename = selectFile();
 		if (line == "ERROR")
 			return false;
+		filename = selectFile();
 		line = "ERROR"; // Prevents infinite recursion
 		return readFile(); // Second attempt and reading the file
 	}
@@ -174,7 +174,7 @@ void ScheduleTracker::calculateAvgTime()
 {
 	long double minutes = 0;
 	int week = 1;
-	int days = 0;
+	int days = 1;
 	size_t itemNum = 0;
 	std::pair<std::string, std::string> weekBound;
 	for (ConsoleLib::TimeStamp& timeStamp : times)
@@ -210,6 +210,8 @@ void ScheduleTracker::printHeader()
 		case ADD_TIMESTAMP:
 			if (inputNewTimeStamp())
 				addNewDataEntry();
+			else
+				console.err("Invalid input for new time stamp!\n");
 		break;
 		case DISPLAY_DATA:
 			if (fileLoaded)
