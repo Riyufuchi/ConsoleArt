@@ -42,7 +42,7 @@ struct TechnicalInfo
 	bool inverted { false };
 	int channels { 3 };
 	PixelByteOrder pixelByteOrder { PixelByteOrder::RGBA };
-	FileState fileState;
+	FileState fileState { FileState::ERROR };
 };
 class Image
 {
@@ -50,8 +50,7 @@ protected:
 	std::string filepath;
 	ImageInfo image;
 	TechnicalInfo technical;
-	std::vector<uint8_t> pixelData; //Or unsigned char can be used
-	unsigned char* imageData;
+	std::vector<uint8_t> pixelData;
 public:
 	Image(std::string filepath);
 	Image(Image&) = delete;
