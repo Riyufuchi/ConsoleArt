@@ -2,47 +2,43 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Mar 3, 2025
+// Last edit  : May 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "Image.h"
-#include "Pixels.hpp"
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), fileStatus("Pending"), fileState(FileState::ERROR), inverted(false), pixelByteOrder(PixelByteOrder::RGBA), imageData(nullptr), CHANNELS(3)
+Image::Image(std::string filepath) : filepath(filepath), imageData(nullptr)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
-		this->filename = filepath.substr(xPos + 1);
+		this->image.name = filepath.substr(xPos + 1);
 	else
-		this->filename = filepath;
-	imageInfo.name = filename;
-
+		this->image.name = filepath;
 }
 Image::~Image()
 {
 }
 void Image::rename(std::string imageName)
 {
-	imageName = imageName.append(filename.substr(filename.find('.')));
-	filepath = filepath.substr(0, (filepath.length() - filename.length())).append(imageName);
-	filename = imageName;
-	imageInfo.name = imageName;
+	imageName = imageName.append(image.name.substr(image.name.find('.')));
+	filepath = filepath.substr(0, (filepath.length() - image.name.length())).append(imageName);
+	image.name = imageName;
 }
 const ImageInfo& Image::getImageInfo() const
 {
-	return imageInfo;
+	return image;
 }
 const std::string& Image::getFileStatus() const
 {
-	return fileStatus;
+	return technical.technicalMessage;
 }
 const std::string& Image::getFilename() const
 {
-	return filename;
+	return image.name;
 }
 const std::string& Image::getFilepath() const
 {
@@ -50,52 +46,52 @@ const std::string& Image::getFilepath() const
 }
 bool Image::isLoaded() const
 {
-	return fileState == OK;
+	return technical.fileState == OK;
 }
 bool Image::isInverted() const
 {
-	return inverted;
+	return technical.inverted;
 }
 int Image::getWidth() const
 {
-	return imageInfo.width;
+	return image.width;
 }
 int Image::getHeight() const
 {
-	return imageInfo.height;
+	return image.height;
 }
 int Image::getBits() const
 {
-	return imageInfo.bits;
+	return image.bits;
 }
 PixelByteOrder Image::getPixelFormat() const
 {
-	return pixelByteOrder;
+	return technical.pixelByteOrder;
 }
 std::unique_ptr<unsigned char[]> Image::getImageData() const
 {
 	if (imageData)
 	{
-		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(imageInfo.width * imageInfo.height * CHANNELS);
-		std::memcpy(dataCopy.get(), imageData, imageInfo.width * imageInfo.height * CHANNELS);
+		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(image.width * image.height * technical.channels);
+		std::memcpy(dataCopy.get(), imageData, image.width * image.height * technical.channels);
 		return dataCopy; // Copy existing data
 	}
 	
-	if (!inverted)
+	if (!technical.inverted)
 	{
 		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(pixelData.size());
 		std::memcpy(dataCopy.get(), pixelData.data(), pixelData.size());
 		return dataCopy; // Returning a copy of pixelData, since caller will own it
 	}
 
-	int cp = (CHANNELS <= 3) ? 3 : 4;
-	std::unique_ptr<unsigned char[]> flippedData = std::make_unique<unsigned char[]>(imageInfo.width * imageInfo.height * cp);
+	int cp = (technical.channels <= 3) ? 3 : 4;
+	std::unique_ptr<unsigned char[]> flippedData = std::make_unique<unsigned char[]>(image.width * image.height * cp);
 
-	int rowSize = imageInfo.width * cp;
+	int rowSize = image.width * cp;
 	int srcRow = 0, dstRow = 0;
-	for (int y = 0; y < imageInfo.height; y++)
+	for (int y = 0; y < image.height; y++)
 	{
-		srcRow = (imageInfo.height - 1 - y) * rowSize;
+		srcRow = (image.height - 1 - y) * rowSize;
 		dstRow = y * rowSize;
 		std::memcpy(&flippedData[dstRow], &pixelData[srcRow], rowSize);
 	}

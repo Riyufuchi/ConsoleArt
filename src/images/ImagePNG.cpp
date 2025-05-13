@@ -2,7 +2,7 @@
 // File       : ImagePNG.cpp
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Mar 21, 2025
+// Last edit  : May 13, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -17,31 +17,31 @@ namespace Images
 {
 ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 {
-	fileState = OK;
-	this->imageData = stbi_load(filepath.c_str(), &imageInfo.width, &imageInfo.height, &CHANNELS, 0);
-	imageInfo.bits = CHANNELS * 8;
+	technical.fileState = OK;
+	this->imageData = stbi_load(filepath.c_str(), &image.width, &image.height, &technical.channels, 0);
+	image.bits = technical.channels * 8;
 	if (imageData == nullptr)
 	{
-		fileState = ERROR;
-		fileStatus = "Loading of " + filepath + " failed";
+		technical.fileState = ERROR;
+		technical.technicalMessage = "Loading of " + filepath + " failed";
 	}
 }
 ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : Image(filepath)
 {
-	fileState = OK;
-	imageInfo.name = filepath;
-	imageInfo.width = width;
-	imageInfo.height = height;
-	CHANNELS = channels;
+	technical.fileState = OK;
+	image.name = filepath;
+	image.width = width;
+	image.height = height;
+	technical.channels = channels;
 
 	switch (channels)
 	{
-		case 4: imageInfo.bits = 32; break;
-		case 3: imageInfo.bits = 24; break;
+		case 4: image.bits = 32; break;
+		case 3: image.bits = 24; break;
 		default:
-			imageInfo.bits = channels * 8; // fallback, e.g., grayscale
-			fileState = ERROR;
-			fileStatus = "Only 24 and 32 bit images are supported-";
+			image.bits = channels * 8; // fallback, e.g., grayscale
+			technical.fileState = ERROR;
+			technical.technicalMessage = "Only 24 and 32 bit images are supported-";
 		break;
 	}
 
@@ -63,24 +63,24 @@ ImagePNG::~ImagePNG()
 
 Images::Pixel ImagePNG::getPixel(int x, int y) const
 {
-	x = CHANNELS * (y * imageInfo.width + x);
-	if (CHANNELS == 4)
+	x = technical.channels * (y * image.width + x);
+	if (technical.channels == 4)
 		return {imageData[x], imageData[x + 1], imageData[x + 2], imageData[x + 3]};
 	else
 		return {imageData[x], imageData[x + 1], imageData[x + 2]};
 }
 void ImagePNG::setPixel(int x, int y, Images::Pixel newPixel)
 {
-	x = CHANNELS * (y * imageInfo.width + x);
+	x = technical.channels * (y * image.width + x);
 	imageData[x] = newPixel.red;
 	imageData[x + 1] = newPixel.green;
 	imageData[x + 2] = newPixel.blue;
-	if (CHANNELS == 4)
+	if (technical.channels == 4)
 		imageData[x + 3] = newPixel.alpha;
 }
 bool ImagePNG::saveImage() const
 {
-	return stbi_write_png(filepath.c_str(), imageInfo.width, imageInfo.height, CHANNELS, imageData, imageInfo.width * CHANNELS);
+	return stbi_write_png(filepath.c_str(), image.width, image.height, technical.channels, imageData, image.width * technical.channels);
 }
 void ImagePNG::loadImage()
 {

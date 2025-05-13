@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : May 9, 2025
+// Last edit  : May 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -28,7 +28,7 @@ enum FileState
 };
 struct ImageInfo
 {
-	std::string name {"Unknown"};
+	std::string name {"unknown.txt"};
 	int width {0};
 	int height {0};
 	uint16_t bits {24};
@@ -36,19 +36,22 @@ struct ImageInfo
 	bool planar {false};
 	bool palette {false};
 };
+struct TechnicalInfo
+{
+	std::string technicalMessage { "Pending..." };
+	bool inverted { false };
+	int channels { 3 };
+	PixelByteOrder pixelByteOrder { PixelByteOrder::RGBA };
+	FileState fileState;
+};
 class Image
 {
 protected:
 	std::string filepath;
-	std::string fileStatus;
-	std::string filename;
-	FileState fileState;
-	bool inverted;
-	ImageInfo imageInfo;
+	ImageInfo image;
+	TechnicalInfo technical;
 	std::vector<uint8_t> pixelData; //Or unsigned char can be used
-	PixelByteOrder pixelByteOrder;
 	unsigned char* imageData;
-	int CHANNELS;
 public:
 	Image(std::string filepath);
 	Image(Image&) = delete;
@@ -61,32 +64,32 @@ public:
 
 	explicit operator bool() const
 	{
-		return fileState == FileState::OK;
+		return technical.fileState == FileState::OK;
 	}
 
 	explicit operator std::string() const
 	{
-		return filename;
+		return image.name;
 	}
 
 	bool operator > (const Image& other) const
 	{
-		return imageInfo.width * imageInfo.height > other.imageInfo.width * other.imageInfo.height;
+		return image.width * image.height > other.image.width * other.image.height;
 	}
 
 	bool operator < (const Image& other) const
 	{
-		return imageInfo.width * imageInfo.height < other.imageInfo.width * other.imageInfo.height;
+		return image.width * image.height < other.image.width * other.image.height;
 	}
 
 	bool operator == (const Image& other) const
 	{
-		return imageInfo.width * imageInfo.height == other.imageInfo.width * other.imageInfo.height;
+		return image.width * image.height == other.image.width * other.image.height;
 	}
 
 	bool operator != (const Image& other) const
 	{
-		return imageInfo.width * imageInfo.height != other.imageInfo.width * other.imageInfo.height;
+		return image.width * image.height != other.image.width * other.image.height;
 	}
 	// Utils
 	void rename(std::string imageName);

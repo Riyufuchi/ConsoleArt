@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Mar 15, 2025
+// Last edit  : May 13, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,13 +14,13 @@ namespace Images
 ImagePCX::ImagePCX(std::string filename) : Image(filename)
 {
 	this->paletteVGA = NULL;
-	this->imageInfo.planar = true;
+	this->image.planar = true;
 	loadImage();
 	this->BLUE_OFFSET = 2 * headerPCX.bytesPerLine;
 	this->ALPHA_OFFSET = 3 * headerPCX.bytesPerLine;
 	if (headerPCX.numOfColorPlanes == 4)
 	{
-		imageInfo.bits = 32;
+		image.bits = 32;
 	}
 }
 ImagePCX::~ImagePCX()
@@ -36,21 +36,21 @@ void ImagePCX::loadImage()
 	std::ifstream inf(filepath, std::ios::in | std::ios::binary);
 	if (!inf)
 	{
-		this->fileStatus = "Unable to open file: " + filename;
+		this->technical.technicalMessage = "Unable to open file: " + image.name;
 		return;
 	}
 	inf.read(reinterpret_cast<char*>(&headerPCX), sizeof(headerPCX));
-	imageInfo.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
-	imageInfo.height = (headerPCX.yMax - headerPCX.yMin) + 1;
-	imageInfo.file_type = headerPCX.file_type;
-	imageInfo.bits = headerPCX.numOfColorPlanes * 8;
+	image.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
+	image.height = (headerPCX.yMax - headerPCX.yMin) + 1;
+	image.file_type = headerPCX.file_type;
+	image.bits = headerPCX.numOfColorPlanes * 8;
 	try
 	{
 		checkHeader();
 	}
 	catch (std::runtime_error& e)
 	{
-		this->fileStatus = e.what();
+		this->technical.technicalMessage = e.what();
 		return;
 	}
 	bool success = true;
@@ -61,22 +61,22 @@ void ImagePCX::loadImage()
 		case 4:
 			if (headerPCX.encoding == 0)
 			{
-				this->fileStatus = "Uncompressed image data are not supported for 24 and 32 bit images";
+				this->technical.technicalMessage = "Uncompressed image data are not supported for 24 and 32 bit images";
 				success = false;
 			}
 			decodeRLE(inf, pixelData);
 			break;
-		default: this->fileStatus = "Unexpected number of color planes"; return;
+		default: this->technical.technicalMessage = "Unexpected number of color planes"; return;
 	}
 	if (success)
 	{
-		this->fileStatus = "OK";
-		this->fileState = FileState::OK;
+		this->technical.technicalMessage = "OK";
+		this->technical.fileState = FileState::OK;
 	}
 }
 void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 {
-	int height = imageInfo.height;
+	int height = image.height;
 	const long dataSize = headerPCX.bytesPerLine * headerPCX.bitsPerPixel * height;
 	// Initialize vector
 	imageData.clear();
@@ -108,12 +108,12 @@ void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 }
 bool ImagePCX::readImageData(std::ifstream& stream)
 {
-	imageInfo.palette = true;
-	imageInfo.planar = false;
+	image.palette = true;
+	image.planar = false;
 	// Read palete
 	if (!readPaletteVGA(stream))
 	{
-		this->fileStatus = "Error during palette loading";
+		this->technical.technicalMessage = "Error during palette loading";
 		return false;
 	}
 	// Read image data
@@ -126,16 +126,16 @@ bool ImagePCX::readImageData(std::ifstream& stream)
 	}
 	else
 	{
-		imageData.resize((imageInfo.width * imageInfo.height));
+		imageData.resize((image.width * image.height));
 		stream.read(reinterpret_cast<char*>(imageData.data()), imageData.size());
 	}
-	pixelData.resize(imageInfo.width * imageInfo.height * 3);
+	pixelData.resize(image.width * image.height * 3);
 	int x = 0;
 	PixelRGB pRGB;
 	int i = 0;
-	for (int y = 0; y < imageInfo.height; y++)
+	for (int y = 0; y < image.height; y++)
 	{
-		for (x = 0; x < imageInfo.width; x++)
+		for (x = 0; x < image.width; x++)
 		{
 			pRGB = paletteVGA[imageData[i]];
 			setPixel(x, y, Pixel{pRGB.red, pRGB.green, pRGB.blue});
@@ -200,9 +200,9 @@ void ImagePCX::updateImage()
 	const int PLANE_ALPHA = ALPHA_OFFSET;
 	int index = 0;
 	Pixel newPixel;
-	for (int y = 0; y < imageInfo.height; y++)
+	for (int y = 0; y < image.height; y++)
 	{
-		for (int x = 0; x < imageInfo.width; x++)
+		for (int x = 0; x < image.width; x++)
 		{
 			index = (y * INDEX_BASE + x);
 			newPixel = getPixel(x, y);
@@ -217,7 +217,7 @@ void ImagePCX::updateImage()
 void ImagePCX::checkHeader()
 {
 	if (headerPCX.file_type != 0x0A)
-		throw std::runtime_error("Unrecognized format " + filename.substr(filename.find_last_of(".")));
+		throw std::runtime_error("Unrecognized format " + image.name.substr(image.name.find_last_of(".")));
 	if ((!(headerPCX.numOfColorPlanes == 3) && (headerPCX.bitsPerPixel == 8)) &&
 			(!havePalette())) // 24 and 32 bit images && VGA palette
 		throw std::runtime_error("This reader works only with 24-bit and 32-bit true color and VGA images");
@@ -234,12 +234,12 @@ Pixel ImagePCX::getPixel(int x, int y) const
 void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 {
 	//pixels[y * info.width + x] = newPixel;
-	x = y * 3 * imageInfo.width + x;
+	x = y * 3 * image.width + x;
 	pixelData[x] = newPixel.red;
-	pixelData[x + imageInfo.width]= newPixel.green;
-	pixelData[x + 2 * imageInfo.width] = newPixel.blue;
+	pixelData[x + image.width]= newPixel.green;
+	pixelData[x + 2 * image.width] = newPixel.blue;
 	if (headerPCX.numOfColorPlanes == 4)
-		pixelData[x + 3 * imageInfo.width] = newPixel.alpha;
+		pixelData[x + 3 * image.width] = newPixel.alpha;
 }
 bool ImagePCX::saveImage() const
 {
