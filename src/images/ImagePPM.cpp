@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Mar 15, 2025
+// Last edit  : May 13, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,9 +14,9 @@ namespace Images
 ImagePPM::ImagePPM(std::string filename) : Image(filename)
 {
 	loadImage();
-	imageInfo.width = headerPPM.width;
-	imageInfo.height = headerPPM.height;
-	imageInfo.file_type = 806;
+	image.width = headerPPM.width;
+	image.height = headerPPM.height;
+	image.file_type = 806;
 }
 ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 {
@@ -26,9 +26,9 @@ ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
 	for (size_t x = 0; x < pixelData.size(); x++)
 		pixelData.emplace_back(255);
 	// Image info
-	imageInfo.width = headerPPM.width;
-	imageInfo.height = headerPPM.height;
-	imageInfo.file_type = 806;
+	image.width = headerPPM.width;
+	image.height = headerPPM.height;
+	image.file_type = 806;
 }
 ImagePPM::~ImagePPM()
 {
@@ -38,7 +38,7 @@ void ImagePPM::loadImage()
 	std::ifstream inf(filepath, std::ios::in);
 	if (!inf)
 	{
-		this->fileStatus = "Unable to open file: " + filename;
+		this->technical.technicalMessage = "Unable to open file: " + image.name;
 		return;
 	}
 	std::string line;
@@ -46,7 +46,7 @@ void ImagePPM::loadImage()
 	std::getline(inf, line);
 	if (line != "P3" && line != "P6")
 	{
-		this->fileStatus = "Not a PPM file: " + filename;
+		this->technical.technicalMessage = "Not a PPM file: " + image.name;
 		return;
 	}
 
@@ -58,7 +58,7 @@ void ImagePPM::loadImage()
 			headerPPM.width = std::stoi(byte);
 		else
 		{
-			this->fileStatus = "Missing width info";
+			this->technical.technicalMessage = "Missing width info";
 			return;
 		}
 	}
@@ -68,7 +68,7 @@ void ImagePPM::loadImage()
 			headerPPM.height = std::stoi(byte);
 		else
 		{
-			this->fileStatus = "Missing height info";
+			this->technical.technicalMessage = "Missing height info";
 			return;
 		}
 	}
@@ -77,7 +77,7 @@ void ImagePPM::loadImage()
 		headerPPM.maxColorVal = std::stoi(line);
 	else
 	{
-		this->fileStatus = "Missing color info";
+		this->technical.technicalMessage = "Missing color info";
 		return;
 	}
 
@@ -92,7 +92,7 @@ void ImagePPM::loadImage()
 			color++;
 		}
 	}
-	this->fileState = OK;
+	this->technical.fileState = OK;
 }
 void ImagePPM::virtualArtistLegacy()
 {
