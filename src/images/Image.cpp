@@ -11,7 +11,7 @@
 
 namespace Images
 {
-Image::Image(std::string filepath) : filepath(filepath), imageData(nullptr)
+Image::Image(std::string filepath) : filepath(filepath)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)
@@ -70,13 +70,6 @@ PixelByteOrder Image::getPixelFormat() const
 }
 std::unique_ptr<unsigned char[]> Image::getImageData() const
 {
-	if (imageData)
-	{
-		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(image.width * image.height * technical.channels);
-		std::memcpy(dataCopy.get(), imageData, image.width * image.height * technical.channels);
-		return dataCopy; // Copy existing data
-	}
-	
 	if (!technical.inverted)
 	{
 		std::unique_ptr<unsigned char[]> dataCopy = std::make_unique<unsigned char[]>(pixelData.size());

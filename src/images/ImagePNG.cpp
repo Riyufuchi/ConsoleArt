@@ -17,14 +17,7 @@ namespace Images
 {
 ImagePNG::ImagePNG(std::string filepath) : Image(filepath)
 {
-	technical.fileState = OK;
-	this->imageData = stbi_load(filepath.c_str(), &image.width, &image.height, &technical.channels, 0);
-	image.bits = technical.channels * 8;
-	if (imageData == nullptr)
-	{
-		technical.fileState = ERROR;
-		technical.technicalMessage = "Loading of " + filepath + " failed";
-	}
+	loadImage();
 }
 ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : Image(filepath)
 {
@@ -45,44 +38,47 @@ ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : 
 		break;
 	}
 
-	// Allocate memory for the blank image
-	imageData = new unsigned char[width * height * channels];
-
-	// Initialize the image to a default color, e.g., black
-	memset(imageData, 0, width * height * channels);
+	pixelData.resize(width * height * channels); // This also zero fills
 }
 
 ImagePNG::~ImagePNG()
 {
-	if (imageData)
-	{
-		stbi_image_free(imageData);
-		imageData = nullptr;
-	}
 }
 
 Images::Pixel ImagePNG::getPixel(int x, int y) const
 {
 	x = technical.channels * (y * image.width + x);
 	if (technical.channels == 4)
-		return {imageData[x], imageData[x + 1], imageData[x + 2], imageData[x + 3]};
+		return {pixelData[x], pixelData[x + 1], pixelData[x + 2], pixelData[x + 3]};
 	else
-		return {imageData[x], imageData[x + 1], imageData[x + 2]};
+		return {pixelData[x], pixelData[x + 1], pixelData[x + 2]};
 }
 void ImagePNG::setPixel(int x, int y, Images::Pixel newPixel)
 {
 	x = technical.channels * (y * image.width + x);
-	imageData[x] = newPixel.red;
-	imageData[x + 1] = newPixel.green;
-	imageData[x + 2] = newPixel.blue;
+	pixelData[x] = newPixel.red;
+	pixelData[x + 1] = newPixel.green;
+	pixelData[x + 2] = newPixel.blue;
 	if (technical.channels == 4)
-		imageData[x + 3] = newPixel.alpha;
+		pixelData[x + 3] = newPixel.alpha;
 }
 bool ImagePNG::saveImage() const
 {
-	return stbi_write_png(filepath.c_str(), image.width, image.height, technical.channels, imageData, image.width * technical.channels);
+	return stbi_write_png(filepath.c_str(), image.width, image.height, technical.channels, pixelData.data(), image.width * technical.channels);
 }
 void ImagePNG::loadImage()
 {
+	unsigned char* imageData = stbi_load(filepath.c_str(), &image.width, &image.height, &technical.channels, 0);
+	if (imageData == nullptr)
+	{
+		technical.fileState = ERROR;
+		technical.technicalMessage = "Loading of " + filepath + " failed";
+		return;
+	}
+	image.bits = technical.channels * 8;
+	pixelData.resize(image.width * image.height * technical.channels); // Resize the class vector to hold image data
+	std::memcpy(pixelData.data(), imageData, pixelData.size()); // Copy the raw bytes
+	stbi_image_free(imageData); // Always free the original STB data
+	technical.fileState = OK;
 }
 } /* namespace Images */
