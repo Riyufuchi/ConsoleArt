@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 4, 2025
+// Last Edit   : May 15, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -70,6 +70,8 @@ public:
 	// Setters
 	void setWorkspace(std::string path);
 	void setSelectedImage(Images::Image* selectedImage);
+	void setNotifier(AbstractNotifier* notifier);
+	void setMenu(IMenu* imenu);
 	// Getters
 	int getNumberOfLoadedImages();
 	AbstractNotifier& getMessenger();

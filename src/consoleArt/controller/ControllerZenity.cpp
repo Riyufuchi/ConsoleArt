@@ -2,7 +2,7 @@
 // File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Mar 23, 2025
+// Last edit  : May 15, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,13 +14,9 @@ namespace ConsoleArt
 {
 ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
 {
-	if (menuInterface)
-		delete menuInterface;
-	this->menuInterface = new MenuZenity(console, [&]() { printHeader(); });
-	if (messenger)
-		delete messenger;
-	this->messenger = new NotifierZenity(console);
-	console->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
+	setMenu(new MenuZenity(this->console, [&]() { printHeader(); }));
+	setNotifier(new NotifierZenity(this->console));
+	this->console->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
 }
 
 void ControllerZenity::printHeader()
@@ -36,7 +32,7 @@ void ControllerZenity::printHeader()
 
 ControllerZenity::~ControllerZenity()
 {
-	std::cout << "ControllerZenity destroyed\n";
+	std::cout << "Zenity controller destroyed\n";
 }
 
 std::string ControllerZenity::inputImageName()
