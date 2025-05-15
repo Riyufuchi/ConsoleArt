@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Mar 20, 2025
+// Last Edit   : May 15, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -221,6 +221,26 @@ void Controller::setWorkspace(std::string path)
 void Controller::setSelectedImage(Images::Image* selectedImage)
 {
 	this->selectedImage = selectedImage;
+}
+
+void Controller::setNotifier(AbstractNotifier* notifier)
+{
+	if (notifier)
+	{
+		if (messenger)
+			delete messenger;
+		messenger = notifier;
+	}
+}
+
+void Controller::setMenu(IMenu* imenu)
+{
+	if (imenu)
+	{
+		if (menuInterface)
+			delete menuInterface;
+		menuInterface = imenu;
+	}
 }
 
 const std::string& Controller::getWorkspace()
