@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : May 15, 2025
+// Last Edit   : May 16, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -188,6 +188,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 		messenger->messageUser(AbstractNotifier::MessageType::EXCEPTION, std::string(e.what()).append("\n"));
 		return nullptr;
 	}
+	std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 	return loadImageAsync(path, extension);
 }
 

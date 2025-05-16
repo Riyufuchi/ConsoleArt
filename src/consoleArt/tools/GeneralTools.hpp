@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : May 11, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,7 +20,7 @@
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 #define _APP_NAME "ConsoleArt"
-#define _APP_VERSION "3.0 - beta 3"
+#define _APP_VERSION "3.0 - beta 4"
 
 #ifdef DEBUG
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION " (debug)"
@@ -53,7 +53,8 @@ public:
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compare dimensions of the two given images",
 			"--sdl| Starts application in GUI mode using SDL2",
-			"--zen| Starts application in CLI mode using Zenity"
+			"--zen| Starts application in CLI mode using Zenity",
+			"--tfd| Starts application in CLI mode using TinyFileDialogs"
 		};
 		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
