@@ -2,7 +2,7 @@
 // File       : MenuZenity.h
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : May 15, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,8 @@ namespace ConsoleArt
 class MenuZenity: public MenuCLI
 {
 private:
-	std::function<void()> function;
+	ConsoleLib::ConsoleMenu mainMenu;
+	ConsoleLib::ConsoleMenu editImageOptionsMenu;
 	int createZenityMenu(std::vector<std::string>& menu);
 public:
 	MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function);

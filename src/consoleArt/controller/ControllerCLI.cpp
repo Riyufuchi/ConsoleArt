@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : May 15, 2025
+// Last Edit   : May 16, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -13,9 +13,9 @@ namespace ConsoleArt
 ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console), new MenuCLI(console), new AsciiPrinterCLI(console ? *console : defaultConsole))
+ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console), new MenuCLI(console), new AsciiPrinterCLI(console ? *console : defaultConsole)), console(console)
 {
-	if (console == nullptr)
+	if (this->console == nullptr)
 	{
 		this->console = &defaultConsole;
 		((MenuCLI*)menuInterface)->setConsole(this->console);

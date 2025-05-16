@@ -2,7 +2,7 @@
 // File       : MenuZenity.cpp
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : Feb 27, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,17 +11,17 @@
 
 namespace ConsoleArt
 {
-MenuZenity::MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function) : MenuCLI(console), function(function)
+MenuZenity::MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function) : MenuCLI(console),
+	mainMenu(*console, menus.at(Menu::MAIN_MENU), function),
+	editImageOptionsMenu(*console, menus.at(Menu::IMAGE_ACTION_OPTIONS), function)
 {
-	//this->mainMenu = new ConsoleLib::ConsoleMenu(*console, menus.at(Menu::MAIN_MENU), function);
 }
 MenuZenity::~MenuZenity()
 {
-	//delete mainMenu;
 }
 int MenuZenity::mainMenuOptions()
 {
-	return ConsoleLib::ConsoleMenu(*console, menus.at(Menu::MAIN_MENU), function).runMenuLoop();
+	return mainMenu.runMenuLoop();
 }
 int MenuZenity::createZenityMenu(std::vector<std::string>& menu)
 {
@@ -126,7 +126,7 @@ int MenuZenity::printMenu()
 
 int MenuZenity::imageEditOptions()
 {
-	return ConsoleLib::ConsoleMenu(*console, menus.at(Menu::IMAGE_ACTION_OPTIONS), function).runMenuLoop();
+	return editImageOptionsMenu.runMenuLoop();
 }
 
 } /* namespace ConsoleArt */
