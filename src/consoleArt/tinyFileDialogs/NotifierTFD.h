@@ -26,7 +26,7 @@ public:
 	NotifierTFD();
 	~NotifierTFD();
 	virtual void displayImageInfo(const Images::Image &image) override;
-	virtual void messageUser(MessageType messageSeverity, std::string message) override;
+	virtual void messageUser(MessageType messageSeverity, const std::string& message) override;
 };
 
 } /* namespace ConsoleArt */

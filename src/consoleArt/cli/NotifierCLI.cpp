@@ -2,7 +2,7 @@
 // File       : NotifierCLI.cpp
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : Feb 18, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,7 +25,7 @@ void NotifierCLI::setConsole(ConsoleLib::IConsole* console)
 	this->console = console;
 }
 
-void NotifierCLI::messageUser(MessageType messageSeverity, std::string message)
+void NotifierCLI::messageUser(MessageType messageSeverity, const std::string& message)
 {
 	std::lock_guard<std::mutex> lock(mutexPrintMessage);
 	switch(messageSeverity)

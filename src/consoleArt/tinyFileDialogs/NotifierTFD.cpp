@@ -34,7 +34,7 @@ void NotifierTFD::displayImageInfo(const Images::Image& image)
 	tinyfd_messageBox("Image Info", message.str().c_str(), "ok", "info", 1);
 }
 
-void NotifierTFD::messageUser(MessageType messageSeverity, std::string message)
+void NotifierTFD::messageUser(MessageType messageSeverity, const std::string& message)
 {
 	switch(messageSeverity)
 	{

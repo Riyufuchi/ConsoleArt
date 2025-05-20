@@ -21,7 +21,7 @@ class NotifierSDL : public NotifierTFD
 public:
 	NotifierSDL();
 	~NotifierSDL();
-	virtual void displayImageInfo(const Images::Image &image) override;
+	virtual void displayImageInfo(const Images::Image& image) override;
 };
 
 } /* namespace ConsoleArt */

@@ -2,7 +2,7 @@
 // File       : NotifierZenity.cpp
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : Feb 24, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,7 +20,7 @@ NotifierZenity::~NotifierZenity()
 {
 }
 
-void NotifierZenity::showDialog(std::string type, std::string& text, MessageType messageSeverity)
+void NotifierZenity::showDialog(const std::string& type, const std::string& text, MessageType messageSeverity)
 {
 	if (std::system(std::format("zenity {} --text=\"{}\" --width=200 --height=100", type, text).c_str()))
 		NotifierCLI::messageUser(messageSeverity, text);
@@ -38,7 +38,7 @@ void NotifierZenity::displayImageInfo(const Images::Image& image)
 
 }
 
-void NotifierZenity::messageUser(MessageType messageSeverity, std::string message)
+void NotifierZenity::messageUser(MessageType messageSeverity, const std::string& message)
 {
 	switch(messageSeverity)
 	{

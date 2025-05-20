@@ -2,7 +2,7 @@
 // File       : Messenger.h
 // Author     : Riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : Feb 13, 2025
+// Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -34,8 +34,8 @@ public:
 public:
 	AbstractNotifier();
 	virtual ~AbstractNotifier();
-	void messageUser(std::string message);
-	virtual void messageUser(MessageType messageSeverity, std::string message) = 0;
+	void messageUser(const std::string& message);
+	virtual void messageUser(MessageType messageSeverity, const std::string& message) = 0;
 	virtual void displayImageInfo(const Images::Image& image) = 0;
 };
 } /* namespace ConsoleArt */
