@@ -2,7 +2,7 @@
 // File       : AbstractAciiConversionMenu.cpp
 // Author     : riyufuchi
 // Created on : Mar 6, 2025
-// Last edit  : Mar 6, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,7 @@ AbstractAciiConversionState::~AbstractAciiConversionState()
 {
 }
 
-void AbstractAciiConversionState::converImageEvent(ImageUtils::AsciiConverter::CHAR_SETS charSet)
+void AbstractAciiConversionState::convertImageEvent(ImageUtils::AsciiConverter::CHAR_SETS charSet)
 {
 	std::thread([asciiChar = charSet, this](){ controller.convertImage(controller.getSelectedImage(), asciiChar); }).detach();
 }

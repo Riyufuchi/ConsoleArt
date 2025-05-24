@@ -16,6 +16,7 @@
 
 #include "../../abstract/AbstractAciiConversionState.h"
 #include "../../tools/ButtonBuilder.h"
+#include "../../tools/ConfigSDL.hpp"
 
 #include "../../../sdl/assets/StringSDL.h"
 #include "../../../sdl/abstract/StateSDL.h"

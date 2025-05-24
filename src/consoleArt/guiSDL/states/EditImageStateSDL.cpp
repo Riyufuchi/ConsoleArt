@@ -15,8 +15,7 @@ EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& bu
 {
 	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), [&]() { stateManager.switchState(WindowState::ASCII_CONVERTER); }));
 	this->pane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]() { stateManager.switchState(WindowState::SHOW_IMAGE); }));
-	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false),
-			[&]() { std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach(); }));
+	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), [&]() { stateManager.switchState(WindowState::FILTER_IMAGE); }));
 	this->pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_INFO, true), [&]()
 	{
 		if (controller.getSelectedImage())

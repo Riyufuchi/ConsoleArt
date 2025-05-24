@@ -13,16 +13,13 @@ namespace ConsoleArt
 {
 AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractAciiConversionState(controller, stateManager), buttons(buttons)
 {
-	const std::string FONT = "assets/TF2Build.ttf";
 	const int SIZE = 32;
-	const SDL_Color color {255, 105, 180, 255};
-	const SDL_Color colorHover {255, 179, 222, 255};
 	//
 	this->y = 0;
 	for (const auto& textPair : texts)
 	{
-		pane.addComponent(y, new sdl::StringButtonSDL(0, 0, new sdl::StringSDL(textPair.second, FONT, SIZE, color, renderer),
-				colorHover, [&](){ converImageEvent(textPair.first); }));
+		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL(textPair.second, FONT_BASE, SIZE, BASE_TEXT_COLOR, renderer),
+				HOVER_TEXT_COLOR, [&](){ convertImageEvent(textPair.first); }));
 		y++;
 	}
 	onWindowResize();

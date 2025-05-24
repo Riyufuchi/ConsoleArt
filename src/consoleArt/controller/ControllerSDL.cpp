@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : May 05, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -46,6 +46,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 	this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::ASCII_CONVERTER, new AsciiConvertStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::WATERMARK, new WatermarkStateSDL(winInfo, *this, *stateManager, *buttons));
+	this->stateManager->addNewState(WindowState::FILTER_IMAGE, new ImageFilterStateSDL(winInfo, *this, *stateManager));
 }
 
 ControllerSDL::~ControllerSDL()

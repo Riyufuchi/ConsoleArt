@@ -23,7 +23,7 @@
 
 namespace ConsoleArt
 {
-class EditImageStateSDL: public sdl::StateSDL, private AbstractState
+class EditImageStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
 	ButtonBuilder& buttons;
