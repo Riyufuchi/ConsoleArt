@@ -2,7 +2,7 @@
 // File       : AbstractAciiConversionMenu.h
 // Author     : riyufuchi
 // Created on : Mar 6, 2025
-// Last edit  : Mar 6, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,7 +18,7 @@ class AbstractAciiConversionState : public AbstractState
 {
 protected:
 	std::vector<std::pair<ImageUtils::AsciiConverter::CHAR_SETS, std::string>> texts;
-	void converImageEvent(ImageUtils::AsciiConverter::CHAR_SETS charSet);
+	void convertImageEvent(ImageUtils::AsciiConverter::CHAR_SETS charSet);
 public:
 	AbstractAciiConversionState(Controller& controller, StateManager& stateManager);
 	virtual ~AbstractAciiConversionState();

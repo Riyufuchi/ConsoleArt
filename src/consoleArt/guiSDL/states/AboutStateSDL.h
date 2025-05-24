@@ -17,6 +17,7 @@
 #include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"
 #include "../../tools/GeneralTools.hpp"
+#include "../../tools/ConfigSDL.hpp"
 
 #include "../../../sdl/components/LabelSDL.h"
 #include "../../../sdl/panels/ContentPanelSDL.h"
@@ -28,7 +29,6 @@ class AboutStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
 	const int SIZE = 36;
-	const char* FONT = "assets/TF2professor.ttf";
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL pane;

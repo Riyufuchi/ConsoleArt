@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : MAy 24, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,6 +15,7 @@
 
 #include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"
+#include "../../tools/ConfigSDL.hpp"
 
 #include "../../../sdl/abstract/StateSDL.h"
 #include "../../../sdl/panels/ContentPanelSDL.h"

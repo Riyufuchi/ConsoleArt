@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : Mar 3, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -22,16 +22,11 @@ SelectImageStateSDL::~SelectImageStateSDL()
 
 void SelectImageStateSDL::createUI()
 {
-	const std::string FONT = "assets/TF2Build.ttf";
 	const int SIZE = 32;
-	const SDL_Color color {255, 105, 180, 255};
-	const SDL_Color colorHover {255, 179, 222, 255};
-	
 	
 	controller.iterateImagesAsync([&](Images::Image* image) {
 		Images::Image* imgCopy = image;
-		pane.addComponent(y, new sdl::StringButtonSDL(0, 0,
-		new sdl::StringSDL(image->getFilename(), FONT, SIZE, color, renderer), colorHover
+		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL(image->getFilename(), FONT_BASE, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR
 		, [imgCopy, this]()
 		{
 			controller.setSelectedImage(imgCopy);

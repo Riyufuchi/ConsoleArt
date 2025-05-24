@@ -20,7 +20,7 @@ AboutStateSDL::AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, S
 		string = std::string(line.begin(), line.end());
 		if (string.length() > 0)
 		{
-			pane.addComponent(y, new sdl::LabelSDL(string, FONT, SIZE, {255, 105, 180, 255}, renderer));
+			pane.addComponent(y, new sdl::LabelSDL(string, FONT_PROF, SIZE, BASE_TEXT_COLOR, renderer));
 			y++;
 		}
 	}
