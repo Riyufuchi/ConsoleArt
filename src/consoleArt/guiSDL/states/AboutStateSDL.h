@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : Apr 28, 2025
+// Last edit  : May 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -31,7 +31,7 @@ private:
 	const char* FONT = "assets/TF2professor.ttf";
 	int y;
 	ButtonBuilder& buttons;
-	sdl::ContentPanelSDL* pane;
+	sdl::ContentPanelSDL pane;
 public:
 	AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
 	virtual ~AboutStateSDL();

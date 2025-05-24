@@ -2,7 +2,7 @@
 // File       : EditImageState.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Apr 28, 2025
+// Last edit  : May 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -27,7 +27,7 @@ class EditImageStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
 	ButtonBuilder& buttons;
-	sdl::ContentPanelSDL* pane;
+	sdl::ContentPanelSDL pane;
 public:
 	EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager);
 	virtual ~EditImageStateSDL();

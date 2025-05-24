@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : Apr 28, 2025
+// Last edit  : MAy 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -28,7 +28,7 @@ class SelectImageStateSDL: public sdl::StateSDL, private AbstractState
 private:
 	int y;
 	ButtonBuilder& buttons;
-	sdl::ContentPanelSDL* pane;
+	sdl::ContentPanelSDL pane;
 	std::vector<std::unique_ptr<sdl::StringSDL>> imageNames;
 public:
 	SelectImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);

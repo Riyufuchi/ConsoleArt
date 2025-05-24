@@ -2,7 +2,7 @@
 // File       : MainStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Apr 28, 2025
+// Last edit  : May 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -30,7 +30,7 @@ class MainStateSDL : public sdl::StateSDL, private AbstractState
 private:
 	ButtonBuilder& buttons;
 	sdl::LabelSDL* selectedImageString;
-	sdl::ContentPanelSDL* pane;
+	sdl::ContentPanelSDL pane;
 	std::atomic<bool> textUpdated;
 	void addImageButtonEvent();
 	bool updateString(sdl::LabelSDL* stringSDL);
