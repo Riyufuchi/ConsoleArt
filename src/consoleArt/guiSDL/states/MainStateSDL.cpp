@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : May 24, 2025
+// Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -31,7 +31,7 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	{
 		controller.getSelectedImage() ?
 		stateManager.switchState(WindowState::EDIT_IMAGE) :
-		std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!"); }).detach();
+		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
 	}));
 	// 2
 	pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]() { std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach(); }));
