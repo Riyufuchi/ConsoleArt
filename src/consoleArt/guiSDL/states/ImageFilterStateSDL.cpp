@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.cpp
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : May 25, 2025
+// Last edit  : May 26, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,34 +14,57 @@ namespace ConsoleArt
 
 ImageFilterStateSDL::ImageFilterStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager)
 {
-	pane.addComponent(0, new sdl::StringButtonSDL(new sdl::StringSDL("Matrix", FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { applyFilterEvent(Filter::MATRIX); }));
-	pane.addComponent(1, new sdl::StringButtonSDL(new sdl::StringSDL("Back", FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
+	int y = 0;
+	for (const std::string& text : FILTER_TEXTS)
+	{
+		pane.addComponent(y, new sdl::StringButtonSDL(
+				new sdl::StringSDL(text, FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { applyFilterEvent(text); }));
+		y++;
+	}
+	pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL("Back", FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
 	onWindowResize();
 }
 
-bool ImageFilterStateSDL::applyFilter(Filter filter)
+bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 {
 	if (controller.getSelectedImage() == nullptr)
-		return false;
-
-	switch (filter)
 	{
-		case MATRIX: return ImageUtils::Filter::matrixFilter(*controller.getSelectedImage());
-		default: return false;
+		controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Error: No image selected!");
+		return false;
+	}
+
+	int y = 0;
+
+	for (const std::string& text : FILTER_TEXTS)
+	{
+		if (text == filter)
+			break;
+		y++;
+	}
+
+	switch (y)
+	{
+		case 0: return ImageUtils::Filter::matrixFilter(*controller.getSelectedImage());
+		case 1: return ImageUtils::Filter::purplefier(*controller.getSelectedImage());
+		case 2: return ImageUtils::Filter::purplefierSoft(*controller.getSelectedImage());
+		case 3: return ImageUtils::Filter::purplefierShading(*controller.getSelectedImage());
+		case 4: return ImageUtils::Filter::purplefierShadingSoft(*controller.getSelectedImage());
+		default:
+			controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Error: Invalid filter selection!");
+		return false;
 	}
 }
 
-void ImageFilterStateSDL::applyFilterEvent(Filter filter)
+void ImageFilterStateSDL::applyFilterEvent(std::string filter)
 {
-	std::thread([&]()
+	controller.getMessenger().messageUser(AbstractNotifier::MessageType::INFO, "Applying filter in the background."); // This is non-blocking dialog
+	std::thread([this, filter]()
 	{
-		controller.getMessenger().messageUser(AbstractNotifier::MessageType::INFO,"Applying filter in the background.");
 		if (applyFilter(filter))
-		{
-			controller.getMessenger().messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK,"Filter successfully applied.");
-		}
-	}
-	).detach();
+			controller.getMessenger().messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filter successfully applied.");
+		else
+			controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Filter application failed during saving the image.");
+	}).detach();
 }
 
 void ImageFilterStateSDL::onReturn()

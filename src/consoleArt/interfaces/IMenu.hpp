@@ -15,19 +15,19 @@
 
 namespace ConsoleArt
 {
+enum Menu
+{
+	MAIN_MENU,
+	CHAR_SET_SELECTION,
+	PRINT_OPTIONS,
+	IMAGE_ACTION_OPTIONS,
+	FILTERS,
+	AFTER_PRINT_OPTIONS,
+	MENU_COUNT
+};
 class IMenu
 {
 public:
-	enum Menu
-	{
-		MAIN_MENU,
-		CHAR_SET_SELECTION,
-		PRINT_OPTIONS,
-		IMAGE_ACTION_OPTIONS,
-		FILTERS,
-		AFTER_PRINT_OPTIONS,
-		MENU_COUNT
-	};
 	virtual ~IMenu() = default;
 	virtual int charSetMenu() = 0;
 	virtual int printMenu() = 0;

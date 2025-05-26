@@ -25,10 +25,10 @@ ImagePCX::ImagePCX(std::string filename) : Image(filename)
 }
 ImagePCX::~ImagePCX()
 {
-	if(paletteVGA != NULL)
+	if (paletteVGA != nullptr)
 	{
 		delete[] paletteVGA;
-		paletteVGA = NULL;
+		paletteVGA = nullptr;
 	}
 }
 void ImagePCX::loadImage()
@@ -65,7 +65,7 @@ void ImagePCX::loadImage()
 				success = false;
 			}
 			decodeRLE(inf, pixelData);
-			break;
+		break;
 		default: this->technical.technicalMessage = "Unexpected number of color planes"; return;
 	}
 	if (success)

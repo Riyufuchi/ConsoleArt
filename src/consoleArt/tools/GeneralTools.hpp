@@ -20,7 +20,7 @@
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 #define _APP_NAME "ConsoleArt"
-#define _APP_VERSION "3.0 - beta 8"
+#define _APP_VERSION "3.0 - beta 9"
 
 #ifdef DEBUG
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION " (debug)"
@@ -30,6 +30,7 @@
 
 namespace ConsoleArt
 {
+inline const std::vector<std::string> FILTER_TEXTS = { "Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft" };
 class GeneralTools
 {
 public:
