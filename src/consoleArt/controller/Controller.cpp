@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : May 16, 2025
+// Last Edit   : May 26, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -22,6 +22,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".png"] = Images::ImageType::PNG;
 	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
 	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
+	supportedImageFormats[".JPEG"] = Images::ImageType::JPG;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{

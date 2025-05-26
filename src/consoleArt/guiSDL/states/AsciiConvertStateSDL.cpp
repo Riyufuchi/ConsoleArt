@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : May 24, 2025
+// Created on : Mar 03, 2025
+// Last edit  : May 26, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -22,6 +22,8 @@ AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller&
 				HOVER_TEXT_COLOR, [&](){ convertImageEvent(textPair.first); }));
 		y++;
 	}
+	pane.addComponent(y, new sdl::StringButtonSDL(
+		new sdl::StringSDL("Back", FONT_BASE, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&](){ stateManager.switchState(WindowState::EDIT_IMAGE); }));
 	onWindowResize();
 }
 

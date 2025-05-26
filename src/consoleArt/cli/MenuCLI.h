@@ -22,7 +22,6 @@ namespace ConsoleArt
 {
 class MenuCLI : public IMenu
 {
-public:
 private:
 	int choice {0};
 protected:
