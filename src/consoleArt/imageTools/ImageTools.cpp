@@ -2,7 +2,7 @@
 // File       : ImageTools.cpp
 // Author     : riyufuchi
 // Created on : Dec 1, 2023
-// Last edit  : Feb 18, 2025
+// Last edit  : May 31, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -131,7 +131,7 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 	int targetWidth, targetHeight;
 
 	// Scale based on the width or height, whichever is larger
-	if (canvasInfo.width > canvasInfo.height)
+	if (canvasInfo.width >= canvasInfo.height)
 	{
 		targetWidth = static_cast<int>(canvasInfo.width * SCALE_FACTOR);
 		targetHeight = static_cast<int>(signatureInfo.height * (targetWidth / static_cast<double>(signatureInfo.width)));
