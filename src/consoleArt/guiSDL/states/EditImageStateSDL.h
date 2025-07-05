@@ -2,7 +2,7 @@
 // File       : EditImageState.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : May 24, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,10 +16,10 @@
 #include "../../tools/ButtonBuilder.h"
 #include "../../imageTools/Filter.h"
 
-#include "../../../sdl/abstract/StateSDL.h"
-#include "../../../sdl/assets/StringSDL.h"
-#include "../../../sdl/panels/ContentPanelSDL.h"
-#include "../../../sdl/components/ImageButtonSDL.h"
+#include "StateSDL.h"
+#include "StringSDL.h"
+#include "ContentPanelSDL.h"
+#include "ImageButtonSDL.h"
 
 namespace ConsoleArt
 {

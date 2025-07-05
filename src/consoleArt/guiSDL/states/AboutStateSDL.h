@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 3, 2025
-// Last edit  : May 24, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,9 +19,9 @@
 #include "../../tools/GeneralTools.hpp"
 #include "../../tools/ConfigSDL.hpp"
 
-#include "../../../sdl/components/LabelSDL.h"
-#include "../../../sdl/panels/ContentPanelSDL.h"
-#include "../../../sdl/assets/StringSDL.h"
+#include "LabelSDL.h"
+#include "ContentPanelSDL.h"
+#include "StringSDL.h"
 
 namespace ConsoleArt
 {

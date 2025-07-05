@@ -21,6 +21,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 | [stb](https://github.com/nothings/stb) | Working with complex picture formats | 🟢 |
 | [SDL2](https://www.libsdl.org/) | GUI | 🔴 |
 | [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Crossplatform dialogs | 🟢 |
+| [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL gui components | 🟠 |
 
 ## Testing
 
