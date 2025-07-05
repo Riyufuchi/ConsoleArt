@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 8, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "../../sdl/assets/SpriteSheetSDL.h"
+#include "SpriteSheetSDL.h"
 
 namespace ConsoleArt
 {

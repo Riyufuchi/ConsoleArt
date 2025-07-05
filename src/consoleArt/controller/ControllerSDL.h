@@ -2,7 +2,7 @@
 // File       : ControllerSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Apr 28, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,9 +18,9 @@
 #include "Controller.h"
 #include "../guiSDL/NotifierSDL.h"
 #include "../guiSDL/AsciiPrinterSDL.h"
-#include "../../sdl/assets/SpriteSheetSDL.h"
-#include "../../sdl/assets/StringSDL.h"
-#include "../../sdl/abstract/StateSDL.h"
+#include "SpriteSheetSDL.h"
+#include "StringSDL.h"
+#include "StateSDL.h"
 #include "../guiSDL/StateManager.h"
 #include "../guiSDL/WindowStates.hpp"
 

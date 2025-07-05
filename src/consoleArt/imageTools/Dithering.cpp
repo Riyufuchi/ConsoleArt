@@ -2,7 +2,7 @@
 // File       : Dithering.cpp
 // Author     : riyufuchi
 // Created on : Mar 18, 2025
-// Last edit  : Mar 18, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -93,7 +93,7 @@ void Dithering::ditherImage(std::string imagepath)
 			            int errorB = (b - newColor.blue) / 2;
 
 			// Spread error to neighboring pixels
-			auto spreadError = [&](int dx, int dy, float factor)
+			/*auto spreadError = [&](int dx, int dy, float factor)
 			{
 				int nx = x + dx, ny = y + dy;
 				if (nx >= 0 && nx < width && ny >= 0 && ny < height)
@@ -103,7 +103,7 @@ void Dithering::ditherImage(std::string imagepath)
 					img[neighborIndex + 1] = std::clamp((int)(img[neighborIndex + 1] + errorG * factor), 0, 255);
 					img[neighborIndex + 2] = std::clamp((int)(img[neighborIndex + 2] + errorB * factor), 0, 255);
 				}
-			};
+			};*/
 
 			/*spreadError(1, 0, 7.0 / 16.0);
 			spreadError(-1, 1, 3.0 / 16.0);

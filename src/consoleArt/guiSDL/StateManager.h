@@ -2,7 +2,7 @@
 // File       : StateManager.h
 // Author     : riyufuchi
 // Created on : Mar 2, 2025
-// Last edit  : May 25, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <unordered_map>
 
-#include "../../sdl/abstract/StateSDL.h"
+#include "StateSDL.h"
 
 namespace ConsoleArt
 {

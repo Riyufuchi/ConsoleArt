@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : May 16, 2025
+// Last Edit   : Jul 05, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -22,7 +22,6 @@
 #include "DefaultConsole.h"
 #include "ArgumentParser.h"
 #include "other/ScheduleTracker.h"
-#include "sdl/assets/FontManagerSDL.h"
 #ifdef _WIN32
 	#include "WindowsConsole.h"
 #endif // _WIN32

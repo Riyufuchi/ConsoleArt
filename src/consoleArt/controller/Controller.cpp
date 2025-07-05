@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : May 26, 2025
+// Last Edit   : Jul 05, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -51,7 +51,6 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	{
 		if (vector.size() == 0)
 			return;
-		loadAllImagesAsync();
 		Images::Image* baseLayer = nullptr;
 		for (const std::string& baseImage : vector)
 		{

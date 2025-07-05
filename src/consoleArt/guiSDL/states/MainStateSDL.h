@@ -2,7 +2,7 @@
 // File       : MainStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : May 24, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,11 +14,11 @@
 #include <thread>
 #include <string>
 
-#include "../../../sdl/abstract/StateSDL.h"
-#include "../../../sdl/assets/SpriteSheetSDL.h"
-#include "../../../sdl/panels/ContentPanelSDL.h"
-#include "../../../sdl/components/ImageButtonSDL.h"
-#include "../../../sdl/components/LabelSDL.h"
+#include "StateSDL.h"
+#include "SpriteSheetSDL.h"
+#include "ContentPanelSDL.h"
+#include "ImageButtonSDL.h"
+#include "LabelSDL.h"
 
 #include "../../abstract/AbstractState.h"
 #include "../../tools/ButtonBuilder.h"

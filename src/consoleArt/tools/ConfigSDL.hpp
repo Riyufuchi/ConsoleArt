@@ -2,7 +2,7 @@
 // File       : ConfigSDL.hpp
 // Author     : riyufuchi
 // Created on : May 25, 2025
-// Last edit  : May 25, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <string>
 
-#include "../../sdl/assets/StringSDL.h"
+#include "StringSDL.h"
 
 namespace ConsoleArt
 {

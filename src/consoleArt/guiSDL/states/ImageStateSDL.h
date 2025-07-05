@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 3, 2025
+// Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,7 +16,7 @@
 #include "../../abstract/AbstractState.h"
 
 #include "../../../images/Image.h"
-#include "../../../sdl/abstract/StateSDL.h"
+#include "StateSDL.h"
 #include "../../imageTools/ImageTools.h"
 
 namespace ConsoleArt
