@@ -2,7 +2,7 @@
 // File       : Dithering.cpp
 // Author     : riyufuchi
 // Created on : Mar 18, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Sep 22, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -43,7 +43,7 @@ Images::PixelRGB Dithering::findClosestColor(uint8_t r, uint8_t g, uint8_t b)
 	int bestDist = std::numeric_limits<int>::max();
 	int dr, dg, db, dist;
 
-	for (const auto& color : minecraftPalette)
+	for (const Images::PixelRGB& color : minecraftPalette)
 	{
 		dr = r - color.red;
 		dg = g - color.green;
@@ -87,10 +87,10 @@ void Dithering::ditherImage(std::string imagepath)
 			ditheredImg[index + 1] = newColor.green;
 			ditheredImg[index + 2] = newColor.blue;
 
-			 // Error correction, but **less aggressive**
-			            int errorR = (r - newColor.red) / 2;  // Reduce error spread
-			            int errorG = (g - newColor.green) / 2;
-			            int errorB = (b - newColor.blue) / 2;
+			// Error correction, but **less aggressive**
+			//int errorR = (r - newColor.red) / 2;  // Reduce error spread
+			//int errorG = (g - newColor.green) / 2;
+			//int errorB = (b - newColor.blue) / 2;
 
 			// Spread error to neighboring pixels
 			/*auto spreadError = [&](int dx, int dy, float factor)

@@ -22,7 +22,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
 	setAppIcon("assets/icon.png");
-	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED); // SDL_RENDERER_ACCELERATED);
+	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer)
 	{
 		isRunnable = false;
@@ -73,14 +73,14 @@ void ControllerSDL::run()
 		std::cout << "Driver " << i << ": " << info.name << std::endl;
 	}
 
-	const int targetFPS = 360;
-	const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
-	unsigned int frameStart = 0;
-	unsigned int frameTime = 0;
+	//const int targetFPS = 360;
+	//const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
+	//unsigned int frameStart = 0;
+	//unsigned int frameTime = 0;
 
 	while (winInfo.keepRunning)
 	{
-		frameStart = SDL_GetTicks();
+		//frameStart = SDL_GetTicks();
 		// Handle events
 		SDL_GetMouseState(&winInfo.mouseX, &winInfo.mouseY);
 		while (SDL_PollEvent(&event))
@@ -105,12 +105,12 @@ void ControllerSDL::run()
 		currentState->render(); // Render content
 		SDL_RenderPresent(renderer); // Present content
 		// Frame rate control
-		frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
+		/*frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
 		if (frameTime < frameDelay)
 		{
 			SDL_Delay(frameDelay - frameTime); // Delay only if needed
 		}
-		/*else
+		else
 		{
 			SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
 		}*/
