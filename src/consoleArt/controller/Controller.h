@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : May 15, 2025
+// Last Edit   : Nov 07, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <functional>
 #include <thread>
+#include <memory>
 
 // ConsoleLib
 #include "ArgumentParser.h"

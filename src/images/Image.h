@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : May 13, 2025
+// Last edit  : Nov 06, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -38,7 +38,7 @@ struct ImageInfo
 };
 struct TechnicalInfo
 {
-	std::string technicalMessage { "Pending..." };
+	std::string technicalMessage { "Pending/unknown" };
 	bool inverted { false };
 	int channels { 3 };
 	PixelByteOrder pixelByteOrder { PixelByteOrder::RGBA };
