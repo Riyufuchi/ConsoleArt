@@ -2,7 +2,7 @@
 // File       : Formats.hpp
 // Author     : riyufuchi
 // Created on : Feb 27, 2025
-// Last edit  : Feb 27, 2025
+// Last edit  : Nov 06, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,6 +16,7 @@
 #include "ImagePPM.h"
 #include "ImagePNG.h"
 #include "ImageJPG.h"
+#include "ImageGIF.h"
 
 namespace Images
 {
@@ -25,7 +26,8 @@ enum ImageType
 	PCX,
 	PPM,
 	PNG,
-	JPG
+	JPG,
+	GIF
 };
 }
 #endif /* IMAGES_FORMATS_HPP_ */

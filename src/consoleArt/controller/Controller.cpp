@@ -7,7 +7,6 @@
 //============================================================================
 
 #include "Controller.h"
-#include <memory>
 
 namespace ConsoleArt
 {
@@ -23,6 +22,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
 	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	supportedImageFormats[".JPEG"] = Images::ImageType::JPG;
+	supportedImageFormats[".gif"] = Images::ImageType::GIF;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{
@@ -203,6 +203,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 			case Images::PPM: return new Images::ImagePPM(path);
 			case Images::PNG: return new Images::ImagePNG(path);
 			case Images::JPG: return new Images::ImageJPG(path);
+			case Images::GIF: return new Images::ImageGIF(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
