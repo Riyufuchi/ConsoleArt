@@ -2,7 +2,7 @@
 // Name        : MenuCLI
 // Author      : Riyufuchi
 // Created on  : Dec 28,2023
-// Last Edit   : Mar 18, 2025
+// Last Edit   : Nov 07, 2025
 //============================================================================
 #include "MenuCLI.h"
 
@@ -14,7 +14,7 @@ MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
 	menus[Menu::CHAR_SET_SELECTION] = { "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
 			"BASIC_INVERTED", "PRECISE_INVERTED", "SHADES", "SHADES_INVERTED", "Exit" };
 	menus[Menu::PRINT_OPTIONS] = { "Classic", "Classic colored", "Pixel colored", "To text file", "Exit"};
-	menus[Menu::AFTER_PRINT_OPTIONS] = { "Reconvert", "Back to main menu"};
+	menus[Menu::AFTER_PRINT_OPTIONS] = { "Reconvert", "Reprint", "Back to main menu"};
 	menus[Menu::IMAGE_ACTION_OPTIONS] = {"Convert to ASCII", "Add signature", "Apply filter"};
 	menus[Menu::FILTERS] = {"Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft"};
 }
