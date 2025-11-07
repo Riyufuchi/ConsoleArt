@@ -31,7 +31,8 @@ std::ostream& operator<<(std::ostream& os, const Image& img)
 			<< "Inverted: " << (img.technical.inverted ? "Yes" : "No") << "\n"
 			<< "Planar: " << (img.image.planar ? "Yes" : "No") << "\n"
 			<< "Animated: " << (img.image.animated ? "Yes" : "No") << "\n"
-			<< "Multi-page: " << (img.image.multipage ? "Yes" : "No") << "\n";
+			<< "Multi-page: " << (img.image.multipage ? "Yes" : "No") << "\n"
+			<< "HDR: " << (img.image.hdr ? "Yes" : "No") << "\n";
 }
 void Image::rename(std::string imageName)
 {
