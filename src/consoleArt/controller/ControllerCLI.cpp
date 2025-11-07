@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : May 16, 2025
+// Last Edit   : Nov 07, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -262,18 +262,21 @@ void ControllerCLI::convertImageToAsciiEvent()
 	int option = 0;
 	bool again = true;
 	do {
-		option = menuInterface->charSetMenu();
-		if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
-			return;
-		ac.setCharSet(option);
-		messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(selectedImage->getFilename()));
-		if (!ac.convertToASCII())
+		if (option != -1)
 		{
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
-			return;
+			option = menuInterface->charSetMenu();
+			if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+				return;
+			ac.setCharSet(option);
+			messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(selectedImage->getFilename()));
+			if (!ac.convertToASCII())
+			{
+				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+				return;
+			}
+			messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
+			abstractAsciiPrinter->setTarget(&ac);
 		}
-		messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");
-		abstractAsciiPrinter->setTarget(&ac);
 		switch(menuInterface->printMenu())
 		{
 			case 0: abstractAsciiPrinter->printClassic(); break;
@@ -284,8 +287,9 @@ void ControllerCLI::convertImageToAsciiEvent()
 		}
 		switch(menuInterface->afterPrintOptions())
 		{
-			case 0: break;
-			case 1: again = false; break;
+			case 0: option = 0; break; // Again whole loop
+			case 1: option = -1; break; // Just reprint option
+			case 2: again = false; break;
 		}
 	} while (again);
 }
