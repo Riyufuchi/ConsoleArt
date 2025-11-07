@@ -2,7 +2,7 @@
 // File       : NotifierCLI.cpp
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : May 16, 2025
+// Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -48,12 +48,7 @@ void NotifierCLI::displayImageInfo(const Images::Image& image)
 	if (!image)
 		return;
 	console->enableCustomFG();
-	const Images::ImageInfo& info = image.getImageInfo();
-	std::cout << "Name: " << info.name << "\n";
-	std::cout << "Width: " << info.width << " px\n";
-	std::cout << "Height: " << info.height << " px\n";
-	std::cout << "Type: " << info.bits << " bit\n";
-	std::cout << "Inverted: " << (image.isInverted() ? "Yes" : "No") << "\n";
+	std::cout << image << "\n";
 	console->disableCustomFG();
 }
 

@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : May 13, 2025
+// Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -21,6 +21,17 @@ Image::Image(std::string filepath) : filepath(filepath)
 }
 Image::~Image()
 {
+}
+std::ostream& operator<<(std::ostream& os, const Image& img)
+{
+	return os << "Image Name: " << img.image.name << "\n"
+			<< "Width: " << img.image.width << " px\n"
+			<< "Height: " << img.image.height << " px\n"
+			<< "Bits: " << img.image.bits << "\n"
+			<< "Inverted: " << (img.technical.inverted ? "Yes" : "No") << "\n"
+			<< "Planar: " << (img.image.planar ? "Yes" : "No") << "\n"
+			<< "Animated: " << (img.image.animated ? "Yes" : "No") << "\n"
+			<< "Multi-page: " << (img.image.multipage ? "Yes" : "No") << "\n";
 }
 void Image::rename(std::string imageName)
 {
