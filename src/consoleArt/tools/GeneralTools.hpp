@@ -20,7 +20,7 @@
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 #define _APP_NAME "ConsoleArt"
-#define _APP_VERSION "3.1 - beta 1"
+#define _APP_VERSION "3.1 - beta 3"
 
 #ifdef DEBUG
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION " (debug)"
@@ -90,11 +90,13 @@ public:
 		aboutStringStream << "Supported image formats\n";
 		std::string args[] = {
 					"Format| Bits; Notes",
-					"PCX| 24, 32; VGA palette",
+					"PCX| 24, 32; VGA palate",
 					"BMP| 24, 32; Bottom left corner start oriented, Uncompressed BGRA",
 					"PPM| 24;",
 					"PNG| 24, 32;",
-					"JPG| 24, 32;"
+					"JPG| 24, 32;",
+					"GIF| 24; first frame only",
+					"HDR| 24, 32; basic implementation"
 				};
 		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
 		aboutStringStream << usedLibraries();

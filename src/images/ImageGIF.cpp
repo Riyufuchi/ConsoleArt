@@ -69,6 +69,11 @@ void ImageGIF::loadImage()
 	technical.fileState = FileState::OK;
 	technical.pixelByteOrder = PixelByteOrder::RGBA;
 	technical.technicalMessage = "GIF loaded successfully";
+	if (frameCount > 1)
+	{
+		image.animated = true;
+		image.multipage = true;
+	}
 
 	// Keep first frame as default pixelData
 	pixelData = frames[0];

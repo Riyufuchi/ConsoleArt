@@ -1,39 +1,31 @@
 //==============================================================================
-// File       : ImageGIF.h
+// File       : ImageHDR.h
 // Author     : riyufuchi
-// Created on : Nov 6, 2025
+// Created on : Nov 7, 2025
 // Last edit  : Nov 7, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMAGEGIF_H_
-#define IMAGES_IMAGEGIF_H_
+#ifndef IMAGES_IMAGEHDR_H_
+#define IMAGES_IMAGEHDR_H_
 
 #include "Image.h"
 
 namespace Images
 {
 
-class ImageGIF: public Image
+class ImageHDR: public Image
 {
-private:
-	std::vector<std::vector<uint8_t>> frames;
-	std::vector<int> delays;
 public:
-	ImageGIF(const std::string& filepath);
-	virtual ~ImageGIF();
+	ImageHDR(std::string filename);
+	virtual ~ImageHDR();
 	virtual Images::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
 	virtual bool saveImage() const override;
 	virtual void loadImage() override;
-	//TODO: void selectFrame(int index);
-	//TODO: std::vector<uint8_t> getFrame(int index) const;
-	//TODO: bool spitIntoPNGs() const;
-	//TODO: bool addFrame(const Image& frame, int index = 0);
-	//TODO: bool removeFrame(int index);
 };
 
-} /* namespace */
+} /* namespace Images */
 
-#endif /* IMAGES_IMAGEGIF_H_ */
+#endif /* IMAGES_IMAGEHDR_H_ */

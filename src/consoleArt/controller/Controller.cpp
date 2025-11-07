@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Jul 05, 2025
+// Last Edit   : Nov 07, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -23,6 +23,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
 	supportedImageFormats[".JPEG"] = Images::ImageType::JPG;
 	supportedImageFormats[".gif"] = Images::ImageType::GIF;
+	supportedImageFormats[".hdr"] = Images::ImageType::HDR;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{
@@ -204,6 +205,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 			case Images::PNG: return new Images::ImagePNG(path);
 			case Images::JPG: return new Images::ImageJPG(path);
 			case Images::GIF: return new Images::ImageGIF(path);
+			case Images::HDR: return new Images::ImageHDR(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
