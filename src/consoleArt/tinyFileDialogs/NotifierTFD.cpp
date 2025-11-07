@@ -2,7 +2,7 @@
 // File       : NotifierSDL.cpp
 // Author     : riyufuchi
 // Created on : May 16, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,14 +23,8 @@ NotifierTFD::~NotifierTFD()
 
 void NotifierTFD::displayImageInfo(const Images::Image& image)
 {
-	const Images::ImageInfo &info = image.getImageInfo();
 	std::ostringstream message;
-	message << "Image Name: " << info.name << "\n"
-			<< "Width: " << info.width << " px\n"
-			<< "Height: " << info.height << " px\n"
-			<< "Bits: " << info.bits << "\n"
-			<< "Inverted: " << (image.isInverted() ? "Yes" : "No") << "\n"
-			<< "Planar: " << ConsoleLib::DataUtils::boolToString(info.planar);
+	message << image;
 	tinyfd_messageBox("Image Info", message.str().c_str(), "ok", "info", 1);
 }
 

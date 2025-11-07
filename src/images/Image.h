@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 06, 2025
+// Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -35,6 +35,8 @@ struct ImageInfo
 	uint16_t file_type {0};
 	bool planar {false};
 	bool palette {false};
+	bool animated {false};
+	bool multipage {false};
 };
 struct TechnicalInfo
 {
@@ -70,6 +72,8 @@ public:
 	{
 		return image.name;
 	}
+
+	friend std::ostream& operator<<(std::ostream& os, const Image& img);
 
 	bool operator > (const Image& other) const
 	{
