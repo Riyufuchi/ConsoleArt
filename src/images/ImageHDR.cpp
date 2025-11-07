@@ -14,13 +14,67 @@
 namespace Images
 {
 
-ImageHDR::ImageHDR(std::string filename) : Image(filename)
+ImageHDR::ImageHDR(std::string filename, bool convert) : Image(filename)
 {
 	loadImage();
+	if (convert && isLoaded())
+		convertTo8bit();
 }
 
 ImageHDR::~ImageHDR()
 {
+}
+
+PixelHDR ImageHDR::getPixelHDR(int x, int y) const
+{
+	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
+		return {};
+
+	x = (y * image.width + x) * technical.channels;
+
+	return {
+		pixelDataHDR[x],
+		pixelDataHDR[x + 1],
+		(technical.channels > 2) ? pixelDataHDR[x + 2] : 0.0f,
+		(technical.channels > 3) ? pixelDataHDR[x + 3] : 1.0f
+	};
+}
+
+void ImageHDR::setPixelHDR(int x, int y, PixelHDR newPixel)
+{
+	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
+		return;
+
+	x = (y * image.width + x) * technical.channels;
+
+	pixelDataHDR[x] = newPixel.red;
+	pixelDataHDR[x + 1] = newPixel.green;
+	if (technical.channels > 2)
+		pixelDataHDR[x + 2] = newPixel.blue;
+	if (technical.channels > 3)
+		pixelDataHDR[x + 3] = newPixel.alpha;
+}
+
+void ImageHDR::convertTo8bit()
+{
+	if (pixelDataHDR.empty())
+		return;
+	pixelData.reserve(pixelDataHDR.size());
+	constexpr float gamma = 1.0f / 2.0f; // sRGB gamma correction
+	for (float v : pixelDataHDR)
+	{
+		v = std::clamp(v, 0.0f, 1.0f);
+		pixelData.push_back(std::pow(v, gamma) * 255.0f);
+	}
+}
+
+void ImageHDR::convertFrom8bit()
+{
+	if (pixelData.empty())
+		return;
+	pixelDataHDR.reserve(pixelData.size());
+	for (uint8_t v : pixelData)
+		pixelDataHDR.push_back(v / 255.0f);
 }
 
 Images::Pixel ImageHDR::getPixel(int x, int y) const
@@ -28,13 +82,13 @@ Images::Pixel ImageHDR::getPixel(int x, int y) const
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return {};
 
-	const int idx = (y * image.width + x) * technical.channels;
+	x = (y * image.width + x) * technical.channels;
 
 	Pixel p;
-	p.red = pixelData[idx];
-	p.green = pixelData[idx + 1];
-	p.blue = (technical.channels > 2) ? pixelData[idx + 2] : 0;
-	p.alpha = (technical.channels > 3) ? pixelData[idx + 3] : 255;
+	p.red = pixelData[x];
+	p.green = pixelData[x + 1];
+	p.blue = (technical.channels > 2) ? pixelData[x + 2] : 0;
+	p.alpha = (technical.channels > 3) ? pixelData[x + 3] : 255;
 	return p;
 }
 
@@ -43,43 +97,37 @@ void ImageHDR::setPixel(int x, int y, Images::Pixel newPixel)
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return;
 
-	const int idx = (y * image.width + x) * technical.channels;
+	x = (y * image.width + x) * technical.channels;
 
-	pixelData[idx] = newPixel.red;
-	pixelData[idx + 1] = newPixel.green;
+	pixelData[x] = newPixel.red;
+	pixelData[x + 1] = newPixel.green;
 	if (technical.channels > 2)
-		pixelData[idx + 2] = newPixel.blue;
+		pixelData[x + 2] = newPixel.blue;
 	if (technical.channels > 3)
-		pixelData[idx + 3] = newPixel.alpha;
+		pixelData[x + 3] = newPixel.alpha;
 }
 
 bool ImageHDR::saveImage() const
 {
-	std::vector<float> hdr;
-	hdr.reserve(image.width * image.height * technical.channels);
-
-	for (uint8_t v : pixelData)
-		hdr.push_back(v / 255.0f);
-
-	return stbi_write_hdr(filepath.c_str(), image.width, image.height, technical.channels, hdr.data()) != 0;
+	if (pixelDataHDR.empty())
+		return false;
+	return stbi_write_hdr(filepath.c_str(), image.width, image.height, technical.channels, pixelDataHDR.data()) != 0;
 }
 
-/*
- * This implementation do not support HDR fully, but it will do for now
- **/
 void ImageHDR::loadImage()
 {
-	unsigned char* imageData = stbi_load(filepath.c_str(), &image.width, &image.height, &technical.channels, 0);
-	if (!imageData)
+	float* imageDataHDR = stbi_loadf(filepath.c_str(), &image.width, &image.height, &technical.channels, 0);
+	if (!imageDataHDR)
 	{
 		technical.technicalMessage = "Image loading failed.";
 	}
 	else
 	{
 		image.bits = technical.channels * 8;
-		pixelData.resize(image.width * image.height * technical.channels); // Resize the class vector to hold image data
-		std::memcpy(pixelData.data(), imageData, pixelData.size()); // Copy the raw bytes
-		stbi_image_free(imageData); // Always free the original STB data
+		image.hdr = true;
+		pixelDataHDR.resize(image.width * image.height * technical.channels); // Resize the class vector to hold image data
+		std::memcpy(pixelDataHDR.data(), imageDataHDR, pixelDataHDR.size() * sizeof(float)); // Copy the raw bytes
+		stbi_image_free(imageDataHDR); // Always free the original STB data
 		technical.fileState = OK;
 	}
 }

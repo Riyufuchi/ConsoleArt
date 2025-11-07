@@ -16,6 +16,8 @@
 #include <vector>
 #include <cstring>
 #include <memory>
+#include <algorithm>
+#include <cmath>
 
 #include "Pixels.hpp"
 
@@ -37,6 +39,7 @@ struct ImageInfo
 	bool palette {false};
 	bool animated {false};
 	bool multipage {false};
+	bool hdr {false};
 };
 struct TechnicalInfo
 {
