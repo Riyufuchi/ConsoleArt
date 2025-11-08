@@ -24,6 +24,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".JPEG"] = Images::ImageType::JPG;
 	supportedImageFormats[".gif"] = Images::ImageType::GIF;
 	supportedImageFormats[".hdr"] = Images::ImageType::HDR;
+	supportedImageFormats[".tga"] = Images::ImageType::TGA;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{
@@ -206,6 +207,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 			case Images::JPG: return new Images::ImageJPG(path);
 			case Images::GIF: return new Images::ImageGIF(path);
 			case Images::HDR: return new Images::ImageHDR(path);
+			case Images::TGA: return new Images::ImageTGA(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");

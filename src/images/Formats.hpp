@@ -18,6 +18,7 @@
 #include "ImageJPG.h"
 #include "ImageGIF.h"
 #include "ImageHDR.h"
+#include "ImageTGA.h"
 
 namespace Images
 {
@@ -29,7 +30,8 @@ enum ImageType
 	PNG,
 	JPG,
 	GIF,
-	HDR
+	HDR,
+	TGA
 };
 }
 #endif /* IMAGES_FORMATS_HPP_ */
