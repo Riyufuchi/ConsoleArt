@@ -2,14 +2,14 @@
 // File       : Distribution.cpp
 // Author     : riyufuchi
 // Created on : Nov 1, 2024
-// Last edit  : Nov 1, 2024
+// Last edit  : Nov 08, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "Distribution.h"
 
-namespace Other
+namespace Math
 {
 Disribution::Disribution() : resultHolder(0)
 {}

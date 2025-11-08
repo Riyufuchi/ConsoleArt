@@ -2,7 +2,7 @@
 // File       : PoissonsDistribution.h
 // Author     : riyufuchi
 // Created on : Nov 1, 2024
-// Last edit  : Nov 03, 2024
+// Last edit  : Nov 08, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include "Distribution.h"
 
-namespace Other
+namespace Math
 {
 class PoissonsDistribution: public Disribution
 {
@@ -21,9 +21,9 @@ private:
 public:
 	PoissonsDistribution(int lambda);
 	~PoissonsDistribution();
-	virtual Other::bigDouble distribute(int k) override;
-	virtual Other::bigDouble ex() override;
-	virtual Other::bigDouble varX() override;
+	virtual bigDouble distribute(int k) override;
+	virtual bigDouble ex() override;
+	virtual bigDouble varX() override;
 };
 
 } /* namespace ConsoleArt */
