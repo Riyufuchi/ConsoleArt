@@ -2,7 +2,7 @@
 // File       : OtherUtils.hpp
 // Author     : riyufuchi
 // Created on : Oct 25, 2024
-// Last edit  : Oct 25, 2024
+// Last edit  : Nov 08, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-namespace Other
+namespace Math
 {
 using u_bigInt = long double; // unsigned long long; - temporary solution as precision errors might occur
 using bigDouble = long double;

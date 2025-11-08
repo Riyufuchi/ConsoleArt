@@ -2,7 +2,7 @@
 // File       : BinomalDistribution.h
 // Author     : riyufuchi
 // Created on : Oct 22, 2024
-// Last edit  : Oct 25, 2024
+// Last edit  : Nov 08, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include "Distribution.h"
 
-namespace Other
+namespace Math
 {
 class BinomialDistribution : Disribution
 {
