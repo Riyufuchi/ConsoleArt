@@ -11,14 +11,14 @@
 
 namespace Images
 {
-ImagePPM::ImagePPM(std::string filename) : Image(filename)
+ImagePPM::ImagePPM(std::string filename) : Image(filename, ImageType::PPM)
 {
 	loadImage();
 	image.width = headerPPM.width;
 	image.height = headerPPM.height;
 	image.file_type = 806;
 }
-ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename)
+ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename, ImageType::PPM)
 {
 	headerPPM.width = w;
 	headerPPM.height = h;
@@ -92,7 +92,7 @@ void ImagePPM::loadImage()
 			color++;
 		}
 	}
-	this->technical.fileState = OK;
+	this->technical.fileState =  FileState::OK;
 }
 void ImagePPM::virtualArtistLegacy()
 {

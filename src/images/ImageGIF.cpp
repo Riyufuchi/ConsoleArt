@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImageGIF.cpp
 // Author     : riyufuchi
-// Created on : Nov 6, 2025
-// Last edit  : Nov 6, 2025
+// Created on : Nov 06, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@
 namespace Images
 {
 
-ImageGIF::ImageGIF(const std::string& filepath) : Image(filepath)
+ImageGIF::ImageGIF(const std::string& filepath) : Image(filepath, ImageType::GIF)
 {
 	loadImage();
 }
@@ -65,9 +65,9 @@ void ImageGIF::loadImage()
 	image.width = width;
 	image.height = height;
 	image.bits = 32;
-	technical.channels = 4;
+	image.channels = 4;
+	image.pixelByteOrder = PixelByteOrder::RGBA;
 	technical.fileState = FileState::OK;
-	technical.pixelByteOrder = PixelByteOrder::RGBA;
 	technical.technicalMessage = "GIF loaded successfully";
 	if (frameCount > 1)
 	{

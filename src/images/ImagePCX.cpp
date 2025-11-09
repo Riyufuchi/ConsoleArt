@@ -11,7 +11,7 @@
 
 namespace Images
 {
-ImagePCX::ImagePCX(std::string filename) : Image(filename)
+ImagePCX::ImagePCX(std::string filename) : Image(filename, ImageType::PCX)
 {
 	this->paletteVGA = NULL;
 	this->image.planar = true;
