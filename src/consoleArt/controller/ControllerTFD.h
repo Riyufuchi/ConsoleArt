@@ -2,7 +2,7 @@
 // File       : ControllerTFD.h
 // Author     : riyufuchi
 // Created on : May 15, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -24,6 +24,8 @@ public:
 	virtual ~ControllerTFD() = default;
 	void printHeader();
 	virtual std::string inputImageName() override;
+protected:
+	virtual void showAboutApplicationInfo() override;
 };
 
 } /* namespace ConsoleLib */

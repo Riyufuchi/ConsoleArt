@@ -2,7 +2,7 @@
 // File       : ControllerTFD.cpp
 // Author     : riyufuchi
 // Created on : May 15, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -43,6 +43,13 @@ std::string ControllerTFD::inputImageName()
 	if (result)
 		return std::string(result);
 	return "";
+}
+
+void ControllerTFD::showAboutApplicationInfo()
+{
+	ControllerCLI::showAboutApplicationInfo();
+	console->out("Press enter to continue...");
+	ConsoleLib::ConsoleUtils::waitForEnter();
 }
 
 } /* namespace ConsoleLib */
