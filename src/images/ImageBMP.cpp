@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Mar 13, 2025
+// Last Edited : Nov 09, 2025
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -12,15 +12,15 @@
 
 namespace Images
 {
-ImageBMP::ImageBMP(std::string filename) : Image(filename)
+ImageBMP::ImageBMP(std::string filename) : Image(filename, ImageType::BMP)
 {
 	loadImage();
 	image.width = bmp_info_header.width;
 	image.height = bmp_info_header.height;
 	image.file_type = headerBMP.file_type;
 	image.bits = bmp_info_header.bit_count;
-	technical.channels = bmp_info_header.bit_count / 8;
-	technical.pixelByteOrder = PixelByteOrder::BGRA;
+	image.channels = bmp_info_header.bit_count / 8;
+	image.pixelByteOrder = PixelByteOrder::BGRA;
 }
 
 void ImageBMP::loadImage()
@@ -42,8 +42,8 @@ void ImageBMP::loadImage()
 	}
 	readImageData(inf);
 	// Check for image orientation
-	this->technical.inverted = bmp_info_header.height > 0; // Origin is in bottom left corner, if this turns to be false
-	this->technical.fileState = OK;
+	this->image.inverted = bmp_info_header.height > 0; // Origin is in bottom left corner, if this turns to be false
+	this->technical.fileState = FileState::OK;
 }
 void ImageBMP::readImageData(std::ifstream& inf)
 {
@@ -138,38 +138,38 @@ uint32_t ImageBMP::makeStrideAligned(uint32_t align_stride)
 
 Pixel ImageBMP::getPixel(int x, int y) const
 {
-	x = technical.channels * (y * bmp_info_header.width + x);
-	if (technical.channels == 4)
+	x = image.channels * (y * bmp_info_header.width + x);
+	if (image.channels == 4)
 		return {pixelData[x + 2], pixelData[x + 1], pixelData[x], pixelData[x + 3]};
 	else
 		return {pixelData[x + 2], pixelData[x + 1], pixelData[x]};
 }
 void ImageBMP::setPixel(int x, int y, Pixel newPixel)
 {
-	x = technical.channels * (y * bmp_info_header.width + x);
+	x = image.channels * (y * bmp_info_header.width + x);
 	pixelData[x] = newPixel.blue;
 	pixelData[x + 1] = newPixel.green;
 	pixelData[x + 2] = newPixel.red;
-	if (technical.channels == 4)
+	if (image.channels == 4)
 		pixelData[x + 3] = newPixel.alpha;
 }
 uint8_t ImageBMP::getRed(int x, int y) const
 {
-	return pixelData[technical.channels * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(pixelData[x])
+	return pixelData[image.channels * (y * bmp_info_header.width + x) + 2]; //static_cast<int>(pixelData[x])
 }
 uint8_t ImageBMP::getGreen(int x, int y) const
 {
-	return pixelData[technical.channels * (y * bmp_info_header.width + x) + 1];
+	return pixelData[image.channels * (y * bmp_info_header.width + x) + 1];
 }
 uint8_t ImageBMP::getBlue(int x, int y) const
 {
-	return pixelData[technical.channels * (y * bmp_info_header.width + x)];
+	return pixelData[image.channels * (y * bmp_info_header.width + x)];
 }
 
 uint8_t ImageBMP::getAplha(int x, int y) const
 {
-	if (technical.channels == 4)
-		return pixelData[technical.channels * (y * bmp_info_header.width + x) + 3];
+	if (image.channels == 4)
+		return pixelData[image.channels * (y * bmp_info_header.width + x) + 3];
 	else
 		return 255;
 }

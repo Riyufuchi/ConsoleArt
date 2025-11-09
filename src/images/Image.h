@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 07, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -23,7 +23,19 @@
 
 namespace Images
 {
-enum FileState
+enum class ImageType
+{
+	UNKNOWN,
+	BMP,
+	PCX,
+	PPM,
+	PNG,
+	JPG,
+	GIF,
+	HDR,
+	TGA
+};
+enum class FileState
 {
 	ERROR,
 	OK
@@ -33,20 +45,21 @@ struct ImageInfo
 	std::string name {"unknown.txt"};
 	int width {0};
 	int height {0};
-	uint16_t bits {24};
-	uint16_t file_type {0};
-	bool planar {false};
-	bool palette {false};
-	bool animated {false};
-	bool multipage {false};
-	bool hdr {false};
+	int channels { 3 };
+	uint16_t bits { 24 };
+	uint16_t file_type { 0 };
+	bool planar { false };
+	bool palette { false };
+	bool animated { false };
+	bool multipage { false };
+	bool hdr { false };
+	bool inverted { false }; // Origin is bottom left when true
+	PixelByteOrder pixelByteOrder { PixelByteOrder::RGBA };
+	ImageType imageFormat { ImageType::UNKNOWN }; // For casting from base class
 };
 struct TechnicalInfo
 {
 	std::string technicalMessage { "Pending/unknown" };
-	bool inverted { false };
-	int channels { 3 };
-	PixelByteOrder pixelByteOrder { PixelByteOrder::RGBA };
 	FileState fileState { FileState::ERROR };
 };
 class Image
@@ -57,7 +70,7 @@ protected:
 	TechnicalInfo technical;
 	std::vector<uint8_t> pixelData;
 public:
-	Image(std::string filepath);
+	Image(std::string filepath, ImageType format = ImageType::UNKNOWN);
 	Image(Image&) = delete;
 	Image(Image&&) = delete;
 

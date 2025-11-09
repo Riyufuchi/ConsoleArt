@@ -2,7 +2,7 @@
 // File       : Formats.hpp
 // Author     : riyufuchi
 // Created on : Feb 27, 2025
-// Last edit  : Nov 07, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,18 +20,4 @@
 #include "ImageHDR.h"
 #include "ImageTGA.h"
 
-namespace Images
-{
-enum ImageType
-{
-	BMP,
-	PCX,
-	PPM,
-	PNG,
-	JPG,
-	GIF,
-	HDR,
-	TGA
-};
-}
 #endif /* IMAGES_FORMATS_HPP_ */

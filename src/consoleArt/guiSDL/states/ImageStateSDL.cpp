@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 3, 2025
+// Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -67,8 +67,7 @@ void ImageStateSDL::onReturn()
 	this->IMAGE = controller.getSelectedImage();
 	Images::ImageInfo info = IMAGE->getImageInfo();
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");  // Linear filtering (smoother scaling)
-
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // Linear filtering (smoother scaling)
 
 	// Determine the correct pixel format and masks
 	Uint32 rmask, gmask, bmask, amask;
@@ -94,13 +93,12 @@ void ImageStateSDL::onReturn()
 	if (info.bits < 24)
 		info.bits = 24;
 
-	if (info.planar || info.palette) // This program treats pallted PCX as standard 24-bit PCX
+	// This program treats pallted PCX as standard 24-bit PCX
+	switch (IMAGE->getImageInfo().imageFormat)
 	{
-		SDL_Log("imageRGBA is nullptr!");
-		imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((Images::ImagePCX&)*IMAGE);
+		case Images::ImageType::PCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((Images::ImagePCX&)*IMAGE); break;
+		default: imageRGBA = IMAGE->getImageData(); break;
 	}
-	else
-		imageRGBA = IMAGE->getImageData();
 
 	if (!imageRGBA.get())
 	{
@@ -109,7 +107,7 @@ void ImageStateSDL::onReturn()
 	}
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-			(void*)imageRGBA.get(), info.width, info.height, info.bits, info.width * (info.bits / 8),
+		(void*)imageRGBA.get(), info.width, info.height, info.bits, info.width * (info.bits / 8),
 		rmask, gmask, bmask, amask);
 
 	// Attach SDL's memory management to avoid leaks

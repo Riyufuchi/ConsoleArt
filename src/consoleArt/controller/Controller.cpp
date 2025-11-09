@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 07, 2025
+// Last Edit   : Nov 09, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -200,14 +200,14 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 	if (supportedImageFormats.contains(extension))
 		switch (supportedImageFormats.at(extension))
 		{
-			case Images::BMP: return new Images::ImageBMP(path);
-			case Images::PCX: return new Images::ImagePCX(path);
-			case Images::PPM: return new Images::ImagePPM(path);
-			case Images::PNG: return new Images::ImagePNG(path);
-			case Images::JPG: return new Images::ImageJPG(path);
-			case Images::GIF: return new Images::ImageGIF(path);
-			case Images::HDR: return new Images::ImageHDR(path);
-			case Images::TGA: return new Images::ImageTGA(path);
+			case Images::ImageType::BMP: return new Images::ImageBMP(path);
+			case Images::ImageType::PCX: return new Images::ImagePCX(path);
+			case Images::ImageType::PPM: return new Images::ImagePPM(path);
+			case Images::ImageType::PNG: return new Images::ImagePNG(path);
+			case Images::ImageType::JPG: return new Images::ImageJPG(path);
+			case Images::ImageType::GIF: return new Images::ImageGIF(path);
+			case Images::ImageType::HDR: return new Images::ImageHDR(path);
+			case Images::ImageType::TGA: return new Images::ImageTGA(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
