@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 8, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -36,6 +36,7 @@ private:
 	sdl::ContentPanelSDL* mainPane;
 	sdl::ContentPanelSDL* selectPane;
 	sdl::LabelSDL* selectedWatermark;
+	sdl::LabelSDL* imageNameLabel;
 	Images::Image* watermark;
 	std::atomic<bool> textUpdated;
 	int y;

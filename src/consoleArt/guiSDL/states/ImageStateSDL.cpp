@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -35,7 +35,7 @@ void ImageStateSDL::handleTick(SDL_Event& event)
 {
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
 	{
-		stateManager.switchState(WindowState::EDIT_IMAGE);
+		stateManager.switchState(WindowState::MAIN);
 	}
 }
 

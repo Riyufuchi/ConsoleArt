@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 07, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,7 +25,7 @@ Image::~Image()
 }
 std::ostream& operator<<(std::ostream& os, const Image& img)
 {
-	return os << "Image Name: " << img.image.name << "\n"
+	return os << "Name: " << img.image.name << "\n"
 			<< "Width: " << img.image.width << " px\n"
 			<< "Height: " << img.image.height << " px\n"
 			<< "Bits: " << img.image.bits << "\n"

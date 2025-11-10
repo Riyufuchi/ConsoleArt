@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Mar 8, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,11 +18,15 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 	if (!buttonSheet || !buttonSheetSmall)
 		return;
 	// Big Buttons
+	// X = 0
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
+	logButton(0, 2, ButtonType::EXIT, RECTANGLE);
 	logButton(0, 3, ButtonType::BACK, RECTANGLE);
 	logButton(0, 4, ButtonType::WATERMARK, RECTANGLE);
+	// X = 1
 	logButton(1, 0, ButtonType::IMAGE_FILTER, RECTANGLE);
+	// X = 2
 	logButton(2, 0, ButtonType::CONVER_TO_ASCII, RECTANGLE);
 	// Small Buttons
 	logButton(0, 0, ButtonType::SETTINGS, SQUARE);
