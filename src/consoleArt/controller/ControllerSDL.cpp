@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : May 25, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -62,6 +62,8 @@ ControllerSDL::~ControllerSDL()
 void ControllerSDL::run()
 {
 	if (!isRunnable)
+		return;
+	if (!buttons->isReady())
 		return;
 	SDL_RendererInfo info;
 	SDL_GetRendererInfo(renderer, &info);

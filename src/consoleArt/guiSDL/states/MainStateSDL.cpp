@@ -45,7 +45,8 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
 	}));
 	// 2
-	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]() { std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach(); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]()
+		{ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::EXIT, false), [&]() { exitApplication(); }));
 	onReturn();

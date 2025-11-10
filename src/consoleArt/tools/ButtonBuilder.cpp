@@ -15,15 +15,13 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
 	this->buttonSheet = new sdl::SpriteSheetSDL("assets/ui_big.png", renderer);
 	this->buttonSheetSmall = new sdl::SpriteSheetSDL("assets/ui_small.png", renderer);
-	if (!buttonSheet || !buttonSheetSmall)
-		return;
 	// Big Buttons
-	// X = 0
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
 	logButton(0, 2, ButtonType::EXIT, RECTANGLE);
 	logButton(0, 3, ButtonType::BACK, RECTANGLE);
 	logButton(0, 4, ButtonType::WATERMARK, RECTANGLE);
+	logButton(0, 5, ButtonType::EXPORT_AS, RECTANGLE);
 	// X = 1
 	logButton(1, 0, ButtonType::IMAGE_FILTER, RECTANGLE);
 	// X = 2
@@ -66,6 +64,11 @@ ButtonBuilder::~ButtonBuilder()
 		delete buttonSheet;
 	if (buttonSheetSmall)
 		delete buttonSheetSmall;
+}
+
+bool ButtonBuilder::isReady() const
+{
+	return buttonSheet->isReady() && buttonSheetSmall->isReady();
 }
 
 } /* namespace ConsoleArt */
