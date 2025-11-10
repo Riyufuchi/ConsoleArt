@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 8, 2025
-// Last edit  : May 25, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,7 +16,7 @@ WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& contr
 	this->watermark = nullptr;
 	this->textUpdated = false;
 	this->selectedWatermark = new sdl::LabelSDL("No watermark selected", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
-	this->selectedWatermark->setY(16);
+	this->imageNameLabel = new sdl::LabelSDL("", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
 	this->mainPane = new sdl::ContentPanelSDL();
 	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { selectWatermarkEvent(); }));
 	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
@@ -32,6 +32,7 @@ WatermarkStateSDL::~WatermarkStateSDL()
 	delete mainPane;
 	delete selectPane;
 	delete selectedWatermark;
+	delete imageNameLabel;
 }
 
 void WatermarkStateSDL::handleTick(SDL_Event& event)
@@ -50,13 +51,15 @@ void WatermarkStateSDL::onWindowResize()
 {
 	pane->center(winInfo.w, winInfo.h);
 	pane->reposeContent();
-	selectedWatermark->center(winInfo.w, pane->getY());
+	selectedWatermark->center(winInfo.w, pane->getY() - imageNameLabel->getHeight());
+	imageNameLabel->center(winInfo.w, pane->getY() + selectedWatermark->getHeight());
 }
 
 void WatermarkStateSDL::onReturn()
 {
 	if (!watermark)
 		selectedWatermark->setText("No watermark selected");
+	imageNameLabel->setText("For image: " + controller.getSelectedImage()->getFilename());
 	onWindowResize();
 }
 
@@ -76,8 +79,8 @@ void WatermarkStateSDL::selectWatermarkEvent()
 	{
 		Images::Image* imgCopy = image;
 		selectPane->addComponent(y, new sdl::StringButtonSDL(0, 0,
-		new sdl::StringSDL(image->getFilename(), FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR
-		, [imgCopy, this]()
+		new sdl::StringSDL(image->getFilename(), FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR,
+		[imgCopy, this]()
 		{
 			watermark = imgCopy;
 			textUpdated = true;
@@ -105,9 +108,10 @@ void WatermarkStateSDL::render()
 		textUpdated = false;
 		if (watermark)
 			selectedWatermark->setText(watermark->getFilename());
-		selectedWatermark->center(winInfo.w, pane->getY());
+		selectedWatermark->center(winInfo.w, pane->getY() - imageNameLabel->getHeight());
 	}
 	selectedWatermark->draw();
+	imageNameLabel->draw();
 }
 
 } /* namespace ConsoleArt */

@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : May 25, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -17,26 +17,37 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	this->selectedImageString = new sdl::LabelSDL("No image selected", "assets/TF2secondary.ttf", 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	// 0
-	pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::LOAD, false), [&]() { addImageButtonEvent(); }));
-	pane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), [&]() { std::thread([&](){ controller.loadAllImagesAsync(); }).detach(); }));
+	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::LOAD, false), [&]() { addImageButtonEvent(); }));
+	this->pane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::LOAD_ALL, true), [&]() { std::thread([&](){ controller.loadAllImagesAsync(); }).detach(); }));
+	this->pane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_INFO, true), [&]()
+	{
+		if (controller.getSelectedImage())
+			controller.getMessenger().displayImageInfo(*controller.getSelectedImage());
+	}));
 	// 1
-	pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false), [&]()
+	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false), [&]()
 	{
 		if (controller.getNumberOfLoadedImages()) // There has to be at least one image loaded
 			stateManager.switchState(WindowState::SELECT_IMAGE);
 		else
 			std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No images to select from!"); }).detach();
 	}));
-	pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
+	this->pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
 	{
 		controller.getSelectedImage() ?
 		stateManager.switchState(WindowState::EDIT_IMAGE) :
 		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
 	}));
+	this->pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]()
+	{
+		controller.getSelectedImage() ?
+		stateManager.switchState(WindowState::SHOW_IMAGE) :
+		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
+	}));
 	// 2
-	pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]() { std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach(); }));
-	pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
-	pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::EXIT, true), [&]() { exitApplication(); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]() { std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }).detach(); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::EXIT, false), [&]() { exitApplication(); }));
 	onReturn();
 }
 
