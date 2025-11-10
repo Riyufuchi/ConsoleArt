@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.cpp
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : May 26, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -29,7 +29,7 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 {
 	if (controller.getSelectedImage() == nullptr)
 	{
-		controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Error: No image selected!");
+		controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Error: No image selected!");
 		return false;
 	}
 
@@ -50,20 +50,20 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 		case 3: return ImageUtils::Filter::purplefierShading(*controller.getSelectedImage());
 		case 4: return ImageUtils::Filter::purplefierShadingSoft(*controller.getSelectedImage());
 		default:
-			controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Error: Invalid filter selection!");
+			controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Error: Invalid filter selection!");
 		return false;
 	}
 }
 
 void ImageFilterStateSDL::applyFilterEvent(std::string filter)
 {
-	controller.getMessenger().messageUser(AbstractNotifier::MessageType::INFO, "Applying filter in the background."); // This is non-blocking dialog
+	controller.notifyUser(AbstractNotifier::MessageType::INFO, "Applying filter in the background."); // This is non-blocking dialog
 	std::thread([this, filter]()
 	{
 		if (applyFilter(filter))
-			controller.getMessenger().messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filter successfully applied.");
+			controller.notifyUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filter successfully applied.");
 		else
-			controller.getMessenger().messageUser(AbstractNotifier::MessageType::ERROR, "Filter application failed during saving the image.");
+			controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Filter application failed during saving the image.");
 	}).detach();
 }
 

@@ -22,7 +22,7 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	this->pane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_INFO, true), [&]()
 	{
 		if (controller.getSelectedImage())
-			controller.getMessenger().displayImageInfo(*controller.getSelectedImage());
+			controller.displayImageInfo(*controller.getSelectedImage());
 	}));
 	// 1
 	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::SELECT_IMAGE, false), [&]()
@@ -30,23 +30,25 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 		if (controller.getNumberOfLoadedImages()) // There has to be at least one image loaded
 			stateManager.switchState(WindowState::SELECT_IMAGE);
 		else
-			std::thread([&](){ controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No images to select from!"); }).detach();
+			controller.notifyUser(AbstractNotifier::MessageType::WARNING, "No images to select from!");
 	}));
 	this->pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::EDIT_IMAGE, true), [&]()
 	{
 		controller.getSelectedImage() ?
 		stateManager.switchState(WindowState::EDIT_IMAGE) :
-		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
+		controller.notifyUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
 	}));
 	this->pane.addComponent(1, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SHOW_IMAGE, true), [&]()
 	{
 		controller.getSelectedImage() ?
 		stateManager.switchState(WindowState::SHOW_IMAGE) :
-		controller.getMessenger().messageUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
+		controller.notifyUser(AbstractNotifier::MessageType::WARNING, "No image selected!");
 	}));
 	// 2
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]()
-		{ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }));
+	{
+		controller.notifyUser(AbstractNotifier::MessageType::WARNING, "Not yet implemented.");
+	}));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::EXIT, false), [&]() { exitApplication(); }));
 	onReturn();
@@ -75,7 +77,7 @@ void MainStateSDL::addImageButtonEvent()
 		Images::Image* img = controller.loadImageAsync(controller.inputImageName());
 		if (controller.addImageAsync(img))
 		{
-			controller.getMessenger().messageUser("Image successfully loaded.");
+			controller.notifyUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Image successfully loaded.");
 			controller.setSelectedImage(img);
 			textUpdated = true;
 		}
@@ -94,13 +96,13 @@ void MainStateSDL::loadDropedFile(char* droppedFile)
 		Images::Image* img = controller.loadImageAsync(filePath);
 		if (controller.addImageAsync(img))
 		{
-			controller.getMessenger().messageUser("Image successfully loaded.");
+			controller.notifyUser(AbstractNotifier::SUCCESFUL_TASK, "Image successfully loaded.");
 			controller.setSelectedImage(img);
 			textUpdated = true;
 		}
 		else
 		{
-			controller.getMessenger().messageUser("Image unsuccessfully loaded.");
+			controller.notifyUser(AbstractNotifier::ERROR, "Image failed to load.");
 		}
 		SDL_free(droppedFile);
 	}).detach();

@@ -96,7 +96,7 @@ void WatermarkStateSDL::selectWatermarkEvent()
 void WatermarkStateSDL::applytWatermarkEvent()
 {
 	if (watermark && ImageUtils::ImageTools::signatureToImage(*controller.getSelectedImage(), *watermark))
-		controller.getMessenger().messageUser("Watermark successfully applied to the image.");
+		controller.notifyUser(AbstractNotifier::SUCCESFUL_TASK, "Watermark successfully applied to the image.");
 }
 
 void WatermarkStateSDL::render()

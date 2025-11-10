@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 09, 2025
+// Last Edit   : Nov 10, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -214,6 +214,22 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 	return nullptr;
 }
 
+void Controller::notifyUser(AbstractNotifier::MessageType messageType, const std::string& message)
+{
+	if (messenger)
+		messenger->messageUser(messageType, message);
+	else
+		std::cout << message;
+}
+
+void Controller::displayImageInfo(const Images::Image& image)
+{
+	if (messenger)
+		messenger->displayImageInfo(image);
+	else
+		std::cout << image;
+}
+
 void Controller::setWorkspace(std::string path)
 {
 	if (path.length() == 0)
@@ -254,10 +270,6 @@ const std::string& Controller::getWorkspace()
 	return workspacePath;
 }
 
-AbstractNotifier& Controller::getMessenger()
-{
-	return *messenger;
-}
 Images::Image* Controller::getSelectedImage()
 {
 	return selectedImage;
