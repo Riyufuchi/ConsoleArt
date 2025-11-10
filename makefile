@@ -71,7 +71,7 @@ $(BUILD_DIR):
 
 # Clean target
 clean:
-	rm -rf $(BUILD_DIR) $(APP_TARGET) $(LIB_PATH)
+	rm -rf $(BUILD_DIR) $(APP_TARGET) $(LIB_PATH) $(LIB_SDL_PATH)
 
 .PHONY: all clean
 

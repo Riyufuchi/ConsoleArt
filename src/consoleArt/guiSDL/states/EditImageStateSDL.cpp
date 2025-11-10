@@ -13,10 +13,16 @@ namespace ConsoleArt {
 
 EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
-	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), [&]() { stateManager.switchState(WindowState::ASCII_CONVERTER); }));
-	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), [&]() { stateManager.switchState(WindowState::FILTER_IMAGE); }));
-	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::WATERMARK, false), [&]() { stateManager.switchState(WindowState::WATERMARK); }));
-	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::MAIN); }));
+	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::CONVER_TO_ASCII, false), [&]()
+		{ stateManager.switchState(WindowState::ASCII_CONVERTER); }));
+	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::EXPORT_AS, false), [&]()
+		{ controller.getMessenger().messageUser(AbstractNotifier::WARNING, "Not yet implemented."); }));
+	this->pane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::IMAGE_FILTER, false), [&]()
+		{ stateManager.switchState(WindowState::FILTER_IMAGE); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::WATERMARK, false), [&]()
+		{ stateManager.switchState(WindowState::WATERMARK); }));
+	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]()
+		{ stateManager.switchState(WindowState::MAIN); }));
 	pane.center(winInfo.w,winInfo.h);
 	pane.reposeContent();
 }

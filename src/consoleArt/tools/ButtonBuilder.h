@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 10, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -33,7 +33,8 @@ enum class ButtonType
 	WATERMARK,
 	IMAGE_INFO,
 	APPLY,
-	SELECT
+	SELECT,
+	EXPORT_AS
 };
 class ButtonBuilder
 {
@@ -48,6 +49,7 @@ public:
 	ButtonBuilder(SDL_Renderer* renderer);
 	virtual ~ButtonBuilder();
 	std::pair<SDL_Texture*, SDL_Texture*> getButtonTextureFor(ButtonType buttonType, bool small);
+	bool isReady() const;
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_TOOLS_BUTTONBUILDER_H_ */
