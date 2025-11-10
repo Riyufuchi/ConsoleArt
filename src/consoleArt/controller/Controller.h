@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 07, 2025
+// Last Edit   : Nov 10, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -68,6 +68,8 @@ public:
 	void loadAllImagesAsync();
 	void convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
 	void iterateImagesAsync(std::function<void(Images::Image*)> actionOnImage);
+	void notifyUser(AbstractNotifier::MessageType messageType, const std::string& message);
+	void displayImageInfo(const Images::Image& image);
 	// Setters
 	void setWorkspace(std::string path);
 	void setSelectedImage(Images::Image* selectedImage);
@@ -75,7 +77,6 @@ public:
 	void setMenu(IMenu* imenu);
 	// Getters
 	int getNumberOfLoadedImages();
-	AbstractNotifier& getMessenger();
 	const std::string& getWorkspace();
 	Images::Image* getSelectedImage();
 };
