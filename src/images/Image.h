@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -33,7 +33,8 @@ enum class ImageType
 	JPG,
 	GIF,
 	HDR,
-	TGA
+	TGA,
+	DCX
 };
 enum class FileState
 {
@@ -112,6 +113,7 @@ public:
 	}
 	// Utils
 	void rename(std::string imageName);
+	bool containsPalette() const;
 	// Virtual utils
 	virtual bool saveImage() const = 0;
 	virtual void loadImage() = 0;

@@ -16,7 +16,7 @@ WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& contr
 	this->watermark = nullptr;
 	this->textUpdated = false;
 	this->selectedWatermark = new sdl::LabelSDL("No watermark selected", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
-	this->imageNameLabel = new sdl::LabelSDL("", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
+	this->imageNameLabel = new sdl::LabelSDL("No image", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
 	this->mainPane = new sdl::ContentPanelSDL();
 	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { selectWatermarkEvent(); }));
 	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
