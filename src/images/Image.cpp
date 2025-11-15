@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -56,6 +56,10 @@ const std::string& Image::getFilename() const
 const std::string& Image::getFilepath() const
 {
 	return filepath;
+}
+bool Image::containsPalette() const
+{
+	return image.palette;
 }
 bool Image::isLoaded() const
 {

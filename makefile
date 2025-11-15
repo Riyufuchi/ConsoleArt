@@ -1,6 +1,6 @@
 # Compiler and compiler flags
 CXX = g++
-CXXFLAGS = -Wall -Wextra -pedantic -O3 -std=c++20
+CXXFLAGS = -Wall -Wextra -pedantic -O3 -flto -std=c++20
 
 # ConsoleArt
 SRC_DIR = src
