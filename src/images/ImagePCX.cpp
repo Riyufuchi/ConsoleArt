@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : May 13, 2025
+// Last edit  : Nov 15, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,40 +13,118 @@ namespace Images
 {
 ImagePCX::ImagePCX(std::string filename) : Image(filename, ImageType::PCX)
 {
-	this->paletteVGA = NULL;
+	this->paletteVGA = nullptr;
 	this->image.planar = true;
 	loadImage();
 	this->BLUE_OFFSET = 2 * headerPCX.bytesPerLine;
 	this->ALPHA_OFFSET = 3 * headerPCX.bytesPerLine;
-	if (headerPCX.numOfColorPlanes == 4)
-	{
-		image.bits = 32;
-	}
 }
+
 ImagePCX::~ImagePCX()
 {
-	if (paletteVGA != nullptr)
+	if (paletteVGA)
 	{
 		delete[] paletteVGA;
 		paletteVGA = nullptr;
 	}
 }
-void ImagePCX::loadImage()
+PixelRGB* ImagePCX::readPaletteVGA(std::ifstream& stream, const uint32_t end)
 {
-	std::ifstream inf(filepath, std::ios::in | std::ios::binary);
-	if (!inf)
+	char VGAPaletteMarker;
+	stream.seekg(end - 769);
+	stream.read(&VGAPaletteMarker, 1);
+	if (VGAPaletteMarker != 0x0c || stream.fail())
+		return 0;
+	PixelRGB* paletteVGA = new PixelRGB[256];
+	for (int entry = 0; entry < 256; entry++)
+		stream.read(reinterpret_cast<char*>(&paletteVGA[entry]), 3);
+	if (stream.fail() && paletteVGA)
 	{
-		this->technical.technicalMessage = "Unable to open file: " + image.name;
-		return;
+		delete[] paletteVGA;
+		paletteVGA = nullptr;
 	}
-	inf.read(reinterpret_cast<char*>(&headerPCX), sizeof(headerPCX));
+	return paletteVGA;
+}
+
+uint32_t ImagePCX::calcFileEnd(std::ifstream& stream)
+{
+	// Save current read position
+	std::streampos current = stream.tellg();
+	// Move to end
+	stream.seekg(0, std::ios::end);
+	uint32_t end = static_cast<uint32_t>(stream.tellg());
+	// Restore position
+	stream.seekg(current);
+	return end;
+}
+
+void ImagePCX::readHeader(std::ifstream& stream, PCXHeader& headerPCX, ImageInfo& image)
+{
+	stream.read(reinterpret_cast<char*>(&headerPCX), sizeof(headerPCX));
 	image.width = (headerPCX.xMax - headerPCX.xMin) + 1;;
 	image.height = (headerPCX.yMax - headerPCX.yMin) + 1;
 	image.file_type = headerPCX.file_type;
 	image.bits = headerPCX.numOfColorPlanes * 8;
+	if (headerPCX.numOfColorPlanes == 4)
+	{
+		image.bits = 32;
+	}
+}
+bool ImagePCX::loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData, PCXHeader& headerPCX, ImageInfo& image, std::string& errMsg, PixelRGB*& paletteVGA, const uint32_t start)
+{
+	if (!isVGA(headerPCX))
+		return false;
+	paletteVGA = readPaletteVGA(stream, calcFileEnd(stream));
+	if (!paletteVGA)
+	{
+		errMsg = "Error during palete loading";
+		return false;
+	}
+	stream.seekg(start + sizeof(PCXHeader)); // Move back to start of image data
+	headerPCX.numOfColorPlanes = 3;
+	if (headerPCX.encoding == 1)
+	{
+		decodeRLE(stream, imageData, headerPCX);
+	}
+	else
+	{
+		imageData.resize((image.width * image.height));
+		stream.read(reinterpret_cast<char*>(imageData.data()), imageData.size());
+	}
+	return true;
+}
+bool ImagePCX::convertImageDataVGA(const std::vector<uint8_t>& imageData, std::vector<uint8_t>& pixelData, const ImageInfo& image, const PixelRGB* paletteVGA)
+{
+	pixelData.resize(image.width * image.height * 3);
+	int i = 0;
+	int x, index;
+	PixelRGB pRGB;
+	for (int y = 0; y < image.height; y++)
+	{
+		for (x = 0; x < image.width; x++)
+		{
+			pRGB = paletteVGA[imageData[i]];
+			index = y * 3 * image.width + x;
+			pixelData[index] = pRGB.red;
+			pixelData[index + image.width]= pRGB.green;
+			pixelData[index + 2 * image.width] = pRGB.blue;
+			i++;
+		}
+	}
+	return true;
+}
+void ImagePCX::loadImage()
+{
+	std::ifstream stream(filepath, std::ios::in | std::ios::binary);
+	if (!stream)
+	{
+		this->technical.technicalMessage = "Unable to open file: " + image.name;
+		return;
+	}
+	readHeader(stream, headerPCX, image);
 	try
 	{
-		checkHeader();
+		checkHeader(headerPCX, image);
 	}
 	catch (std::runtime_error& e)
 	{
@@ -54,9 +132,17 @@ void ImagePCX::loadImage()
 		return;
 	}
 	bool success = true;
+	std::vector<uint8_t> imageData;
 	switch (headerPCX.numOfColorPlanes)
 	{
-		case 1: success = readImageData(inf); break;
+		case 1:
+			image.palette = true;
+			image.planar = false;
+			if (loadImageDataVGA(stream, imageData, headerPCX, image, technical.technicalMessage, paletteVGA, 0))
+				success = convertImageDataVGA(imageData, pixelData, image, paletteVGA);
+			else
+				success = false;
+		 break;
 		case 3:
 		case 4:
 			if (headerPCX.encoding == 0)
@@ -64,19 +150,18 @@ void ImagePCX::loadImage()
 				this->technical.technicalMessage = "Uncompressed image data are not supported for 24 and 32 bit images";
 				success = false;
 			}
-			decodeRLE(inf, pixelData);
+			decodeRLE(stream, pixelData, headerPCX);
 		break;
 		default: this->technical.technicalMessage = "Unexpected number of color planes"; return;
 	}
 	if (success)
 	{
-		this->technical.technicalMessage = "OK";
 		this->technical.fileState = FileState::OK;
 	}
 }
-void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
+void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const PCXHeader& headerPCX)
 {
-	int height = image.height;
+	int height = (headerPCX.yMax - headerPCX.yMin) + 1;
 	const long dataSize = headerPCX.bytesPerLine * headerPCX.bitsPerPixel * height;
 	// Initialize vector
 	imageData.clear();
@@ -106,59 +191,11 @@ void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData)
 		}
 	}
 }
-bool ImagePCX::readImageData(std::ifstream& stream)
+bool ImagePCX::containsPalette() const
 {
-	image.palette = true;
-	image.planar = false;
-	// Read palete
-	if (!readPaletteVGA(stream))
-	{
-		this->technical.technicalMessage = "Error during palette loading";
-		return false;
-	}
-	// Read image data
-	stream.seekg(sizeof(PCXHeader)); // Move back to start of image data
-	headerPCX.numOfColorPlanes = 3;
-	std::vector<uint8_t> imageData;
-	if (headerPCX.encoding == 1)
-	{
-		decodeRLE(stream, imageData);
-	}
-	else
-	{
-		imageData.resize((image.width * image.height));
-		stream.read(reinterpret_cast<char*>(imageData.data()), imageData.size());
-	}
-	pixelData.resize(image.width * image.height * 3);
-	int x = 0;
-	PixelRGB pRGB;
-	int i = 0;
-	for (int y = 0; y < image.height; y++)
-	{
-		for (x = 0; x < image.width; x++)
-		{
-			pRGB = paletteVGA[imageData[i]];
-			setPixel(x, y, Pixel{pRGB.red, pRGB.green, pRGB.blue});
-			i++;
-		}
-	}
-	return true;
+	return image.palette;
 }
-bool ImagePCX::readPaletteVGA(std::ifstream& stream)
-{
-	if (!havePalette())
-		return false;
-	char VGAPaletteMarker;
-	stream.seekg(-769, std::ios_base::end);
-	stream.read(&VGAPaletteMarker, 1);
-	if (VGAPaletteMarker != 0x0c || stream.fail())
-		return false;
-	paletteVGA = new PixelRGB[256];
-	for (int entry = 0; entry < 256; entry++)
-		stream.read(reinterpret_cast<char*>(&paletteVGA[entry]), 3);
-	return !stream.fail();
-}
-bool ImagePCX::havePalette() const
+bool ImagePCX::isVGA(const PCXHeader& headerPCX)
 {
 	return headerPCX.version == 5 && headerPCX.numOfColorPlanes == 1 && headerPCX.bitsPerPixel > 4;
 }
@@ -166,32 +203,6 @@ const ImagePCX::PCXHeader& ImagePCX::getHeader() const
 {
 	return headerPCX;
 }
-/*void ImagePCX::make24bitPCX()
-{
-	int index = 0;
-	const int width3x = info.width * 3;
-	for (int y = 0; y < info.height; y++)
-	{
-		for (int x = 0; x < info.width; x++)
-		{
-			index = (y * width3x + x);
-			pixels.push_back(Pixel{imageData[index], imageData[index + info.width], imageData[index + 2 * info.width]});
-		}
-	}
-}
-void ImagePCX::make32bitPCX()
-{
-	int index = 0;
-	const int width3x = info.width * 3;
-	for (int y = 0; y < info.height; y++)
-	{
-		for (int x = 0; x < info.width; x++)
-		{
-			index = (y * width3x + x);
-			pixels.push_back(Pixel{imageData[index], imageData[index + info.width], imageData[index + 2 * info.width], imageData[index + width3x]});
-		}
-	}
-}*/
 void ImagePCX::updateImage()
 {
 	const int INDEX_BASE = headerPCX.bytesPerLine * headerPCX.numOfColorPlanes;
@@ -214,12 +225,12 @@ void ImagePCX::updateImage()
 		}
 	}
 }
-void ImagePCX::checkHeader()
+void ImagePCX::checkHeader(const PCXHeader& headerPCX, const ImageInfo& image)
 {
 	if (headerPCX.file_type != 0x0A)
 		throw std::runtime_error("Unrecognized format " + image.name.substr(image.name.find_last_of(".")));
 	if ((!(headerPCX.numOfColorPlanes == 3) && (headerPCX.bitsPerPixel == 8)) &&
-			(!havePalette())) // 24 and 32 bit images && VGA palette
+			(!isVGA(headerPCX))) // 24 and 32 bit images && VGA palette
 		throw std::runtime_error("This reader works only with 24-bit and 32-bit true color and VGA images");
 	if (headerPCX.version != 5)
 		throw std::runtime_error("Outdated versions are not supported");
@@ -240,6 +251,21 @@ void ImagePCX::setPixel(int x, int y, Pixel newPixel)
 	pixelData[x + 2 * image.width] = newPixel.blue;
 	if (headerPCX.numOfColorPlanes == 4)
 		pixelData[x + 3 * image.width] = newPixel.alpha;
+}
+bool ImagePCX::saveImage(std::ofstream& stream) const
+{
+	if (!stream.is_open())
+	{
+		return false;
+	}
+	stream.write(reinterpret_cast<const char*>(&headerPCX), sizeof(PCXHeader));
+	switch (headerPCX.numOfColorPlanes)
+	{
+		case 3:
+		case 4: write24and32bitPCX(stream); break;
+		default: return false;
+	}
+	return true;
 }
 bool ImagePCX::saveImage() const
 {

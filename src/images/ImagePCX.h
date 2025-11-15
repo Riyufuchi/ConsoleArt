@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Feb 17, 2025
+// Last edit  : Nov 15, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -33,7 +33,7 @@ public:
 		uint16_t yMax {0};    // Image dimensions (right-bottom corner)
 		uint16_t horizontalDPI {0}; // Horizontal resolution
 		uint16_t verticalDPI {0};   // Vertical resolution
-		PixelRGB palette[16]; //uint8_t palette[48] {0};    // Color palette (16 colors)
+		PixelRGB palette[16]; // uint8_t palette[48] {0};    // Color palette (16 colors)
 		uint8_t reserved1 {0};       // Reserved (always 0)
 		uint8_t numOfColorPlanes {0}; // Number of color planes
 		uint16_t bytesPerLine {0};  // Bytes per scanline
@@ -45,23 +45,26 @@ public:
 	#pragma pack(pop)
 private:
 	PCXHeader headerPCX;
-	//std::vector<Pixel> pixels;
 	PixelRGB* paletteVGA;
 	int BLUE_OFFSET;
 	int ALPHA_OFFSET;
-	void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData);
-	bool readPaletteVGA(std::ifstream& inf); // For when older format with palate
-	bool readImageData(std::ifstream& inf);
-	//void make24bitPCX();
-	//void make32bitPCX();
 	void updateImage();
 	void write24and32bitPCX(std::ofstream& outf) const;
-	void checkHeader();
 public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
-	bool havePalette() const;
+	bool containsPalette() const;
 	const PCXHeader& getHeader() const;
+	bool saveImage(std::ofstream& stream) const;
+	// Static
+	static void checkHeader(const PCXHeader& headerPCX, const ImageInfo& image);
+	static void readHeader(std::ifstream& stream, PCXHeader& headerPCX, ImageInfo& image);
+	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const PCXHeader& headerPCX);
+	static uint32_t calcFileEnd(std::ifstream& stream);
+	static PixelRGB* readPaletteVGA(std::ifstream& inf, const uint32_t end);
+	static bool isVGA(const PCXHeader& headerPCX);
+	static bool loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData, PCXHeader& headerPCX, ImageInfo& image, std::string& errMsg, PixelRGB*& paletteVGA, const uint32_t start);
+	static bool convertImageDataVGA(const std::vector<uint8_t>& imageData, std::vector<uint8_t>& pixelData, const ImageInfo& image, const PixelRGB* paletteVGA);
 	// Overrides
 	Pixel getPixel(int x, int y) const override;
 	void setPixel(int x, int y, Pixel newPixel) override;
