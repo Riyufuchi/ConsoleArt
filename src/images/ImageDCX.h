@@ -23,9 +23,10 @@ struct ImageRange
 class ImageDCX: public Image
 {
 private:
-	std::vector<ImageRange> ranges;
 	int selectedPage;
 	int numOfPages;
+	ImagePCX::HeaderPCX headerPCX;
+	std::vector<ImageRange> ranges;
 	std::vector<ImagePCX::PagePCX> pages;
 public:
 	ImageDCX(std::string filename);
@@ -39,7 +40,6 @@ public:
 	void setPage(size_t index);
 	const ImagePCX::PagePCX& getSelectedPage();
 	//void addImage(ImagePCX* image);
-	//ImagePCX* getImage();
 };
 
 } /* namespace Images */
