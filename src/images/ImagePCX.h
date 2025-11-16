@@ -57,22 +57,22 @@ private:
 	int BLUE_OFFSET;
 	int ALPHA_OFFSET;
 	void updateImage();
-	void write24and32bitPCX(std::ofstream& outf) const;
 	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t end);
 	static bool loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData,PagePCX& pcx, const uint32_t start, const uint32_t end);
 	static bool convertImageDataVGA(const std::vector<uint8_t>& imageData, PagePCX& pcx);
 	static bool readVGA(std::ifstream& inf, PagePCX& pcx, const uint32_t end);
+	static void writePlanarPixalData(std::ofstream& stream, const std::vector<unsigned char>& pixelData);
 public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
 	const HeaderPCX& getHeader() const;
-	bool saveImage(std::ofstream& stream) const;
 	//TODO: PagePCX convertToPage() const;
 	// Static functions
 	static void checkHeader(const HeaderPCX& headerPCX, const ImageInfo& image);
 	static void readHeader(std::ifstream& stream, HeaderPCX& headerPCX, ImageInfo& image);
 	static uint32_t calcFileEnd(std::ifstream& stream);
 	static bool readPCX(std::ifstream& stream, PagePCX& pcx, const uint32_t start, const uint32_t end);
+	static bool savePCX(std::ofstream& stream, const PagePCX& pcx);
 	static bool isVGA(const HeaderPCX& headerPCX);
 	// Overrides
 	Pixel getPixel(int x, int y) const override;

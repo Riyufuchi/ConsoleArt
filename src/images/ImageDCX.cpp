@@ -84,19 +84,40 @@ void ImageDCX::loadImage()
 	setPage(0);
 	technical.fileState = FileState::OK;
 }
-Images::Pixel ImageDCX::getPixel(int x, int y) const
+Pixel ImageDCX::getPixel(int x, int y) const
 {
-	x = (y * pages[selectedPage].header.bytesPerLine * pages[selectedPage].header.numOfColorPlanes) + x;
-	return {pixelData[x], pixelData[x + pages[selectedPage].image.width], pixelData[x + 2 * pages[selectedPage].image.width], 255};
+	x = (y * headerPCX.bytesPerLine * headerPCX.numOfColorPlanes) + x;
+	Pixel pixel;
+	switch (headerPCX.numOfColorPlanes)
+	{
+		case 4:
+			pixel.alpha = pixelData[x + 3 * image.width];
+			/* no break */
+		case 3:
+			pixel.red = pixelData[x];
+			pixel.green = pixelData[x + headerPCX.bytesPerLine];
+			pixel.blue = pixelData[x + 2 * image.width];
+		break;
+	}
+	return pixel;
 }
-
-void ImageDCX::setPixel(int x, int y, Images::Pixel newPixel)
+void ImageDCX::setPixel(int x, int y, Pixel newPixel)
 {
-	//pages[selectedPage]->setPixel(x, y, newPixel);
+	x = y * 3 * image.width + x;
+	switch (headerPCX.numOfColorPlanes)
+	{
+		case 4:
+			pixelData[x + 3 * image.width] = newPixel.alpha;
+			/* no break */
+		case 3:
+			pixelData[x] = newPixel.red;
+			pixelData[x + image.width]= newPixel.green;
+			pixelData[x + 2 * image.width] = newPixel.blue;
+		break;
+	}
 }
-
 bool ImageDCX::saveImage() const
-{/*
+{
 	if (pages.empty())
 		return false;
 	std::ofstream out(filepath, std::ios::out | std::ios::binary | std::ios::trunc);
@@ -124,7 +145,7 @@ bool ImageDCX::saveImage() const
 		pos = out.tellp();    // current file position
 		realOffsets.push_back(static_cast<uint32_t>(pos));
 		// write PCX data at this position
-		pages[i]->saveImage(out);
+		ImagePCX::savePCX(out, pages[i]);
 	}
 	// 4. Patch offsets in the table
 	for (size_t i = 0; i < count; ++i)
@@ -136,7 +157,6 @@ bool ImageDCX::saveImage() const
 	// 5. Write terminating offset = 0 (already placeholder, but we ensure it)
 	out.seekp(offsetPositions[count], std::ios::beg);
 	out.write(reinterpret_cast<const char*>(&ZERO), 4);
-*/
 	return true;
 }
 
@@ -144,13 +164,6 @@ bool ImageDCX::saveImage() const
 {
 	if (image)
 		pages.emplace_back(image);
-}
-
-ImagePCX* ImageDCX::getImage()
-{
-	if (pages.size())
-		return pages[0];
-	return 0;
 }*/
 
 void ImageDCX::setPage(size_t index)
@@ -160,6 +173,7 @@ void ImageDCX::setPage(size_t index)
 		selectedPage = index;
 		pixelData = pages[index].pixelData;
 		image = pages[index].image;
+		headerPCX = pages[index].header;
 	}
 }
 
