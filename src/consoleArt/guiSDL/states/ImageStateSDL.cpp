@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -96,6 +96,7 @@ void ImageStateSDL::onReturn()
 	// This program treats pallted PCX as standard 24-bit PCX
 	switch (IMAGE->getImageInfo().imageFormat)
 	{
+		case Images::ImageType::DCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved(((Images::ImageDCX&)*IMAGE).getSelectedPage()); break;
 		case Images::ImageType::PCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((Images::ImagePCX&)*IMAGE); break;
 		default: imageRGBA = IMAGE->getImageData(); break;
 	}

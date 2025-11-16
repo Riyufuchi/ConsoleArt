@@ -2,7 +2,7 @@
 // File       : Formats.hpp
 // Author     : riyufuchi
 // Created on : Feb 27, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 13, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,5 +19,6 @@
 #include "ImageGIF.h"
 #include "ImageHDR.h"
 #include "ImageTGA.h"
+#include "ImageDCX.h"
 
 #endif /* IMAGES_FORMATS_HPP_ */

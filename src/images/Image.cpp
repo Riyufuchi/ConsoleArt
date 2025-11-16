@@ -31,6 +31,7 @@ std::ostream& operator<<(std::ostream& os, const Image& img)
 			<< "Bits: " << img.image.bits << "\n"
 			<< "Inverted: " << (img.image.inverted ? "Yes" : "No") << "\n"
 			<< "Planar: " << (img.image.planar ? "Yes" : "No") << "\n"
+			<< "Palate: " << (img.image.palette ? "Yes" : "No") << "\n"
 			<< "Animated: " << (img.image.animated ? "Yes" : "No") << "\n"
 			<< "Multi-page: " << (img.image.multipage ? "Yes" : "No") << "\n"
 			<< "HDR: " << (img.image.hdr ? "Yes" : "No") << "\n";

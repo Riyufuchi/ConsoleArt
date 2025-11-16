@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImageTools.h
 // Author     : riyufuchi
-// Created on : Dec 1, 2023
-// Last edit  : Mar 3, 2025
+// Created on : Dec 01, 2023
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -43,6 +43,8 @@ public:
 		return interleavedData;
 	}
 	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const Images::ImagePCX& image);
+	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const Images::ImagePCX::PagePCX& image);
+	static bool convertImage(const Images::Image& source, Images::Image& target);
 };
 
 } /* namespace ImageUtils */
