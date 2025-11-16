@@ -33,9 +33,27 @@ ImageStateSDL::~ImageStateSDL()
 
 void ImageStateSDL::handleTick(SDL_Event& event)
 {
-	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+	if (event.type == SDL_KEYDOWN)
 	{
-		stateManager.switchState(WindowState::MAIN);
+		switch (event.key.keysym.sym)
+		{
+			case SDLK_ESCAPE: stateManager.switchState(WindowState::MAIN); break;
+			case SDLK_LEFT: swapPage(true); break;
+			case SDLK_RIGHT: swapPage(false); break;
+		}
+	}
+}
+
+void ImageStateSDL::swapPage(bool left)
+{
+	if (IMAGE->getImageInfo().multipage)
+	{
+		Images::IMultiPage* p = dynamic_cast<Images::IMultiPage*>(IMAGE);
+		if (left)
+			p->selectPage(p->getSelectedPageIndex() - 1);
+		else
+			p->selectPage(p->getSelectedPageIndex() + 1);
+		onReturn();
 	}
 }
 

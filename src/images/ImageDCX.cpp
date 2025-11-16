@@ -14,6 +14,8 @@ namespace Images
 
 ImageDCX::ImageDCX(std::string filename) : Image(filename, ImageType::DCX), selectedPage(0)
 {
+	image.multipage = true;
+	image.planar = true;
 	loadImage();
 }
 
@@ -81,7 +83,7 @@ void ImageDCX::loadImage()
 			pages.emplace_back(page);
 		}
 	}
-	setPage(0);
+	selectPage(0);
 	technical.fileState = FileState::OK;
 }
 Pixel ImageDCX::getPixel(int x, int y) const
@@ -160,13 +162,17 @@ bool ImageDCX::saveImage() const
 	return true;
 }
 
-/*void ImageDCX::addImage(ImagePCX* image)
+void ImageDCX::addImage(ImagePCX::PagePCX image)
 {
-	if (image)
-		pages.emplace_back(image);
-}*/
+	pages.emplace_back(image);
+}
 
-void ImageDCX::setPage(size_t index)
+size_t ImageDCX::getSelectedPageIndex() const
+{
+	return selectedPage;
+}
+
+void ImageDCX::selectPage(size_t index)
 {
 	if (index < pages.size())
 	{
@@ -177,7 +183,7 @@ void ImageDCX::setPage(size_t index)
 	}
 }
 
-const ImagePCX::PagePCX& ImageDCX::getSelectedPage()
+const ImagePCX::PagePCX& ImageDCX::getSelectedPage() const
 {
 	return pages[selectedPage];
 }

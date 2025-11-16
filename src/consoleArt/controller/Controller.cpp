@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 13, 2025
+// Last Edit   : Nov 16, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -79,7 +79,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 				return;
 			switch (image->getImageInfo().imageFormat)
 			{
-				//case Images::ImageType::PCX: imagePack.addImage((Images::ImagePCX*)image); break;
+				case Images::ImageType::PCX: imagePack.addImage(((Images::ImagePCX*)image)->convertToPage()); break;
 				default: delete image;
 			}
 		}
