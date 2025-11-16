@@ -66,7 +66,7 @@ public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
 	const HeaderPCX& getHeader() const;
-	//TODO: PagePCX convertToPage() const;
+	PagePCX convertToPage() const;
 	// Static functions
 	static void checkHeader(const HeaderPCX& headerPCX, const ImageInfo& image);
 	static void readHeader(std::ifstream& stream, HeaderPCX& headerPCX, ImageInfo& image);

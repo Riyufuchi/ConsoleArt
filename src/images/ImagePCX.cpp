@@ -145,6 +145,12 @@ bool ImagePCX::readPCX(std::ifstream& stream, PagePCX& pcx, const uint32_t start
 	}
 	return success;
 }
+
+ImagePCX::PagePCX ImagePCX::convertToPage() const
+{
+	return {headerPCX, image, pixelData};
+}
+
 void ImagePCX::loadImage()
 {
 	std::ifstream stream(filepath, std::ios::in | std::ios::binary);

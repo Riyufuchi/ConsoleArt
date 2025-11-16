@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,6 +16,7 @@
 #include "../../abstract/AbstractState.h"
 
 #include "../../../images/Image.h"
+#include "../../../images/IMultiPage.hpp"
 #include "StateSDL.h"
 #include "../../imageTools/ImageTools.h"
 
@@ -24,7 +25,7 @@ namespace ConsoleArt
 class ImageStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
-	const Images::Image* IMAGE;
+	Images::Image* IMAGE;
 	SDL_Texture* texture;
 	std::unique_ptr<unsigned char[]> imageRGBA;
 	float scaleX;
@@ -34,6 +35,7 @@ private:
 	int newH;
 	SDL_Rect imgSize;
 	unsigned int detectSDLFormat();
+	void swapPage(bool left);
 public:
 	ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager);
 	virtual ~ImageStateSDL();
