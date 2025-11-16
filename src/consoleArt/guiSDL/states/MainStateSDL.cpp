@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -47,7 +47,7 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 	// 2
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SETTINGS, true), [&]()
 	{
-		controller.notifyUser(AbstractNotifier::MessageType::WARNING, "Not yet implemented.");
+		stateManager.switchState(WindowState::CONFIG);
 	}));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::ABOUT, true), [&]() { stateManager.switchState(WindowState::ABOUT); }));
 	this->pane.addComponent(2, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::EXIT, false), [&]() { exitApplication(); }));

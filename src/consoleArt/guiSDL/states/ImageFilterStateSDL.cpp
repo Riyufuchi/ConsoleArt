@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.cpp
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -78,6 +78,12 @@ void ImageFilterStateSDL::handleTick(SDL_Event& event)
 	switch (event.type)
 	{
 		case SDL_MOUSEBUTTONDOWN: pane.tickOnClick(); break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+				case SDLK_ESCAPE: stateManager.switchState(WindowState::MAIN); break;
+			}
+		break;
 	}
 }
 

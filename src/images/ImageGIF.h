@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImageGIF.h
 // Author     : riyufuchi
-// Created on : Nov 6, 2025
-// Last edit  : Nov 7, 2025
+// Created on : Nov 06, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,15 +11,17 @@
 #define IMAGES_IMAGEGIF_H_
 
 #include "Image.h"
+#include "IMultiPage.hpp"
 
 namespace Images
 {
 
-class ImageGIF: public Image
+class ImageGIF: public Image, public IMultiPage
 {
 private:
 	std::vector<std::vector<uint8_t>> frames;
 	std::vector<int> delays;
+	size_t selectedFrameIndex;
 public:
 	ImageGIF(const std::string& filepath);
 	virtual ~ImageGIF();
@@ -27,8 +29,9 @@ public:
 	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
 	virtual bool saveImage() const override;
 	virtual void loadImage() override;
-	//TODO: void selectFrame(int index);
-	//TODO: std::vector<uint8_t> getFrame(int index) const;
+	virtual void selectPage(size_t index) override;
+	virtual size_t getSelectedPageIndex() const override;
+	const std::vector<uint8_t>& getFrame(int index) const;
 	//TODO: bool spitIntoPNGs() const;
 	//TODO: bool addFrame(const Image& frame, int index = 0);
 	//TODO: bool removeFrame(int index);
