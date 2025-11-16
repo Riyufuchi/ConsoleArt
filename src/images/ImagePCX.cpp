@@ -136,7 +136,7 @@ bool ImagePCX::readPCX(std::ifstream& stream, PagePCX& pcx, const uint32_t start
 			else
 			{
 				//stream.seekg(start + sizeof(HeaderPCX));
-				decodeRLE(stream, pcx.pixelData, pcx.header, end);
+				decodeRLE(stream, pcx.pixelData, pcx.header, end - start);
 			}
 			break;
 		default:
@@ -171,10 +171,9 @@ void ImagePCX::loadImage()
 		this->technical.fileState = FileState::OK;
 	}
 }
-void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t end)
+void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t lenght)
 {
-	int height = (headerPCX.yMax - headerPCX.yMin) + 1;
-	const long dataSize = headerPCX.bytesPerLine * headerPCX.bitsPerPixel * height;
+	const long dataSize = headerPCX.bytesPerLine * headerPCX.bitsPerPixel * (headerPCX.yMax - headerPCX.yMin) + 1;
 	// Initialize vector
 	imageData.clear();
 	imageData.reserve(dataSize);
@@ -182,10 +181,12 @@ void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, co
 	uint8_t byte = 0;
 	int index = 0;
 	int restOfBits = 0;
-	int i = 0;
-	while (inf.tellg() < end)
+	int count = 0;
+	std::vector<uint8_t> rle(lenght);
+	inf.read(reinterpret_cast<char*>(rle.data()), lenght);
+	for (size_t i = 0; i < rle.size(); i++)
 	{
-		inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
+		byte = rle[i];
 		if (byte >> 6 != 3)
 		{
 			imageData.push_back(byte);
@@ -194,8 +195,9 @@ void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, co
 		else
 		{
 			restOfBits = byte & 0x3F;
-			inf.read(reinterpret_cast<char*>(&byte), sizeof(byte));
-			for(i = 0; i < restOfBits; i++)
+			i++;
+			byte = rle[i];
+			for(count = 0; count < restOfBits; count++)
 			{
 				imageData.push_back(byte);
 			}

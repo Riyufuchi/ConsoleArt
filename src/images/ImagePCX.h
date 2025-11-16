@@ -57,7 +57,7 @@ private:
 	int BLUE_OFFSET;
 	int ALPHA_OFFSET;
 	void updateImage();
-	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t end);
+	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t lenght);
 	static bool loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData,PagePCX& pcx, const uint32_t start, const uint32_t end);
 	static bool convertImageDataVGA(const std::vector<uint8_t>& imageData, PagePCX& pcx);
 	static bool readVGA(std::ifstream& inf, PagePCX& pcx, const uint32_t end);
