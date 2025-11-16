@@ -2,7 +2,7 @@
 // File       : ImageGIF.cpp
 // Author     : riyufuchi
 // Created on : Nov 06, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@
 namespace Images
 {
 
-ImageGIF::ImageGIF(const std::string& filepath) : Image(filepath, ImageType::GIF)
+ImageGIF::ImageGIF(const std::string& filepath) : Image(filepath, ImageType::GIF), selectedFrameIndex(0)
 {
 	loadImage();
 }
@@ -95,6 +95,25 @@ void ImageGIF::setPixel(int , int , Images::Pixel )
 bool ImageGIF::saveImage() const
 {
 	return false;
+}
+
+const std::vector<uint8_t>& ImageGIF::getFrame(int index) const
+{
+	return frames[index];
+}
+
+void ImageGIF::selectPage(size_t index)
+{
+	if (index < frames.size())
+	{
+		pixelData = frames[index];
+		selectedFrameIndex = index;
+	}
+}
+
+size_t ImageGIF::getSelectedPageIndex() const
+{
+	return selectedFrameIndex;
 }
 
 } /* namespace sdl */

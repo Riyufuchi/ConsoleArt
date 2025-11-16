@@ -25,7 +25,8 @@ enum WindowState
 	ABOUT,
 	ASCII_CONVERTER,
 	WATERMARK,
-	FILTER_IMAGE
+	FILTER_IMAGE,
+	CONFIG
 };
 class StateManager
 {
