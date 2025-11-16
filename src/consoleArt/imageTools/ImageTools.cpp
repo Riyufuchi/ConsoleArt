@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImageTools.cpp
 // Author     : riyufuchi
-// Created on : Dec 1, 2023
-// Last edit  : May 31, 2025
+// Created on : Dec 01, 2023
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -17,9 +17,30 @@ ImageTools::ImageTools()
 ImageTools::~ImageTools()
 {
 }
+std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const Images::ImagePCX::PagePCX& image)
+{
+	int totalPixels = image.image.width * image.image.height;
+
+	unsigned char* interleavedData = new unsigned char[totalPixels * image.header.numOfColorPlanes]; // Supports RGB or RGBA
+
+	int pixelIndex = 0;
+	int RGBpos = 0;
+	for (int y = 0; y < image.image.height; y++)
+	{
+		for (int x = 0; x < image.image.width; x++)
+		{
+			pixelIndex = (y * image.header.numOfColorPlanes * image.header.bytesPerLine) + x;
+			RGBpos = (y * image.image.width + x) * 3;
+			interleavedData[RGBpos] = image.pixelData[pixelIndex];
+			interleavedData[RGBpos + 1] = image.pixelData[image.header.bytesPerLine + pixelIndex];
+			interleavedData[RGBpos + 2] = image.pixelData[(image.header.bytesPerLine * 2) + pixelIndex];
+		}
+	}
+	return std::unique_ptr<unsigned char []>(interleavedData);
+}
 std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const Images::ImagePCX& image)
 {
-	const Images::ImagePCX::PCXHeader &header = image.getHeader();
+	const Images::ImagePCX::HeaderPCX &header = image.getHeader();
 	int totalPixels = image.getWidth() * image.getHeight();
 
 	std::unique_ptr planarData = image.getImageData();
@@ -207,4 +228,20 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 	addToImageName(canvasImage, "-signed");
 	return canvasImage.saveImage();
 }
+
+bool ImageTools::convertImage(const Images::Image& source, Images::Image& target)
+{
+	if (source != target)
+		return false;
+	int x;
+	for (int y = 0; y < source.getHeight(); y++)
+	{
+		for (x = 0; x < source.getWidth(); x++)
+		{
+			target.setPixel(x, y, source.getPixel(x, y));
+		}
+	}
+	return true;
+}
+
 } /* namespace ImageUtils */

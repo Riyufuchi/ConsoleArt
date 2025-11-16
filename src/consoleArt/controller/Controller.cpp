@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 10, 2025
+// Last Edit   : Nov 13, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -25,6 +25,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	supportedImageFormats[".gif"] = Images::ImageType::GIF;
 	supportedImageFormats[".hdr"] = Images::ImageType::HDR;
 	supportedImageFormats[".tga"] = Images::ImageType::TGA;
+	supportedImageFormats[".dcx"] = Images::ImageType::DCX;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{
@@ -63,6 +64,26 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 				ImageUtils::SimpleEdit::overlayTextures(*baseLayer, *image.get());
 			delete baseLayer;
 		}
+		isRunnable = false;
+	};
+	argumentMethods["--packIntoDCX"] = [&](const auto& vector)
+	{
+		if (vector.size() == 0)
+			return;
+		Images::Image* image = nullptr;
+		Images::ImageDCX imagePack("packed.dcx", vector.size());
+		for (const std::string& imagePath : vector)
+		{
+			image = loadImageAsync(workspacePath + imagePath);
+			if (image == nullptr || !image->isLoaded())
+				return;
+			switch (image->getImageInfo().imageFormat)
+			{
+				//case Images::ImageType::PCX: imagePack.addImage((Images::ImagePCX*)image); break;
+				default: delete image;
+			}
+		}
+		imagePack.saveImage();
 		isRunnable = false;
 	};
 }
@@ -208,6 +229,7 @@ Images::Image* Controller::loadImageAsync(const std::string& path, const std::st
 			case Images::ImageType::GIF: return new Images::ImageGIF(path);
 			case Images::ImageType::HDR: return new Images::ImageHDR(path);
 			case Images::ImageType::TGA: return new Images::ImageTGA(path);
+			case Images::ImageType::DCX: return new Images::ImageDCX(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");

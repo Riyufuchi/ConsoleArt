@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 15, 2025
+// Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -21,7 +21,7 @@ class ImagePCX : public Image
 {
 public:
 	#pragma pack(push, 1)
-	struct PCXHeader
+	struct HeaderPCX
 	{
 		uint8_t file_type {0x0A};   // PCX identifier (always 0x0A)
 		uint8_t version {0};        // PCX version (0-5)
@@ -43,28 +43,37 @@ public:
 		uint8_t reserved2[54] {0};
 	};
 	#pragma pack(pop)
+	struct PagePCX
+	{
+		HeaderPCX header;
+		ImageInfo image;
+		std::vector<unsigned char> pixelData;
+		std::string msg { "OK" };
+		PixelRGB* palette = nullptr;
+	};
 private:
-	PCXHeader headerPCX;
+	HeaderPCX headerPCX;
 	PixelRGB* paletteVGA;
 	int BLUE_OFFSET;
 	int ALPHA_OFFSET;
 	void updateImage();
 	void write24and32bitPCX(std::ofstream& outf) const;
+	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t end);
+	static bool loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData,PagePCX& pcx, const uint32_t start, const uint32_t end);
+	static bool convertImageDataVGA(const std::vector<uint8_t>& imageData, PagePCX& pcx);
+	static bool readVGA(std::ifstream& inf, PagePCX& pcx, const uint32_t end);
 public:
 	ImagePCX(std::string filename);
 	~ImagePCX();
-	bool containsPalette() const;
-	const PCXHeader& getHeader() const;
+	const HeaderPCX& getHeader() const;
 	bool saveImage(std::ofstream& stream) const;
-	// Static
-	static void checkHeader(const PCXHeader& headerPCX, const ImageInfo& image);
-	static void readHeader(std::ifstream& stream, PCXHeader& headerPCX, ImageInfo& image);
-	static void decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const PCXHeader& headerPCX);
+	//TODO: PagePCX convertToPage() const;
+	// Static functions
+	static void checkHeader(const HeaderPCX& headerPCX, const ImageInfo& image);
+	static void readHeader(std::ifstream& stream, HeaderPCX& headerPCX, ImageInfo& image);
 	static uint32_t calcFileEnd(std::ifstream& stream);
-	static PixelRGB* readPaletteVGA(std::ifstream& inf, const uint32_t end);
-	static bool isVGA(const PCXHeader& headerPCX);
-	static bool loadImageDataVGA(std::ifstream& stream, std::vector<uint8_t>& imageData, PCXHeader& headerPCX, ImageInfo& image, std::string& errMsg, PixelRGB*& paletteVGA, const uint32_t start);
-	static bool convertImageDataVGA(const std::vector<uint8_t>& imageData, std::vector<uint8_t>& pixelData, const ImageInfo& image, const PixelRGB* paletteVGA);
+	static bool readPCX(std::ifstream& stream, PagePCX& pcx, const uint32_t start, const uint32_t end);
+	static bool isVGA(const HeaderPCX& headerPCX);
 	// Overrides
 	Pixel getPixel(int x, int y) const override;
 	void setPixel(int x, int y, Pixel newPixel) override;
