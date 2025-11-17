@@ -9,6 +9,19 @@
 
 ## About
 
+This application works with images and supports even multi-page and animated ones.
+
+Highlighted features:
+
+* Pack images into .dcx
+* Convert images to ascii
+* Apply some filters
+* Apply signatures to images
+* Split gif into individual frames
+* And more...
+
+### Project history
+
 This project started quite some time ago, the initial commit was on 13th of July 2020. This project wasn't meant to have any "form or shape", just project for experimenting in C++, but it was turned into proper C++ project with focus on converting image to ASCII/UNICODE. So now it continues in this flow and it still serves it purpose that it is for learning/experimenting in C++.
 
 ## Used libraries

@@ -248,7 +248,6 @@ void ControllerCLI::loadImageEvent()
 	IndexDataType id = addImageAsync(loadImageAsync(inputImageName()));
 	if (id)
 		selectImage(id);
-
 }
 
 void ControllerCLI::selectImageEvent()

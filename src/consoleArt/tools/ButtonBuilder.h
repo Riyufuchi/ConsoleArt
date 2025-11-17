@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,6 +14,9 @@
 #include <string>
 
 #include "SpriteSheetSDL.h"
+
+#include "../../assets/ui_small.h"
+#include "../../assets/ui_big.h"
 
 namespace ConsoleArt
 {
