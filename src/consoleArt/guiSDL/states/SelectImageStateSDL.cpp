@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : May 25, 2025
+// Created on : Mar 03, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -24,12 +24,13 @@ void SelectImageStateSDL::createUI()
 {
 	const int SIZE = 32;
 	
-	controller.iterateImagesAsync([&](Images::Image* image) {
-		Images::Image* imgCopy = image;
-		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL(image->getFilename(), FONT_BASE, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR
-		, [imgCopy, this]()
+	controller.iterateImagesAsync([&](const Controller::VectorData& image) {
+		Images::Image* imgCopy = image.imageUptr.get();
+		Controller::IndexDataType indexCopy = image.index;
+		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL(image.imageUptr->getFilename(), FONT_BASE, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR
+		, [imgCopy, indexCopy, this]()
 		{
-			controller.setSelectedImage(imgCopy);
+			controller.selectImage(indexCopy);
 			stateManager.switchState(WindowState::MAIN);
 		}));
 		y++;

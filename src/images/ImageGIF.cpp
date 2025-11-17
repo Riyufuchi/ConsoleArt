@@ -10,6 +10,7 @@
 #include "ImageGIF.h"
 
 #include "../include/stb_image.h"
+#include "../include/stb_image_write.h"
 
 namespace Images
 {
@@ -114,6 +115,29 @@ void ImageGIF::selectPage(size_t index)
 size_t ImageGIF::getSelectedPageIndex() const
 {
 	return selectedFrameIndex;
+}
+
+int ImageGIF::getFrameDelay(size_t index) const
+{
+	return delays[index];
+}
+
+bool ImageGIF::spitIntoPNGs() const
+{
+	int index = 0;
+	std::string name = getFilename();
+	name.replace(name.length() - 4, name.length(), ".png");
+	for (const std::vector<uint8_t>& pixelData : frames)
+	{
+		stbi_write_png((std::to_string(index) + "-" + name).c_str(), image.width, image.height, image.channels, pixelData.data(), image.width * image.channels);
+		index++;
+	}
+	return true;
+}
+
+size_t ImageGIF::getPageCount() const
+{
+	return frames.size();
 }
 
 } /* namespace sdl */

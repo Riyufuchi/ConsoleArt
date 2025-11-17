@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Nov 07, 2025
+// Last Edit   : Nov 17, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -108,6 +108,7 @@ void ControllerCLI::refreshMenu()
 
 void ControllerCLI::imageActionsSubmenu()
 {
+	Images::Image* selectedImage = getSelectedImage();
 	if (selectedImage == nullptr)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image is selected!\n");
@@ -169,9 +170,12 @@ void ControllerCLI::run()
 		if(ConsoleLib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
 			return;
 	}
-
+	IndexDataType lastIndex = 0;
+	Images::Image* selectedImage = nullptr;
 	while (isRunnable)
 	{
+		if (lastIndex != getSelectedImageIndex())
+			selectedImage = getSelectedImage();
 		console->out("\nSelected image: ");
 		if (selectedImage != nullptr)
 			console->out(selectedImage->getFilename());
@@ -205,7 +209,7 @@ void ControllerCLI::loadAllImagesAsync()
 	thread.detach();
 }
 
-Images::Image* ControllerCLI::selectImage()
+Controller::IndexDataType ControllerCLI::selectImageMenu()
 {
 	if (images.empty())
 	{
@@ -217,17 +221,17 @@ Images::Image* ControllerCLI::selectImage()
 	int max = images.size();
 	for (int index = 0; index < max; index++) // or for(Images::Image* img : images)
 	{
-		std::cout << index + 1 << ". " << images[index]->getFilename() << std::endl;
+		std::cout << index + 1 << ". " << images[index].imageUptr->getFilename() << std::endl;
 	}
 
 	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(0, max) - 1;
 	if (selectedIndex == -1)
-		return nullptr;
+		return 0;
 	std::cout << "\n";
-	messenger->displayImageInfo(*images[selectedIndex].get());
+	messenger->displayImageInfo(*images[selectedIndex].imageUptr.get());
 	std::cout << "\n";
 	console->disableCustomFG();
-	return images[selectedIndex].get();
+	return images[selectedIndex].index;
 }
 
 std::string ControllerCLI::inputImageName()
@@ -241,20 +245,20 @@ std::string ControllerCLI::inputImageName()
 
 void ControllerCLI::loadImageEvent()
 {
-	Images::Image* imageHolder = loadImageAsync(inputImageName());
-	if (addImageAsync(imageHolder))
-		selectedImage = imageHolder;
+	IndexDataType id = addImageAsync(loadImageAsync(inputImageName()));
+	if (id)
+		selectImage(id);
+
 }
 
 void ControllerCLI::selectImageEvent()
 {
-	Images::Image* imageHolder = selectImage();
-	if (imageHolder != nullptr)
-		selectedImage = imageHolder;
+	selectImage(selectImageMenu());
 }
 
 void ControllerCLI::convertImageToAsciiEvent()
 {
+	Images::Image* selectedImage = getSelectedImage();
 	if (selectedImage == nullptr || abstractAsciiPrinter == nullptr)
 			return;
 	messenger->displayImageInfo(*selectedImage);

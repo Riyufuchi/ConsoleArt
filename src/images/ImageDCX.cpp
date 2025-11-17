@@ -188,4 +188,9 @@ const ImagePCX::PagePCX& ImageDCX::getSelectedPage() const
 	return pages[selectedPage];
 }
 
+size_t ImageDCX::getPageCount() const
+{
+	return pages.size();
+}
+
 } /* namespace Images */

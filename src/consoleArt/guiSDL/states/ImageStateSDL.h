@@ -16,7 +16,7 @@
 #include "../../abstract/AbstractState.h"
 
 #include "../../../images/Image.h"
-#include "../../../images/IMultiPage.hpp"
+#include "../../../images/IAnimated.hpp"
 #include "StateSDL.h"
 #include "../../imageTools/ImageTools.h"
 
@@ -25,6 +25,11 @@ namespace ConsoleArt
 class ImageStateSDL : public sdl::StateSDL, private AbstractState
 {
 private:
+	struct Frame
+	{
+		SDL_Texture* texture = nullptr;
+		int delay;
+	};
 	Images::Image* IMAGE;
 	SDL_Texture* texture;
 	std::unique_ptr<unsigned char[]> imageRGBA;
@@ -34,8 +39,10 @@ private:
 	int newW;
 	int newH;
 	SDL_Rect imgSize;
+	std::vector<Frame> frames;
 	unsigned int detectSDLFormat();
 	void swapPage(bool left);
+	SDL_Texture* convertImageToTexture();
 public:
 	ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager);
 	virtual ~ImageStateSDL();

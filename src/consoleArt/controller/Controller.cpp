@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 16, 2025
+// Last Edit   : Nov 17, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -13,7 +13,8 @@ namespace ConsoleArt
 Controller::Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) : Controller("", notifier, menu, asciiPrinter)
 {
 }
-Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) : isRunnable(true), messenger(notifier), menuInterface(menu), abstractAsciiPrinter(asciiPrinter), selectedImage(nullptr), workspacePath(path)
+Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) :
+		selectedImageIndex(0), isRunnable(true), messenger(notifier), menuInterface(menu), abstractAsciiPrinter(asciiPrinter), workspacePath(path)
 {
 	supportedImageFormats[".pcx"] = Images::ImageType::PCX;
 	supportedImageFormats[".bmp"] = Images::ImageType::BMP;
@@ -32,7 +33,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 		for (const std::string& path : vector)
 			addImageAsync(loadImageAsync(workspacePath + path));
 		if (!images.empty())
-			selectedImage = images[0].get();
+			selectImage(images.size() - 1);
 	};
 	argumentMethods["--path"] = [&](const std::vector<std::string>& vector) { if (vector.empty()) return; setWorkspace(vector[0]); };
 	argumentMethods["--p"] = argumentMethods["--path"];
@@ -46,8 +47,19 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	argumentMethods["--removeGray"] = [&](const auto&)
 	{
 		loadAllImagesAsync();
-		for (const std::unique_ptr<Images::Image>& image : images)
-			ImageUtils::SimpleEdit::removeGrayFromTexture(*image.get());
+		for (const VectorData& image : images)
+			ImageUtils::SimpleEdit::removeGrayFromTexture(*image.imageUptr.get());
+		isRunnable = false;
+	};
+	argumentMethods["--splitGIF"] = [&](const auto& vector)
+	{
+		if (vector.size() == 0)
+			return;
+		Images::ImageGIF gif(vector[0]);
+		if (gif)
+		{
+			gif.spitIntoPNGs();
+		}
 		isRunnable = false;
 	};
 	argumentMethods["--overlayTextures"] = [&](const auto& vector)
@@ -60,8 +72,8 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 			baseLayer = loadImageAsync(workspacePath + baseImage);
 			if (baseLayer == nullptr || !baseLayer->isLoaded())
 				return;
-			for (const std::unique_ptr<Images::Image>& image : images)
-				ImageUtils::SimpleEdit::overlayTextures(*baseLayer, *image.get());
+			for (const VectorData& image : images)
+				ImageUtils::SimpleEdit::overlayTextures(*baseLayer, *image.imageUptr.get());
 			delete baseLayer;
 		}
 		isRunnable = false;
@@ -164,39 +176,41 @@ void Controller::loadAllImagesAsync()
 		return;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
-	std::sort(images.begin(), images.end(), [](const std::unique_ptr<Images::Image>& a, const std::unique_ptr<Images::Image>& b)
+	std::sort(images.begin(), images.end(), [](const VectorData& a, const VectorData& b)
 	{
-		return a->getFilename() < b->getFilename();
+		return a.imageUptr->getFilename() < b.imageUptr->getFilename();
 	});
 	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\n");
 }
 
-bool Controller::addImageAsync(Images::Image* image)
+Controller::IndexDataType Controller::addImageAsync(Images::Image* image)
 {
+	static IndexDataType index = 0;
 	if (image == nullptr)
-		return false;
+		return 0;
 	if (!image->isLoaded())
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::ERROR, image->getFileStatus() + "\n");
 		delete image;
-		image = NULL;
-		return false;
+		image = nullptr;
+		return 0;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
 	if (!images.empty())
 	{
-		for (std::unique_ptr<Images::Image>& existingImage : images)
+		for (VectorData& existingImage : images)
 		{
-			if (existingImage->getFilename() == image->getFilename())
+			if (existingImage.imageUptr->getFilename() == image->getFilename())
 			{
 				delete image;
-				image = NULL;
-				return false;
+				image = nullptr;
+				return 0;
 			}
 		}
 	}
-	images.emplace_back(std::unique_ptr<Images::Image>(image));
-	return true;
+	index++;
+	images.emplace_back(VectorNode{ index, std::unique_ptr<Images::Image>(image)});
+	return index;
 }
 
 Images::Image* Controller::loadImageAsync(const std::string& path)
@@ -262,11 +276,6 @@ void Controller::setWorkspace(std::string path)
 	messenger->messageUser(AbstractNotifier::MessageType::INFO, "Workspace path: " + workspacePath + "\n");
 }
 
-void Controller::setSelectedImage(Images::Image* selectedImage)
-{
-	this->selectedImage = selectedImage;
-}
-
 void Controller::setNotifier(AbstractNotifier* notifier)
 {
 	if (notifier)
@@ -292,9 +301,22 @@ const std::string& Controller::getWorkspace()
 	return workspacePath;
 }
 
+void Controller::selectImage(IndexDataType selectedImageIndex)
+{
+	this->selectedImageIndex = selectedImageIndex;
+}
+
+Controller::IndexDataType Controller::getSelectedImageIndex() const
+{
+	return selectedImageIndex;
+}
+
 Images::Image* Controller::getSelectedImage()
 {
-	return selectedImage;
+	for (VectorNode& img : images)
+		if (img.index == selectedImageIndex)
+			return img.imageUptr.get();
+	return nullptr;
 }
 
 int Controller::getNumberOfLoadedImages()
@@ -303,11 +325,11 @@ int Controller::getNumberOfLoadedImages()
 	return images.size();
 }
 
-void Controller::iterateImagesAsync(std::function<void(Images::Image*)> actionOnImage)
+void Controller::iterateImagesAsync(std::function<void(const VectorNode& node)> actionOnImage)
 {
 	std::lock_guard<std::mutex> lock(mutexImageFormats);
-	for (const std::unique_ptr<Images::Image>& image : images)
-		actionOnImage(image.get());
+	for (const VectorNode& image : images)
+		actionOnImage(image);
 }
 
 }

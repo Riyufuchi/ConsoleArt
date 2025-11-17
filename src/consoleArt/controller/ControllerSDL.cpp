@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -135,9 +135,9 @@ void ControllerSDL::setAppIcon(std::string iconPath)
 	SDL_FreeSurface(icon); // Free the surface (no longer needed)
 }
 
-Images::Image* ControllerSDL::selectImage()
+Controller::IndexDataType ControllerSDL::selectImageMenu()
 {
-	return nullptr;
+	return 0;
 }
 
 void ControllerSDL::showAboutApplicationInfo()

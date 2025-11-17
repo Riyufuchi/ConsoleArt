@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Mar 23, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -37,7 +37,7 @@ protected:
 	void loadAllImagesAsync();
 	virtual void refreshMenu();
 	virtual std::string inputImageName() override;
-	virtual Images::Image* selectImage() override;
+	virtual IndexDataType selectImageMenu() override;
 	virtual void showAboutApplicationInfo() override;
 private:
 	ConsoleLib::DefaultConsole defaultConsole;
