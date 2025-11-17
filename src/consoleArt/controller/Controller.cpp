@@ -313,6 +313,8 @@ Controller::IndexDataType Controller::getSelectedImageIndex() const
 
 Images::Image* Controller::getSelectedImage()
 {
+	if (selectedImageIndex == 0)
+		return nullptr;
 	for (VectorNode& img : images)
 		if (img.index == selectedImageIndex)
 			return img.imageUptr.get();

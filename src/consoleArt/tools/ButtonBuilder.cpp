@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 10, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,8 +13,8 @@ namespace ConsoleArt
 {
 ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
-	this->buttonSheet = new sdl::SpriteSheetSDL("assets/ui_big.png", renderer);
-	this->buttonSheetSmall = new sdl::SpriteSheetSDL("assets/ui_small.png", renderer);
+	this->buttonSheet = new sdl::SpriteSheetSDL(ui_big_png_len, ui_big_png, renderer);
+	this->buttonSheetSmall = new sdl::SpriteSheetSDL(ui_small_png_len, ui_small_png, renderer);
 	// Big Buttons
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);
