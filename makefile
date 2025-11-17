@@ -64,6 +64,7 @@ $(APP_TARGET): $(OBJ_FILES)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
 	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -I$(INC_DIR) -I$(INC_CSDL_DIR) -c $< -o $@
+	cp -r assets build
 
 # Create build directory
 $(BUILD_DIR):

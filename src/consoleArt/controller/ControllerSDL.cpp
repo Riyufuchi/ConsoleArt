@@ -21,7 +21,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 	this->window = SDL_CreateWindow(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
-	setAppIcon("assets/icon.png");
+	setAppIcon();
 	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer)
 	{
@@ -119,7 +119,21 @@ void ControllerSDL::run()
 		}*/
 	}
 }
+void ControllerSDL::setAppIcon()
+{
+	if (!window)
+		return;
+	SDL_RWops* rw = SDL_RWFromConstMem(icon_png, icon_png_len);
+	SDL_Surface* icon = IMG_Load_RW(rw, 1);
+	if (!icon)
+	{
+		SDL_Log("Failed to load icon: %s", IMG_GetError());
+		return;
+	}
 
+	SDL_SetWindowIcon(window, icon); // Set the icon
+	SDL_FreeSurface(icon); // Free the surface (no longer needed)
+}
 void ControllerSDL::setAppIcon(std::string iconPath)
 {
 	if (!window)

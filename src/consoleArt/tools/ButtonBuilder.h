@@ -15,8 +15,8 @@
 
 #include "SpriteSheetSDL.h"
 
-#include "../../assets/ui_small.h"
-#include "../../assets/ui_big.h"
+#include "../../embed/ui_big.h"
+#include "../../embed/ui_small.h"
 
 namespace ConsoleArt
 {
