@@ -2,7 +2,7 @@
 // File       : ControllerZenity.cpp
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : May 15, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,6 +23,7 @@ void ControllerZenity::printHeader()
 {
 	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
+	static Images::Image* selectedImage = getSelectedImage();;
 	if (selectedImage != nullptr)
 		console->out(selectedImage->getFilename());
 	else
@@ -59,37 +60,36 @@ std::string ControllerZenity::inputImageName()
 	}
 	return ControllerCLI::inputImageName();
 }
-
-Images::Image* ControllerZenity::selectImage()
+Controller::IndexDataType ControllerZenity::selectImageMenu()
 {
 	if (images.empty())
 	{
 		std::cerr << "No images loaded!" << std::endl;
-		return nullptr;
+		return 0;
 	}
 
 	// Build the Zenity command
 	std::ostringstream cmd;
 	cmd << "zenity --list --title='Select an Image' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' ";
 
-	for (const auto &img : images)
+	for (const VectorData& img : images)
 	{
-		const Images::ImageInfo& info = img->getImageInfo();
-		cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (img->isInverted() ? "Yes" : "No") << " ";
+		const Images::ImageInfo& info = img.imageUptr.get()->getImageInfo();
+		cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (img.imageUptr.get()->isInverted() ? "Yes" : "No") << " ";
 	}
 
 	FILE *pipe = popen(cmd.str().c_str(), "r");
 	if (!pipe)
 	{
 		std::cerr << "Failed to open Zenity list dialog!" << std::endl;
-		return ControllerCLI::selectImage();
+		return ControllerCLI::selectImageMenu();
 	}
 
 	char buffer[256]; // Store selected filename
 	if (fgets(buffer, sizeof(buffer), pipe) == nullptr)
 	{
 		pclose(pipe);
-		return nullptr; // No selection (canceled)
+		return 0; // No selection (canceled)
 	}
 
 	pclose(pipe);
@@ -98,10 +98,10 @@ Images::Image* ControllerZenity::selectImage()
 	std::string selectedImage(buffer);
 	selectedImage.erase(selectedImage.find_last_not_of("\n") + 1);
 
-	for (auto& img : images)
-		if (img->getFilename() == selectedImage)
-			return img.get();
-	return nullptr;
+	for (VectorData& img : images)
+		if (img.imageUptr.get()->getFilename() == selectedImage)
+			return img.index;
+	return 0;
 }
 
 void ControllerZenity::showAboutApplicationInfo()

@@ -2,7 +2,7 @@
 // File       : ControllerSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -44,7 +44,7 @@ private:
 	SDL_Event event;
 	void setAppIcon(std::string iconPath);
 protected:
-	virtual Images::Image* selectImage() override;
+	virtual IndexDataType selectImageMenu() override;
 	virtual void showAboutApplicationInfo() override;
 	virtual std::string inputImageName() override;
 public:

@@ -41,6 +41,7 @@ public:
 	virtual void selectPage(size_t index) override final;
 	const ImagePCX::PagePCX& getSelectedPage() const;
 	virtual size_t getSelectedPageIndex() const override final;
+	virtual size_t getPageCount() const override;
 	void addImage(ImagePCX::PagePCX image);
 };
 

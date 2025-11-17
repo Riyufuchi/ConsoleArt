@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -74,11 +74,11 @@ void MainStateSDL::addImageButtonEvent()
 {
 	std::thread([&]()
 	{
-		Images::Image* img = controller.loadImageAsync(controller.inputImageName());
-		if (controller.addImageAsync(img))
+		Controller::IndexDataType id = controller.addImageAsync(controller.loadImageAsync(controller.inputImageName()));
+		if (id)
 		{
 			controller.notifyUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Image successfully loaded.");
-			controller.setSelectedImage(img);
+			controller.selectImage(id);
 			textUpdated = true;
 		}
 	}).detach();
@@ -93,11 +93,11 @@ void MainStateSDL::loadDropedFile(char* droppedFile)
 		#ifdef DEBUGtextUpdated
 			SDL_Log("%s", filePath.c_str());
 		#endif
-		Images::Image* img = controller.loadImageAsync(filePath);
-		if (controller.addImageAsync(img))
+		Controller::IndexDataType id = controller.addImageAsync(controller.loadImageAsync(controller.inputImageName()));
+		if (id)
 		{
 			controller.notifyUser(AbstractNotifier::SUCCESFUL_TASK, "Image successfully loaded.");
-			controller.setSelectedImage(img);
+			controller.selectImage(id);
 			textUpdated = true;
 		}
 		else

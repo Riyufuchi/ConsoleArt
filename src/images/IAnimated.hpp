@@ -7,21 +7,19 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMULTIPAGE_HPP_
-#define IMAGES_IMULTIPAGE_HPP_
+#ifndef IMAGES_IAnimated_HPP_
+#define IMAGES_IAnimated_HPP_
 
-#include <iostream>
+#include "IMultiPage.hpp"
 
 namespace Images
 {
-class IMultiPage
+class IAnimated
 {
 public:
-	IMultiPage() = default;
-	virtual ~IMultiPage() = default;
-	virtual void selectPage(size_t index) = 0;
-	virtual size_t getSelectedPageIndex() const = 0;
-	virtual size_t getPageCount() const = 0;
+	IAnimated() = default;
+	virtual ~IAnimated() = default;
+	virtual int getFrameDelay(size_t index) const = 0;
 };
 }
 

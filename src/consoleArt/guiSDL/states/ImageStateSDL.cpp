@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -83,6 +83,61 @@ unsigned int ImageStateSDL::detectSDLFormat()
 void ImageStateSDL::onReturn()
 {
 	this->IMAGE = controller.getSelectedImage();
+	if (!IMAGE)
+		return;
+	if (!frames.empty())
+	{
+		for (size_t i = 0; i < frames.size(); i++)
+		{
+			SDL_DestroyTexture(frames[i].texture);
+		}
+		frames.clear();
+	}
+	if (IMAGE->getImageInfo().animated)
+	{
+		Images::IMultiPage* p = dynamic_cast<Images::IMultiPage*>(IMAGE);
+		auto gif = dynamic_cast<Images::IAnimated*>(IMAGE);
+		for (size_t i = 0; i < p->getPageCount(); i++)
+		{
+			Frame f;
+			p->selectPage(i);
+			f.texture = convertImageToTexture();
+			f.delay = gif->getFrameDelay(i);
+			frames.emplace_back(f);
+		}
+	}
+	else
+		this->texture = convertImageToTexture();
+	onWindowResize();
+}
+
+void ImageStateSDL::render()
+{
+	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+
+	static size_t current = 0;
+	static Uint32 last = SDL_GetTicks();
+
+	if (IMAGE->getImageInfo().animated)
+	{
+		Uint32 now = SDL_GetTicks();
+		Frame& f = frames[current];
+
+		if (now - last >= (Uint32)f.delay)
+		{
+			current++;
+			if (current >= frames.size())
+				current = 0;
+			last = now;
+		}
+		SDL_RenderCopy(renderer, frames[current].texture, nullptr, &imgSize);
+	}
+	else
+		SDL_RenderCopy(renderer, texture, NULL, &imgSize);
+}
+
+SDL_Texture* ImageStateSDL::convertImageToTexture()
+{
 	Images::ImageInfo info = IMAGE->getImageInfo();
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // Linear filtering (smoother scaling)
@@ -105,7 +160,7 @@ void ImageStateSDL::onReturn()
 		break;
 		default:
 			SDL_Log("Unknown pixel format");
-		return;
+		return 0;
 	}
 
 	if (info.bits < 24)
@@ -122,7 +177,7 @@ void ImageStateSDL::onReturn()
 	if (!imageRGBA.get())
 	{
 		SDL_Log("imageRGBA is nullptr!");
-		return;
+		return 0;
 	}
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
@@ -133,21 +188,13 @@ void ImageStateSDL::onReturn()
 	if (!surface)
 	{
 		SDL_Log("Failed to create surface: %s", SDL_GetError());
-		return;
+		return 0;
 	}
 
 	// Convert surface to texture
-	this->texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
-	//SDL_GetWindowSize(winInfo.window, &winInfo.w, &winInfo.h);
-	onWindowResize();
-}
-
-void ImageStateSDL::render()
-{
-	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-	// Render the image with the new size
-	SDL_RenderCopy(renderer, texture, NULL, &imgSize);
+	return texture;
 }
 
 void ImageStateSDL::onWindowResize()

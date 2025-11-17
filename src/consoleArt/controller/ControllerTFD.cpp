@@ -2,7 +2,7 @@
 // File       : ControllerTFD.cpp
 // Author     : riyufuchi
 // Created on : May 15, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -23,6 +23,7 @@ void ControllerTFD::printHeader()
 {
 	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
+	static Images::Image* selectedImage = getSelectedImage();
 	if (selectedImage != nullptr)
 		console->out(selectedImage->getFilename());
 	else

@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,10 +20,11 @@
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 #define _APP_NAME "ConsoleArt"
-#define _APP_VERSION "3.2 - beta 6"
+#define _APP_VERSION "3.2"
 
 #ifdef DEBUG
-	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION " (debug)"
+	#define _APP_BETA_VERSION " - beta 1"
+	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION _APP_BETA_VERSION " (debug)"
 #else
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION
 #endif
