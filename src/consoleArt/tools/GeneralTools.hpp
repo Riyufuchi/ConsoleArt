@@ -23,7 +23,7 @@
 #define _APP_VERSION "3.3"
 
 #ifdef DEBUG
-	#define _APP_BETA_VERSION " - beta 1"
+	#define _APP_BETA_VERSION " - beta 2"
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION _APP_BETA_VERSION " (debug)"
 #else
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION

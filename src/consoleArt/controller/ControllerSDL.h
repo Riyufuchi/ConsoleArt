@@ -21,8 +21,11 @@
 #include "SpriteSheetSDL.h"
 #include "StringSDL.h"
 #include "StateSDL.h"
+
+#include "../../embed/icon.h"
 #include "../guiSDL/StateManager.h"
 #include "../guiSDL/WindowStates.hpp"
+
 
 extern "C"
 {
@@ -43,6 +46,7 @@ private:
 	ButtonBuilder* buttons;
 	SDL_Event event;
 	void setAppIcon(std::string iconPath);
+	void setAppIcon();
 protected:
 	virtual IndexDataType selectImageMenu() override;
 	virtual void showAboutApplicationInfo() override;
