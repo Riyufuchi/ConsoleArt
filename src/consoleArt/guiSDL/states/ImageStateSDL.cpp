@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Nov 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,22 +13,19 @@ namespace ConsoleArt
 {
 ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), IMAGE(nullptr)
 {
-	this->texture = nullptr;
 	this->imageRGBA = nullptr;
 	this->scaleX = 0;
 	this->scaleY = 0;
 	this->newW = 0;
 	this->newH = 0;
+	this->play = true;
+	this->currentFrameID = 0;
 	this->scale = 0;
 }
 
 ImageStateSDL::~ImageStateSDL()
 {
-	if (texture)
-	{
-		SDL_DestroyTexture(texture);
-		texture = nullptr;
-	}
+	cleanFrames();
 }
 
 void ImageStateSDL::handleTick(SDL_Event& event)
@@ -40,6 +37,7 @@ void ImageStateSDL::handleTick(SDL_Event& event)
 			case SDLK_ESCAPE: stateManager.switchState(WindowState::MAIN); break;
 			case SDLK_LEFT: swapPage(true); break;
 			case SDLK_RIGHT: swapPage(false); break;
+			case SDLK_SPACE: play = !play; break;
 		}
 	}
 }
@@ -48,12 +46,16 @@ void ImageStateSDL::swapPage(bool left)
 {
 	if (IMAGE->getImageInfo().multipage)
 	{
-		Images::IMultiPage* p = dynamic_cast<Images::IMultiPage*>(IMAGE);
 		if (left)
-			p->selectPage(p->getSelectedPageIndex() - 1);
+		{
+			if (currentFrameID > 0)
+				--currentFrameID;
+		}
 		else
-			p->selectPage(p->getSelectedPageIndex() + 1);
-		onReturn();
+		{
+			if (currentFrameID + 1 < frames.size())
+				++currentFrameID;
+		}
 	}
 }
 
@@ -85,29 +87,30 @@ void ImageStateSDL::onReturn()
 	this->IMAGE = controller.getSelectedImage();
 	if (!IMAGE)
 		return;
-	if (!frames.empty())
+	cleanFrames();
+	currentFrameID = 0;
+	if (IMAGE->getImageInfo().multipage)
 	{
-		for (size_t i = 0; i < frames.size(); i++)
-		{
-			SDL_DestroyTexture(frames[i].texture);
-		}
-		frames.clear();
-	}
-	if (IMAGE->getImageInfo().animated)
-	{
-		Images::IMultiPage* p = dynamic_cast<Images::IMultiPage*>(IMAGE);
-		auto gif = dynamic_cast<Images::IAnimated*>(IMAGE);
-		for (size_t i = 0; i < p->getPageCount(); i++)
-		{
-			Frame f;
-			p->selectPage(i);
-			f.texture = convertImageToTexture();
-			f.delay = gif->getFrameDelay(i);
-			frames.emplace_back(f);
+		Images::IMultiPage* imp = dynamic_cast<Images::IMultiPage*>(IMAGE);
+		for (size_t i = 0; i < imp->getPageCount(); i++)
+			{
+				Frame f;
+				imp->selectPage(i);
+				f.texture = convertImageToTexture();
+				frames.emplace_back(f);
 		}
 	}
 	else
-		this->texture = convertImageToTexture();
+		frames.emplace_back(Frame{convertImageToTexture()});
+
+	if (IMAGE->getImageInfo().animated)
+	{
+		auto gif = dynamic_cast<Images::IAnimated*>(IMAGE);
+		for (size_t i = 0; i < frames.size(); i++)
+		{
+			frames[i].delay = gif->getFrameDelay(i);
+		}
+	}
 	onWindowResize();
 }
 
@@ -115,25 +118,22 @@ void ImageStateSDL::render()
 {
 	SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
 
-	static size_t current = 0;
 	static Uint32 last = SDL_GetTicks();
 
-	if (IMAGE->getImageInfo().animated)
+	if (IMAGE->getImageInfo().animated && play)
 	{
 		Uint32 now = SDL_GetTicks();
-		Frame& f = frames[current];
+		Frame& f = frames[currentFrameID];
 
 		if (now - last >= (Uint32)f.delay)
 		{
-			current++;
-			if (current >= frames.size())
-				current = 0;
+			currentFrameID++;
+			if (currentFrameID >= frames.size())
+				currentFrameID = 0;
 			last = now;
 		}
-		SDL_RenderCopy(renderer, frames[current].texture, nullptr, &imgSize);
 	}
-	else
-		SDL_RenderCopy(renderer, texture, NULL, &imgSize);
+	SDL_RenderCopy(renderer, frames[currentFrameID].texture, NULL, &imgSize);
 }
 
 SDL_Texture* ImageStateSDL::convertImageToTexture()
@@ -195,6 +195,19 @@ SDL_Texture* ImageStateSDL::convertImageToTexture()
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 	return texture;
+}
+
+void ImageStateSDL::cleanFrames()
+{
+	if (!frames.empty())
+	{
+		for (size_t i = 0; i < frames.size(); i++)
+		{
+			if (frames[i].texture)
+				SDL_DestroyTexture(frames[i].texture);
+		}
+		frames.clear();
+	}
 }
 
 void ImageStateSDL::onWindowResize()

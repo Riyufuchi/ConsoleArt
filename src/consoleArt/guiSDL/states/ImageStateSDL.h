@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -28,21 +28,23 @@ private:
 	struct Frame
 	{
 		SDL_Texture* texture = nullptr;
-		int delay;
+		int delay = 0;
 	};
 	Images::Image* IMAGE;
-	SDL_Texture* texture;
 	std::unique_ptr<unsigned char[]> imageRGBA;
 	float scaleX;
 	float scaleY;
 	float scale;
 	int newW;
 	int newH;
+	bool play;
+	size_t currentFrameID;
 	SDL_Rect imgSize;
 	std::vector<Frame> frames;
 	unsigned int detectSDLFormat();
 	void swapPage(bool left);
 	SDL_Texture* convertImageToTexture();
+	void cleanFrames();
 public:
 	ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager);
 	virtual ~ImageStateSDL();
