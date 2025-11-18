@@ -2,7 +2,7 @@
 // File       : MainStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Nov 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@ namespace ConsoleArt
 MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->textUpdated = false;
-	this->selectedImageString = new sdl::LabelSDL("No image selected", "assets/TF2secondary.ttf", 24, {255, 105, 180, 255}, renderer);
+	this->selectedImageString = new sdl::LabelSDL("No image selected", FONT_SECONDARY, 24, {255, 105, 180, 255}, renderer);
 	this->selectedImageString->setY(16);
 	// 0
 	this->pane.addComponent(0, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::LOAD, false), [&]() { addImageButtonEvent(); }));
@@ -93,7 +93,7 @@ void MainStateSDL::loadDropedFile(char* droppedFile)
 		#ifdef DEBUGtextUpdated
 			SDL_Log("%s", filePath.c_str());
 		#endif
-		Controller::IndexDataType id = controller.addImageAsync(controller.loadImageAsync(controller.inputImageName()));
+		Controller::IndexDataType id = controller.addImageAsync(controller.loadImageAsync(filePath));
 		if (id)
 		{
 			controller.notifyUser(AbstractNotifier::SUCCESFUL_TASK, "Image successfully loaded.");
