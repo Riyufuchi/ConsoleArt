@@ -1,6 +1,6 @@
 # Compiler and compiler flags
 CXX = g++
-CXXFLAGS = -Wall -Wextra -pedantic -O3 -flto -std=c++20
+CXXFLAGS = -Wall -Wextra -pedantic -O3 -std=c++20
 
 # ConsoleArt
 SRC_DIR = src
@@ -74,5 +74,13 @@ $(BUILD_DIR):
 clean:
 	rm -rf $(BUILD_DIR) $(APP_TARGET) $(LIB_PATH) $(LIB_SDL_PATH)
 
-.PHONY: all clean
+# Documentation
+docs:
+	cd latex-doc && \
+	lualatex ConsoleArt.tex && \
+	makeglossaries ConsoleArt && \
+	lualatex ConsoleArt.tex && \
+	lualatex ConsoleArt.tex
+
+.PHONY: all clean docs
 
