@@ -1,32 +1,28 @@
 //==============================================================================
-// File       : ImageHDR.h
+// File       : ImagePNG.h
 // Author     : riyufuchi
-// Created on : Nov 7, 2025
-// Last edit  : Nov 7, 2025
+// Created on : Feb 17, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMAGEHDR_H_
-#define IMAGES_IMAGEHDR_H_
+#ifndef IMAGES_IMAGEPNG_H_
+#define IMAGES_IMAGEPNG_H_
 
-#include "Image.h"
+#include <iostream>
+#include <string.h>
+
+#include "../base/Image.h"
 
 namespace Images
 {
-
-class ImageHDR: public Image
+class ImagePNG: public Image
 {
-private:
-	std::vector<float> pixelDataHDR;
 public:
-	ImageHDR(std::string filename, bool convert = true);
-	virtual ~ImageHDR();
-	PixelHDR getPixelHDR(int x, int y) const;
-	void setPixelHDR(int x, int y, PixelHDR newPixel);
-	void convertTo8bit();
-	void convertFrom8bit();
-	// Overrides
+	ImagePNG(std::string filepath);
+	ImagePNG(std::string filepath, int width, int height, int channels);
+	~ImagePNG();
 	virtual Images::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
 	virtual bool saveImage() const override;
@@ -35,4 +31,4 @@ public:
 
 } /* namespace Images */
 
-#endif /* IMAGES_IMAGEHDR_H_ */
+#endif /* IMAGES_IMAGEPNG_H_ */

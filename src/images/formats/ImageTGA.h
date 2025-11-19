@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : ImageTGA.h
 // Author     : riyufuchi
-// Created on : Nov 7, 2025
-// Last edit  : Nov 7, 2025
+// Created on : Nov 07, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,7 +10,7 @@
 #ifndef IMAGES_IMAGETGA_H_
 #define IMAGES_IMAGETGA_H_
 
-#include "Image.h"
+#include "../base/Image.h"
 
 namespace Images
 {

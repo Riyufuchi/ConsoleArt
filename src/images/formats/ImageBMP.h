@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edit   : Feb 17, 2025
+// Last Edit   : Nov 19, 2025
 // Description : This class loads uncompressed 24 or 32 bit bitmap image
 //============================================================================
 
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-#include "Image.h"
+#include "../base/Image.h"
 
 namespace Images
 {

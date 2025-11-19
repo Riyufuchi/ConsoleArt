@@ -7,8 +7,8 @@
 // Description: ConsoleArt
 //==============================================================================
 
-#include "../include/stb_image.h"
-#include "../include/stb_image_write.h"
+#include "../utils/stb_image.h"
+#include "../utils/stb_image_write.h"
 #include "ImageTGA.h"
 
 namespace Images

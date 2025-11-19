@@ -2,7 +2,7 @@
 // File       : Dithering.h
 // Author     : riyufuchi
 // Created on : Mar 18, 2025
-// Last edit  : Mar 18, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -16,9 +16,9 @@
 #include <limits>
 #include <algorithm>
 
-#include "../../include/stb_image.h"
-#include "../../include/stb_image_write.h"
-#include "../../images/Pixels.hpp"
+#include "../../images/utils/stb_image.h"
+#include "../../images/utils/stb_image_write.h"
+#include "../../images/utils/Pixels.hpp"
 
 namespace ImageUtils
 {

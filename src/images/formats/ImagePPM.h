@@ -2,7 +2,7 @@
 // File       : ImagePPM.h
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : May 9, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,7 +13,7 @@
 #include <string>
 #include <sstream>
 
-#include "Image.h"
+#include "../base/Image.h"
 
 #include "DataUtils.h"
 

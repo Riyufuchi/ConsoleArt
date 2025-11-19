@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include "Pixels.hpp"
+#include "../utils/Pixels.hpp"
 
 namespace Images
 {

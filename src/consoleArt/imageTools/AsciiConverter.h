@@ -2,7 +2,7 @@
 // Name        : AsciiConverter
 // Author      : Riyufuchi
 // Created on  : 15.11.2022 (Functionality from class ImageBMP)
-// Last Edit   : Mar 4, 2024
+// Last Edit   : Nov 19, 2025
 // Description : This class converts bitmap image to ASCII/desired char set
 //============================================================================
 
@@ -13,7 +13,7 @@
 #include <cmath>
 #include <string.h>
 #include <memory>
-#include "../../images/Image.h"
+#include "../../images/base/Image.h"
 
 namespace ImageUtils
 {

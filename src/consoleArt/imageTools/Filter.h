@@ -2,7 +2,7 @@
 // File       : Filter.h
 // Author     : riyufuchi
 // Created on : Feb 20, 2025
-// Last edit  : Feb 21, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <cmath>
 
-#include "../../images/Image.h"
+#include "../../images/base/Image.h"
 #include "../cli/ProgressBarCLI.h"
 #include "ImageTools.h"
 

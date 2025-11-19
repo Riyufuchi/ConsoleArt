@@ -2,7 +2,7 @@
 // File       : SimpleEdit.h
 // Author     : riyufuchi
 // Created on : Mar 21, 2025
-// Last edit  : Mar 21, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <cmath>
 
-#include "../../images/Formats.hpp"
+#include "../../images/formats/Formats.hpp"
 
 namespace ImageUtils
 {

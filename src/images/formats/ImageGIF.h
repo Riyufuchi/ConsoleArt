@@ -2,7 +2,7 @@
 // File       : ImageGIF.h
 // Author     : riyufuchi
 // Created on : Nov 06, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,8 +10,9 @@
 #ifndef IMAGES_IMAGEGIF_H_
 #define IMAGES_IMAGEGIF_H_
 
-#include "Image.h"
-#include "IAnimated.hpp"
+#include "../base/Image.h"
+#include "../interfaces/IAnimated.hpp"
+#include "../interfaces/IMultiPage.hpp"
 
 namespace Images
 {
