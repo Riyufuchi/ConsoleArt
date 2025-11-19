@@ -2,15 +2,15 @@
 // File       : ImagePNG.cpp
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../include/stb_image.h"
+#include "../utils/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../include/stb_image_write.h"
+#include "../utils/stb_image_write.h"
 #include "ImagePNG.h"
 
 namespace Images

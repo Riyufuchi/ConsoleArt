@@ -2,7 +2,7 @@
 // File       : ImageTools.h
 // Author     : riyufuchi
 // Created on : Dec 01, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,9 +12,7 @@
 
 #include <iostream>
 
-#include "../../images/Image.h"
-#include "../../images/ImagePNG.h"
-#include "../../images/ImagePCX.h"
+#include "../../images/formats/Formats.hpp"
 
 namespace ImageUtils
 {

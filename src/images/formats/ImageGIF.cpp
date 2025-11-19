@@ -2,15 +2,15 @@
 // File       : ImageGIF.cpp
 // Author     : riyufuchi
 // Created on : Nov 06, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
 #include "ImageGIF.h"
 
-#include "../include/stb_image.h"
-#include "../include/stb_image_write.h"
+#include "../utils/stb_image.h"
+#include "../utils/stb_image_write.h"
 
 namespace Images
 {

@@ -2,7 +2,7 @@
 // File       : Messenger.h
 // Author     : Riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : May 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,7 @@
 #include "ConsoleUtils.h"
 #include "UnixConsole.h"
 #include "DefaultConsole.h"
-#include "../../images/Image.h"
+#include "../../images/base/Image.h"
 
 namespace ConsoleArt
 {

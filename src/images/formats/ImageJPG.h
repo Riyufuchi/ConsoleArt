@@ -1,34 +1,29 @@
 //==============================================================================
-// File       : ImagePNG.h
+// File       : ImageJPG.h
 // Author     : riyufuchi
-// Created on : Feb 17, 2025
-// Last edit  : Feb 18, 2025
+// Created on : Feb 28, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef IMAGES_IMAGEPNG_H_
-#define IMAGES_IMAGEPNG_H_
+#ifndef IMAGES_IMAGEJPG_H_
+#define IMAGES_IMAGEJPG_H_
 
-#include <iostream>
-#include <string.h>
-
-#include "Image.h"
+#include "../base/Image.h"
 
 namespace Images
 {
-class ImagePNG: public Image
+class ImageJPG : public Image
 {
 public:
-	ImagePNG(std::string filepath);
-	ImagePNG(std::string filepath, int width, int height, int channels);
-	~ImagePNG();
+	ImageJPG(std::string filepath);
+	ImageJPG(std::string filepath, int width, int height, int channels);
+	~ImageJPG();
 	virtual Images::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
 	virtual bool saveImage() const override;
 	virtual void loadImage() override;
 };
-
 } /* namespace Images */
-
-#endif /* IMAGES_IMAGEPNG_H_ */
+#endif /* IMAGES_IMAGEJPG_H_ */

@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,7 +13,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Image.h"
+#include "../base/Image.h"
 
 namespace Images
 {

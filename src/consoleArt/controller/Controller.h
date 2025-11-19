@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 17, 2025
+// Last Edit   : Nov 19, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -25,7 +25,7 @@
 #include "../imageTools/AsciiConverter.h"
 #include "../imageTools/SimpleEdit.h"
 //
-#include "../../images/Formats.hpp"
+#include "../../images/formats/Formats.hpp"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../abstract/AbstractNotifier.h"

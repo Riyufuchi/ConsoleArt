@@ -2,7 +2,7 @@
 // File       : ImageDCX.h
 // Author     : riyufuchi
 // Created on : Nov 13, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 #define IMAGES_IMAGEDCX_H_
 
 #include "ImagePCX.h"
-#include "IMultiPage.hpp"
+#include "../interfaces/IMultiPage.hpp"
 
 namespace Images
 {
