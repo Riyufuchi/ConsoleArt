@@ -3,6 +3,7 @@
 - [About](#about)
 - [Used libraries](#used-libraries)
 - [Testing](#testing)
+- [Documentation](#documentation)
 - [Compilation](#compilation)
 - [Project guide](#project-guide)
 - [Donate](#donate)
@@ -45,9 +46,29 @@ This project started quite some time ago, the initial commit was on 13th of July
 | Ubuntu | g++ 14.2.0 |
 | <s>Windows 10</s> | <s>MSVC v143</s> |
 
+## Documentation
+
+ ```bash
+    # Make sure you have LaTeX installed
+
+    # On Debian/Ubuntu
+    sudo apt install texlive-full
+
+    # On macOS
+    brew install --cask mactex
+
+    # On Windows
+    # Get the installer from https://www.tug.org/texlive/windows.html
+
+    # Get the repository - how to is in section Git and Make
+    # Build the PDF documentation
+    # (Makefile runs LaTeX twice so Table of Contents and references are correct)
+    make docs
+   ```
+
 ## Compilation
 
-  ### Linux
+### Linux
 
    *For debian based systems*
 
@@ -59,7 +80,7 @@ This project started quite some time ago, the initial commit was on 13th of July
    sudo apt install libsdl2-ttf-dev
    ```
   
-  *Makefile automatically gets ConsoleLib and compiles it before program*
+  *Makefile automatically gets ConsoleLib and ComponentsSDL and compiles them before the program*
   
    ```bash
    git clone --branch master --single-branch https://github.com/Riyufuchi/ConsoleArt.git 

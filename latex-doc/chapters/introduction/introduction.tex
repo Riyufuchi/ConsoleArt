@@ -1,14 +1,36 @@
 %!TeX root =  ../../ConsoleArt.tex
 
-\section{Foreword}
+This application originally began as a purely CLI-based project (which is also the reason for its name, \textit{ConsoleArt}). As the project evolved, a \gls{gui} was later added. Development started at a time when C++17 was the newest standard, so the use of modern features such as smart pointers was adopted gradually throughout the project.
 
-This application originally started as pure CLI application but as it evolved it also received a  \gls{gui}.
-
-\section{Technologies used}
+\section{Technologies Used}
 
 \subsection{SDL2}
-This project is written mainly in C++ and utilize SDL2 for the \gls{gui}.  \gls{sdl2} is cross-platform and I use my own library to add UI controls into it. 
+This project is primarily written in C++ and uses \gls{sdl2} for window management, rendering, and input handling. Since SDL2 does not provide native GUI widgets, the application uses a custom library to implement UI components on top of SDL.
 
 \subsection{STB}
+The project utilizes the single-header \texttt{stb} libraries, primarily \texttt{stb\_image}, to load image formats such as PNG, JPEG, and HDR files.
 
 \subsection{TinyFileDialogs}
+\texttt{TinyFileDialogs} is used to provide simple, cross-platform file selection dialogs, allowing users to select images without relying on large external GUI toolkits.
+
+\subsection{ConsoleLib}
+\texttt{ConsoleLib} is my custom library developed to simplify the creation of CLI applications. 
+It provides an abstract \texttt{IConsole} interface and several platform-specific implementations:
+
+\begin{itemize}
+    \item \textbf{DefaultConsole} – A basic implementation using standard output (\texttt{std::cout}) without any additional formatting features.
+    \item \textbf{UnixConsole} – Adds support for text coloring and formatting through ANSI escape codes commonly available on Unix-like systems.
+    \item \textbf{WindowsConsole} – Inherits from \texttt{UnixConsole} and enables UTF-8 output on Windows while ensuring compatibility with ANSI escape codes.
+\end{itemize}
+
+The library also includes additional utility modules such as an argument parser and other helpers commonly required in CLI tools, making it reusable across multiple projects.
+
+\subsection{ComponentsSDL}
+\texttt{ComponentsSDL} is my lightweight UI component framework built on top of \gls{sdl2}. 
+Since SDL2 does not provide native GUI widgets, this library introduces a structured way to 
+create interface elements within an SDL application.
+
+The framework provides reusable components such as panels, buttons, and layout helpers, 
+allowing the application to assemble its interface in a modular and maintainable manner. 
+Each component is responsible for its own rendering and event handling, making the system 
+extensible and easy to integrate into SDL-based projects.
