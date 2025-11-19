@@ -19,7 +19,7 @@ Debug
 .clang-format
 
 # LaTeX
-*.pdf
+#*.pdf
 *.acn
 *.acr
 *.alg
