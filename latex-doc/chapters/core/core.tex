@@ -2,13 +2,42 @@
 
 \section{Controller}
 
+The Controller class is core of this application.
+
+\subsection{Pointer ownership}
+
+The controller owns all loaded images and stores them in vector and thanks to use of unique pointer they do not need to be deleted manually.
+
+\begin{lstlisting}[language=C++ ,caption={Image vector in Controller class},  label={lst:imgVector}]
+using IndexDataType = uint32_t;
+
+struct VectorNode
+{
+	IndexDataType index;
+	std::unique_ptr<Images::Image> imageUptr;
+};
+
+using VectorData = VectorNode;
+
+std::vector<VectorData> images;
+\end{lstlisting}
+
+\subsection{UML}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{images/controller-uml.png}
+    	\caption{Controller inheritance UML}
+   	\label{fig:controllerUML}
+\end{figure}
+
+\section{Controllers childs}
+
 \subsection{ControllerCLI}
 
-\subsection{ControllerZenity}
+\subsubsection{ControllerZenity}
 
-\subsection{ControllerTFD}
+\subsubsection{ControllerTFD}
 
 \subsection{ControllerSDL}
 
-\section{Polymorphism schema}
-% add oop model

@@ -147,11 +147,12 @@
 	\pagenumbering{arabic}
 	
 	\clearpage
+	\addcontentsline{toc}{section}{Glossary}
 	\printglossary[type=main, title=Glossary]
-	\printglossary[type=\acronymtype, style=mystyle]
+	
 	\clearpage
-	\lstlistoflistings
-
+	\addcontentsline{toc}{section}{Acronyms}
+	\printglossary[type=\acronymtype, style=mystyle]
 	
 	\chapter{Introduction}
 	\input{chapters/introduction/introduction.tex}
@@ -163,7 +164,14 @@
 	\input{chapters/sdl/sdl.tex}
 	
 	\chapter{Image formats}
+	\input{chapters/images/images.tex}
 	
 	\chapter*{Summary}
+	
+	\addcontentsline{toc}{chapter}{Lists}
+	\addcontentsline{toc}{section}{Listings}
+	\lstlistoflistings
+	\addcontentsline{toc}{section}{Figures}
+	\listoffigures
 
 \end{document}
