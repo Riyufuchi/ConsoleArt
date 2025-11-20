@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 17, 2025
+// Last Edit   : Nov 20, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -41,7 +41,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	argumentMethods["--binomial"] = [&](const auto& vector)
 	{
 		auto res = Math::MathUtils::binomialDistribution(vector);
-		Other::OtherhUtils::printResults<int, long double>(res);
+		Math::MathUtils::printResults<int, long double>(res);
 		isRunnable = false;
 	};
 	argumentMethods["--removeGray"] = [&](const auto&)
