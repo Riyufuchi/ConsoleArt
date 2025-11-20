@@ -92,6 +92,12 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Image& img);
 
+	Image& operator>>(const std::string& newName)
+	{
+		rename(image.name.substr(0, image.name.find(".")) + newName);
+		return *this;
+	}
+
 	bool operator > (const Image& other) const
 	{
 		return image.width * image.height > other.image.width * other.image.height;

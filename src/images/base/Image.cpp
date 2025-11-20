@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -25,16 +25,16 @@ Image::~Image()
 }
 std::ostream& operator<<(std::ostream& os, const Image& img)
 {
-	return os << "Name: " << img.image.name << "\n"
+	return os << std::boolalpha << "Name: " << img.image.name << "\n"
 			<< "Width: " << img.image.width << " px\n"
 			<< "Height: " << img.image.height << " px\n"
 			<< "Bits: " << img.image.bits << "\n"
-			<< "Inverted: " << (img.image.inverted ? "Yes" : "No") << "\n"
-			<< "Planar: " << (img.image.planar ? "Yes" : "No") << "\n"
-			<< "Palate: " << (img.image.palette ? "Yes" : "No") << "\n"
-			<< "Animated: " << (img.image.animated ? "Yes" : "No") << "\n"
-			<< "Multi-page: " << (img.image.multipage ? "Yes" : "No") << "\n"
-			<< "HDR: " << (img.image.hdr ? "Yes" : "No") << "\n";
+			<< "Inverted: " << img.image.inverted << "\n"
+			<< "Planar: " << img.image.planar << "\n"
+			<< "Palate: " << img.image.palette << "\n"
+			<< "Animated: " << img.image.animated << "\n"
+			<< "Multi-page: " << img.image.multipage << "\n"
+			<< "HDR: " << img.image.hdr << "\n" << std::noboolalpha;
 }
 void Image::rename(std::string imageName)
 {

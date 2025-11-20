@@ -2,7 +2,7 @@
 // File       : ImageTools.h
 // Author     : riyufuchi
 // Created on : Dec 01, 2023
-// Last edit  : Nov 19, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -21,6 +21,7 @@ class ImageTools
 public:
 	ImageTools();
 	virtual ~ImageTools();
+	[[deprecated("Equal to image >> addStr")]]
 	static void addToImageName(Images::Image& image, const std::string addStr);
 	static int compareImages(const Images::Image& image1, const Images::Image& image2);
 	static bool signatureToImage(Images::Image& canvasImage, const Images::Image& signature);
