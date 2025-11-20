@@ -20,7 +20,7 @@
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
 #define _APP_NAME "ConsoleArt"
-#define _APP_VERSION "3.3b"
+#define _APP_VERSION "3.4"
 
 #ifdef DEBUG
 	#define _APP_BETA_VERSION " - beta 1"

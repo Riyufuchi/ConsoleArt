@@ -14,8 +14,9 @@
 #include <cmath>
 #include <vector>
 
-#include "distributions/BinomialDistribution.h"
+#include "BinomialDistribution.h"
 #include "StatisticsGeneric.h"
+#include "RealNumber.h"
 
 namespace Math
 {
@@ -44,7 +45,7 @@ public:
 		std::vector<int> kArgs;
 		for (size_t i = 2; i < params.size(); i++)
 			kArgs.emplace_back(std::stoi(params.at(i)));
-		Math::BinomialDistribution bi(N, P);
+		ConsoleLib::BinomialDistribution bi(N, P);
 		for (size_t i = 0; i < kArgs.size(); i++)
 			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i))));
 		return results;
@@ -79,10 +80,10 @@ public:
 	{
 		const int N = 10; // Number of cards in the pack
 		const int N_2= 50; // Number of packs in the box
-		const Math::bigDouble P = (1.0L/230.0L);
-		Math::bigDouble result = 0;
-		Math::BinomialDistribution bi(N, P);
-		const Math::bigDouble CARD_IN_PACK_CHANCE = 1.0L - bi.distribute(0);
+		const ConsoleLib::bigDouble P = (1.0L/230.0L);
+		ConsoleLib::bigDouble result = 0;
+		ConsoleLib::BinomialDistribution bi(N, P);
+		const ConsoleLib::bigDouble CARD_IN_PACK_CHANCE = 1.0L - bi.distribute(0);
 		printf("X ~ Bi(%d, %Lf) = P(X > 1) = %Lf => %.2Lf %c\n", N, P, CARD_IN_PACK_CHANCE, (CARD_IN_PACK_CHANCE*100), '%');
 		bi.setN(N_2);
 		bi.setP(CARD_IN_PACK_CHANCE);
