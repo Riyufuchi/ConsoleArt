@@ -2,7 +2,7 @@
 // File       : MathUtils.hpp
 // Author     : riyufuchi
 // Created on : Jan 29, 2025
-// Last edit  : Nov 08, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,8 +15,7 @@
 #include <vector>
 
 #include "distributions/BinomialDistribution.h"
-#include "stats/StatisticsGeneric.h"
-#include "../other/OtherUtils.hpp"
+#include "StatisticsGeneric.h"
 
 namespace Math
 {
@@ -102,14 +101,24 @@ public:
 		std::vector<double> dataset2 = {30000, 30000, 30000, 30000, 40000, 40000, 80000, 40000};
 		std::vector<double> dataset3 = {0.25, 0.75, 0.50, 1, 0};
 		std::vector<long double> dataset4 = {M_PI, M_E, M_PI*M_E, M_PI/M_E, M_E/M_PI};
-		StatisticsGeneric<double> stats0(dataset);
-		Other::OtherhUtils::printResults<std::string, double>(stats0.calculateStatistics(false));
-		StatisticsGeneric<double> stats2(dataset2);
-		Other::OtherhUtils::printResults<std::string, double>(stats2.calculateStatistics(false));
-		StatisticsGeneric<double> stats3(dataset3);
-		Other::OtherhUtils::printResults<std::string, double>(stats3.calculateStatistics(false));
-		StatisticsGeneric<long double> stats4(dataset4);
-		Other::OtherhUtils::printResults<std::string, long double>(stats4.calculateStatistics(false));
+		ConsoleLib::StatisticsGeneric<double> stats0(dataset);
+		printResults<std::string, double>(stats0.calculateStatistics(false));
+		ConsoleLib::StatisticsGeneric<double> stats2(dataset2);
+		printResults<std::string, double>(stats2.calculateStatistics(false));
+		ConsoleLib::StatisticsGeneric<double> stats3(dataset3);
+		printResults<std::string, double>(stats3.calculateStatistics(false));
+		ConsoleLib::StatisticsGeneric<long double> stats4(dataset4);
+		printResults<std::string, long double>(stats4.calculateStatistics(false));
+	}
+	template <typename K, typename T>
+	static void printResults(const std::vector<std::pair<K, T>>& data)
+	{
+		std::cout << std::fixed;
+		std::cout << std::setprecision(42);
+		std::cout << "\n";
+		for (const std::pair<K, T>& dataPair : data)
+			std::cout << dataPair.first << dataPair.second << "\n";
+		std::cout << "\n";
 	}
 };
 }

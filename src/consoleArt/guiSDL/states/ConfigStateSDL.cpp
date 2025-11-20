@@ -2,7 +2,7 @@
 // File       : ConfigStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Nov 16, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,7 +14,8 @@ namespace ConsoleArt
 ConfigStateSDL::ConfigStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
 	this->y = 0;
-	std::string text = "Image state controls:\nEscape -> returns to previous menu\nLeft arrow -> Moves multi-page images to left\nRight arrow -> Moves multi-page images to right";
+	std::string text = "Image state controls:\nEscape -> returns to previous menu\nLeft arrow -> Moves multi-page images to left\n"
+			"Right arrow -> Moves multi-page images to right\nSpace -> Stop/plays animated formats";
 	std::string string;
 	for (auto line : std::views::split(text, '\n'))
 	{
