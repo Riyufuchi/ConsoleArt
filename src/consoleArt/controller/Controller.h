@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 19, 2025
+// Last Edit   : Nov 20, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -31,7 +31,6 @@
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"
-#include "../../other/OtherUtils.hpp"
 #include "../../math/MathUtils.hpp"
 
 namespace ConsoleArt
@@ -45,6 +44,19 @@ public:
 	{
 		IndexDataType index;
 		std::unique_ptr<Images::Image> imageUptr;
+
+		auto operator<=>(const VectorNode& other) const
+		{
+			if (!imageUptr || !other.imageUptr)
+				if (!imageUptr && !other.imageUptr)
+					return std::strong_ordering::equal;
+				else if (!imageUptr)
+					return std::strong_ordering::less;     // null < non-null
+				else if (!other.imageUptr)
+					return std::strong_ordering::greater;  // non-null > null
+
+			return (*imageUptr <=> *other.imageUptr);
+		}
 	};
 
 	using VectorData = VectorNode;

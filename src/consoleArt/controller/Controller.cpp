@@ -176,10 +176,7 @@ void Controller::loadAllImagesAsync()
 		return;
 	}
 	std::lock_guard<std::mutex> lock(mutexImages);
-	std::sort(images.begin(), images.end(), [](const VectorData& a, const VectorData& b)
-	{
-		return a.imageUptr->getFilename() < b.imageUptr->getFilename();
-	});
+	std::sort(images.begin(), images.end());
 	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\n");
 }
 

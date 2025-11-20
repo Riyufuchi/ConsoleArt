@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -111,6 +111,13 @@ public:
 	{
 		return image.width * image.height != other.image.width * other.image.height;
 	}
+
+	auto operator<=>(const Image& other) const
+	{
+		// compare name first, then width, then height
+		return std::tie(image.name, image.width, image.height) <=> std::tie(other.image.name, other.image.width, other.image.height);
+	}
+
 	// Utils
 	void rename(std::string imageName);
 	bool containsPalette() const;
