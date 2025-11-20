@@ -2,7 +2,7 @@
 // File       : Filter.cpp
 // Author     : riyufuchi
 // Created on : Feb 20, 2025
-// Last edit  : Feb 21, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -32,8 +32,7 @@ bool Filter::purplefier(Images::Image& image)
 			image.setPixel(x,y, pixel);
 		}
 	}
-	ImageTools::addToImageName(image, "-purplefied");
-	return image.saveImage();
+	return (image >> "-purplefied").saveImage();
 }
 bool Filter::purplefierSoft(Images::Image& image)
 {
@@ -61,8 +60,7 @@ bool Filter::purplefierSoft(Images::Image& image)
 		bar.drawProgressBar();
 	}
 	std::cout << "\n";
-	ImageTools::addToImageName(image, "-purplefiedSoft");
-	return image.saveImage();
+	return (image >> "-purplefiedSoft").saveImage();
 }
 bool Filter::purplefierShading(Images::Image& image)
 {
@@ -81,8 +79,7 @@ bool Filter::purplefierShading(Images::Image& image)
 			image.setPixel(x,y, pixel);
 		}
 	}
-	ImageTools::addToImageName(image, "-purplefiedShaded");
-	return image.saveImage();
+	return (image >> "-purplefiedShaded").saveImage();
 }
 bool Filter::purplefierShadingSoft(Images::Image& image)
 {
@@ -112,8 +109,7 @@ bool Filter::purplefierShadingSoft(Images::Image& image)
 		bar.drawProgressBar();
 	}
 	std::cout << "\n";
-	ImageTools::addToImageName(image, "-purplefiedShadedSoft");
-	return image.saveImage();
+	return (image >> "-purplefiedShadedSoft").saveImage();
 }
 bool Filter::matrixFilter(Images::Image& image)
 {
@@ -134,7 +130,6 @@ bool Filter::matrixFilter(Images::Image& image)
 			image.setPixel(x,y, pixel);
 		}
 	}
-	ImageTools::addToImageName(image, "-matrix");
-	return image.saveImage();
+	return (image >> "-matrix").saveImage();
 }
 } /* namespace ConsoleArt */

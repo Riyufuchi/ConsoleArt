@@ -2,7 +2,7 @@
 // File       : ImageTools.cpp
 // Author     : riyufuchi
 // Created on : Dec 01, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -225,7 +225,7 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 		}
 	}
 
-	addToImageName(canvasImage, "-signed");
+	canvasImage >> "-signed";
 	return canvasImage.saveImage();
 }
 

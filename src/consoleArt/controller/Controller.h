@@ -48,12 +48,14 @@ public:
 		auto operator<=>(const VectorNode& other) const
 		{
 			if (!imageUptr || !other.imageUptr)
+			{
 				if (!imageUptr && !other.imageUptr)
 					return std::strong_ordering::equal;
 				else if (!imageUptr)
 					return std::strong_ordering::less;     // null < non-null
 				else if (!other.imageUptr)
 					return std::strong_ordering::greater;  // non-null > null
+			}
 
 			return (*imageUptr <=> *other.imageUptr);
 		}
