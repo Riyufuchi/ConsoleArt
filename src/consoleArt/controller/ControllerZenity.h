@@ -2,7 +2,7 @@
 // File       : ControllerZenity.h
 // Author     : Riyufuchi
 // Created on : May 30, 2024
-// Last edit  : Nov 17, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -13,8 +13,8 @@
 #include <ConsoleMenu.h>
 
 #include "ControllerCLI.h"
-#include "../cliZenity/MenuZenity.h"
-#include "../cliZenity/NotifierZenity.h"
+#include "../cli/zenity/MenuZenity.h"
+#include "../cli/zenity/NotifierZenity.h"
 
 namespace ConsoleArt
 {

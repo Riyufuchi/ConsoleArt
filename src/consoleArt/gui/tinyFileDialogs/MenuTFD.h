@@ -2,7 +2,7 @@
 // File       : MenuTFD.h
 // Author     : riyufuchi
 // Created on : May 16, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,12 +12,12 @@
 
 #include <functional>
 
-#include "../cli/MenuCLI.h"
+#include "../../cli/MenuCLI.h"
 #include "ConsoleMenu.h"
 
 extern "C"
 {
-	#include "../../include/tinyfiledialogs.h"
+	#include "../../../include/tinyfiledialogs.h"
 }
 
 namespace ConsoleArt

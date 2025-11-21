@@ -1,23 +1,23 @@
 //==============================================================================
-// File       : SelectImageStateSDL.h
+// File       : ConfigStateSDL.h
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : Jul 05, 2025
+// Created on : Nov 16, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_GUISDL_STATES_ABOUTSTATESDL_H_
-#define CONSOLEART_GUISDL_STATES_ABOUTSTATESDL_H_
+#ifndef CONSOLEART_GUISDL_STATES_CONFIGSTATESDL_H_
+#define CONSOLEART_GUISDL_STATES_CONFIGSTATESDL_H_
 
 #include <vector>
 #include <memory>
 #include <ranges>
 
-#include "../../abstract/AbstractState.h"
-#include "../../tools/ButtonBuilder.h"
-#include "../../tools/GeneralTools.hpp"
-#include "../../tools/ConfigSDL.hpp"
+#include "../../../abstract/AbstractState.h"
+#include "../../../tools/ButtonBuilder.h"
+#include "../../../tools/GeneralTools.hpp"
+#include "../../../tools/ConfigSDL.hpp"
 
 #include "LabelSDL.h"
 #include "ContentPanelSDL.h"
@@ -25,7 +25,7 @@
 
 namespace ConsoleArt
 {
-class AboutStateSDL: public sdl::StateSDL, private AbstractState
+class ConfigStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
 	const int SIZE = 36;
@@ -33,8 +33,8 @@ private:
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL pane;
 public:
-	AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
-	virtual ~AboutStateSDL();
+	ConfigStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
+	virtual ~ConfigStateSDL();
 	virtual void handleTick(SDL_Event& event) override;
 	virtual void onWindowResize() override;
 	virtual void onReturn() override;

@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : AbstractState.h
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : Mar 3, 2025
+// Created on : Mar 03, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -11,7 +11,7 @@
 #define CONSOLEART_ABSTRACT_ABSTRACTSTATE_H_
 
 #include "../controller/Controller.h"
-#include "../guiSDL/StateManager.h"
+#include "../gui/sdl/StateManager.h"
 
 namespace ConsoleArt
 {

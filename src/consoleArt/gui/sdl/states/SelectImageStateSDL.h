@@ -1,39 +1,40 @@
 //==============================================================================
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : Jul 05, 2025
+// Created on : Mar 03, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
 
-#ifndef CONSOLEART_GUISDL_STATES_ASCIICONVERTSTATESDL_H_
-#define CONSOLEART_GUISDL_STATES_ASCIICONVERTSTATESDL_H_
+#ifndef CONSOLEART_GUISDL_STATES_SELECTIMAGESTATESDL_H_
+#define CONSOLEART_GUISDL_STATES_SELECTIMAGESTATESDL_H_
 
 #include <vector>
 #include <memory>
-#include <future>
 
-#include "../../abstract/AbstractAciiConversionState.h"
-#include "../../tools/ButtonBuilder.h"
-#include "../../tools/ConfigSDL.hpp"
+#include "../../../abstract/AbstractState.h"
+#include "../../../tools/ButtonBuilder.h"
+#include "../../../tools/ConfigSDL.hpp"
 
-#include "StringSDL.h"
 #include "StateSDL.h"
 #include "ContentPanelSDL.h"
 #include "StringButtonSDL.h"
+#include "StringSDL.h"
 
 namespace ConsoleArt
 {
-class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractAciiConversionState
+class SelectImageStateSDL: public sdl::StateSDL, private AbstractState
 {
 private:
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL pane;
+	std::vector<std::unique_ptr<sdl::StringSDL>> imageNames;
 public:
-	AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
-	virtual ~AsciiConvertStateSDL();
+	SelectImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
+	virtual ~SelectImageStateSDL();
+	void createUI();
 	virtual void handleTick(SDL_Event& event) override;
 	virtual void onWindowResize() override;
 	virtual void onReturn() override;
