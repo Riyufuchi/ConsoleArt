@@ -31,7 +31,7 @@
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"
-#include "../../math/MathUtils.hpp"
+#include "../../other/MathUtils.hpp"
 
 namespace ConsoleArt
 {
@@ -52,9 +52,9 @@ public:
 				if (!imageUptr && !other.imageUptr)
 					return std::strong_ordering::equal;
 				else if (!imageUptr)
-					return std::strong_ordering::less;     // null < non-null
+					return std::strong_ordering::less; // null < non-null
 				else if (!other.imageUptr)
-					return std::strong_ordering::greater;  // non-null > null
+					return std::strong_ordering::greater; // non-null > null
 			}
 
 			return (*imageUptr <=> *other.imageUptr);

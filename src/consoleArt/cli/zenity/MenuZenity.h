@@ -2,7 +2,7 @@
 // File       : MenuZenity.h
 // Author     : riyufuchi
 // Created on : Feb 24, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,8 +18,8 @@
 #include "ConsoleMenu.h"
 
 #include "ColorUtils.h"
-#include "../tools/GeneralTools.hpp"
-#include "../cli/MenuCLI.h"
+#include "../../tools/GeneralTools.hpp"
+#include "../MenuCLI.h"
 
 namespace ConsoleArt
 {

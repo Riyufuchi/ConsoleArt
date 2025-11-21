@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
-// Created on : Mar 3, 2025
-// Last edit  : May 24, 2025
+// Created on : Mar 03, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================

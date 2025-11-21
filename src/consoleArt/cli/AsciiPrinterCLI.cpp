@@ -23,13 +23,6 @@ void AsciiPrinterCLI::printPixelColored()
 {
 	if (!converter)
 		return;
-	#ifdef _WIN32
-		console.out("This option don't work properly in Windows, because of limits of Windows console."
-				"Windows console don't implement ASCII Escape codes for coloring text, as Linux/Unix do.\n");
-		console.out(ConsoleUtility::ColorUtils::getColor(ConsoleUtility::ColorPallete::STRANGE), "Warning: Experimental!\n");
-		if (!ConsoleUtility::ConsoleUtils::yesNo("Proceed anyway? [Y/n] "))
-			return;
-	#endif
 	Images::Image& image = converter->getSourceImg();
 	const Images::ImageInfo& imageInfo = image.getImageInfo();
 	Images::Pixel pixel;

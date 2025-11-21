@@ -11,8 +11,8 @@
 #define CONSOLEART_CONTROLLER_CONTROLLERTFD_H_
 
 #include "ControllerCLI.h"
-#include "../tinyFileDialogs/NotifierTFD.h"
-#include "../tinyFileDialogs/MenuTFD.h"
+#include "../gui/tinyFileDialogs/NotifierTFD.h"
+#include "../gui/tinyFileDialogs/MenuTFD.h"
 
 namespace ConsoleArt
 {

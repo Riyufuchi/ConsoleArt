@@ -2,7 +2,7 @@
 // File       : EditImageState.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -12,9 +12,9 @@
 
 #include <functional>
 
-#include "../../abstract/AbstractState.h"
-#include "../../tools/ButtonBuilder.h"
-#include "../../imageTools/Filter.h"
+#include "../../../abstract/AbstractState.h"
+#include "../../../tools/ButtonBuilder.h"
+#include "../../../imageTools/Filter.h"
 
 #include "StateSDL.h"
 #include "StringSDL.h"
