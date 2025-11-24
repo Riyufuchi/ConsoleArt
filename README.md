@@ -31,11 +31,11 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 | Name | Used for | Included in this repository |
 | :------: | :----------: | :---: |
-| [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟠 |
+| [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟢 |
 | [stb](https://github.com/nothings/stb) | Working with complex picture formats | 🟢 |
 | [SDL2](https://www.libsdl.org/) | GUI | 🔴 |
 | [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Crossplatform dialogs | 🟢 |
-| [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL gui components | 🟠 |
+| [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL gui components | 🟢 |
 
 ## Testing
 
@@ -78,11 +78,7 @@ This project started quite some time ago, the initial commit was on 13th of July
    sudo apt install libsdl2-dev
    sudo apt install libsdl2-image-dev
    sudo apt install libsdl2-ttf-dev
-   ```
-  
-  *Makefile automatically gets ConsoleLib and ComponentsSDL and compiles them before the program*
-  
-   ```bash
+   # ConsoleArt
    git clone --branch master --single-branch https://github.com/Riyufuchi/ConsoleArt.git 
    cd ConsoleArt
    make

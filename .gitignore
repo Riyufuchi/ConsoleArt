@@ -5,8 +5,7 @@ bin/
 build
 build/
 test
-libs
-src/inc
+libs-git
 
 # Eclipse
 .cproject
@@ -35,6 +34,7 @@ Debug
 *.synctex.gz
 *.lol
 *.lof
+*.lot
 
 # Visual studio
 .vs
@@ -71,7 +71,7 @@ x64
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+#*.a
 *.lib
 
 # Executables

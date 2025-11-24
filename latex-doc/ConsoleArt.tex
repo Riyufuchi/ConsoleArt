@@ -168,10 +168,15 @@
 	
 	\chapter*{Summary}
 	
-	\addcontentsline{toc}{chapter}{Lists}
-	\addcontentsline{toc}{section}{Listings}
-	\lstlistoflistings
-	\addcontentsline{toc}{section}{Figures}
-	\listoffigures
+	\newpage
+	\begin{minipage}{\textwidth}
+		\addcontentsline{toc}{chapter}{Lists}
+		\addcontentsline{toc}{section}{Listings}
+		\lstlistoflistings
+		\addcontentsline{toc}{section}{Figures}
+		\listoffigures
+	 	\addcontentsline{toc}{section}{List of tables}
+	 	\listoftables
+ 	\end{minipage}
 
 \end{document}
