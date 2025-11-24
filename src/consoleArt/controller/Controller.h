@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 20, 2025
+// Last Edit   : Nov 24, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -21,6 +21,7 @@
 
 // ConsoleLib
 #include "ArgumentParser.h"
+#include "Output.hpp"
 //Image utils
 #include "../imageTools/AsciiConverter.h"
 #include "../imageTools/SimpleEdit.h"

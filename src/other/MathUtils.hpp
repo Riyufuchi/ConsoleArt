@@ -2,7 +2,7 @@
 // File       : MathUtils.hpp
 // Author     : riyufuchi
 // Created on : Jan 29, 2025
-// Last edit  : Nov 20, 2025
+// Last edit  : Nov 24, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "BinomialDistribution.h"
-#include "StatisticsGeneric.h"
+#include "Statistic.h"
 #include "RealNumber.h"
 
 namespace Math
@@ -47,7 +47,7 @@ public:
 			kArgs.emplace_back(std::stoi(params.at(i)));
 		ConsoleLib::BinomialDistribution bi(N, P);
 		for (size_t i = 0; i < kArgs.size(); i++)
-			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i))));
+			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i)) * 100));
 		return results;
 	}
 	static long double parseStringToLD(const std::string& s)
@@ -93,33 +93,6 @@ public:
 		printf("P(X > 1) = 1 - P(0) = %Lf => %.2Lf %c\n", result, result*100, '%');
 		printf("EX = %Lf\n", bi.ex());
 		printf("varX = %Lf\n", bi.varX());
-	}
-	static void testMean()
-	{
-		std::cout << std::fixed;
-		std::cout << std::setprecision(16);
-		std::vector<double> dataset = {30000, 30000, 25000, 30000, 40000, 50000, 100000, 50000};
-		std::vector<double> dataset2 = {30000, 30000, 30000, 30000, 40000, 40000, 80000, 40000};
-		std::vector<double> dataset3 = {0.25, 0.75, 0.50, 1, 0};
-		std::vector<long double> dataset4 = {M_PI, M_E, M_PI*M_E, M_PI/M_E, M_E/M_PI};
-		ConsoleLib::StatisticsGeneric<double> stats0(dataset);
-		printResults<std::string, double>(stats0.calculateStatistics(false));
-		ConsoleLib::StatisticsGeneric<double> stats2(dataset2);
-		printResults<std::string, double>(stats2.calculateStatistics(false));
-		ConsoleLib::StatisticsGeneric<double> stats3(dataset3);
-		printResults<std::string, double>(stats3.calculateStatistics(false));
-		ConsoleLib::StatisticsGeneric<long double> stats4(dataset4);
-		printResults<std::string, long double>(stats4.calculateStatistics(false));
-	}
-	template <typename K, typename T>
-	static void printResults(const std::vector<std::pair<K, T>>& data)
-	{
-		std::cout << std::fixed;
-		std::cout << std::setprecision(42);
-		std::cout << "\n";
-		for (const std::pair<K, T>& dataPair : data)
-			std::cout << dataPair.first << dataPair.second << "\n";
-		std::cout << "\n";
 	}
 };
 }
