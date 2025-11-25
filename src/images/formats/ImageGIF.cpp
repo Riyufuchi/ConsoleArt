@@ -2,7 +2,7 @@
 // File       : ImageGIF.cpp
 // Author     : riyufuchi
 // Created on : Nov 06, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Nov 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -84,13 +84,19 @@ void ImageGIF::loadImage()
 		free(delayArr); // stb allocates it with malloc
 }
 
-Images::Pixel ImageGIF::getPixel(int , int ) const
+Images::Pixel ImageGIF::getPixel(int x, int y) const
 {
-	return {};
+	x = (y * image.width + x) * image.channels;
+	return {pixelData[x], pixelData[x + 1], pixelData[x + 2], pixelData[x + 3]};
 }
 
-void ImageGIF::setPixel(int , int , Images::Pixel )
+void ImageGIF::setPixel(int x, int y, Images::Pixel pixel)
 {
+	x = (y * image.width + x) * image.channels;
+	pixelData[x] = pixel.red;
+	pixelData[x + 1] = pixel.green;
+	pixelData[x + 2] = pixel.blue;
+	pixelData[x + 3] = pixel.alpha;
 }
 
 bool ImageGIF::saveImage() const
