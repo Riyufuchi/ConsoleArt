@@ -38,10 +38,36 @@ set_target_properties(ComponentSDL PROPERTIES IMPORTED_LOCATION ${COMPONENT-SDL_
 # ---------------------------------------------------------
 #                       SDL2
 # ---------------------------------------------------------
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED sdl2)
-pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
-pkg_check_modules(SDL2_TTF REQUIRED SDL2_ttf)
+if (WIN32)
+    #
+    # Windows: require SDL2_DIR, SDL2_image_DIR, SDL2_ttf_DIR
+    # (User must download SDL dev folders and point CMake to them)
+    #
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+
+else()
+    #
+    # Linux / macOS: prefer pkg-config
+    #
+    find_package(PkgConfig REQUIRED)
+
+    pkg_check_modules(SDL2 IMPORTED_TARGET sdl2)
+    pkg_check_modules(SDL2_IMAGE IMPORTED_TARGET SDL2_image)
+    pkg_check_modules(SDL2_TTF IMPORTED_TARGET SDL2_ttf)
+
+    # For compatibility the library names should be consistent
+    add_library(SDL2::SDL2 INTERFACE IMPORTED)
+    target_link_libraries(SDL2::SDL2 INTERFACE PkgConfig::SDL2)
+
+    add_library(SDL2_image::SDL2_image INTERFACE IMPORTED)
+    target_link_libraries(SDL2_image::SDL2_image INTERFACE PkgConfig::SDL2_IMAGE)
+
+    add_library(SDL2_ttf::SDL2_ttf INTERFACE IMPORTED)
+    target_link_libraries(SDL2_ttf::SDL2_ttf INTERFACE PkgConfig::SDL2_TTF)
+
+endif()
 
 # ---------------------------------------------------------
 #                       APP
@@ -65,9 +91,9 @@ target_include_directories(ConsoleArt PRIVATE
 target_link_libraries(ConsoleArt PRIVATE
     ConsoleLib
     ComponentSDL
-    ${SDL2_LIBRARIES}
-    ${SDL2_IMAGE_LIBRARIES}
-    ${SDL2_TTF_LIBRARIES}
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    SDL2_ttf::SDL2_ttf
 )
 
 # Copy assets folder into build directory
