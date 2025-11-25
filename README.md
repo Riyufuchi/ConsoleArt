@@ -2,7 +2,6 @@
 
 - [About](#about)
 - [Used libraries](#used-libraries)
-- [Testing](#testing)
 - [Documentation](#documentation)
 - [Compilation](#compilation)
 - [Project guide](#project-guide)
@@ -37,15 +36,6 @@ This project started quite some time ago, the initial commit was on 13th of July
 | [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Crossplatform dialogs | ✅ |
 | [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL GUI components | ✅ |
 
-## Testing
-
-### Compiled & Tested on
-
-| OS | Compiler |
-| :------: | :----------: |
-| Ubuntu | g++ 14.2.0 |
-| <s>Windows 10</s> | <s>MSVC v143</s> |
-
 ## Documentation
 
  ```bash
@@ -67,6 +57,13 @@ This project started quite some time ago, the initial commit was on 13th of July
    ```
 
 ## Compilation
+
+### Compiled & Tested on
+
+| OS | Compiler |
+| :------: | :----------: |
+| Ubuntu | g++ 14.2.0 |
+| <s>Windows 10</s> | <s>MSVC v143</s> |
 
 ### Using Makefile
 
