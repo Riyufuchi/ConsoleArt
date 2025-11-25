@@ -31,11 +31,11 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 | Name | Used for | Included in this repository |
 | :------: | :----------: | :---: |
-| [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | 🟢 |
-| [stb](https://github.com/nothings/stb) | Working with complex picture formats | 🟢 |
-| [SDL2](https://www.libsdl.org/) | GUI | 🔴 |
-| [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Crossplatform dialogs | 🟢 |
-| [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL gui components | 🟢 |
+| [ConsoleLib](https://github.com/Riyufuchi/ConsoleLib) | Console stuff | ✅ |
+| [stb](https://github.com/nothings/stb) | Working with complex picture formats | ✅ |
+| [SDL2](https://www.libsdl.org/) | GUI | ❌ |
+| [tinyfiledialogs](http://tinyfiledialogs.sourceforge.net) | Crossplatform dialogs | ✅ |
+| [ComponentSDL](https://github.com/Riyufuchi/ComponentSDL) | SDL GUI components | ✅ |
 
 ## Testing
 
@@ -68,9 +68,7 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 ## Compilation
 
-### Linux
-
-   *For debian based systems*
+### Using Makefile
 
    ```bash
    # SDL2
@@ -82,6 +80,25 @@ This project started quite some time ago, the initial commit was on 13th of July
    git clone --branch master --single-branch https://github.com/Riyufuchi/ConsoleArt.git 
    cd ConsoleArt
    make
+   ```
+
+### Using CMake
+
+   ```bash
+   git clone https://github.com/Riyufuchi/ConsoleArt.git
+   cd ConsoleArt
+   
+   # On Linux and MacOS
+   cmake -B build -S .
+   
+   # On Windows
+   cmake -B build -S . \
+    -DSDL2_DIR="C:/path/to/SDL2/cmake" \
+    -DSDL2_image_DIR="C:/path/to/SDL2_image/cmake" \
+    -DSDL2_ttf_DIR="C:/path/to/SDL2_ttf/cmake"
+    
+   # Then build the application
+   cmake --build build
    ```
 
 ## Project guide

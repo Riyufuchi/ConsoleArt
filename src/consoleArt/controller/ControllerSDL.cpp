@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Nov 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -66,15 +66,18 @@ void ControllerSDL::run()
 		return;
 	if (!buttons->isReady())
 		return;
-	SDL_RendererInfo info;
-	SDL_GetRendererInfo(renderer, &info);
 
-	int numRenderDrivers = SDL_GetNumRenderDrivers();
-	std::cout << "Available render drivers: " << numRenderDrivers << std::endl;
-	for (int i = 0; i < numRenderDrivers; ++i)
-	{
-		std::cout << "Driver " << i << ": " << info.name << std::endl;
-	}
+	#ifdef DEBUG
+		SDL_RendererInfo info;
+		SDL_GetRendererInfo(renderer, &info);
+
+		int numRenderDrivers = SDL_GetNumRenderDrivers();
+		std::cout << "Available render drivers: " << numRenderDrivers << std::endl;
+		for (int i = 0; i < numRenderDrivers; ++i)
+		{
+			std::cout << "Driver " << i << ": " << info.name << std::endl;
+		}
+	#endif
 
 	//const int targetFPS = 360;
 	//const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
