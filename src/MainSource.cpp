@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Jul 05, 2025
+// Last Edit   : Nov 30, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -85,9 +85,9 @@ int main(int argc, char** argv)
 
 	ConsoleArt::Controller* consoleArt;
 
-	if (ConsoleLib::ArgumentParser::remove(argPairs, "--sdl"))
+	if (ConsoleLib::ArgumentParser::remove(argPairs, "--noGUI"))
 	{
-		consoleArt = new ConsoleArt::ControllerSDL();
+		consoleArt = new ConsoleArt::ControllerCLI(systemConsole);
 	}
 	else if (ConsoleLib::ArgumentParser::remove(argPairs, "--zen"))
 	{
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		consoleArt = new ConsoleArt::ControllerCLI(systemConsole);
+		consoleArt = new ConsoleArt::ControllerSDL();
 	}
 
 	if (consoleArt == nullptr)

@@ -32,8 +32,23 @@ add_library(ConsoleLib STATIC IMPORTED)
 add_library(ComponentSDL STATIC IMPORTED)
 
 # Point the IMPORTED target to the actual file
-set_target_properties(ConsoleLib PROPERTIES IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/libConsoleLib.a INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
-set_target_properties(ComponentSDL PROPERTIES IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/libComponentSDL.a INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+if (WIN32)
+	set_target_properties(ConsoleLib PROPERTIES
+	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/libConsoleLib.lib
+	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
+	
+	set_target_properties(ComponentSDL PROPERTIES
+	IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/libComponentSDL.lib
+	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+else()
+	set_target_properties(ConsoleLib PROPERTIES
+	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/libConsoleLib.a
+	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
+	
+	set_target_properties(ComponentSDL PROPERTIES IMPORTED_LOCATION
+	${COMPONENT-SDL_LIB_DIR}/libComponentSDL.a
+	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+endif()
 
 # ---------------------------------------------------------
 #                       SDL2
@@ -72,6 +87,8 @@ endif()
 # ---------------------------------------------------------
 #                       APP
 # ---------------------------------------------------------
+file(MAKE_DIRECTORY build)
+
 file(GLOB_RECURSE APP_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
