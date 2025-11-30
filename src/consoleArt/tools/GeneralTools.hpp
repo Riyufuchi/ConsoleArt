@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Nov 17, 2025
+// Last edit  : Nov 30, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -54,7 +54,7 @@ public:
 			"--binomial [N, P, K...]| Binomial distribution",
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compare dimensions of the two given images",
-			"--sdl| Starts application in GUI mode using SDL2",
+			"--noGUI| Starts application in pure CLI mode",
 			"--zen| Starts application in CLI mode using Zenity",
 			"--tfd| Starts application in CLI mode using TinyFileDialogs"
 		};
