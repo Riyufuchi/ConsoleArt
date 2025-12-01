@@ -23,9 +23,9 @@ namespace ConsoleArt
 class AsciiPrinterCLI : public AbstractAsciiPrinter
 {
 protected:
-	ConsoleLib::IConsole& console;
+	consolelib::IConsole& console;
 public:
-	AsciiPrinterCLI(ConsoleLib::IConsole& console);
+	AsciiPrinterCLI(consolelib::IConsole& console);
 	virtual ~AsciiPrinterCLI();
 	virtual void printPixelColored() override;
 	virtual void printToFile() override;

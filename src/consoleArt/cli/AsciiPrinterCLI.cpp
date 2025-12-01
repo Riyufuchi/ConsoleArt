@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-AsciiPrinterCLI::AsciiPrinterCLI(ConsoleLib::IConsole& console) : AbstractAsciiPrinter(), console(console)
+AsciiPrinterCLI::AsciiPrinterCLI(consolelib::IConsole& console) : AbstractAsciiPrinter(), console(console)
 {
 }
 

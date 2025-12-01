@@ -8,7 +8,7 @@
 
 namespace ConsoleArt
 {
-MenuCLI::MenuCLI(ConsoleLib::IConsole* console) : console(console)
+MenuCLI::MenuCLI(consolelib::IConsole* console) : console(console)
 {
 	menus[Menu::MAIN_MENU] = { "Load image", "Load all images", "Select image", "Image actions", "List images", "Settings", "About", "Exit"};
 	menus[Menu::CHAR_SET_SELECTION] = { "BASIC - █#@%=+:-. ", "PRECISE", "DETAILED", "DETAILED_INVERTED - .-:*+=x%@#░▒▓█",
@@ -23,23 +23,23 @@ MenuCLI::~MenuCLI()
 }
 int MenuCLI::mainMenuOptions()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::MAIN_MENU), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::MAIN_MENU), *console);
 }
 void MenuCLI::confConsoleTextColor()
 {
-	if (ConsoleLib::ConsoleUtils::yesNo("Select color [Y/n]: "))
+	if (consolelib::ConsoleUtils::yesNo("Select color [Y/n]: "))
 	{
-		int max = ConsoleLib::ColorPallete::COLOR_COUNT;
+		int max = consolelib::ColorPallete::COLOR_COUNT;
 		for (int i = 0; i < max; ++i)
 		{
 			console->enableCustomFG();
 			std::cout << i + 1 << ". ";
-			console->out(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(i)), ConsoleLib::ColorUtils::colorPaletteNames[i]);
+			console->out(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(i)), consolelib::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
-		console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(ConsoleLib::ConsoleUtils::getIntSafe(1, max) - 1)));
+		console->setDefaultTextColor(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(consolelib::ConsoleUtils::getIntSafe(1, max) - 1)));
 	}
-	else if(ConsoleLib::ConsoleUtils::yesNo("Custom color [Y/n]: "))
+	else if(consolelib::ConsoleUtils::yesNo("Custom color [Y/n]: "))
 	{
 		console->setDefaultTextColor(MenuCLI::colorPicker());
 	}
@@ -47,40 +47,40 @@ void MenuCLI::confConsoleTextColor()
 // Menus
 int MenuCLI::charSetMenu()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::CHAR_SET_SELECTION), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::CHAR_SET_SELECTION), *console);
 }
 int MenuCLI::printMenu()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::PRINT_OPTIONS), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::PRINT_OPTIONS), *console);
 }
-ConsoleLib::Color MenuCLI::colorPicker()
+consolelib::Color MenuCLI::colorPicker()
 {
 	std::cout << "Red: ";
-	short int red = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	short int red = consolelib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Green: ";
-	short int green = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
+	short int green = consolelib::ConsoleUtils::getIntSafe(0, 255);
 	std::cout << "Blue: ";
-	short int blue = ConsoleLib::ConsoleUtils::getIntSafe(0, 255);
-	return ConsoleLib::Color{red, green, blue};
+	short int blue = consolelib::ConsoleUtils::getIntSafe(0, 255);
+	return consolelib::Color{red, green, blue};
 }
-void MenuCLI::setConsole(ConsoleLib::IConsole* console2)
+void MenuCLI::setConsole(consolelib::IConsole* console2)
 {
 	this->console = console2;
 }
 
 int MenuCLI::imageEditOptions()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::IMAGE_ACTION_OPTIONS), *console);
 }
 
 int MenuCLI::imageFilterOptions()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::FILTERS), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::FILTERS), *console);
 }
 
 int MenuCLI::afterPrintOptions()
 {
-	return ConsoleLib::ConsoleUtils::basicMenu(menus.at(Menu::AFTER_PRINT_OPTIONS), *console);
+	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::AFTER_PRINT_OPTIONS), *console);
 }
 
 } // Namespace ConsoleArt

@@ -12,16 +12,16 @@
 
 namespace ConsoleArt
 {
-ControllerZenity::ControllerZenity(ConsoleLib::IConsole* console) : ControllerCLI(console)
+ControllerZenity::ControllerZenity(consolelib::IConsole* console) : ControllerCLI(console)
 {
 	setMenu(new MenuZenity(this->console, [&]() { printHeader(); }));
 	setNotifier(new NotifierZenity(this->console));
-	this->console->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
+	this->console->out(consolelib::ColorUtils::getColor(consolelib::ColorPallete::HAUNTED), "Started in CLI mode using Zenity\n");
 }
 
 void ControllerZenity::printHeader()
 {
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
 	static Images::Image* selectedImage = getSelectedImage();;
 	if (selectedImage != nullptr)

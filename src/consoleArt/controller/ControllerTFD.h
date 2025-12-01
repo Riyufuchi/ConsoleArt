@@ -20,7 +20,7 @@ namespace ConsoleArt
 class ControllerTFD : public ControllerCLI
 {
 public:
-	ControllerTFD(ConsoleLib::IConsole* console);
+	ControllerTFD(consolelib::IConsole* console);
 	virtual ~ControllerTFD() = default;
 	void printHeader();
 	virtual std::string inputImageName() override;
@@ -28,6 +28,6 @@ protected:
 	virtual void showAboutApplicationInfo() override;
 };
 
-} /* namespace ConsoleLib */
+} /* namespace consolelib */
 
 #endif /* CONSOLEART_CONTROLLER_CONTROLLERTFD_H_ */

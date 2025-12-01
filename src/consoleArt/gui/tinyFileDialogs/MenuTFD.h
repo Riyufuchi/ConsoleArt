@@ -26,15 +26,15 @@ namespace ConsoleArt
 class MenuTFD : public MenuCLI
 {
 private:
-	ConsoleLib::ConsoleMenu mainMenu;
+	consolelib::ConsoleMenu mainMenu;
 public:
-	MenuTFD(ConsoleLib::IConsole* console, std::function<void()> function);
+	MenuTFD(consolelib::IConsole* console, std::function<void()> function);
 	virtual ~MenuTFD() = default;
 	virtual int mainMenuOptions() override;
-	virtual ConsoleLib::Color colorPicker() override;
+	virtual consolelib::Color colorPicker() override;
 	virtual void confConsoleTextColor() override;
 };
 
-} /* namespace ConsoleLib */
+} /* namespace consolelib */
 
 #endif /* CONSOLEART_TINYFILEDIALOGS_MENUTFD_H_ */

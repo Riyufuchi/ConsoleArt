@@ -27,13 +27,13 @@ namespace ConsoleArt
 class MenuZenity: public MenuCLI
 {
 private:
-	ConsoleLib::ConsoleMenu mainMenu;
-	ConsoleLib::ConsoleMenu editImageOptionsMenu;
+	consolelib::ConsoleMenu mainMenu;
+	consolelib::ConsoleMenu editImageOptionsMenu;
 	int createZenityMenu(std::vector<std::string>& menu);
 public:
-	MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function);
+	MenuZenity(consolelib::IConsole* console, std::function<void()> function);
 	~MenuZenity();
-	virtual ConsoleLib::Color colorPicker() override;
+	virtual consolelib::Color colorPicker() override;
 	virtual int imageFilterOptions() override;
 	virtual int charSetMenu() override;
 	virtual int printMenu() override;

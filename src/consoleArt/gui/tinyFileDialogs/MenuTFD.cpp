@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-MenuTFD::MenuTFD(ConsoleLib::IConsole* console, std::function<void()> function) : MenuCLI(console), mainMenu(*console, menus.at(Menu::MAIN_MENU), function)
+MenuTFD::MenuTFD(consolelib::IConsole* console, std::function<void()> function) : MenuCLI(console), mainMenu(*console, menus.at(Menu::MAIN_MENU), function)
 {}
 
 int MenuTFD::mainMenuOptions()
@@ -19,16 +19,16 @@ int MenuTFD::mainMenuOptions()
 	return mainMenu.runMenuLoop();
 }
 
-ConsoleLib::Color MenuTFD::colorPicker()
+consolelib::Color MenuTFD::colorPicker()
 {
 	unsigned char rgb[3] = {255, 255, 255};
 	const char* hex = tinyfd_colorChooser("Select a color", "#FFFFFF", rgb, rgb);
 	if (hex)
 	{
-		return ConsoleLib::Color{rgb[0], rgb[1], rgb[2]};
+		return consolelib::Color{rgb[0], rgb[1], rgb[2]};
 	}
 
-	return ConsoleLib::ColorUtils::getColor(ConsoleLib::CONSOLE_ART_UNIX_DEFAULT);
+	return consolelib::ColorUtils::getColor(consolelib::CONSOLE_ART_UNIX_DEFAULT);
 }
 
 void MenuTFD::confConsoleTextColor()
@@ -36,4 +36,4 @@ void MenuTFD::confConsoleTextColor()
 	console->setDefaultTextColor(colorPicker());
 }
 
-} /* namespace ConsoleLib */
+} /* namespace consolelib */

@@ -45,14 +45,14 @@ public:
 		std::vector<int> kArgs;
 		for (size_t i = 2; i < params.size(); i++)
 			kArgs.emplace_back(std::stoi(params.at(i)));
-		ConsoleLib::BinomialDistribution bi(N, P);
+		consolelib::BinomialDistribution bi(N, P);
 		for (size_t i = 0; i < kArgs.size(); i++)
 			results.emplace_back(std::pair<int, long double>(kArgs.at(i), bi.distribute(kArgs.at(i)) * 100));
 		return results;
 	}
 	static long double parseStringToLD(const std::string& s)
 	{
-		if (ConsoleLib::DataUtils::isDouble(s))
+		if (consolelib::DataUtils::isDouble(s))
 		{
 			return std::stold(s);
 		}
@@ -64,7 +64,7 @@ public:
 
 			while (std::getline(ss, token, '/'))
 			{
-				if (!ConsoleLib::DataUtils::isDouble(token))
+				if (!consolelib::DataUtils::isDouble(token))
 					return -1;
 				tokens.push_back(token);
 			}
@@ -80,10 +80,10 @@ public:
 	{
 		const int N = 10; // Number of cards in the pack
 		const int N_2= 50; // Number of packs in the box
-		const ConsoleLib::bigDouble P = (1.0L/230.0L);
-		ConsoleLib::bigDouble result = 0;
-		ConsoleLib::BinomialDistribution bi(N, P);
-		const ConsoleLib::bigDouble CARD_IN_PACK_CHANCE = 1.0L - bi.distribute(0);
+		const consolelib::bigDouble P = (1.0L/230.0L);
+		consolelib::bigDouble result = 0;
+		consolelib::BinomialDistribution bi(N, P);
+		const consolelib::bigDouble CARD_IN_PACK_CHANCE = 1.0L - bi.distribute(0);
 		printf("X ~ Bi(%d, %Lf) = P(X > 1) = %Lf => %.2Lf %c\n", N, P, CARD_IN_PACK_CHANCE, (CARD_IN_PACK_CHANCE*100), '%');
 		bi.setN(N_2);
 		bi.setP(CARD_IN_PACK_CHANCE);

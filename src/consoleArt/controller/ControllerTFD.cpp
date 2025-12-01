@@ -12,7 +12,7 @@
 namespace ConsoleArt
 {
 
-ControllerTFD::ControllerTFD(ConsoleLib::IConsole* console) : ControllerCLI(console)
+ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(console)
 {
 	setenv("TINYFD_FORCE_XDG", "1", 1);
 	setMenu(new MenuTFD(this->console, [&]{ printHeader(); }));
@@ -21,7 +21,7 @@ ControllerTFD::ControllerTFD(ConsoleLib::IConsole* console) : ControllerCLI(cons
 
 void ControllerTFD::printHeader()
 {
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
 	static Images::Image* selectedImage = getSelectedImage();
 	if (selectedImage != nullptr)
@@ -50,7 +50,7 @@ void ControllerTFD::showAboutApplicationInfo()
 {
 	ControllerCLI::showAboutApplicationInfo();
 	console->out("Press enter to continue...");
-	ConsoleLib::ConsoleUtils::waitForEnter();
+	consolelib::ConsoleUtils::waitForEnter();
 }
 
-} /* namespace ConsoleLib */
+} /* namespace consolelib */

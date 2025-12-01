@@ -11,7 +11,7 @@
 
 namespace ConsoleArt
 {
-MenuZenity::MenuZenity(ConsoleLib::IConsole* console, std::function<void()> function) : MenuCLI(console),
+MenuZenity::MenuZenity(consolelib::IConsole* console, std::function<void()> function) : MenuCLI(console),
 	mainMenu(*console, menus.at(Menu::MAIN_MENU), function),
 	editImageOptionsMenu(*console, menus.at(Menu::IMAGE_ACTION_OPTIONS), function)
 {
@@ -59,9 +59,9 @@ int MenuZenity::createZenityMenu(std::vector<std::string>& menu)
 	}
 	return -3;
 }
-ConsoleLib::Color MenuZenity::colorPicker()
+consolelib::Color MenuZenity::colorPicker()
 {
-	ConsoleLib::Color color{ -1, 158, 150 };
+	consolelib::Color color{ -1, 158, 150 };
 	FILE *pipe = popen("zenity --color-selection --show-palette --title='Pick a color' --width=600 --height=400", "r");
 	if (!pipe)
 	{
@@ -85,7 +85,7 @@ ConsoleLib::Color MenuZenity::colorPicker()
 	int r, g, b;
 	if (sscanf(buffer, "rgb(%d,%d,%d)", &r, &g, &b) == 3)
 	{
-		return ConsoleLib::Color { (short int) r, (short int) g, (short int) b };
+		return consolelib::Color { (short int) r, (short int) g, (short int) b };
 	}
 
 	std::cerr << "Invalid color format: " << buffer << std::endl;
@@ -94,7 +94,7 @@ ConsoleLib::Color MenuZenity::colorPicker()
 
 void MenuZenity::confConsoleTextColor()
 {
-	ConsoleLib::Color c = colorPicker();
+	consolelib::Color c = colorPicker();
 	if (c.red != -1)
 		console->setDefaultTextColor(c);
 }

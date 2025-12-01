@@ -26,7 +26,7 @@
 	#include "WindowsConsole.h"
 #endif // _WIN32
 
-using ParsedArguments = ConsoleLib::argVector; // or ConsoleLib::argMap
+using ParsedArguments = consolelib::argVector; // or consolelib::argMap
 
 enum BootAction
 {
@@ -40,9 +40,9 @@ enum BootAction
 	SCHEDULE
 };
 
-BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console);
+BootAction checkArgs(ParsedArguments& argPairs, consolelib::IConsole& console);
 
-BootAction abort(ConsoleLib::IConsole& console)
+BootAction abort(consolelib::IConsole& console)
 {
 	console.err("Unrecognized action. Aborting!");
 	return BootAction::ABORT;
@@ -50,7 +50,7 @@ BootAction abort(ConsoleLib::IConsole& console)
 
 int main(int argc, char** argv)
 {
-	ConsoleLib::IConsole* systemConsole = ConsoleLib::ConsoleUtils::createPlatformConsole();
+	consolelib::IConsole* systemConsole = consolelib::ConsoleUtils::createPlatformConsole();
 
 	if (systemConsole == nullptr)
 	{
@@ -58,18 +58,18 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	systemConsole->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::APERTURE_ORANGE));
+	systemConsole->setDefaultTextColor(consolelib::ColorUtils::getColor(consolelib::ColorPallete::APERTURE_ORANGE));
 
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
+	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
 
 	#ifdef _WIN32
-		systemConsole->out(ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE),
+		systemConsole->out(consolelib::ColorUtils::getColor(consolelib::ColorPallete::UNIQUE),
 			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
 	#endif
 
 	bool success = true;
 	std::string resultMsg = "";
-	ParsedArguments argPairs = ConsoleLib::ArgumentParser::analyzeInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
+	ParsedArguments argPairs = consolelib::ArgumentParser::analyzeInOrder(argc, argv, success, resultMsg); // or just analyzeArguments(argc, argv, success, resultMsg);
 	if (success)
 		systemConsole->out(resultMsg + "\n");
 	else
@@ -80,20 +80,20 @@ int main(int argc, char** argv)
 
 	#ifdef DEBUG
 		systemConsole->out(153, 102, 51, "!!! This is a debug build !!!\n");
-		ConsoleLib::ArgumentParser::printArgumentPairs(argPairs);
+		consolelib::ArgumentParser::printArgumentPairs(argPairs);
 	#endif
 
 	ConsoleArt::Controller* consoleArt;
 
-	if (ConsoleLib::ArgumentParser::remove(argPairs, "--noGUI"))
+	if (consolelib::ArgumentParser::remove(argPairs, "--noGUI"))
 	{
 		consoleArt = new ConsoleArt::ControllerCLI(systemConsole);
 	}
-	else if (ConsoleLib::ArgumentParser::remove(argPairs, "--zen"))
+	else if (consolelib::ArgumentParser::remove(argPairs, "--zen"))
 	{
 		consoleArt = new ConsoleArt::ControllerZenity(systemConsole);
 	}
-	else if (ConsoleLib::ArgumentParser::remove(argPairs, "--tfd"))
+	else if (consolelib::ArgumentParser::remove(argPairs, "--tfd"))
 	{
 		consoleArt = new ConsoleArt::ControllerTFD(systemConsole);
 	}
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
+BootAction checkArgs(ParsedArguments& argPairs, consolelib::IConsole& console)
 {
 	if (argPairs.empty())
 		return BootAction::CONTINUE;
@@ -136,7 +136,7 @@ BootAction checkArgs(ParsedArguments& argPairs, ConsoleLib::IConsole& console)
 	for (std::pair<std::string, BootAction> arg : checkFor)
 	{
 		//if (argPairs.contains(arg.first))
-		if (ConsoleLib::ArgumentParser::contains(argPairs, arg.first))
+		if (consolelib::ArgumentParser::contains(argPairs, arg.first))
 			switch (arg.second)
 			{
 				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;

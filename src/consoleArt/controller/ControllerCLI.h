@@ -33,15 +33,15 @@ namespace ConsoleArt
 class ControllerCLI : public Controller
 {
 protected:
-	ConsoleLib::IConsole* console;
+	consolelib::IConsole* console;
 	void loadAllImagesAsync();
 	virtual void refreshMenu();
 	virtual std::string inputImageName() override;
 	virtual IndexDataType selectImageMenu() override;
 	virtual void showAboutApplicationInfo() override;
 private:
-	ConsoleLib::DefaultConsole defaultConsole;
-	ConsoleLib::Color warningColor{255, 255, 0};
+	consolelib::DefaultConsole defaultConsole;
+	consolelib::Color warningColor{255, 255, 0};
 	void imageActionsSubmenu();
 	void benchmark(const std::vector<std::string>& vector);
 	void compareImages(const std::vector<std::string>& vector);
@@ -50,8 +50,8 @@ private:
 	void selectImageEvent();
 	void convertImageToAsciiEvent();
 public:
-	ControllerCLI(ConsoleLib::IConsole* console);
-	ControllerCLI(std::string path, ConsoleLib::IConsole* console);
+	ControllerCLI(consolelib::IConsole* console);
+	ControllerCLI(std::string path, consolelib::IConsole* console);
 	void run() override;
 	~ControllerCLI();
 };

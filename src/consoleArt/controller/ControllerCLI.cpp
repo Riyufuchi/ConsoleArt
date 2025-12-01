@@ -10,10 +10,10 @@
 
 namespace ConsoleArt
 {
-ControllerCLI::ControllerCLI(ConsoleLib::IConsole* console) : ControllerCLI("", console)
+ControllerCLI::ControllerCLI(consolelib::IConsole* console) : ControllerCLI("", console)
 {
 }
-ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : Controller(path, new NotifierCLI(console), new MenuCLI(console), new AsciiPrinterCLI(console ? *console : defaultConsole)), console(console)
+ControllerCLI::ControllerCLI(std::string path, consolelib::IConsole* console) : Controller(path, new NotifierCLI(console), new MenuCLI(console), new AsciiPrinterCLI(console ? *console : defaultConsole)), console(console)
 {
 	if (this->console == nullptr)
 	{
@@ -31,14 +31,14 @@ ControllerCLI::ControllerCLI(std::string path, ConsoleLib::IConsole* console) : 
 	};
 	argumentMethods["--color"] = [&](const auto& vector)
 	{
-		if (vector.empty() || (!ConsoleLib::DataUtils::isNumber(vector.at(0))))
+		if (vector.empty() || (!consolelib::DataUtils::isNumber(vector.at(0))))
 		{
 			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + vector.at(0) + " for --color\n");
 			return;
 		}
 		int colorID = std::stoi(vector.at(0)) - 1;
-		if (colorID >= 0 && colorID < ConsoleLib::ColorPallete::COLOR_COUNT)
-			this->console->setDefaultTextColor(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(colorID)));
+		if (colorID >= 0 && colorID < consolelib::ColorPallete::COLOR_COUNT)
+			this->console->setDefaultTextColor(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(colorID)));
 	};
 	argumentMethods["--benchmark"] = [&](const auto& vector) { benchmark(vector); };
 	argumentMethods["--compare"] = [&](const auto& vector) { compareImages(vector); };
@@ -167,7 +167,7 @@ void ControllerCLI::run()
 {
 	if (!isRunnable)
 	{
-		if(ConsoleLib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
+		if(consolelib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
 			return;
 	}
 	IndexDataType lastIndex = 0;
@@ -190,7 +190,7 @@ void ControllerCLI::run()
 			case 3: imageActionsSubmenu(); break;
 			case 4:
 				console->enableCustomFG();
-				ConsoleLib::ConsoleUtils::listFilesInFolder(workspacePath);
+				consolelib::ConsoleUtils::listFilesInFolder(workspacePath);
 				console->disableCustomFG();
 				break;
 			case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); break;
@@ -224,7 +224,7 @@ Controller::IndexDataType ControllerCLI::selectImageMenu()
 		std::cout << index + 1 << ". " << images[index].imageUptr->getFilename() << std::endl;
 	}
 
-	int selectedIndex = ConsoleLib::ConsoleUtils::getIntSafe(0, max) - 1;
+	int selectedIndex = consolelib::ConsoleUtils::getIntSafe(0, max) - 1;
 	if (selectedIndex == -1)
 		return 0;
 	std::cout << "\n";

@@ -27,7 +27,7 @@ protected:
 	virtual IndexDataType selectImageMenu() override;
 	virtual void showAboutApplicationInfo() override;
 public:
-	ControllerZenity(ConsoleLib::IConsole* console);
+	ControllerZenity(consolelib::IConsole* console);
 	virtual ~ControllerZenity();
 };
 } /* namespace ConsoleArt */

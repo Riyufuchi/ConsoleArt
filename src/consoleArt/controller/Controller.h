@@ -19,7 +19,7 @@
 #include <thread>
 #include <memory>
 
-// ConsoleLib
+// consolelib
 #include "ArgumentParser.h"
 #include "Output.hpp"
 //Image utils
@@ -83,8 +83,8 @@ public:
 	Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter);
 	virtual ~Controller();
-	void configure(ConsoleLib::argMap& config);
-	void configure(ConsoleLib::argVector& config);
+	void configure(consolelib::argMap& config);
+	void configure(consolelib::argVector& config);
 	virtual void run() = 0;
 	// Controller
 	virtual std::string inputImageName() = 0;
