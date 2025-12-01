@@ -44,8 +44,8 @@ enum class FileState
 struct ImageInfo
 {
 	std::string name {"unknown.txt"};
-	int width {0};
-	int height {0};
+	int width { 0 };
+	int height { 0 };
 	int channels { 3 };
 	uint16_t bits { 24 };
 	uint16_t file_type { 0 };

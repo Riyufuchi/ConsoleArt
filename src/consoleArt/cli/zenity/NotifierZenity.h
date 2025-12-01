@@ -12,7 +12,7 @@
 
 #include <format>
 
-// ConsoleLib
+// consolelib
 #include <DataUtils.h>
 
 #include "../NotifierCLI.h"
@@ -25,7 +25,7 @@ private:
 	std::string dialogTypeHolder;
 	void showDialog(const std::string& type, const std::string& text, MessageType messageSeverity);
 public:
-	NotifierZenity(ConsoleLib::IConsole* console);
+	NotifierZenity(consolelib::IConsole* console);
 	~NotifierZenity();
 	virtual void displayImageInfo(const Images::Image& image) override;
 	virtual void messageUser(MessageType messageSeverity, const std::string& message) override;

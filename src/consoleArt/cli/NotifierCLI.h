@@ -20,22 +20,22 @@ namespace ConsoleArt
 class NotifierCLI : public AbstractNotifier
 {
 	private:
-		ConsoleLib::Color warning = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::UNIQUE);
-		ConsoleLib::Color error = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::STRANGE);
-		ConsoleLib::Color exception = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COLLECTORS);
-		ConsoleLib::Color taskDone = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::COMMUNITY);
-		ConsoleLib::Color info = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
-		ConsoleLib::Color notification = ConsoleLib::ColorUtils::getColor(ConsoleLib::ColorPallete::HAUNTED);
-		ConsoleLib::IConsole* console;
+		consolelib::Color warning = consolelib::ColorUtils::getColor(consolelib::ColorPallete::UNIQUE);
+		consolelib::Color error = consolelib::ColorUtils::getColor(consolelib::ColorPallete::STRANGE);
+		consolelib::Color exception = consolelib::ColorUtils::getColor(consolelib::ColorPallete::COLLECTORS);
+		consolelib::Color taskDone = consolelib::ColorUtils::getColor(consolelib::ColorPallete::COMMUNITY);
+		consolelib::Color info = consolelib::ColorUtils::getColor(consolelib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+		consolelib::Color notification = consolelib::ColorUtils::getColor(consolelib::ColorPallete::HAUNTED);
+		consolelib::IConsole* console;
 	protected:
 		std::mutex mutexPrintMessage;
 	public:
-		NotifierCLI(ConsoleLib::IConsole* console);
+		NotifierCLI(consolelib::IConsole* console);
 		virtual ~NotifierCLI();
 		void messageUser(MessageType messageSeverity, const std::string& message) override;
 		void displayImageInfo(const Images::Image& image) override;
 		// Setters
-		void setConsole(ConsoleLib::IConsole* console);
+		void setConsole(consolelib::IConsole* console);
 };
 } /* namespace ConsoleArt */
 #endif /* CONSOLEART_CLI_NOTIFIERCLI_H_ */

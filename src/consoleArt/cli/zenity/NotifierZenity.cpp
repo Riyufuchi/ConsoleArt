@@ -11,7 +11,7 @@
 
 namespace ConsoleArt {
 
-NotifierZenity::NotifierZenity(ConsoleLib::IConsole* console) : NotifierCLI(console)
+NotifierZenity::NotifierZenity(consolelib::IConsole* console) : NotifierCLI(console)
 {
 
 }
@@ -32,7 +32,7 @@ void NotifierZenity::displayImageInfo(const Images::Image& image)
 	cmd << "zenity --list --title='Image info' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' --column='Planar' ";
 	const Images::ImageInfo& info = image.getImageInfo();
 	cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (image.isInverted() ? "Yes" : "No") << " "
-	<< ConsoleLib::DataUtils::boolToString(info.planar);
+	<< consolelib::DataUtils::boolToString(info.planar);
 	if (std::system(cmd.str().c_str()))
 		NotifierCLI::displayImageInfo(image);
 

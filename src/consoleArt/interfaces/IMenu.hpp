@@ -35,7 +35,7 @@ public:
 	virtual int imageFilterOptions() = 0;
 	virtual int mainMenuOptions() = 0;
 	virtual int afterPrintOptions() = 0;
-	virtual ConsoleLib::Color colorPicker() = 0;
+	virtual consolelib::Color colorPicker() = 0;
 };
 }
 #endif /* CONSOLEART_INTERFACES_IMENU_HPP_ */

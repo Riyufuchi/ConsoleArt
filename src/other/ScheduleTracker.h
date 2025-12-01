@@ -36,13 +36,13 @@ private:
 		EXIT
 	};
 	std::string filename;
-	std::vector<ConsoleLib::TimeStamp> times;
+	std::vector<consolelib::TimeStamp> times;
 	std::vector<std::string> menuTexts, dates;
-	ConsoleLib::IConsole& console;
+	consolelib::IConsole& console;
 	bool fileLoaded;
 	ButtonEvent lastEvent;
 	std::string line;
-	ConsoleLib::ConsoleMenu menu;
+	consolelib::ConsoleMenu menu;
 	bool readFile();
 	bool addNewDataEntry();
 	void calculateAvgTime();
@@ -53,7 +53,7 @@ private:
 	bool inputNewTimeStamp();
 	bool isFormatValid();
 public:
-	ScheduleTracker(ConsoleLib::IConsole& console);
+	ScheduleTracker(consolelib::IConsole& console);
 	~ScheduleTracker();
 	void run();
 };

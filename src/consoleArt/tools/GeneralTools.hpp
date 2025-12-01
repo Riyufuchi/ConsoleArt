@@ -58,19 +58,19 @@ public:
 			"--zen| Starts application in CLI mode using Zenity",
 			"--tfd| Starts application in CLI mode using TinyFileDialogs"
 		};
-		ConsoleLib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
+		consolelib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
 	static std::string usedLibraries()
 	{
 		std::stringstream info;
-		info << "Used libraries:\n" << ConsoleLib::Library::aboutLibrary();
+		info << "Used libraries:\n" << consolelib::Library::aboutLibrary();
 		std::string libs[] = {
 			"Name| Used for",
 			"stb| Complex images",
 			"SDL2| GUI",
 			"TinyFileDialogs| Cross-platform dialogs"
 		};
-		info << "\n" << ConsoleLib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
+		info << "\n" << consolelib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
 		return info.str();
 	}
 	static std::string aboutApplication()
@@ -99,16 +99,16 @@ public:
 					"GIF| 24; first frame only",
 					"HDR| 24, 32; basic implementation"
 				};
-		aboutStringStream << ConsoleLib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
+		aboutStringStream << consolelib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
 		aboutStringStream << usedLibraries();
 		return aboutStringStream.str();
 	}
-	static void colorTest(ConsoleLib::IConsole& console)
+	static void colorTest(consolelib::IConsole& console)
 	{
-		for (int i = 0; i < ConsoleLib::ColorPallete::COLOR_COUNT; ++i)
+		for (int i = 0; i < consolelib::ColorPallete::COLOR_COUNT; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			console.out(ConsoleLib::ColorUtils::getColor(static_cast<ConsoleLib::ColorPallete>(i)), ConsoleLib::ColorUtils::colorPaletteNames[i]);
+			console.out(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(i)), consolelib::ColorUtils::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
 	}

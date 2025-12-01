@@ -26,7 +26,7 @@
 /**
  * This class helps with console interactions
  */
-namespace ConsoleLib
+namespace consolelib
 {
 
 class ConsoleUtils
@@ -40,6 +40,8 @@ public:
 	static bool yesNo(const char* text);
 	static int getIntSafe();
 	static int getIntSafe(int min, int max);
+	static std::optional<int> obtainInt();
+	static std::optional<int> obtainInt(int min, int max);
 	template <typename T>
 	static std::optional<T> getInput()
 	{

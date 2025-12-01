@@ -11,7 +11,7 @@
 
 namespace Other
 {
-ScheduleTracker::ScheduleTracker(ConsoleLib::IConsole& console) : filename("stat.csv"), console(console), fileLoaded(false), lastEvent(ButtonEvent::NONE), menu(console, menuTexts, [&](){ printHeader(); })
+ScheduleTracker::ScheduleTracker(consolelib::IConsole& console) : filename("stat.csv"), console(console), fileLoaded(false), lastEvent(ButtonEvent::NONE), menu(console, menuTexts, [&](){ printHeader(); })
 {
 	menuTexts.emplace_back("Add new entry");
 	menuTexts.emplace_back("Calculate average time");
@@ -65,10 +65,10 @@ bool ScheduleTracker::addNewDataEntry()
 		std::cerr << "Error: Unable to open file for appending.\n";
 		return false;
 	}
-	std::string date = ConsoleLib::TimeUtils::dateToString(ConsoleLib::TimeUtils::todaysDate());
+	std::string date = consolelib::TimeUtils::dateToString(consolelib::TimeUtils::todaysDate());
 	file << line << ";" << date << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
-	ConsoleLib::TimeStamp data;
+	consolelib::TimeStamp data;
 	std::string strNum = line.substr(0, line.find(';'));
 	convertToLong(data.hours, strNum);
 	convertToLong(data.minutes, strNum = line.substr(line.find(';') + 1, line.length()));
@@ -111,7 +111,7 @@ bool ScheduleTracker::readFile()
 		return readFile(); // Second attempt and reading the file
 	}
 	std::string token;
-	ConsoleLib::TimeStamp timeStamp;
+	consolelib::TimeStamp timeStamp;
 	const int NUM_OF_ATTRIBUTES = 3;
 	int x = 0;
 	std::istringstream iss;
@@ -177,9 +177,9 @@ void ScheduleTracker::calculateAvgTime()
 	int days = 1;
 	size_t itemNum = 0;
 	std::pair<std::string, std::string> weekBound;
-	for (ConsoleLib::TimeStamp& timeStamp : times)
+	for (consolelib::TimeStamp& timeStamp : times)
 	{
-		minutes += ConsoleLib::TimeUtils::convertToMinutes(timeStamp);
+		minutes += consolelib::TimeUtils::convertToMinutes(timeStamp);
 		days++;
 		itemNum++;
 		// If 7 days collected or it's the last item
@@ -203,7 +203,7 @@ void ScheduleTracker::calculateAvgTime()
 
 void ScheduleTracker::printHeader()
 {
-	ConsoleLib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
 
 	switch (lastEvent)
 	{

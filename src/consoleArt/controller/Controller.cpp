@@ -41,8 +41,8 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	argumentMethods["--binomial"] = [&](const auto& vector)
 	{
 		auto res = Math::MathUtils::binomialDistribution(vector);
-		ConsoleLib::Output::configStream(16);
-		ConsoleLib::Output::printResults<int, long double>(res);
+		consolelib::Output::configStream(16);
+		consolelib::Output::printResults<int, long double>(res);
 		isRunnable = false;
 	};
 	argumentMethods["--removeGray"] = [&](const auto&)
@@ -111,10 +111,10 @@ Controller::~Controller()
 	std::cout << "Controller deleted" << std::endl;
 }
 
-void Controller::configure(ConsoleLib::argVector& config)
+void Controller::configure(consolelib::argVector& config)
 {
 	auto it = argumentMethods.find("");
-	for (const ConsoleLib::argVectorItem& argument : config)
+	for (const consolelib::argVectorItem& argument : config)
 	{
 		it = argumentMethods.find(argument.first);
 		if (it != argumentMethods.end())
@@ -124,7 +124,7 @@ void Controller::configure(ConsoleLib::argVector& config)
 	}
 }
 
-void Controller::configure(ConsoleLib::argMap& config)
+void Controller::configure(consolelib::argMap& config)
 {
 	auto it = argumentMethods.find("");
 	for (const std::pair<const std::string, std::vector<std::string>>& argument : config)

@@ -12,7 +12,7 @@
 namespace ConsoleArt
 {
 
-NotifierCLI::NotifierCLI(ConsoleLib::IConsole* console) : console(console)
+NotifierCLI::NotifierCLI(consolelib::IConsole* console) : console(console)
 {
 }
 
@@ -20,7 +20,7 @@ NotifierCLI::~NotifierCLI()
 {
 }
 
-void NotifierCLI::setConsole(ConsoleLib::IConsole* console)
+void NotifierCLI::setConsole(consolelib::IConsole* console)
 {
 	this->console = console;
 }

@@ -26,21 +26,21 @@ private:
 	int choice {0};
 protected:
 	std::map<Menu, std::vector<std::string>> menus;
-	ConsoleLib::IConsole* console;
+	consolelib::IConsole* console;
 public:
-	MenuCLI(ConsoleLib::IConsole* console);
+	MenuCLI(consolelib::IConsole* console);
 	virtual ~MenuCLI();
 	// Menus
 	virtual int charSetMenu() override;
 	virtual int printMenu() override;
-	virtual ConsoleLib::Color colorPicker() override;
+	virtual consolelib::Color colorPicker() override;
 	virtual int imageFilterOptions() override;
 	virtual int imageEditOptions() override;
 	virtual int mainMenuOptions() override;
 	virtual int afterPrintOptions() override;
 	virtual void confConsoleTextColor();
 	// Setters
-	void setConsole(ConsoleLib::IConsole* console);
+	void setConsole(consolelib::IConsole* console);
 };
 }
 #endif
