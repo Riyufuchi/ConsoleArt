@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Nov 30, 2025
+// Last Edit   : Dec 03, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -12,7 +12,6 @@
 #include <map>
 
 #include "consoleArt/controller/ControllerCLI.h"
-#include "consoleArt/controller/ControllerZenity.h"
 #include "consoleArt/controller/ControllerSDL.h"
 #include "consoleArt/controller/ControllerTFD.h"
 #include "consoleArt/tools/GeneralTools.hpp"
@@ -88,10 +87,6 @@ int main(int argc, char** argv)
 	if (consolelib::ArgumentParser::remove(argPairs, "--noGUI"))
 	{
 		consoleArt = new consoleart::ControllerCLI(systemConsole);
-	}
-	else if (consolelib::ArgumentParser::remove(argPairs, "--zen"))
-	{
-		consoleArt = new consoleart::ControllerZenity(systemConsole);
 	}
 	else if (consolelib::ArgumentParser::remove(argPairs, "--tfd"))
 	{
