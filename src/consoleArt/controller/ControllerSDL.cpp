@@ -27,7 +27,6 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 		isRunnable = false;
 		return;
 	}
-	setenv("TINYFD_FORCE_XDG", "1", 1);
 	this->buttons = new ButtonBuilder(renderer);
 	winInfo.w = width;
 	winInfo.h = height;

@@ -62,9 +62,9 @@ void ButtonBuilder::logButton(int x, int y, ButtonType type, const std::pair<int
 	}
 }
 
-std::pair<SDL_Texture*, SDL_Texture*> ButtonBuilder::getButtonTextureFor(ButtonType buttonType, bool small)
+std::pair<SDL_Texture*, SDL_Texture*> ButtonBuilder::getButtonTextureFor(ButtonType buttonType, bool isSquareButton)
 {
-	if (small)
+	if (isSquareButton)
 		return buttonSheetSmall->getTexturePair(IDs[buttonType]);
 	return buttonSheet->getTexturePair(IDs[buttonType]);
 }

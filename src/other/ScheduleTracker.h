@@ -2,7 +2,7 @@
 // File       : SheduleTracker.h
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : May 09, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -22,6 +22,7 @@
 #include "ConsoleUtils.h"
 #include "ConsoleMenu.h"
 #include "../consoleArt/tools/GeneralTools.hpp"
+#include "../include/tinyfiledialogs.h"
 
 namespace Other
 {
