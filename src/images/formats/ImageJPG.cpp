@@ -4,14 +4,14 @@
 // Created on : Feb 28, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "../utils/stb_image.h"
 #include "../utils/stb_image_write.h"
 #include "ImageJPG.h"
 
-namespace Images
+namespace consoleartlib
 {
 ImageJPG::ImageJPG(std::string filepath) : Image(filepath, ImageType::JPG)
 {
@@ -32,7 +32,7 @@ ImageJPG::~ImageJPG()
 {
 }
 
-Images::Pixel ImageJPG::getPixel(int x, int y) const
+consoleartlib::Pixel ImageJPG::getPixel(int x, int y) const
 {
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return {0, 0, 0, 255};
@@ -40,7 +40,7 @@ Images::Pixel ImageJPG::getPixel(int x, int y) const
 	return {pixelData[x], pixelData[x + 1], pixelData[x + 2], (image.channels == 4 ? pixelData[x + 3] : (uint8_t)255)};
 }
 
-void ImageJPG::setPixel(int x, int y, Images::Pixel newPixel)
+void ImageJPG::setPixel(int x, int y, consoleartlib::Pixel newPixel)
 {
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return;

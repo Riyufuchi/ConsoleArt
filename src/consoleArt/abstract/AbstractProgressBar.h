@@ -4,13 +4,13 @@
 // Created on : Feb 21, 2025
 // Last edit  : Feb 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_INTERFACES_ABSTRACTPROGRESSBAR_H_
 #define CONSOLEART_INTERFACES_ABSTRACTPROGRESSBAR_H_
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AbstractProgressBar
 {
@@ -23,6 +23,6 @@ public:
 	virtual void drawProgressBar() = 0;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_INTERFACES_ABSTRPROGRESSBAR_H_ */

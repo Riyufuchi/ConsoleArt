@@ -4,12 +4,12 @@
 // Created on : Mar 6, 2025
 // Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AbstractAciiConversionState.h"
 
-namespace ConsoleArt {
+namespace consoleart {
 
 AbstractAciiConversionState::AbstractAciiConversionState(Controller& controller, StateManager& stateManager) : AbstractState(controller, stateManager)
 {
@@ -31,4 +31,4 @@ void AbstractAciiConversionState::convertImageEvent(ImageUtils::AsciiConverter::
 {
 	std::thread([asciiChar = charSet, this](){ controller.convertImage(controller.getSelectedImage(), asciiChar); }).detach();
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

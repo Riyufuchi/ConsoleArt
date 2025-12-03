@@ -4,12 +4,12 @@
 // Created on : Feb 25, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AsciiPrinterCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 AsciiPrinterCLI::AsciiPrinterCLI(consolelib::IConsole& console) : AbstractAsciiPrinter(), console(console)
 {
@@ -23,9 +23,9 @@ void AsciiPrinterCLI::printPixelColored()
 {
 	if (!converter)
 		return;
-	Images::Image& image = converter->getSourceImg();
-	const Images::ImageInfo& imageInfo = image.getImageInfo();
-	Images::Pixel pixel;
+	consoleartlib::Image& image = converter->getSourceImg();
+	const consoleartlib::ImageInfo& imageInfo = image.getImageInfo();
+	consoleartlib::Pixel pixel;
 	if (converter->getSourceImg().isInverted())
 	{
 		const int HEIGHT = converter->getSourceImg().getImageInfo().height - 1;
@@ -91,9 +91,9 @@ void AsciiPrinterCLI::printCharColored()
 	#ifdef _WIN32
 		console.err("Not supported in Windows, due to MS compiler complaints\n");
 	#else
-	Images::Image& image = converter->getSourceImg();
-	const Images::ImageInfo& imageInfo = image.getImageInfo();
-	Images::Pixel pixel;
+	consoleartlib::Image& image = converter->getSourceImg();
+	const consoleartlib::ImageInfo& imageInfo = image.getImageInfo();
+	consoleartlib::Pixel pixel;
 	const int HEIGHT = converter->getSourceImg().getImageInfo().height - 1;
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> wCharConverter;
 	std::wstring utf32String;
@@ -131,4 +131,4 @@ void AsciiPrinterCLI::printCharColored()
 	#endif
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

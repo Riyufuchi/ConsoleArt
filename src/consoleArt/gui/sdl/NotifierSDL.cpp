@@ -4,12 +4,12 @@
 // Created on : Feb 25, 2025
 // Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "NotifierSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 NotifierSDL::NotifierSDL() : NotifierTFD()
@@ -21,7 +21,7 @@ NotifierSDL::~NotifierSDL()
 {
 }
 
-void NotifierSDL::displayImageInfo(const Images::Image& image)
+void NotifierSDL::displayImageInfo(const consoleartlib::Image& image)
 {
 	std::thread([this, &image]()
 	{
@@ -37,4 +37,4 @@ void NotifierSDL::messageUser(AbstractNotifier::MessageType messageSeverity, con
 	}).detach();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

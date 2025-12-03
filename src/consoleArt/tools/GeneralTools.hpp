@@ -4,7 +4,7 @@
 // Created on : Nov 23, 2023
 // Last edit  : Nov 30, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _CONSOLE_ART_GENERAL_TOOLS_HPP_
@@ -29,7 +29,7 @@
 	#define _CONSOLE_ART_VERSION _APP_NAME " v" _APP_VERSION
 #endif
 
-namespace ConsoleArt
+namespace consoleart
 {
 inline const std::vector<std::string> FILTER_TEXTS = { "Matrix", "Purplefier", "Purplefier soft", "Purplefier shading", "Purplefier shading soft" };
 class GeneralTools

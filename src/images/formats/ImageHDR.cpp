@@ -4,14 +4,14 @@
 // Created on : Nov 07, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "../utils/stb_image.h"
 #include "../utils/stb_image_write.h"
 #include "ImageHDR.h"
 
-namespace Images
+namespace consoleartlib
 {
 
 ImageHDR::ImageHDR(std::string filename, bool convert) : Image(filename, ImageType::HDR)
@@ -77,7 +77,7 @@ void ImageHDR::convertFrom8bit()
 		pixelDataHDR.push_back(v / 255.0f);
 }
 
-Images::Pixel ImageHDR::getPixel(int x, int y) const
+consoleartlib::Pixel ImageHDR::getPixel(int x, int y) const
 {
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return {};
@@ -92,7 +92,7 @@ Images::Pixel ImageHDR::getPixel(int x, int y) const
 	return p;
 }
 
-void ImageHDR::setPixel(int x, int y, Images::Pixel newPixel)
+void ImageHDR::setPixel(int x, int y, consoleartlib::Pixel newPixel)
 {
 	if (x < 0 || y < 0 || x >= image.width || y >= image.height)
 		return;
@@ -132,4 +132,4 @@ void ImageHDR::loadImage()
 	}
 }
 
-} /* namespace Images */
+} /* namespace consoleartlib */

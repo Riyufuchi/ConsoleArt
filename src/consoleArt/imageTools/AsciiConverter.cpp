@@ -10,7 +10,7 @@
 
 namespace ImageUtils
 {
-AsciiConverter::AsciiConverter(Images::Image& img) : sourceImg(img)
+AsciiConverter::AsciiConverter(consoleartlib::Image& img) : sourceImg(img)
 {
 	this->brightness = 0;
 	this->brightnessDiff = 0;
@@ -115,7 +115,7 @@ void AsciiConverter::invertCharSet()
 	chars = newChars;
 }
 
-Images::Image& AsciiConverter::getSourceImg()
+consoleartlib::Image& AsciiConverter::getSourceImg()
 {
 	return sourceImg;
 }
@@ -146,7 +146,7 @@ bool AsciiConverter::convertToASCII()
 	if (!sourceImg)
 		return false;
 	std::string line = "";
-	Images::Pixel pix;
+	consoleartlib::Pixel pix;
 	const int HEIGHT = sourceImg.getImageInfo().height;
 	const int WIDTH = sourceImg.getImageInfo().width;
 	int x = 0;

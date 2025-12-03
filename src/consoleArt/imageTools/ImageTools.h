@@ -4,7 +4,7 @@
 // Created on : Dec 01, 2023
 // Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2023, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGEUTILS_IMAGETOOLS_H_
@@ -22,11 +22,11 @@ public:
 	ImageTools();
 	virtual ~ImageTools();
 	[[deprecated("Equal to image >> addStr")]]
-	static void addToImageName(Images::Image& image, const std::string addStr);
-	static int compareImages(const Images::Image& image1, const Images::Image& image2);
-	static bool signatureToImage(Images::Image& canvasImage, const Images::Image& signature);
-	static void nearestNeighbor(const Images::Image& originalImage, Images::Image& scaledImage);
-	static unsigned char* normalizeToRGBA(const Images::Image& image, Images::ImageInfo& info);
+	static void addToImageName(consoleartlib::Image& image, const std::string addStr);
+	static int compareImages(const consoleartlib::Image& image1, const consoleartlib::Image& image2);
+	static bool signatureToImage(consoleartlib::Image& canvasImage, const consoleartlib::Image& signature);
+	static void nearestNeighbor(const consoleartlib::Image& originalImage, consoleartlib::Image& scaledImage);
+	static unsigned char* normalizeToRGBA(const consoleartlib::Image& image, consoleartlib::ImageInfo& info);
 	static unsigned char* convertPlanarToInterleaved(const unsigned char* planarData, int width, int height)
 	{
 		int totalPixels = width * height;
@@ -41,9 +41,9 @@ public:
 
 		return interleavedData;
 	}
-	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const Images::ImagePCX& image);
-	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const Images::ImagePCX::PagePCX& image);
-	static bool convertImage(const Images::Image& source, Images::Image& target);
+	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const consoleartlib::ImagePCX& image);
+	static std::unique_ptr<unsigned char[]> convertPlanarPCXToInterleaved(const consoleartlib::ImagePCX::PagePCX& image);
+	static bool convertImage(const consoleartlib::Image& source, consoleartlib::Image& target);
 };
 
 } /* namespace ImageUtils */

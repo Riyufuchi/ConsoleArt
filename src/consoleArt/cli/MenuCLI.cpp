@@ -6,7 +6,7 @@
 //============================================================================
 #include "MenuCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 MenuCLI::MenuCLI(consolelib::IConsole* console) : console(console)
 {
@@ -83,4 +83,4 @@ int MenuCLI::afterPrintOptions()
 	return consolelib::ConsoleUtils::basicMenu(menus.at(Menu::AFTER_PRINT_OPTIONS), *console);
 }
 
-} // Namespace ConsoleArt
+} // Namespace consoleart

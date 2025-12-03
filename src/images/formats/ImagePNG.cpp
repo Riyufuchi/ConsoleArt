@@ -4,7 +4,7 @@
 // Created on : Feb 17, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 //#define STB_IMAGE_IMPLEMENTATION
@@ -13,7 +13,7 @@
 #include "../utils/stb_image_write.h"
 #include "ImagePNG.h"
 
-namespace Images
+namespace consoleartlib
 {
 ImagePNG::ImagePNG(std::string filepath) : Image(filepath, ImageType::PNG)
 {
@@ -44,7 +44,7 @@ ImagePNG::~ImagePNG()
 {
 }
 
-Images::Pixel ImagePNG::getPixel(int x, int y) const
+consoleartlib::Pixel ImagePNG::getPixel(int x, int y) const
 {
 	x = image.channels * (y * image.width + x);
 	if (image.channels == 4)
@@ -52,7 +52,7 @@ Images::Pixel ImagePNG::getPixel(int x, int y) const
 	else
 		return {pixelData[x], pixelData[x + 1], pixelData[x + 2]};
 }
-void ImagePNG::setPixel(int x, int y, Images::Pixel newPixel)
+void ImagePNG::setPixel(int x, int y, consoleartlib::Pixel newPixel)
 {
 	x = image.channels * (y * image.width + x);
 	pixelData[x] = newPixel.red;
@@ -79,4 +79,4 @@ void ImagePNG::loadImage()
 	stbi_image_free(imageData); // Always free the original STB data
 	technical.fileState =  FileState::OK;
 }
-} /* namespace Images */
+} /* namespace consoleartlib */

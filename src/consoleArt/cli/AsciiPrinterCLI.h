@@ -4,7 +4,7 @@
 // Created on : Feb 25, 2025
 // Last edit  : Mar 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_ASCIITOOLS_ASCIIPRINTERCLI_H_
@@ -18,7 +18,7 @@
 #include "../abstract/AbstractAsciiPrinter.h"
 #include "IConsole.hpp"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AsciiPrinterCLI : public AbstractAsciiPrinter
 {
@@ -33,6 +33,6 @@ public:
 	virtual void printCharColored() override;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_ASCIITOOLS_ASCIIPRINTERCLI_H_ */

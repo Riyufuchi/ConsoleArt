@@ -4,7 +4,7 @@
 // Created on : May 25, 2025
 // Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _CONSOLE_ART_CONFIG_SDL_HPP_
@@ -12,7 +12,7 @@
 
 #include <string>
 
-namespace ConsoleArt
+namespace consoleart
 {
 	inline const std::string FONT_BASE = "assets/fonts/TF2Build.ttf";
 	inline const std::string FONT_SECONDARY = "assets/fonts/TF2secondary.ttf";

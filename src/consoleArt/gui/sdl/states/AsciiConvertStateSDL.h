@@ -4,7 +4,7 @@
 // Created on : Mar 03, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_STATES_ASCIICONVERTSTATESDL_H_
@@ -23,7 +23,7 @@
 #include "ContentPanelSDL.h"
 #include "StringButtonSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractAciiConversionState
 {
@@ -39,5 +39,5 @@ public:
 	virtual void onReturn() override;
 	virtual void render() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUISDL_STATES_SELECTIMAGESTATESDL_H_ */

@@ -4,7 +4,7 @@
 // Created on : Mar 21, 2025
 // Last edit  : Mar 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "SimpleEdit.h"
@@ -19,7 +19,7 @@ SimpleEdit::~SimpleEdit()
 {
 }
 
-bool SimpleEdit::overlayTextures(const Images::Image& bottomlayer, const Images::Image& overlay)
+bool SimpleEdit::overlayTextures(const consoleartlib::Image& bottomlayer, const consoleartlib::Image& overlay)
 {
 	if (!(bottomlayer && overlay))
 		return false;
@@ -27,8 +27,8 @@ bool SimpleEdit::overlayTextures(const Images::Image& bottomlayer, const Images:
 		return false;
 	if (bottomlayer > overlay)
 		return false;
-	Images::ImagePNG resultImage(bottomlayer.getFilename().substr(0, bottomlayer.getFilename().size() - 4) + "_" + overlay.getFilename(), bottomlayer.getWidth(), bottomlayer.getHeight(), bottomlayer.getBits()/8);
-	Images::Pixel pixel;
+	consoleartlib::ImagePNG resultImage(bottomlayer.getFilename().substr(0, bottomlayer.getFilename().size() - 4) + "_" + overlay.getFilename(), bottomlayer.getWidth(), bottomlayer.getHeight(), bottomlayer.getBits()/8);
+	consoleartlib::Pixel pixel;
 	for(int y = 0; y < bottomlayer.getHeight(); y++)
 	{
 		for (int x = 0; x < bottomlayer.getWidth(); x++)
@@ -50,11 +50,11 @@ bool SimpleEdit::isPixelGray(int r, int g, int b)
 
 bool SimpleEdit::removeGrayFromTexture(std::string originalPicturePath, std::string outputPicturePath)
 {
-	Images::ImagePNG originalTexture(originalPicturePath);
+	consoleartlib::ImagePNG originalTexture(originalPicturePath);
 	if (!originalTexture)
 		return false;
-	Images::ImagePNG targetTexture(outputPicturePath, originalTexture.getWidth(), originalTexture.getHeight(), originalTexture.getBits() / 8);
-	Images::Pixel pixel;
+	consoleartlib::ImagePNG targetTexture(outputPicturePath, originalTexture.getWidth(), originalTexture.getHeight(), originalTexture.getBits() / 8);
+	consoleartlib::Pixel pixel;
 	for(int y = 0; y < originalTexture.getHeight(); y++)
 	{
 		for (int x = 0; x < originalTexture.getWidth(); x++)
@@ -68,11 +68,11 @@ bool SimpleEdit::removeGrayFromTexture(std::string originalPicturePath, std::str
 	return targetTexture.saveImage();
 }
 
-bool SimpleEdit::removeGrayFromTexture(Images::Image& originalTexture)
+bool SimpleEdit::removeGrayFromTexture(consoleartlib::Image& originalTexture)
 {
 	if (!originalTexture)
 		return false;
-	Images::Pixel pixel;
+	consoleartlib::Pixel pixel;
 	for(int y = 0; y < originalTexture.getHeight(); y++)
 	{
 		for (int x = 0; x < originalTexture.getWidth(); x++)

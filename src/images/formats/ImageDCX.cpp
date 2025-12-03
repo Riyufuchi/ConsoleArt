@@ -4,12 +4,12 @@
 // Created on : Nov 13, 2025
 // Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImageDCX.h"
 
-namespace Images
+namespace consoleartlib
 {
 
 ImageDCX::ImageDCX(std::string filename) : Image(filename, ImageType::DCX), selectedPage(0)
@@ -193,4 +193,4 @@ size_t ImageDCX::getPageCount() const
 	return pages.size();
 }
 
-} /* namespace Images */
+} /* namespace consoleartlib */

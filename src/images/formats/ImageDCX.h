@@ -4,7 +4,7 @@
 // Created on : Nov 13, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGES_IMAGEDCX_H_
@@ -13,7 +13,7 @@
 #include "ImagePCX.h"
 #include "../interfaces/IMultiPage.hpp"
 
-namespace Images
+namespace consoleartlib
 {
 struct ImageRange
 {
@@ -33,8 +33,8 @@ public:
 	ImageDCX(std::string filename);
 	ImageDCX(std::string filename, int numberOfPages);
 	virtual ~ImageDCX();
-	virtual Images::Pixel getPixel(int x, int y) const override;
-	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
+	virtual consoleartlib::Pixel getPixel(int x, int y) const override;
+	virtual void setPixel(int x, int y, consoleartlib::Pixel newPixel) override;
 	virtual bool saveImage() const override;
 	virtual void loadImage() override;
 	//
@@ -45,6 +45,6 @@ public:
 	void addImage(ImagePCX::PagePCX image);
 };
 
-} /* namespace Images */
+} /* namespace consoleartlib */
 
 #endif /* IMAGES_IMAGEDCX_H_ */

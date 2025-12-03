@@ -18,7 +18,7 @@
 
 #include "../interfaces/IMenu.hpp"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class MenuCLI : public IMenu
 {

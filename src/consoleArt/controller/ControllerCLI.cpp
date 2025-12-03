@@ -8,7 +8,7 @@
 
 #include "ControllerCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 ControllerCLI::ControllerCLI(consolelib::IConsole* console) : ControllerCLI("", console)
 {
@@ -56,7 +56,7 @@ void ControllerCLI::benchmark(const std::vector<std::string>& vector)
 		image = vector.at(0);
 	auto start = std::chrono::steady_clock::now();
 	auto end = start;
-	Images::Image* img = loadImageAsync(image);
+	consoleartlib::Image* img = loadImageAsync(image);
 	if (img == nullptr)
 		return;
 	ImageUtils::AsciiConverter ac(*img);
@@ -74,8 +74,8 @@ void ControllerCLI::compareImages(const std::vector<std::string>& vector)
 		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument --compare is missing " + std::to_string((2 - vector.size())) + " parameters!\n");
 		return;
 	}
-	Images::Image* image1 = loadImageAsync(workspacePath + vector.at(0));
-	Images::Image* image2 = loadImageAsync(workspacePath + vector.at(1));
+	consoleartlib::Image* image1 = loadImageAsync(workspacePath + vector.at(0));
+	consoleartlib::Image* image2 = loadImageAsync(workspacePath + vector.at(1));
 	if (image1 == nullptr || !*image1)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
@@ -108,7 +108,7 @@ void ControllerCLI::refreshMenu()
 
 void ControllerCLI::imageActionsSubmenu()
 {
-	Images::Image* selectedImage = getSelectedImage();
+	consoleartlib::Image* selectedImage = getSelectedImage();
 	if (selectedImage == nullptr)
 	{
 		messenger->messageUser(AbstractNotifier::MessageType::WARNING, "No image is selected!\n");
@@ -121,7 +121,7 @@ void ControllerCLI::imageActionsSubmenu()
 		case 1:
 		{
 			console->out("Select signature:\n");
-			Images::Image* image = 0;//selectImage();
+			consoleartlib::Image* image = 0;//selectImage();
 			if (image == nullptr || !*image)
 				return;
 			ImageUtils::ImageTools::signatureToImage(*selectedImage, *image);
@@ -171,7 +171,7 @@ void ControllerCLI::run()
 			return;
 	}
 	IndexDataType lastIndex = 0;
-	Images::Image* selectedImage = nullptr;
+	consoleartlib::Image* selectedImage = nullptr;
 	while (isRunnable)
 	{
 		if (lastIndex != getSelectedImageIndex())
@@ -219,7 +219,7 @@ Controller::IndexDataType ControllerCLI::selectImageMenu()
 	console->enableCustomFG();
 	std::cout << "Currently loaded images (0 to exit):" << std::endl;
 	int max = images.size();
-	for (int index = 0; index < max; index++) // or for(Images::Image* img : images)
+	for (int index = 0; index < max; index++) // or for(consoleartlib::Image* img : images)
 	{
 		std::cout << index + 1 << ". " << images[index].imageUptr->getFilename() << std::endl;
 	}
@@ -257,7 +257,7 @@ void ControllerCLI::selectImageEvent()
 
 void ControllerCLI::convertImageToAsciiEvent()
 {
-	Images::Image* selectedImage = getSelectedImage();
+	consoleartlib::Image* selectedImage = getSelectedImage();
 	if (selectedImage == nullptr || abstractAsciiPrinter == nullptr)
 			return;
 	messenger->displayImageInfo(*selectedImage);

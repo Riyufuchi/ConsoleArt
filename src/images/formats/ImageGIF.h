@@ -4,7 +4,7 @@
 // Created on : Nov 06, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGES_IMAGEGIF_H_
@@ -14,7 +14,7 @@
 #include "../interfaces/IAnimated.hpp"
 #include "../interfaces/IMultiPage.hpp"
 
-namespace Images
+namespace consoleartlib
 {
 
 class ImageGIF: public Image, public IAnimated, public IMultiPage
@@ -26,8 +26,8 @@ private:
 public:
 	ImageGIF(const std::string& filepath);
 	~ImageGIF();
-	virtual Images::Pixel getPixel(int x, int y) const override;
-	virtual void setPixel(int x, int y, Images::Pixel newPixel) override;
+	virtual consoleartlib::Pixel getPixel(int x, int y) const override;
+	virtual void setPixel(int x, int y, consoleartlib::Pixel newPixel) override;
 	virtual bool saveImage() const override;
 	virtual void loadImage() override;
 	virtual void selectPage(size_t index) override;

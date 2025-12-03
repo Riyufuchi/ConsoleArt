@@ -4,7 +4,7 @@
 // Created on : Nov 22, 2023
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _IMAGES_IMAGE_PCX_H_
@@ -15,7 +15,7 @@
 
 #include "../base/Image.h"
 
-namespace Images
+namespace consoleartlib
 {
 class ImagePCX : public Image
 {
@@ -80,5 +80,5 @@ public:
 	bool saveImage() const override;
 	void loadImage() override;
 };
-} /* namespace Images */
+} /* namespace consoleartlib */
 #endif /* IMAGES_IMAGEPCX_H_ */

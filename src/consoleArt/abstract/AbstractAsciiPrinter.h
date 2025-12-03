@@ -4,7 +4,7 @@
 // Created on : Feb 25, 2025
 // Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_ABSTRACT_ABSTRACTASCIIPRINTER_H_
@@ -14,7 +14,7 @@
 
 #include "../imageTools/AsciiConverter.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AbstractAsciiPrinter
 {
@@ -31,5 +31,5 @@ public:
 	virtual void printToFile() = 0;
 	void setTarget(ImageUtils::AsciiConverter* converter);
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_ABSTRACT_ABSTRACTASCIIPRINTER_H_ */

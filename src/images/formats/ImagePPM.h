@@ -4,7 +4,7 @@
 // Created on : Mar 17, 2024
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _IMAGES_IMAGE_PPM_H_
@@ -17,7 +17,7 @@
 
 #include "DataUtils.h"
 
-namespace Images
+namespace consoleartlib
 {
 class ImagePPM : public Image
 {
@@ -40,5 +40,5 @@ public:
 	bool saveImage() const override;
 	void loadImage() override;
 };
-} /* namespace Images */
+} /* namespace consoleartlib */
 #endif /* IMAGES_IMAGEPPM_H_ */

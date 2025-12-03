@@ -21,7 +21,7 @@
 
 #include "../utils/Pixels.hpp"
 
-namespace Images
+namespace consoleartlib
 {
 enum class ImageType
 {
@@ -148,5 +148,5 @@ public:
 	//Setters
 	virtual void setPixel(int x, int y, Pixel newPixel) = 0;
 };
-} /* namespace Images */
+} /* namespace consoleartlib */
 #endif /* IMAGES_IMAGE_H_ */

@@ -4,12 +4,12 @@
 // Created on : Mar 6, 2025
 // Last edit  : Mar 6, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AbstractFilterState.h"
 
-namespace ConsoleArt {
+namespace consoleart {
 
 AbstractFilterState::AbstractFilterState(Controller& controller, StateManager& stateManager) : AbstractState(controller, stateManager)
 {
@@ -19,4 +19,4 @@ AbstractFilterState::~AbstractFilterState()
 {
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

@@ -4,7 +4,7 @@
 // Created on : Dec 01, 2023
 // Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImageTools.h"
@@ -17,7 +17,7 @@ ImageTools::ImageTools()
 ImageTools::~ImageTools()
 {
 }
-std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const Images::ImagePCX::PagePCX& image)
+std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const consoleartlib::ImagePCX::PagePCX& image)
 {
 	int totalPixels = image.image.width * image.image.height;
 
@@ -38,9 +38,9 @@ std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const
 	}
 	return std::unique_ptr<unsigned char []>(interleavedData);
 }
-std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const Images::ImagePCX& image)
+std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const consoleartlib::ImagePCX& image)
 {
-	const Images::ImagePCX::HeaderPCX &header = image.getHeader();
+	const consoleartlib::ImagePCX::HeaderPCX &header = image.getHeader();
 	int totalPixels = image.getWidth() * image.getHeight();
 
 	std::unique_ptr planarData = image.getImageData();
@@ -61,7 +61,7 @@ std::unique_ptr<unsigned char[]> ImageTools::convertPlanarPCXToInterleaved(const
 	}
 	return std::unique_ptr<unsigned char []>(interleavedData);
 }
-unsigned char* ImageTools::normalizeToRGBA(const Images::Image& image, Images::ImageInfo& imageInfo)
+unsigned char* ImageTools::normalizeToRGBA(const consoleartlib::Image& image, consoleartlib::ImageInfo& imageInfo)
 {
 	int CHANNELS = imageInfo.bits / 8;
 	if (CHANNELS < 3)
@@ -70,7 +70,7 @@ unsigned char* ImageTools::normalizeToRGBA(const Images::Image& image, Images::I
 		imageInfo.bits = 24;
 	}
 	unsigned char* imageDat = new unsigned char[imageInfo.width * imageInfo.height * CHANNELS];
-	Images::Pixel pixel;
+	consoleartlib::Pixel pixel;
 	int xyCord = 0;
 	if (image.isInverted())
 		for(int y = 0; y < imageInfo.height; y++)
@@ -102,13 +102,13 @@ unsigned char* ImageTools::normalizeToRGBA(const Images::Image& image, Images::I
 		}
 	return imageDat;
 }
-void ImageTools::addToImageName(Images::Image& image,const std::string addStr)
+void ImageTools::addToImageName(consoleartlib::Image& image,const std::string addStr)
 {
 	if (!image)
 		return;
 	image.rename(image.getFilename().substr(0, image.getFilename().find(".")) + addStr);
 }
-int ImageTools::compareImages(const Images::Image& image1, const Images::Image& image2)
+int ImageTools::compareImages(const consoleartlib::Image& image1, const consoleartlib::Image& image2)
 {
 	if (image1 == image2)
 		return 0;
@@ -119,10 +119,10 @@ int ImageTools::compareImages(const Images::Image& image1, const Images::Image& 
 	else
 		return -2;
 }
-void ImageTools::nearestNeighbor(const Images::Image& originalImage, Images::Image& scaledImage)
+void ImageTools::nearestNeighbor(const consoleartlib::Image& originalImage, consoleartlib::Image& scaledImage)
 {
-	const Images::ImageInfo& canvasInfo = originalImage.getImageInfo(); // Old values
-	const Images::ImageInfo& scaledInfo = scaledImage.getImageInfo(); // New values
+	const consoleartlib::ImageInfo& canvasInfo = originalImage.getImageInfo(); // Old values
+	const consoleartlib::ImageInfo& scaledInfo = scaledImage.getImageInfo(); // New values
 
 	const double scaleX = static_cast<double>(canvasInfo.width) / scaledInfo.width;
 	const double scaleY = static_cast<double>(canvasInfo.height) / scaledInfo.height;
@@ -143,10 +143,10 @@ void ImageTools::nearestNeighbor(const Images::Image& originalImage, Images::Ima
 	}
 }
 
-bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Image& signature)
+bool ImageTools::signatureToImage(consoleartlib::Image& canvasImage, const consoleartlib::Image& signature)
 {
-	const Images::ImageInfo& canvasInfo = canvasImage.getImageInfo();
-	const Images::ImageInfo& signatureInfo = signature.getImageInfo();
+	const consoleartlib::ImageInfo& canvasInfo = canvasImage.getImageInfo();
+	const consoleartlib::ImageInfo& signatureInfo = signature.getImageInfo();
 
 	const double SCALE_FACTOR = 0.25; // 25% of the larger side
 	int targetWidth, targetHeight;
@@ -163,7 +163,7 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 		targetWidth = static_cast<int>(signatureInfo.width * (targetHeight / static_cast<double>(signatureInfo.height)));
 	}
 
-	Images::ImagePNG resizedSignature(signature.getFilepath(), targetWidth, targetHeight, 4);
+	consoleartlib::ImagePNG resizedSignature(signature.getFilepath(), targetWidth, targetHeight, 4);
 	nearestNeighbor(signature, resizedSignature);
 
 	const int X = canvasInfo.width - targetWidth;
@@ -172,9 +172,9 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 	int x = 0;
 	int x1 = 0;
 
-	Images::Pixel pixel;
-	Images::Pixel pixelCanvas;
-	Images::Pixel pixelBlend;
+	consoleartlib::Pixel pixel;
+	consoleartlib::Pixel pixelCanvas;
+	consoleartlib::Pixel pixelBlend;
 
 	if (canvasImage.isInverted())
 	{
@@ -229,7 +229,7 @@ bool ImageTools::signatureToImage(Images::Image& canvasImage, const Images::Imag
 	return canvasImage.saveImage();
 }
 
-bool ImageTools::convertImage(const Images::Image& source, Images::Image& target)
+bool ImageTools::convertImage(const consoleartlib::Image& source, consoleartlib::Image& target)
 {
 	if (source != target)
 		return false;

@@ -4,12 +4,12 @@
 // Created on : Mar 3, 2025
 // Last edit  : Mar 3, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AbstractState.h"
 
-namespace ConsoleArt {
+namespace consoleart {
 
 AbstractState::AbstractState(Controller& controller, StateManager& stateManager) : controller(controller), stateManager(stateManager)
 {
@@ -18,4 +18,4 @@ AbstractState::AbstractState(Controller& controller, StateManager& stateManager)
 AbstractState::~AbstractState()
 {
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

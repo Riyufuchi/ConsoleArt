@@ -4,12 +4,12 @@
 // Created on : Nov 22, 2023
 // Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImagePCX.h"
 
-namespace Images
+namespace consoleartlib
 {
 ImagePCX::ImagePCX(std::string filename) : Image(filename, ImageType::PCX)
 {
@@ -341,4 +341,4 @@ void ImagePCX::writePlanarPixalData(std::ofstream& stream, const std::vector<uns
 		}
 	}
 }
-} /* namespace Images */
+} /* namespace consoleartlib */

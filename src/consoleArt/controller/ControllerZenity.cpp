@@ -4,13 +4,13 @@
 // Created on : May 30, 2024
 // Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ControllerZenity.h"
 #include <utility>
 
-namespace ConsoleArt
+namespace consoleart
 {
 ControllerZenity::ControllerZenity(consolelib::IConsole* console) : ControllerCLI(console)
 {
@@ -21,9 +21,9 @@ ControllerZenity::ControllerZenity(consolelib::IConsole* console) : ControllerCL
 
 void ControllerZenity::printHeader()
 {
-	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
-	static Images::Image* selectedImage = getSelectedImage();;
+	static consoleartlib::Image* selectedImage = getSelectedImage();;
 	if (selectedImage != nullptr)
 		console->out(selectedImage->getFilename());
 	else
@@ -74,7 +74,7 @@ Controller::IndexDataType ControllerZenity::selectImageMenu()
 
 	for (const VectorData& img : images)
 	{
-		const Images::ImageInfo& info = img.imageUptr.get()->getImageInfo();
+		const consoleartlib::ImageInfo& info = img.imageUptr.get()->getImageInfo();
 		cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (img.imageUptr.get()->isInverted() ? "Yes" : "No") << " ";
 	}
 
@@ -110,4 +110,4 @@ void ControllerZenity::showAboutApplicationInfo()
 		ControllerCLI::showAboutApplicationInfo();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

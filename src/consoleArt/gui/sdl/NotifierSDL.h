@@ -4,7 +4,7 @@
 // Created on : Feb 25, 2025
 // Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_NOTIFIERSDL_H_
@@ -14,17 +14,17 @@
 
 #include "../tinyFileDialogs/NotifierTFD.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class NotifierSDL : public NotifierTFD
 {
 public:
 	NotifierSDL();
 	~NotifierSDL();
-	virtual void displayImageInfo(const Images::Image& image) override;
+	virtual void displayImageInfo(const consoleartlib::Image& image) override;
 	virtual void messageUser(AbstractNotifier::MessageType messageSeverity, const std::string& message) override;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_GUISDL_NOTIFIERSDL_H_ */

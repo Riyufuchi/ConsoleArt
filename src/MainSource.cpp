@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 
 	systemConsole->setDefaultTextColor(consolelib::ColorUtils::getColor(consolelib::ColorPallete::APERTURE_ORANGE));
 
-	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
+	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
 
 	#ifdef _WIN32
 		systemConsole->out(consolelib::ColorUtils::getColor(consolelib::ColorPallete::UNIQUE),
@@ -83,23 +83,23 @@ int main(int argc, char** argv)
 		consolelib::ArgumentParser::printArgumentPairs(argPairs);
 	#endif
 
-	ConsoleArt::Controller* consoleArt;
+	consoleart::Controller* consoleArt;
 
 	if (consolelib::ArgumentParser::remove(argPairs, "--noGUI"))
 	{
-		consoleArt = new ConsoleArt::ControllerCLI(systemConsole);
+		consoleArt = new consoleart::ControllerCLI(systemConsole);
 	}
 	else if (consolelib::ArgumentParser::remove(argPairs, "--zen"))
 	{
-		consoleArt = new ConsoleArt::ControllerZenity(systemConsole);
+		consoleArt = new consoleart::ControllerZenity(systemConsole);
 	}
 	else if (consolelib::ArgumentParser::remove(argPairs, "--tfd"))
 	{
-		consoleArt = new ConsoleArt::ControllerTFD(systemConsole);
+		consoleArt = new consoleart::ControllerTFD(systemConsole);
 	}
 	else
 	{
-		consoleArt = new ConsoleArt::ControllerSDL();
+		consoleArt = new consoleart::ControllerSDL();
 	}
 
 	if (consoleArt == nullptr)
@@ -139,10 +139,10 @@ BootAction checkArgs(ParsedArguments& argPairs, consolelib::IConsole& console)
 		if (consolelib::ArgumentParser::contains(argPairs, arg.first))
 			switch (arg.second)
 			{
-				case DISPLAY_MANUAL: ConsoleArt::GeneralTools::createManual(); return arg.second;
-				case TEST: ConsoleArt::GeneralTools::colorTest(console); return arg.second;
-				case ABOUT: console.out(ConsoleArt::GeneralTools::aboutApplication()); return arg.second;
-				case LIBRARY: console.out(ConsoleArt::GeneralTools::usedLibraries()); return arg.second;
+				case DISPLAY_MANUAL: consoleart::GeneralTools::createManual(); return arg.second;
+				case TEST: consoleart::GeneralTools::colorTest(console); return arg.second;
+				case ABOUT: console.out(consoleart::GeneralTools::aboutApplication()); return arg.second;
+				case LIBRARY: console.out(consoleart::GeneralTools::usedLibraries()); return arg.second;
 				case SCHEDULE: Other::ScheduleTracker(console).run(); return arg.second;
 				default: abort(console);
 			}

@@ -4,7 +4,7 @@
 // Created on : Mar 18, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_IMAGETOOLS_DITHERING_H_
@@ -25,12 +25,12 @@ namespace ImageUtils
 class Dithering
 {
 private:
-	std::vector<Images::PixelRGB> minecraftPalette;
+	std::vector<consoleartlib::PixelRGB> minecraftPalette;
 public:
 	Dithering();
 	virtual ~Dithering();
-	Images::PixelRGB findClosestColor(uint8_t r, uint8_t g, uint8_t b);
+	consoleartlib::PixelRGB findClosestColor(uint8_t r, uint8_t g, uint8_t b);
 	void ditherImage(std::string imagepath);
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_IMAGETOOLS_DITHERING_H_ */

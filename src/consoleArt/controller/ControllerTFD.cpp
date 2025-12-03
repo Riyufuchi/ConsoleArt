@@ -4,12 +4,12 @@
 // Created on : May 15, 2025
 // Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ControllerTFD.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(console)
@@ -21,9 +21,9 @@ ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(cons
 
 void ControllerTFD::printHeader()
 {
-	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
-	static Images::Image* selectedImage = getSelectedImage();
+	static consoleartlib::Image* selectedImage = getSelectedImage();
 	if (selectedImage != nullptr)
 		console->out(selectedImage->getFilename());
 	else

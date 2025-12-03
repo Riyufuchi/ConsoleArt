@@ -15,7 +15,7 @@
 
 #include "../base/Image.h"
 
-namespace Images
+namespace consoleartlib
 {
 class ImageBMP : public Image
 {

@@ -4,7 +4,7 @@
 // Created on : Feb 24, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CLIZENITY_MENUZENITY_H_
@@ -21,7 +21,7 @@
 #include "../../tools/GeneralTools.hpp"
 #include "../MenuCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 class MenuZenity: public MenuCLI
@@ -43,6 +43,6 @@ protected:
 	virtual void confConsoleTextColor() override;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_CLIZENITY_MENUZENITY_H_ */

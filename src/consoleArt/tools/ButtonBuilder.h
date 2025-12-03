@@ -4,7 +4,7 @@
 // Created on : Feb 28, 2025
 // Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_TOOLS_BUTTONBUILDER_H_
@@ -19,7 +19,7 @@
 #include "../../embed/ui_big.h"
 #include "../../embed/ui_small.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 enum class ButtonType
 {
@@ -55,5 +55,5 @@ public:
 	std::pair<SDL_Texture*, SDL_Texture*> getButtonTextureFor(ButtonType buttonType, bool small);
 	bool isReady() const;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_TOOLS_BUTTONBUILDER_H_ */

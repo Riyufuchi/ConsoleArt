@@ -4,7 +4,7 @@
 // Created on : Mar 03, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_ABSTRACT_ABSTRACTSTATE_H_
@@ -13,7 +13,7 @@
 #include "../controller/Controller.h"
 #include "../gui/sdl/StateManager.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AbstractState
 {
@@ -24,5 +24,5 @@ public:
 	AbstractState(Controller& controller, StateManager& stateManager);
 	virtual ~AbstractState();
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_ABSTRACT_ABSTRACTSTATE_H_ */

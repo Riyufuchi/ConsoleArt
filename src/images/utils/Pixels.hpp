@@ -4,7 +4,7 @@
 // Created on : Mar 24, 2024
 // Last edit  : Mar 24, 2024
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGES_PIXELS_HPP_
@@ -12,7 +12,7 @@
 
 #include <cstdint>
 
-namespace Images
+namespace consoleartlib
 {
 enum PixelByteOrder
 {

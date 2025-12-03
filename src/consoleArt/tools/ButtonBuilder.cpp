@@ -4,12 +4,12 @@
 // Created on : Feb 28, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ButtonBuilder.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
@@ -88,4 +88,4 @@ bool ButtonBuilder::isReady() const
 	return buttonSheet->isReady() && buttonSheetSmall->isReady();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

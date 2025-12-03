@@ -4,7 +4,7 @@
 // Created on : Feb 21, 2025
 // Last edit  : Feb 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CLI_PROGRESSBARCLI_H_
@@ -14,7 +14,7 @@
 
 #include "../abstract/AbstractProgressBar.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class ProgressBarCLI : AbstractProgressBar
 {
@@ -23,5 +23,5 @@ public:
 	~ProgressBarCLI();
 	virtual void drawProgressBar() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_CLI_PROGRESSBARCLI_H_ */

@@ -4,12 +4,12 @@
 // Created on : Mar 17, 2024
 // Last edit  : May 13, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImagePPM.h"
 
-namespace Images
+namespace consoleartlib
 {
 ImagePPM::ImagePPM(std::string filename) : Image(filename, ImageType::PPM)
 {
@@ -146,4 +146,4 @@ bool ImagePPM::saveImage() const
 	outf.close();
 	return true;
 }
-} /* namespace Images */
+} /* namespace consoleartlib */

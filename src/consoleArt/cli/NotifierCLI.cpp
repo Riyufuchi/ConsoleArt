@@ -4,12 +4,12 @@
 // Created on : Apr 28, 2024
 // Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "NotifierCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 NotifierCLI::NotifierCLI(consolelib::IConsole* console) : console(console)
@@ -43,7 +43,7 @@ void NotifierCLI::messageUser(MessageType messageSeverity, const std::string& me
 		case INFO: console->out(info, message); break;
 	}
 }
-void NotifierCLI::displayImageInfo(const Images::Image& image)
+void NotifierCLI::displayImageInfo(const consoleartlib::Image& image)
 {
 	if (!image)
 		return;
@@ -52,4 +52,4 @@ void NotifierCLI::displayImageInfo(const Images::Image& image)
 	console->disableCustomFG();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
