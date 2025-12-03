@@ -11,6 +11,7 @@
 #define CONSOLELIB_DISTRIBUTION_H_
 
 #include <math.h>
+#include <cmath>
 
 namespace consolelib
 {
