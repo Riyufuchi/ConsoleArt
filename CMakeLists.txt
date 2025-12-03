@@ -108,3 +108,7 @@ target_link_libraries(ConsoleArt PRIVATE
 # Copy assets folder into build directory
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
+if (WIN32)
+	file(COPY ${CMAKE_SOURCE_DIR}/libs/SDL/windows/x64 DESTINATION ${CMAKE_BINARY_DIR})
+endif()
+
