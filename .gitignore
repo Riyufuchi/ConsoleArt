@@ -38,7 +38,7 @@ Debug
 
 # Visual studio
 .vs
-x64
+#x64
 *.sln
 *.vcxproj
 *.vcxproj.filters
@@ -62,7 +62,7 @@ x64
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -72,7 +72,7 @@ x64
 *.lai
 *.la
 #*.a
-*.lib
+#*.lib
 
 # Executables
 *.exe
