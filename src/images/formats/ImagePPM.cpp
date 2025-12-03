@@ -92,7 +92,7 @@ void ImagePPM::loadImage()
 			color++;
 		}
 	}
-	this->technical.fileState =  FileState::OK;
+	this->technical.fileState =  FileState::VALID_IMAGE_FILE;
 }
 void ImagePPM::virtualArtistLegacy()
 {

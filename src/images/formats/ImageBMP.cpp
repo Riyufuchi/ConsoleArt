@@ -43,7 +43,7 @@ void ImageBMP::loadImage()
 	readImageData(inf);
 	// Check for image orientation
 	this->image.inverted = bmp_info_header.height > 0; // Origin is in bottom left corner, if this turns to be false
-	this->technical.fileState = FileState::OK;
+	this->technical.fileState = FileState::VALID_IMAGE_FILE;
 }
 void ImageBMP::readImageData(std::ifstream& inf)
 {

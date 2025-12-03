@@ -21,7 +21,7 @@ ImagePNG::ImagePNG(std::string filepath) : Image(filepath, ImageType::PNG)
 }
 ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : Image(filepath, ImageType::PNG)
 {
-	technical.fileState =  FileState::OK;
+	technical.fileState =  FileState::VALID_IMAGE_FILE;
 	image.name = filepath;
 	image.width = width;
 	image.height = height;
@@ -77,6 +77,6 @@ void ImagePNG::loadImage()
 	pixelData.resize(image.width * image.height * image.channels); // Resize the class vector to hold image data
 	std::memcpy(pixelData.data(), imageData, pixelData.size()); // Copy the raw bytes
 	stbi_image_free(imageData); // Always free the original STB data
-	technical.fileState =  FileState::OK;
+	technical.fileState =  FileState::VALID_IMAGE_FILE;
 }
 } /* namespace consoleartlib */

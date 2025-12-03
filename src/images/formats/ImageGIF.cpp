@@ -68,7 +68,7 @@ void ImageGIF::loadImage()
 	image.bits = 32;
 	image.channels = 4;
 	image.pixelByteOrder = PixelByteOrder::RGBA;
-	technical.fileState = FileState::OK;
+	technical.fileState = FileState::VALID_IMAGE_FILE;
 	technical.technicalMessage = "GIF loaded successfully";
 	if (frameCount > 1)
 	{

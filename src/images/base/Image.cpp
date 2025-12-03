@@ -64,7 +64,7 @@ bool Image::containsPalette() const
 }
 bool Image::isLoaded() const
 {
-	return technical.fileState == FileState::OK;
+	return technical.fileState == FileState::VALID_IMAGE_FILE;
 }
 bool Image::isInverted() const
 {

@@ -55,7 +55,7 @@ void ImageTGA::loadImage()
 	pixelData.resize(image.width * image.height * image.channels); // Resize the class vector to hold image data
 	std::memcpy(pixelData.data(), imageData, pixelData.size()); // Copy the raw bytes
 	stbi_image_free(imageData); // Always free the original STB data
-	technical.fileState =  FileState::OK;
+	technical.fileState =  FileState::VALID_IMAGE_FILE;
 }
 
 } /* namespace consoleartlib */

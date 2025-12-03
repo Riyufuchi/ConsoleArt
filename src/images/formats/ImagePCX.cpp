@@ -168,7 +168,7 @@ void ImagePCX::loadImage()
 		pixelData = pcx.pixelData;
 		if (pcx.palette)
 			paletteVGA = std::move(pcx.palette);
-		this->technical.fileState = FileState::OK;
+		this->technical.fileState = FileState::VALID_IMAGE_FILE;
 	}
 }
 void ImagePCX::decodeRLE(std::ifstream& inf, std::vector<uint8_t>& imageData, const HeaderPCX& headerPCX, const uint32_t lenght)
