@@ -84,18 +84,9 @@ This project started quite some time ago, the initial commit was on 13th of July
    ```bash
    git clone https://github.com/Riyufuchi/ConsoleArt.git
    cd ConsoleArt
-   
-   # On Linux and MacOS
+   # CMake
    cmake -B build -S .
-   
-   # On Windows
-   cmake -B build -S . \
-    -DSDL2_DIR="C:/path/to/SDL2/cmake" \
-    -DSDL2_image_DIR="C:/path/to/SDL2_image/cmake" \
-    -DSDL2_ttf_DIR="C:/path/to/SDL2_ttf/cmake"
-    
-   # Then build the application
-   cmake --build build
+   cmake --build build --config Release
    ```
 
 ## Project guide
