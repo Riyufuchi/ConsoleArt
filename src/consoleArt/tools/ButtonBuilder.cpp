@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -72,9 +72,15 @@ std::pair<SDL_Texture*, SDL_Texture*> ButtonBuilder::getButtonTextureFor(ButtonT
 ButtonBuilder::~ButtonBuilder()
 {
 	if (buttonSheet)
+	{
 		delete buttonSheet;
+		buttonSheet = nullptr;
+	}
 	if (buttonSheetSmall)
+	{
 		delete buttonSheetSmall;
+		buttonSheetSmall = nullptr;
+	}
 }
 
 bool ButtonBuilder::isReady() const

@@ -56,7 +56,11 @@ MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Con
 
 MainStateSDL::~MainStateSDL()
 {
-	delete selectedImageString;
+	if (selectedImageString)
+	{
+		delete selectedImageString;
+		selectedImageString = nullptr;
+	}
 }
 
 bool MainStateSDL::updateString(sdl::LabelSDL* stringSDL)
