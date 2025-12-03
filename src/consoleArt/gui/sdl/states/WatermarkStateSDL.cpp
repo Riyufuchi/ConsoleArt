@@ -16,23 +16,27 @@ WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& contr
 	this->watermark = nullptr;
 	this->textUpdated = false;
 	this->selectedWatermark = new sdl::LabelSDL("No watermark selected", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
-	this->imageNameLabel = new sdl::LabelSDL("No image", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);
-	this->mainPane = new sdl::ContentPanelSDL();
-	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { selectWatermarkEvent(); }));
-	this->mainPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
-	this->mainPane->addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
-	this->pane = mainPane;
-	this->selectPane = new sdl::ContentPanelSDL();
-	this->selectPane->addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { pane = mainPane; }));
-	onWindowResize();
+	this->imageNameLabel = new sdl::LabelSDL("No image", FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer);;
+	this->mainPane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::SELECT, true), [&]() { selectWatermarkEvent(); }));
+	this->mainPane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { std::thread([&](){ applytWatermarkEvent(); }).detach(); }));
+	this->mainPane.addComponent(1, new sdl::ImageButtonSDL(256, 128, buttons.getButtonTextureFor(ButtonType::BACK, false), [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
+	this->pane = &mainPane;
+	this->selectPane.addComponent(0, new sdl::ImageButtonSDL(128, 128, buttons.getButtonTextureFor(ButtonType::APPLY, true), [&]() { pane = &mainPane; }));
+	//onWindowResize();
 }
 
 WatermarkStateSDL::~WatermarkStateSDL()
 {
-	delete mainPane;
-	delete selectPane;
-	delete selectedWatermark;
-	delete imageNameLabel;
+	if (selectedWatermark)
+	{
+		delete selectedWatermark;
+		selectedWatermark = nullptr;
+	}
+	if (imageNameLabel)
+	{
+		delete imageNameLabel;
+		imageNameLabel = nullptr;
+	}
 }
 
 void WatermarkStateSDL::handleTick(SDL_Event& event)
@@ -73,21 +77,21 @@ void WatermarkStateSDL::selectWatermarkEvent()
 	}
 	watermark = nullptr;
 	textUpdated = true;
-	selectPane->clear();
+	selectPane.clear();
 	y = 0;
 	controller.iterateImagesAsync([&](const Controller::VectorData& image)
 	{
 		Images::Image* imgCopy = image.imageUptr.get();
-		selectPane->addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_SECONDARY, image.imageUptr->getFilename(), SIZE, BASE_TEXT_COLOR), HOVER_TEXT_COLOR,
+		selectPane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_SECONDARY, image.imageUptr->getFilename(), SIZE, BASE_TEXT_COLOR), HOVER_TEXT_COLOR,
 		[imgCopy, this]()
 		{
 			watermark = imgCopy;
 			textUpdated = true;
-			pane = mainPane;
+			pane = &mainPane;
 		}));
 		y++;
 	});
-	pane = selectPane;
+	pane = &selectPane;
 	selectedWatermark->setText("Select watermark");
 	onWindowResize();
 }

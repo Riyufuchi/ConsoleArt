@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : StateManager.cpp
 // Author     : riyufuchi
-// Created on : Mar 2, 2025
-// Last edit  : Mar 2, 2025
+// Created on : Mar 02, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,7 +18,10 @@ StateManager::StateManager(sdl::StateSDL*& currentState) : currentState(currentS
 StateManager::~StateManager()
 {
 	for (auto& pair : windowStates)
+	{
 		delete pair.second;
+		pair.second = nullptr;
+	}
 }
 void StateManager::addNewState(WindowState windowState, sdl::StateSDL* newState)
 {

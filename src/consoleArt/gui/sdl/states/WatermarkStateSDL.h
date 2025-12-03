@@ -33,8 +33,8 @@ private:
 	const int SIZE = 32;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL* pane;
-	sdl::ContentPanelSDL* mainPane;
-	sdl::ContentPanelSDL* selectPane;
+	sdl::ContentPanelSDL mainPane;
+	sdl::ContentPanelSDL selectPane;
 	sdl::LabelSDL* selectedWatermark;
 	sdl::LabelSDL* imageNameLabel;
 	Images::Image* watermark;

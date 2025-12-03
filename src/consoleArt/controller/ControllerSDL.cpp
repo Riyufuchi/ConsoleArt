@@ -44,17 +44,27 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 	this->stateManager->addNewState(WindowState::SELECT_IMAGE, new SelectImageStateSDL(winInfo, *this, *stateManager, *buttons));
 	//this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::ASCII_CONVERTER, new AsciiConvertStateSDL(winInfo, *this, *stateManager, *buttons));
-	//this->stateManager->addNewState(WindowState::WATERMARK, new WatermarkStateSDL(winInfo, *this, *stateManager, *buttons));
+	this->stateManager->addNewState(WindowState::WATERMARK, new WatermarkStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::FILTER_IMAGE, new ImageFilterStateSDL(winInfo, *this, *stateManager));
 	//this->stateManager->addNewState(WindowState::CONFIG, new ConfigStateSDL(winInfo, *this, *stateManager, *buttons));
 }
 
 ControllerSDL::~ControllerSDL()
 {
-	delete buttons;
-	delete stateManager;
+	if (buttons)
+	{
+		delete buttons;
+		buttons = nullptr;
+	}
+	if (stateManager)
+	{
+		delete stateManager;
+		stateManager = nullptr;
+	}
 	SDL_DestroyRenderer(renderer);
+	renderer = nullptr;
 	SDL_DestroyWindow(window);
+	window = nullptr;
 	SDL_Quit();
 }
 void ControllerSDL::run()
