@@ -55,7 +55,6 @@ public:
 			"--library| Shows info about ConsoleLib and other used libraries besides standard and platform depended",
 			"--compare [image1] [image2]| Compare dimensions of the two given images",
 			"--noGUI| Starts application in pure CLI mode",
-			"--zen| Starts application in CLI mode using Zenity",
 			"--tfd| Starts application in CLI mode using TinyFileDialogs"
 		};
 		consolelib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
