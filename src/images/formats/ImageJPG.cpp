@@ -25,7 +25,7 @@ ImageJPG::ImageJPG(std::string filepath, int width, int height, int channels) : 
 	image.channels = channels;
 	image.bits = image.channels * 8;
 	pixelData.resize(width * height * channels);
-	technical.fileState =  FileState::OK;
+	technical.fileState =  FileState::VALID_IMAGE_FILE;
 }
 
 ImageJPG::~ImageJPG()
@@ -70,7 +70,7 @@ void ImageJPG::loadImage()
 		pixelData.resize(image.width * image.height * image.channels); // Resize the class vector to hold image data
 		std::memcpy(pixelData.data(), imageData, pixelData.size()); // Copy the raw bytes
 		stbi_image_free(imageData); // Always free the original STB data
-		technical.fileState =  FileState::OK;
+		technical.fileState =  FileState::VALID_IMAGE_FILE;
 	}
 }
 }

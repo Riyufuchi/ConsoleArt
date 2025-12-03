@@ -38,8 +38,8 @@ enum class ImageType
 };
 enum class FileState
 {
-	ERROR,
-	OK
+	INVALID_IMAGE_FILE,
+	VALID_IMAGE_FILE
 };
 struct ImageInfo
 {
@@ -61,7 +61,7 @@ struct ImageInfo
 struct TechnicalInfo
 {
 	std::string technicalMessage { "Pending/unknown" };
-	FileState fileState { FileState::ERROR };
+	FileState fileState { FileState::INVALID_IMAGE_FILE };
 };
 class Image
 {
@@ -82,7 +82,7 @@ public:
 
 	explicit operator bool() const
 	{
-		return technical.fileState == FileState::OK;
+		return technical.fileState == FileState::VALID_IMAGE_FILE;
 	}
 
 	explicit operator std::string() const

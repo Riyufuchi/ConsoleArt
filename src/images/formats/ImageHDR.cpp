@@ -128,7 +128,7 @@ void ImageHDR::loadImage()
 		pixelDataHDR.resize(image.width * image.height * image.channels); // Resize the class vector to hold image data
 		std::memcpy(pixelDataHDR.data(), imageDataHDR, pixelDataHDR.size() * sizeof(float)); // Copy the raw bytes
 		stbi_image_free(imageDataHDR); // Always free the original STB data
-		technical.fileState = FileState::OK;
+		technical.fileState = FileState::VALID_IMAGE_FILE;
 	}
 }
 

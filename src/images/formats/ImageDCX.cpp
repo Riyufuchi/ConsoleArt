@@ -84,7 +84,7 @@ void ImageDCX::loadImage()
 		}
 	}
 	selectPage(0);
-	technical.fileState = FileState::OK;
+	technical.fileState = FileState::VALID_IMAGE_FILE;
 }
 Pixel ImageDCX::getPixel(int x, int y) const
 {
