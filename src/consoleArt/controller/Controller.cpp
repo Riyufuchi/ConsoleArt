@@ -120,7 +120,7 @@ void Controller::configure(consolelib::argVector& config)
 		if (it != argumentMethods.end())
 			it->second(argument.second);
 		else
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Invalid argument [" + argument.first + "]\n");
+			messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Invalid argument [" + argument.first + "]\n");
 	}
 }
 
@@ -133,7 +133,7 @@ void Controller::configure(consolelib::argMap& config)
 		if (it != argumentMethods.end())
 			it->second(argument.second);
 		else
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Invalid argument [" + argument.first + "]\n");
+			messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Invalid argument [" + argument.first + "]\n");
 	}
 }
 
@@ -148,7 +148,7 @@ void Controller::convertImage(consoleartlib::Image* image, ImageUtils::AsciiConv
 	messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));
 	if (!ac.convertToASCII())
 	{
-		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Image conversion has failed!\n");
 		return;
 	}
 	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Conversion to ascii done!\n");
@@ -188,7 +188,7 @@ Controller::IndexDataType Controller::addImageAsync(consoleartlib::Image* image)
 		return 0;
 	if (!image->isLoaded())
 	{
-		messenger->messageUser(AbstractNotifier::MessageType::ERROR, image->getFileStatus() + "\n");
+		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, image->getFileStatus() + "\n");
 		delete image;
 		image = nullptr;
 		return 0;

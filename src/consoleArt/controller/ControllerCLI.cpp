@@ -33,7 +33,7 @@ ControllerCLI::ControllerCLI(std::string path, consolelib::IConsole* console) : 
 	{
 		if (vector.empty() || (!consolelib::DataUtils::isNumber(vector.at(0))))
 		{
-			messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Missing or wrong argument " + vector.at(0) + " for --color\n");
+			messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Missing or wrong argument " + vector.at(0) + " for --color\n");
 			return;
 		}
 		int colorID = std::stoi(vector.at(0)) - 1;
@@ -71,19 +71,19 @@ void ControllerCLI::compareImages(const std::vector<std::string>& vector)
 {
 	if (vector.size() != 2)
 	{
-		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Argument --compare is missing " + std::to_string((2 - vector.size())) + " parameters!\n");
+		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Argument --compare is missing " + std::to_string((2 - vector.size())) + " parameters!\n");
 		return;
 	}
 	consoleartlib::Image* image1 = loadImageAsync(workspacePath + vector.at(0));
 	consoleartlib::Image* image2 = loadImageAsync(workspacePath + vector.at(1));
 	if (image1 == nullptr || !*image1)
 	{
-		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image1->getFilename() + " failed!\n");
+		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Loading of " + image1->getFilename() + " failed!\n");
 		return;
 	}
 	if (image2 == nullptr || !*image2)
 	{
-		messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Loading of " + image2->getFilename() + " failed!\n");
+		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Loading of " + image2->getFilename() + " failed!\n");
 		return;
 	}
 	switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
@@ -143,7 +143,7 @@ void ControllerCLI::imageActionsSubmenu()
 			if (res)
 				messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filer successfully applied.\n");
 			else if (option != -1)
-				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
+				messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "An error occurred while applying filter to image " + selectedImage->getFilename() + "\n");
 		}
 		break;
 		default:
@@ -274,7 +274,7 @@ void ControllerCLI::convertImageToAsciiEvent()
 			messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(selectedImage->getFilename()));
 			if (!ac.convertToASCII())
 			{
-				messenger->messageUser(AbstractNotifier::MessageType::ERROR, "Image conversion has failed!\n");
+				messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Image conversion has failed!\n");
 				return;
 			}
 			messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Done!\n");

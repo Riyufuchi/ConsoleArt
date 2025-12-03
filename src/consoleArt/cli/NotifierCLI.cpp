@@ -32,7 +32,7 @@ void NotifierCLI::messageUser(MessageType messageSeverity, const std::string& me
 	{
 		// Errors
 		case EXCEPTION: console->err(exception, message); break;
-		case ERROR: console->err(error, message); break;
+		case PROBLEM: console->err(error, message); break;
 		// Messages
 		case WARNING: console->out(warning, message); break;
 		case SUCCESFUL_TASK: console->out(taskDone, message); break;

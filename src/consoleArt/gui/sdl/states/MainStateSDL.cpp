@@ -106,7 +106,7 @@ void MainStateSDL::loadDropedFile(char* droppedFile)
 		}
 		else
 		{
-			controller.notifyUser(AbstractNotifier::ERROR, "Image failed to load.");
+			controller.notifyUser(AbstractNotifier::PROBLEM, "Image failed to load.");
 		}
 		SDL_free(droppedFile);
 	}).detach();
