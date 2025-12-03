@@ -31,7 +31,7 @@ void AsciiPrinterSDL::printToFile()
 	if (AbstractAsciiPrinter::printToFile(result))
 		notifier->messageUser(AbstractNotifier::INFO, result);
 	else
-		notifier->messageUser(AbstractNotifier::ERROR, result);
+		notifier->messageUser(AbstractNotifier::PROBLEM, result);
 }
 
 void AsciiPrinterSDL::printClassic()

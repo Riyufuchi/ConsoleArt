@@ -25,7 +25,7 @@ public:
 	enum MessageType
 	{
 		EXCEPTION,
-		ERROR,
+		PROBLEM,
 		WARNING,
 		SUCCESFUL_TASK,
 		INFO,

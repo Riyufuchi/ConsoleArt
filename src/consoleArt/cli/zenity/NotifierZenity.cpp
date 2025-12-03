@@ -44,7 +44,7 @@ void NotifierZenity::messageUser(MessageType messageSeverity, const std::string&
 	{
 		// Errors
 		case EXCEPTION:
-		case ERROR: showDialog("--error", message, messageSeverity); break;
+		case PROBLEM: showDialog("--error", message, messageSeverity); break;
 		// Messages
 		case WARNING: showDialog("--warning", message, messageSeverity); break;
 		case SUCCESFUL_TASK: showDialog("--info", message, messageSeverity); break;

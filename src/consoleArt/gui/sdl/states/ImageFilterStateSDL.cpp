@@ -30,7 +30,7 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 {
 	if (controller.getSelectedImage() == nullptr)
 	{
-		controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Error: No image selected!");
+		controller.notifyUser(AbstractNotifier::MessageType::PROBLEM, "Error: No image selected!");
 		return false;
 	}
 
@@ -51,7 +51,7 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 		case 3: return ImageUtils::Filter::purplefierShading(*controller.getSelectedImage());
 		case 4: return ImageUtils::Filter::purplefierShadingSoft(*controller.getSelectedImage());
 		default:
-			controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Error: Invalid filter selection!");
+			controller.notifyUser(AbstractNotifier::MessageType::PROBLEM, "Error: Invalid filter selection!");
 		return false;
 	}
 }
@@ -64,7 +64,7 @@ void ImageFilterStateSDL::applyFilterEvent(std::string filter)
 		if (applyFilter(filter))
 			controller.notifyUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "Filter successfully applied.");
 		else
-			controller.notifyUser(AbstractNotifier::MessageType::ERROR, "Filter application failed during saving the image.");
+			controller.notifyUser(AbstractNotifier::MessageType::PROBLEM, "Filter application failed during saving the image.");
 	}).detach();
 }
 

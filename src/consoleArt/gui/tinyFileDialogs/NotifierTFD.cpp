@@ -34,7 +34,7 @@ void NotifierTFD::messageUser(MessageType messageSeverity, const std::string& me
 	{
 		// Errors
 		case EXCEPTION: tinyfd_messageBox("Exception", message.c_str(),  "ok", "error", 1); break;
-		case ERROR: tinyfd_messageBox("Error", message.c_str(),  "ok", "error", 1); break;
+		case PROBLEM: tinyfd_messageBox("Error", message.c_str(),  "ok", "error", 1); break;
 		// Messages
 		case WARNING: tinyfd_messageBox("Warning", message.c_str(),  "ok", "warning", 1); break;
 		case SUCCESFUL_TASK: tinyfd_messageBox("Task successful", message.c_str(),  "ok", "info", 1); break;
