@@ -4,12 +4,12 @@
 // Created on : Mar 03, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AsciiConvertStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 AsciiConvertStateSDL::AsciiConvertStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractAciiConversionState(controller, stateManager), buttons(buttons)
 {
@@ -59,4 +59,4 @@ void AsciiConvertStateSDL::render()
 	pane.draw(renderer);
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

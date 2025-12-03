@@ -4,7 +4,7 @@
 // Created on : Mar 2, 2025
 // Last edit  : Jul 05, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_STATEMANAGER_H_
@@ -14,7 +14,7 @@
 
 #include "StateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 enum WindowState
 {
@@ -39,5 +39,5 @@ public:
 	void addNewState(WindowState windowState, sdl::StateSDL* newState);
 	void switchState(WindowState windowState);
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUISDL_STATEMANAGER_H_ */

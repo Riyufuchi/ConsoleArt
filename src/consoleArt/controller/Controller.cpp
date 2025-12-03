@@ -8,7 +8,7 @@
 
 #include "Controller.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 Controller::Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) : Controller("", notifier, menu, asciiPrinter)
 {
@@ -16,17 +16,17 @@ Controller::Controller(AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPri
 Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu, AbstractAsciiPrinter* asciiPrinter) :
 		selectedImageIndex(0), isRunnable(true), messenger(notifier), menuInterface(menu), abstractAsciiPrinter(asciiPrinter), workspacePath(path)
 {
-	supportedImageFormats[".pcx"] = Images::ImageType::PCX;
-	supportedImageFormats[".bmp"] = Images::ImageType::BMP;
-	supportedImageFormats[".ppm"] = Images::ImageType::PPM;
-	supportedImageFormats[".png"] = Images::ImageType::PNG;
-	supportedImageFormats[".jpg"] = Images::ImageType::JPG;
-	supportedImageFormats[".jpeg"] = Images::ImageType::JPG;
-	supportedImageFormats[".JPEG"] = Images::ImageType::JPG;
-	supportedImageFormats[".gif"] = Images::ImageType::GIF;
-	supportedImageFormats[".hdr"] = Images::ImageType::HDR;
-	supportedImageFormats[".tga"] = Images::ImageType::TGA;
-	supportedImageFormats[".dcx"] = Images::ImageType::DCX;
+	supportedImageFormats[".pcx"] = consoleartlib::ImageType::PCX;
+	supportedImageFormats[".bmp"] = consoleartlib::ImageType::BMP;
+	supportedImageFormats[".ppm"] = consoleartlib::ImageType::PPM;
+	supportedImageFormats[".png"] = consoleartlib::ImageType::PNG;
+	supportedImageFormats[".jpg"] = consoleartlib::ImageType::JPG;
+	supportedImageFormats[".jpeg"] = consoleartlib::ImageType::JPG;
+	supportedImageFormats[".JPEG"] = consoleartlib::ImageType::JPG;
+	supportedImageFormats[".gif"] = consoleartlib::ImageType::GIF;
+	supportedImageFormats[".hdr"] = consoleartlib::ImageType::HDR;
+	supportedImageFormats[".tga"] = consoleartlib::ImageType::TGA;
+	supportedImageFormats[".dcx"] = consoleartlib::ImageType::DCX;
 	// Functions
 	argumentMethods["--image"] = [&](const std::vector<std::string>& vector)
 	{
@@ -56,7 +56,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	{
 		if (vector.size() == 0)
 			return;
-		Images::ImageGIF gif(vector[0]);
+		consoleartlib::ImageGIF gif(vector[0]);
 		if (gif)
 		{
 			gif.spitIntoPNGs();
@@ -67,7 +67,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	{
 		if (vector.size() == 0)
 			return;
-		Images::Image* baseLayer = nullptr;
+		consoleartlib::Image* baseLayer = nullptr;
 		for (const std::string& baseImage : vector)
 		{
 			baseLayer = loadImageAsync(workspacePath + baseImage);
@@ -83,8 +83,8 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	{
 		if (vector.size() == 0)
 			return;
-		Images::Image* image = nullptr;
-		Images::ImageDCX imagePack("packed.dcx", vector.size());
+		consoleartlib::Image* image = nullptr;
+		consoleartlib::ImageDCX imagePack("packed.dcx", vector.size());
 		for (const std::string& imagePath : vector)
 		{
 			image = loadImageAsync(workspacePath + imagePath);
@@ -92,7 +92,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 				return;
 			switch (image->getImageInfo().imageFormat)
 			{
-				case Images::ImageType::PCX: imagePack.addImage(((Images::ImagePCX*)image)->convertToPage()); break;
+				case consoleartlib::ImageType::PCX: imagePack.addImage(((consoleartlib::ImagePCX*)image)->convertToPage()); break;
 				default: delete image;
 			}
 		}
@@ -137,7 +137,7 @@ void Controller::configure(consolelib::argMap& config)
 	}
 }
 
-void Controller::convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet)
+void Controller::convertImage(consoleartlib::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet)
 {
 	if (image == nullptr || !*image || abstractAsciiPrinter == nullptr)
 		return;
@@ -181,7 +181,7 @@ void Controller::loadAllImagesAsync()
 	messenger->messageUser(AbstractNotifier::MessageType::SUCCESFUL_TASK, "All loaded!\n");
 }
 
-Controller::IndexDataType Controller::addImageAsync(Images::Image* image)
+Controller::IndexDataType Controller::addImageAsync(consoleartlib::Image* image)
 {
 	static IndexDataType index = 0;
 	if (image == nullptr)
@@ -207,11 +207,11 @@ Controller::IndexDataType Controller::addImageAsync(Images::Image* image)
 		}
 	}
 	index++;
-	images.emplace_back(VectorNode{ index, std::unique_ptr<Images::Image>(image)});
+	images.emplace_back(VectorNode{ index, std::unique_ptr<consoleartlib::Image>(image)});
 	return index;
 }
 
-Images::Image* Controller::loadImageAsync(const std::string& path)
+consoleartlib::Image* Controller::loadImageAsync(const std::string& path)
 {
 	std::string extension = "";
 	try
@@ -227,21 +227,21 @@ Images::Image* Controller::loadImageAsync(const std::string& path)
 	return loadImageAsync(path, extension);
 }
 
-Images::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)
+consoleartlib::Image* Controller::loadImageAsync(const std::string& path, const std::string& extension)
 {
 	std::lock_guard<std::mutex> lock(mutexImageFormats);
 	if (supportedImageFormats.contains(extension))
 		switch (supportedImageFormats.at(extension))
 		{
-			case Images::ImageType::BMP: return new Images::ImageBMP(path);
-			case Images::ImageType::PCX: return new Images::ImagePCX(path);
-			case Images::ImageType::PPM: return new Images::ImagePPM(path);
-			case Images::ImageType::PNG: return new Images::ImagePNG(path);
-			case Images::ImageType::JPG: return new Images::ImageJPG(path);
-			case Images::ImageType::GIF: return new Images::ImageGIF(path);
-			case Images::ImageType::HDR: return new Images::ImageHDR(path);
-			case Images::ImageType::TGA: return new Images::ImageTGA(path);
-			case Images::ImageType::DCX: return new Images::ImageDCX(path);
+			case consoleartlib::ImageType::BMP: return new consoleartlib::ImageBMP(path);
+			case consoleartlib::ImageType::PCX: return new consoleartlib::ImagePCX(path);
+			case consoleartlib::ImageType::PPM: return new consoleartlib::ImagePPM(path);
+			case consoleartlib::ImageType::PNG: return new consoleartlib::ImagePNG(path);
+			case consoleartlib::ImageType::JPG: return new consoleartlib::ImageJPG(path);
+			case consoleartlib::ImageType::GIF: return new consoleartlib::ImageGIF(path);
+			case consoleartlib::ImageType::HDR: return new consoleartlib::ImageHDR(path);
+			case consoleartlib::ImageType::TGA: return new consoleartlib::ImageTGA(path);
+			case consoleartlib::ImageType::DCX: return new consoleartlib::ImageDCX(path);
 			default: return nullptr;
 		}
 	messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Unsupported format [" + extension + "]\n");
@@ -256,7 +256,7 @@ void Controller::notifyUser(AbstractNotifier::MessageType messageType, const std
 		std::cout << message;
 }
 
-void Controller::displayImageInfo(const Images::Image& image)
+void Controller::displayImageInfo(const consoleartlib::Image& image)
 {
 	if (messenger)
 		messenger->displayImageInfo(image);
@@ -309,7 +309,7 @@ Controller::IndexDataType Controller::getSelectedImageIndex() const
 	return selectedImageIndex;
 }
 
-Images::Image* Controller::getSelectedImage()
+consoleartlib::Image* Controller::getSelectedImage()
 {
 	if (selectedImageIndex == 0)
 		return nullptr;

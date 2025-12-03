@@ -4,7 +4,7 @@
 // Created on : Feb 21, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CONTROLLER_CONTROLLERSDL_H_
@@ -15,7 +15,7 @@
 // SDL2
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_main.h"
-// ConsoleArt
+// consoleart
 #include "Controller.h"
 #include "../gui/sdl/NotifierSDL.h"
 #include "../gui/sdl/AsciiPrinterSDL.h"
@@ -32,7 +32,7 @@ extern "C"
 	#include "../../include/tinyfiledialogs.h"
 }
 
-namespace ConsoleArt
+namespace consoleart
 {
 class ControllerSDL : public Controller
 {
@@ -55,5 +55,5 @@ public:
 	~ControllerSDL();
 	virtual void run() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_CONTROLLER_CONTROLLERSDL_H_ */

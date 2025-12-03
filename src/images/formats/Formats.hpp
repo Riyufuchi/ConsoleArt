@@ -4,7 +4,7 @@
 // Created on : Feb 27, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGES_FORMATS_HPP_

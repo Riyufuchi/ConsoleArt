@@ -34,7 +34,7 @@
 #include "../abstract/AbstractAsciiPrinter.h"
 #include "../../other/MathUtils.hpp"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class Controller
 {
@@ -44,7 +44,7 @@ public:
 	struct VectorNode
 	{
 		IndexDataType index;
-		std::unique_ptr<Images::Image> imageUptr;
+		std::unique_ptr<consoleartlib::Image> imageUptr;
 
 		auto operator<=>(const VectorNode& other) const
 		{
@@ -73,7 +73,7 @@ protected:
 	std::string workspacePath;
 	std::vector<VectorData> images;
 	std::mutex mutexImages;
-	std::unordered_map<std::string, Images::ImageType> supportedImageFormats;
+	std::unordered_map<std::string, consoleartlib::ImageType> supportedImageFormats;
 	std::mutex mutexImageFormats;
 	std::unordered_map<std::string, std::function<void(const std::vector<std::string>&)>> argumentMethods;
 	// For main state
@@ -88,14 +88,14 @@ public:
 	virtual void run() = 0;
 	// Controller
 	virtual std::string inputImageName() = 0;
-	IndexDataType addImageAsync(Images::Image* image);
-	Images::Image* loadImageAsync(const std::string& path);
-	Images::Image* loadImageAsync(const std::string& path, const std::string& extension);
+	IndexDataType addImageAsync(consoleartlib::Image* image);
+	consoleartlib::Image* loadImageAsync(const std::string& path);
+	consoleartlib::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
-	void convertImage(Images::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
+	void convertImage(consoleartlib::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
 	void iterateImagesAsync(std::function<void(const VectorNode& node)> actionOnImage);
 	void notifyUser(AbstractNotifier::MessageType messageType, const std::string& message);
-	void displayImageInfo(const Images::Image& image);
+	void displayImageInfo(const consoleartlib::Image& image);
 	// Setters
 	void setWorkspace(std::string path);
 	void selectImage(IndexDataType selectedImageIndex);
@@ -105,7 +105,7 @@ public:
 	IndexDataType getSelectedImageIndex() const;
 	int getNumberOfLoadedImages();
 	const std::string& getWorkspace();
-	Images::Image* getSelectedImage();
+	consoleartlib::Image* getSelectedImage();
 };
 }
 #endif

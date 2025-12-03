@@ -4,12 +4,12 @@
 // Created on : Mar 03, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AboutStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 AboutStateSDL::AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
@@ -56,4 +56,4 @@ void AboutStateSDL::render()
 	pane.draw(renderer);
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

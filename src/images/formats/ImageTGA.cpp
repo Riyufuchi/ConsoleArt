@@ -4,14 +4,14 @@
 // Created on : Nov 07, 2025
 // Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "../utils/stb_image.h"
 #include "../utils/stb_image_write.h"
 #include "ImageTGA.h"
 
-namespace Images
+namespace consoleartlib
 {
 
 ImageTGA::ImageTGA(std::string filename) : Image(filename, ImageType::TGA)
@@ -19,7 +19,7 @@ ImageTGA::ImageTGA(std::string filename) : Image(filename, ImageType::TGA)
 	loadImage();
 }
 
-Images::Pixel ImageTGA::getPixel(int x, int y) const
+consoleartlib::Pixel ImageTGA::getPixel(int x, int y) const
 {
 	x = image.channels * (y * image.width + x);
 	if (image.channels == 4)
@@ -28,7 +28,7 @@ Images::Pixel ImageTGA::getPixel(int x, int y) const
 		return {pixelData[x], pixelData[x + 1], pixelData[x + 2]};
 }
 
-void ImageTGA::setPixel(int x, int y, Images::Pixel newPixel)
+void ImageTGA::setPixel(int x, int y, consoleartlib::Pixel newPixel)
 {
 	x = image.channels * (y * image.width + x);
 	pixelData[x] = newPixel.red;
@@ -58,4 +58,4 @@ void ImageTGA::loadImage()
 	technical.fileState =  FileState::OK;
 }
 
-} /* namespace Images */
+} /* namespace consoleartlib */

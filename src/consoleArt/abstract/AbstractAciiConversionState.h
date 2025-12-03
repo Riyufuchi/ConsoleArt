@@ -4,7 +4,7 @@
 // Created on : Mar 6, 2025
 // Last edit  : May 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_ABSTRACT_ABSTRACTACIICONVERSIONSTATE_H_
@@ -12,7 +12,7 @@
 
 #include "AbstractState.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AbstractAciiConversionState : public AbstractState
 {
@@ -24,6 +24,6 @@ public:
 	virtual ~AbstractAciiConversionState();
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_ABSTRACT_ABSTRACTACIICONVERSIONSTATE_H_ */

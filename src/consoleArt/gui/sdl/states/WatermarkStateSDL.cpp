@@ -4,12 +4,12 @@
 // Created on : Mar 08, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "WatermarkStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 WatermarkStateSDL::WatermarkStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons), y(0)
 {
@@ -81,7 +81,7 @@ void WatermarkStateSDL::selectWatermarkEvent()
 	y = 0;
 	controller.iterateImagesAsync([&](const Controller::VectorData& image)
 	{
-		Images::Image* imgCopy = image.imageUptr.get();
+		consoleartlib::Image* imgCopy = image.imageUptr.get();
 		selectPane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_SECONDARY, image.imageUptr->getFilename(), SIZE, BASE_TEXT_COLOR), HOVER_TEXT_COLOR,
 		[imgCopy, this]()
 		{
@@ -117,4 +117,4 @@ void WatermarkStateSDL::render()
 	imageNameLabel->draw();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

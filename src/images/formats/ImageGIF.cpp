@@ -4,7 +4,7 @@
 // Created on : Nov 06, 2025
 // Last edit  : Nov 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImageGIF.h"
@@ -12,7 +12,7 @@
 #include "../utils/stb_image.h"
 #include "../utils/stb_image_write.h"
 
-namespace Images
+namespace consoleartlib
 {
 
 ImageGIF::ImageGIF(const std::string& filepath) : Image(filepath, ImageType::GIF), selectedFrameIndex(0)
@@ -84,13 +84,13 @@ void ImageGIF::loadImage()
 		free(delayArr); // stb allocates it with malloc
 }
 
-Images::Pixel ImageGIF::getPixel(int x, int y) const
+consoleartlib::Pixel ImageGIF::getPixel(int x, int y) const
 {
 	x = (y * image.width + x) * image.channels;
 	return {pixelData[x], pixelData[x + 1], pixelData[x + 2], pixelData[x + 3]};
 }
 
-void ImageGIF::setPixel(int x, int y, Images::Pixel pixel)
+void ImageGIF::setPixel(int x, int y, consoleartlib::Pixel pixel)
 {
 	x = (y * image.width + x) * image.channels;
 	pixelData[x] = pixel.red;

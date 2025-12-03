@@ -4,12 +4,12 @@
 // Created on : Feb 24, 2025
 // Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "MenuZenity.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 MenuZenity::MenuZenity(consolelib::IConsole* console, std::function<void()> function) : MenuCLI(console),
 	mainMenu(*console, menus.at(Menu::MAIN_MENU), function),
@@ -129,4 +129,4 @@ int MenuZenity::imageEditOptions()
 	return editImageOptionsMenu.runMenuLoop();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

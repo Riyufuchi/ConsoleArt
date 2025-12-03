@@ -4,7 +4,7 @@
 // Created on : Jan 29, 2025
 // Last edit  : Nov 24, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef OTHER_MATHUTILS_HPP_

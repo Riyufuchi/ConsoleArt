@@ -4,12 +4,12 @@
 // Created on : May 24, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImageFilterStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 ImageFilterStateSDL::ImageFilterStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager)
@@ -100,4 +100,4 @@ void ImageFilterStateSDL::render()
 	pane.draw(renderer);
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

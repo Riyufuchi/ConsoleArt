@@ -4,7 +4,7 @@
 // Created on : Mar 08, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_STATES_WATERMARKSTATESDL_H_
@@ -25,7 +25,7 @@
 #include "StringButtonSDL.h"
 #include "TextSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class WatermarkStateSDL: public sdl::StateSDL, private AbstractState
 {
@@ -37,7 +37,7 @@ private:
 	sdl::ContentPanelSDL selectPane;
 	sdl::LabelSDL* selectedWatermark;
 	sdl::LabelSDL* imageNameLabel;
-	Images::Image* watermark;
+	consoleartlib::Image* watermark;
 	std::atomic<bool> textUpdated;
 	int y;
 	void selectWatermarkEvent();
@@ -50,5 +50,5 @@ public:
 	virtual void onReturn() override;
 	virtual void render() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUISDL_STATES_SELECTIMAGESTATESDL_H_ */

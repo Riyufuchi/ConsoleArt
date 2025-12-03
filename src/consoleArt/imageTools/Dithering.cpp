@@ -4,7 +4,7 @@
 // Created on : Mar 18, 2025
 // Last edit  : Sep 22, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "Dithering.h"
@@ -37,13 +37,13 @@ Dithering::~Dithering()
 }
 
 // Find the closest color from the palette
-Images::PixelRGB Dithering::findClosestColor(uint8_t r, uint8_t g, uint8_t b)
+consoleartlib::PixelRGB Dithering::findClosestColor(uint8_t r, uint8_t g, uint8_t b)
 {
-	Images::PixelRGB bestMatch = minecraftPalette[0];
+	consoleartlib::PixelRGB bestMatch = minecraftPalette[0];
 	int bestDist = std::numeric_limits<int>::max();
 	int dr, dg, db, dist;
 
-	for (const Images::PixelRGB& color : minecraftPalette)
+	for (const consoleartlib::PixelRGB& color : minecraftPalette)
 	{
 		dr = r - color.red;
 		dg = g - color.green;
@@ -82,7 +82,7 @@ void Dithering::ditherImage(std::string imagepath)
 			uint8_t b = img[index + 2];
 
 			// Get the closest palette color
-			Images::PixelRGB newColor = findClosestColor(r, g, b);
+			consoleartlib::PixelRGB newColor = findClosestColor(r, g, b);
 			ditheredImg[index] = newColor.red;
 			ditheredImg[index + 1] = newColor.green;
 			ditheredImg[index + 2] = newColor.blue;
@@ -118,4 +118,4 @@ void Dithering::ditherImage(std::string imagepath)
 	std::cout << "Dithered image saved as 'dithered_output.png'!\n";
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

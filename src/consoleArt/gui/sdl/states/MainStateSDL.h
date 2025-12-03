@@ -4,7 +4,7 @@
 // Created on : Feb 26, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_MAINSTATE_H_
@@ -24,7 +24,7 @@
 #include "../../../tools/ButtonBuilder.h"
 #include "../../../tools/ConfigSDL.hpp"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class MainStateSDL : public sdl::StateSDL, private AbstractState
 {
@@ -44,5 +44,5 @@ public:
 	virtual void onReturn() override;
 	virtual void onWindowResize() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUISDL_MAINSTATE_H_ */

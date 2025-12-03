@@ -13,7 +13,7 @@
 #include "../../images/base/Image.h"
 #include "ColorUtils.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 enum Menu
 {

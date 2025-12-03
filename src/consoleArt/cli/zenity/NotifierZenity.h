@@ -4,7 +4,7 @@
 // Created on : Feb 24, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CLIZENITY_NOTIFIERZENITY_H_
@@ -17,7 +17,7 @@
 
 #include "../NotifierCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class NotifierZenity : public NotifierCLI
 {
@@ -27,8 +27,8 @@ private:
 public:
 	NotifierZenity(consolelib::IConsole* console);
 	~NotifierZenity();
-	virtual void displayImageInfo(const Images::Image& image) override;
+	virtual void displayImageInfo(const consoleartlib::Image& image) override;
 	virtual void messageUser(MessageType messageSeverity, const std::string& message) override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_CLIZENITY_NOTIFIERZENITY_H_ */

@@ -4,7 +4,7 @@
 // Created on : Feb 20, 2025
 // Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "Filter.h"
@@ -17,12 +17,12 @@ Filter::Filter()
 Filter::~Filter()
 {
 }
-bool Filter::purplefier(Images::Image& image)
+bool Filter::purplefier(consoleartlib::Image& image)
 {
 	if (!image)
 		return false;
-	const Images::ImageInfo& info = image.getImageInfo();
-	Images::Pixel pixel;
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
+	consoleartlib::Pixel pixel;
 	for (int y = 0; y < info.height; y++)
 	{
 		for (int x = 0; x < info.width; x++)
@@ -34,13 +34,13 @@ bool Filter::purplefier(Images::Image& image)
 	}
 	return (image >> "-purplefied").saveImage();
 }
-bool Filter::purplefierSoft(Images::Image& image)
+bool Filter::purplefierSoft(consoleartlib::Image& image)
 {
 	if (!image)
 		return false;
-	const Images::ImageInfo& info = image.getImageInfo();
-	ConsoleArt::ProgressBarCLI bar(info.height);
-	Images::Pixel pixel;
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
+	consoleart::ProgressBarCLI bar(info.height);
+	consoleartlib::Pixel pixel;
 	bar.drawProgressBar();
 	for (int y = 0; y < info.height; y++)
 	{
@@ -62,12 +62,12 @@ bool Filter::purplefierSoft(Images::Image& image)
 	std::cout << "\n";
 	return (image >> "-purplefiedSoft").saveImage();
 }
-bool Filter::purplefierShading(Images::Image& image)
+bool Filter::purplefierShading(consoleartlib::Image& image)
 {
 	if (!image)
 		return false;
-	const Images::ImageInfo& info = image.getImageInfo();
-	Images::Pixel pixel;
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
+	consoleartlib::Pixel pixel;
 	for (int y = 0; y < info.height; y++)
 	{
 		for (int x = 0; x < info.width; x++)
@@ -81,13 +81,13 @@ bool Filter::purplefierShading(Images::Image& image)
 	}
 	return (image >> "-purplefiedShaded").saveImage();
 }
-bool Filter::purplefierShadingSoft(Images::Image& image)
+bool Filter::purplefierShadingSoft(consoleartlib::Image& image)
 {
 	if (!image)
 		return false;
-	const Images::ImageInfo& info = image.getImageInfo();
-	ConsoleArt::ProgressBarCLI bar(info.height);
-	Images::Pixel pixel;
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
+	consoleart::ProgressBarCLI bar(info.height);
+	consoleartlib::Pixel pixel;
 	bar.drawProgressBar();
 	for (int y = 0; y < info.height; y++)
 	{
@@ -111,15 +111,15 @@ bool Filter::purplefierShadingSoft(Images::Image& image)
 	std::cout << "\n";
 	return (image >> "-purplefiedShadedSoft").saveImage();
 }
-bool Filter::matrixFilter(Images::Image& image)
+bool Filter::matrixFilter(consoleartlib::Image& image)
 {
 	if (!image)
 		return false;
-	const Images::ImageInfo& info = image.getImageInfo();
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
 	const double RED_FRACTION = 7 / 5.0;
 	const double BLUE_FRACTION = 8 / 5.0;
 	const unsigned char MAX_COLOR = 255;
-	Images::Pixel pixel;
+	consoleartlib::Pixel pixel;
 	for (int y = 0; y < info.height; y++)
 	{
 		for (int x = 0; x < info.width; x++)
@@ -132,4 +132,4 @@ bool Filter::matrixFilter(Images::Image& image)
 	}
 	return (image >> "-matrix").saveImage();
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

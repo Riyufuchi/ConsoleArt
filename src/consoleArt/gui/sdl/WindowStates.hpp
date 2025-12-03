@@ -4,7 +4,7 @@
 // Created on : Feb 28, 2025
 // Last edit  : Nov 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_WINDOWSTATES_HPP_

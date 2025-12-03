@@ -4,12 +4,12 @@
 // Created on : Feb 26, 2025
 // Last edit  : Nov 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "MainStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 MainStateSDL::MainStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
@@ -145,4 +145,4 @@ void MainStateSDL::onWindowResize()
 	onReturn();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

@@ -4,7 +4,7 @@
 // Created on : Mar 26, 2024
 // Last edit  : May 09, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _OTHER_SHEDULE_TRACKER_H_
@@ -57,5 +57,5 @@ public:
 	~ScheduleTracker();
 	void run();
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* OTHER_SHEDULETRACKER_H_ */

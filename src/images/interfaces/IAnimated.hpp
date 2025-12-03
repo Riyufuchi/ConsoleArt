@@ -4,7 +4,7 @@
 // Created on : Nov 16, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef IMAGES_IAnimated_HPP_
@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-namespace Images
+namespace consoleartlib
 {
 class IAnimated
 {

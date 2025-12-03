@@ -4,12 +4,12 @@
 // Created on : Feb 24, 2025
 // Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "NotifierZenity.h"
 
-namespace ConsoleArt {
+namespace consoleart {
 
 NotifierZenity::NotifierZenity(consolelib::IConsole* console) : NotifierCLI(console)
 {
@@ -26,11 +26,11 @@ void NotifierZenity::showDialog(const std::string& type, const std::string& text
 		NotifierCLI::messageUser(messageSeverity, text);
 }
 
-void NotifierZenity::displayImageInfo(const Images::Image& image)
+void NotifierZenity::displayImageInfo(const consoleartlib::Image& image)
 {
 	std::ostringstream cmd;
 	cmd << "zenity --list --title='Image info' --width=600 --height=400 --column='Image name' --column='Width' --column='Height' --column='Bits' --column='Inverted' --column='Planar' ";
-	const Images::ImageInfo& info = image.getImageInfo();
+	const consoleartlib::ImageInfo& info = image.getImageInfo();
 	cmd << "'" << info.name << "' " << info.width << " " << info.height << " " << info.bits << " " << (image.isInverted() ? "Yes" : "No") << " "
 	<< consolelib::DataUtils::boolToString(info.planar);
 	if (std::system(cmd.str().c_str()))
@@ -52,4 +52,4 @@ void NotifierZenity::messageUser(MessageType messageSeverity, const std::string&
 		case INFO: showDialog("--info", message, messageSeverity); break;
 	}
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

@@ -4,12 +4,12 @@
 // Created on : May 16, 2025
 // Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "MenuTFD.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 MenuTFD::MenuTFD(consolelib::IConsole* console, std::function<void()> function) : MenuCLI(console), mainMenu(*console, menus.at(Menu::MAIN_MENU), function)
 {}

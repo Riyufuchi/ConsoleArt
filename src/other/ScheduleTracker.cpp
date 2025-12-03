@@ -4,7 +4,7 @@
 // Created on : Mar 26, 2024
 // Last edit  : May 09, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ScheduleTracker.h"
@@ -203,7 +203,7 @@ void ScheduleTracker::calculateAvgTime()
 
 void ScheduleTracker::printHeader()
 {
-	consolelib::ConsoleUtils::header("\n    " + std::string(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
+	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
 
 	switch (lastEvent)
 	{
@@ -235,4 +235,4 @@ std::pair<std::string, std::string> ScheduleTracker::obtainWeekBounds(const size
 	return { dates[startIndex], dates[endIndex] };
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

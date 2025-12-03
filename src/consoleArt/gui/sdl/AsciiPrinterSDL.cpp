@@ -4,12 +4,12 @@
 // Created on : Mar 4, 2025
 // Last edit  : Mar 4, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AsciiPrinterSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 AsciiPrinterSDL::AsciiPrinterSDL(NotifierSDL* notifier) : AbstractAsciiPrinter(nullptr), notifier(notifier)

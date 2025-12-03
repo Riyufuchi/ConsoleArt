@@ -4,12 +4,12 @@
 // Created on : Feb 28, 2025
 // Last edit  : Nov 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ImageStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 ImageStateSDL::ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : sdl::StateSDL(winInfo), AbstractState(controller, stateManager), IMAGE(nullptr)
 {
@@ -67,15 +67,15 @@ unsigned int ImageStateSDL::detectSDLFormat()
 		case 3:
 			switch (IMAGE->getPixelFormat())
 			{
-				case Images::RGBA: return SDL_PIXELFORMAT_RGB24;
-				case Images::BGRA: return SDL_PIXELFORMAT_BGR24;
+				case consoleartlib::RGBA: return SDL_PIXELFORMAT_RGB24;
+				case consoleartlib::BGRA: return SDL_PIXELFORMAT_BGR24;
 				default: return SDL_PIXELFORMAT_UNKNOWN;
 			}
 		case 4:
 			switch (IMAGE->getPixelFormat())
 			{
-				case Images::RGBA: return SDL_PIXELFORMAT_RGBA32;
-				case Images::BGRA: return SDL_PIXELFORMAT_BGRA32;
+				case consoleartlib::RGBA: return SDL_PIXELFORMAT_RGBA32;
+				case consoleartlib::BGRA: return SDL_PIXELFORMAT_BGRA32;
 				default: return SDL_PIXELFORMAT_UNKNOWN;
 			}
 		default: return SDL_PIXELFORMAT_UNKNOWN;
@@ -91,7 +91,7 @@ void ImageStateSDL::onReturn()
 	currentFrameID = 0;
 	if (IMAGE->getImageInfo().multipage)
 	{
-		Images::IMultiPage* imp = dynamic_cast<Images::IMultiPage*>(IMAGE);
+		consoleartlib::IMultiPage* imp = dynamic_cast<consoleartlib::IMultiPage*>(IMAGE);
 		for (size_t i = 0; i < imp->getPageCount(); i++)
 			{
 				Frame f;
@@ -105,7 +105,7 @@ void ImageStateSDL::onReturn()
 
 	if (IMAGE->getImageInfo().animated)
 	{
-		auto gif = dynamic_cast<Images::IAnimated*>(IMAGE);
+		auto gif = dynamic_cast<consoleartlib::IAnimated*>(IMAGE);
 		for (size_t i = 0; i < frames.size(); i++)
 		{
 			frames[i].delay = gif->getFrameDelay(i);
@@ -138,7 +138,7 @@ void ImageStateSDL::render()
 
 SDL_Texture* ImageStateSDL::convertImageToTexture()
 {
-	Images::ImageInfo info = IMAGE->getImageInfo();
+	consoleartlib::ImageInfo info = IMAGE->getImageInfo();
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // Linear filtering (smoother scaling)
 
@@ -146,13 +146,13 @@ SDL_Texture* ImageStateSDL::convertImageToTexture()
 	Uint32 rmask, gmask, bmask, amask;
 	switch (IMAGE->getPixelFormat())
 	{
-		case Images::RGBA:
+		case consoleartlib::RGBA:
 			rmask = 0x000000FF;
 			gmask = 0x0000FF00;
 			bmask = 0x00FF0000;
 			amask = 0xFF000000;
 		break;
-		case Images::BGRA:
+		case consoleartlib::BGRA:
 			rmask = 0x00FF0000;
 			gmask = 0x0000FF00;
 			bmask = 0x000000FF;
@@ -169,8 +169,8 @@ SDL_Texture* ImageStateSDL::convertImageToTexture()
 	// This program treats pallted PCX as standard 24-bit PCX
 	switch (IMAGE->getImageInfo().imageFormat)
 	{
-		case Images::ImageType::DCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved(((Images::ImageDCX&)*IMAGE).getSelectedPage()); break;
-		case Images::ImageType::PCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((Images::ImagePCX&)*IMAGE); break;
+		case consoleartlib::ImageType::DCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved(((consoleartlib::ImageDCX&)*IMAGE).getSelectedPage()); break;
+		case consoleartlib::ImageType::PCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((consoleartlib::ImagePCX&)*IMAGE); break;
 		default: imageRGBA = IMAGE->getImageData(); break;
 	}
 
@@ -227,4 +227,4 @@ void ImageStateSDL::onWindowResize()
 	imgSize.y = std::max(0, (winInfo.h - newH) / 2);
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

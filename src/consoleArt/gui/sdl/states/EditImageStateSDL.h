@@ -4,7 +4,7 @@
 // Created on : Feb 28, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_EDITIMAGESTATE_H_
@@ -20,7 +20,7 @@
 #include "ContentPanelSDL.h"
 #include "ImageButtonSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class EditImageStateSDL : public sdl::StateSDL, private AbstractState
 {
@@ -35,5 +35,5 @@ public:
 	virtual void onReturn() override;
 	virtual void onWindowResize() override;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUISDL_EDITIMAGESTATE_H_ */

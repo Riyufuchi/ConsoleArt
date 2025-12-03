@@ -4,18 +4,18 @@
 // Created on : Feb 21, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ControllerSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new AsciiPrinterSDL(new NotifierSDL())), width(800), height(600)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	this->window = SDL_CreateWindow(
-			ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
+			consoleart::GeneralTools::CONSOLE_ART_VERSION,
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
@@ -198,4 +198,4 @@ std::string ControllerSDL::inputImageName()
 	return "";
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

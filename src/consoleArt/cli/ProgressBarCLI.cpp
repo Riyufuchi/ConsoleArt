@@ -4,12 +4,12 @@
 // Created on : Feb 21, 2025
 // Last edit  : Feb 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "ProgressBarCLI.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 ProgressBarCLI::ProgressBarCLI(int maxStep) : AbstractProgressBar(maxStep)
 {
@@ -24,4 +24,4 @@ void ProgressBarCLI::drawProgressBar()
 	currentStep++;
 	std::cout << "\r" << "[" << currentStep << " / " << maxStep << "]";
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

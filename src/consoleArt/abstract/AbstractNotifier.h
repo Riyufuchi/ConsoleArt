@@ -4,7 +4,7 @@
 // Created on : Apr 28, 2024
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef _CONSOLE_ART_CLI_CONSOLEM_ESSENGER_H_
@@ -16,7 +16,7 @@
 #include "DefaultConsole.h"
 #include "../../images/base/Image.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 class AbstractNotifier
@@ -36,7 +36,7 @@ public:
 	virtual ~AbstractNotifier();
 	void messageUser(const std::string& message);
 	virtual void messageUser(MessageType messageSeverity, const std::string& message) = 0;
-	virtual void displayImageInfo(const Images::Image& image) = 0;
+	virtual void displayImageInfo(const consoleartlib::Image& image) = 0;
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_CLI_CONSOLEMESSENGER_H_ */

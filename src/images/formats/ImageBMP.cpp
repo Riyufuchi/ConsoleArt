@@ -10,7 +10,7 @@
 
 #include "ImageBMP.h"
 
-namespace Images
+namespace consoleartlib
 {
 ImageBMP::ImageBMP(std::string filename) : Image(filename, ImageType::BMP)
 {

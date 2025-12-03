@@ -4,12 +4,12 @@
 // Created on : Mar 03, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "SelectImageStateSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 SelectImageStateSDL::SelectImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
@@ -25,7 +25,7 @@ void SelectImageStateSDL::createUI()
 	const int SIZE = 32;
 	
 	controller.iterateImagesAsync([&](const Controller::VectorData& image) {
-		Images::Image* imgCopy = image.imageUptr.get();
+		consoleartlib::Image* imgCopy = image.imageUptr.get();
 		Controller::IndexDataType indexCopy = image.index;
 		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_BASE, image.imageUptr->getFilename(), SIZE, BASE_TEXT_COLOR ), HOVER_TEXT_COLOR
 		, [imgCopy, indexCopy, this]()
@@ -70,4 +70,4 @@ void SelectImageStateSDL::render()
 	pane.draw(renderer);
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

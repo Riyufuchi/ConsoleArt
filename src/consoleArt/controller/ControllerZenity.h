@@ -4,7 +4,7 @@
 // Created on : May 30, 2024
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_
@@ -16,7 +16,7 @@
 #include "../cli/zenity/MenuZenity.h"
 #include "../cli/zenity/NotifierZenity.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class ControllerZenity: public ControllerCLI
 {
@@ -30,5 +30,5 @@ public:
 	ControllerZenity(consolelib::IConsole* console);
 	virtual ~ControllerZenity();
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_GUI_ZENITY_CONTROLLERGUIZEN_H_ */

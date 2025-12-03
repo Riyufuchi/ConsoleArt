@@ -4,7 +4,7 @@
 // Created on : May 16, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_TINYFILEDIALOGS_MENUTFD_H_
@@ -20,7 +20,7 @@ extern "C"
 	#include "../../../include/tinyfiledialogs.h"
 }
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 class MenuTFD : public MenuCLI

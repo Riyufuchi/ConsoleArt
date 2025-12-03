@@ -4,7 +4,7 @@
 // Created on : Mar 04, 2025
 // Last edit  : Nov 21, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_ASCIIPRINTERSDL_H_
@@ -13,7 +13,7 @@
 #include "../../abstract/AbstractAsciiPrinter.h"
 #include "NotifierSDL.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class AsciiPrinterSDL: public AbstractAsciiPrinter
 {

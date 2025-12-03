@@ -4,12 +4,12 @@
 // Created on : Nov 20, 2023
 // Last edit  : Nov 20, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "Image.h"
 
-namespace Images
+namespace consoleartlib
 {
 Image::Image(std::string filepath, ImageType format) : filepath(filepath)
 {
@@ -110,4 +110,4 @@ std::unique_ptr<unsigned char[]> Image::getImageData() const
 	return flippedData;
 }
 
-} /* namespace Images */
+} /* namespace consoleartlib */

@@ -4,12 +4,12 @@
 // Created on : Feb 28, 2025
 // Last edit  : Nov 24, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "EditImageStateSDL.h"
 
-namespace ConsoleArt {
+namespace consoleart {
 
 EditImageStateSDL::EditImageStateSDL(sdl::WindowInfo& winInfo, ButtonBuilder& buttons, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager), buttons(buttons)
 {
@@ -67,4 +67,4 @@ void EditImageStateSDL::onWindowResize()
 	pane.reposeContent();
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

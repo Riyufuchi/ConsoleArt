@@ -27,7 +27,7 @@ private:
 	int brightnessDiff;
 	std::vector<std::string> chars; //char set for conversion
 	std::string* ASCII_image;
-	Images::Image& sourceImg;
+	consoleartlib::Image& sourceImg;
 	void invertCharSet();
 public:
 	//std::string precise2xIb[14] = {"  ", "██", "▓▓", "▒▒", "░░","##", "@@", "%%", "==", "++", "**", "::", "--", ".."};
@@ -43,7 +43,7 @@ public:
 		SHADES_INVERTED,
 		CHAR_SETS_COUNT
 	};
-	AsciiConverter(Images::Image& img);
+	AsciiConverter(consoleartlib::Image& img);
 	//Procedures
 	bool convertToASCII();
 	void outputAsciiImage();
@@ -52,7 +52,7 @@ public:
 	void setCharSet(int choice);
 	//Getters
 	std::string getLine(int index);
-	Images::Image& getSourceImg();
+	consoleartlib::Image& getSourceImg();
 	~AsciiConverter();
 };
 }

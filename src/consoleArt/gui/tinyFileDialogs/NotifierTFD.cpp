@@ -4,12 +4,12 @@
 // Created on : May 16, 2025
 // Last edit  : Nov 07, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "NotifierTFD.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 NotifierTFD::NotifierTFD() : AbstractNotifier()
@@ -21,7 +21,7 @@ NotifierTFD::~NotifierTFD()
 {
 }
 
-void NotifierTFD::displayImageInfo(const Images::Image& image)
+void NotifierTFD::displayImageInfo(const consoleartlib::Image& image)
 {
 	std::ostringstream message;
 	message << image;
@@ -43,4 +43,4 @@ void NotifierTFD::messageUser(MessageType messageSeverity, const std::string& me
 	}
 }
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

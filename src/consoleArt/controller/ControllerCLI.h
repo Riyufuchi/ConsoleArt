@@ -4,7 +4,7 @@
 // Created on : Dec 18, 2023
 // Last edit  : Nov 17, 2025
 // Copyright  : Copyright (c) Riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CONTROLLERCLI_H_
@@ -28,7 +28,7 @@
 #include "../imageTools/ImageTools.h"
 #include "../imageTools/Filter.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class ControllerCLI : public Controller
 {

@@ -4,7 +4,7 @@
 // Created on : Feb 28, 2025
 // Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_GUISDL_STATES_IMAGESTATESDL_H_
@@ -19,7 +19,7 @@
 #include "StateSDL.h"
 #include "../../../imageTools/ImageTools.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class ImageStateSDL : public sdl::StateSDL, private AbstractState
 {
@@ -29,7 +29,7 @@ private:
 		SDL_Texture* texture = nullptr;
 		int delay = 0;
 	};
-	Images::Image* IMAGE;
+	consoleartlib::Image* IMAGE;
 	std::unique_ptr<unsigned char[]> imageRGBA;
 	float scaleX;
 	float scaleY;
@@ -53,6 +53,6 @@ public:
 	virtual void onWindowResize() override;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* CONSOLEART_GUISDL_STATES_IMAGESTATESDL_H_ */

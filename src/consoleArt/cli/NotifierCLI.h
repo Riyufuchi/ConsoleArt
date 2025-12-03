@@ -4,7 +4,7 @@
 // Created on : Apr 28, 2024
 // Last edit  : May 16, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CLI_NOTIFIERCLI_H_
@@ -15,7 +15,7 @@
 #include "IConsole.hpp"
 #include "../abstract/AbstractNotifier.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 class NotifierCLI : public AbstractNotifier
 {
@@ -33,9 +33,9 @@ class NotifierCLI : public AbstractNotifier
 		NotifierCLI(consolelib::IConsole* console);
 		virtual ~NotifierCLI();
 		void messageUser(MessageType messageSeverity, const std::string& message) override;
-		void displayImageInfo(const Images::Image& image) override;
+		void displayImageInfo(const consoleartlib::Image& image) override;
 		// Setters
 		void setConsole(consolelib::IConsole* console);
 };
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 #endif /* CONSOLEART_CLI_NOTIFIERCLI_H_ */

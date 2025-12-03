@@ -4,12 +4,12 @@
 // Created on : Feb 25, 2025
 // Last edit  : Feb 25, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #include "AbstractAsciiPrinter.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 AbstractAsciiPrinter::AbstractAsciiPrinter() : AbstractAsciiPrinter(nullptr)
 {
@@ -54,4 +54,4 @@ bool AbstractAsciiPrinter::printToFile(std::string& result)
 	result = "File: " + fName + " was successfully created.";
 	return true;
 }
-} /* namespace ConsoleArt */
+} /* namespace consoleart */

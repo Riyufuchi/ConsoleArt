@@ -4,7 +4,7 @@
 // Created on : Mar 21, 2025
 // Last edit  : Nov 19, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_IMAGETOOLS_SIMPLEEDIT_H_
@@ -23,8 +23,8 @@ public:
 	virtual ~SimpleEdit();
 	static bool isPixelGray(int r, int g, int b);
 	static bool removeGrayFromTexture(std::string originalPicture, std::string outputPicture);
-	static bool removeGrayFromTexture(Images::Image& originalPicture);
-	static bool overlayTextures(const Images::Image& bottomlayer, const Images::Image& overlay);
+	static bool removeGrayFromTexture(consoleartlib::Image& originalPicture);
+	static bool overlayTextures(const consoleartlib::Image& bottomlayer, const consoleartlib::Image& overlay);
 };
 } /* namespace ImageUtils */
 #endif /* CONSOLEART_IMAGETOOLS_SIMPLEEDIT_H_ */

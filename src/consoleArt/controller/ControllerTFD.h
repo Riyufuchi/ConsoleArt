@@ -4,7 +4,7 @@
 // Created on : May 15, 2025
 // Last edit  : Nov 09, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef CONSOLEART_CONTROLLER_CONTROLLERTFD_H_
@@ -14,7 +14,7 @@
 #include "../gui/tinyFileDialogs/NotifierTFD.h"
 #include "../gui/tinyFileDialogs/MenuTFD.h"
 
-namespace ConsoleArt
+namespace consoleart
 {
 
 class ControllerTFD : public ControllerCLI
