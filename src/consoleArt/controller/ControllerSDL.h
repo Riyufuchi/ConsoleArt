@@ -2,7 +2,7 @@
 // File       : ControllerSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,16 +10,16 @@
 #ifndef CONSOLEART_CONTROLLER_CONTROLLERSDL_H_
 #define CONSOLEART_CONTROLLER_CONTROLLERSDL_H_
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <atomic>
-
+// SDL2
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_main.h"
+// ConsoleArt
 #include "Controller.h"
 #include "../gui/sdl/NotifierSDL.h"
 #include "../gui/sdl/AsciiPrinterSDL.h"
 #include "SpriteSheetSDL.h"
-#include "StringSDL.h"
 #include "StateSDL.h"
 
 #include "../../embed/icon.h"

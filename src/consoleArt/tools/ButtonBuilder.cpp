@@ -15,6 +15,17 @@ ButtonBuilder::ButtonBuilder(SDL_Renderer* renderer)
 {
 	this->buttonSheet = new sdl::SpriteSheetSDL(ui_big_png_len, ui_big_png, renderer);
 	this->buttonSheetSmall = new sdl::SpriteSheetSDL(ui_small_png_len, ui_small_png, renderer);
+
+	if (!buttonSheet)
+	{
+		std::cerr << "No Sheet 1";
+	}
+
+	if (!buttonSheetSmall)
+	{
+		std::cerr << "No Sheet 2";
+	}
+
 	// Big Buttons
 	logButton(0, 0, ButtonType::LOAD, RECTANGLE);
 	logButton(0, 1, ButtonType::SELECT_IMAGE, RECTANGLE);

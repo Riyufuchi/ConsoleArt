@@ -12,8 +12,6 @@
 
 #include <string>
 
-#include "StringSDL.h"
-
 namespace ConsoleArt
 {
 	inline const std::string FONT_BASE = "assets/fonts/TF2Build.ttf";

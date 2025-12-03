@@ -2,7 +2,7 @@
 // File       : ImagePNG.h
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "../base/Image.h"
+#include "../utils/stb_image.h"
 
 namespace Images
 {
