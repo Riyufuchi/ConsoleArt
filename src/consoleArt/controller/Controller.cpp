@@ -166,9 +166,9 @@ void Controller::loadAllImagesAsync()
 	{
 		for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(itDir))
 		{
-			extension = entry.path().extension();
+			extension = entry.path().extension().generic_string();
 			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
-			addImageAsync(loadImageAsync(entry.path(), extension));
+			addImageAsync(loadImageAsync(entry.path().generic_string(), extension));
 		}
 	}
 	catch (std::runtime_error& e)

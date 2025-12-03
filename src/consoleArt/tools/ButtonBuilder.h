@@ -2,7 +2,7 @@
 // File       : ButtonBuilder.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -52,7 +52,7 @@ private:
 public:
 	ButtonBuilder(SDL_Renderer* renderer);
 	virtual ~ButtonBuilder();
-	std::pair<SDL_Texture*, SDL_Texture*> getButtonTextureFor(ButtonType buttonType, bool small);
+	std::pair<SDL_Texture*, SDL_Texture*> getButtonTextureFor(ButtonType buttonType, bool isSquareButton);
 	bool isReady() const;
 };
 } /* namespace consoleart */

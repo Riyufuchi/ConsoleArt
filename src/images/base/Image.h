@@ -18,6 +18,7 @@
 #include <memory>
 #include <algorithm>
 #include <cmath>
+#include <string>
 
 #include "../utils/Pixels.hpp"
 

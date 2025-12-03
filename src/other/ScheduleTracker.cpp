@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : May 09, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -146,27 +146,11 @@ bool ScheduleTracker::readFile()
 
 std::string ScheduleTracker::selectFile()
 {
-	const char* command = "zenity --file-selection --title=\"Select a File\"";
-	FILE *pipe = popen(command, "r");
-	if (!pipe)
-	{
-		std::cerr << "Failed to run command\n";
-		return "Zenity command error";
-	}
-
-	char buffer[256];
-	std::string result = "";
-	while (fgets(buffer, sizeof(buffer), pipe) != nullptr)
-	{
-		result += buffer;
-	}
-	pclose(pipe);
-
-	if (!result.empty())
-	{
-		result.erase(result.find_last_not_of(" \n\r\t") + 1);
-		return result;
-	}
+	std::vector<const char*> files;
+	files.emplace_back("*.csv");
+	const char* result = tinyfd_openFileDialog("Select an CSV", "", files.size(), files.data(), "Text Files", 0);
+	if (result)
+		return std::string(result);
 	return "shedule.csv";
 }
 
