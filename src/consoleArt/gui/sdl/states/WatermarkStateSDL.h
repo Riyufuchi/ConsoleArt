@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 08, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -18,12 +18,12 @@
 #include "../../../tools/ConfigSDL.hpp"
 #include "../../../imageTools/ImageTools.h"
 
-#include "StringSDL.h"
 #include "StateSDL.h"
 #include "ContentPanelSDL.h"
 #include "LabelSDL.h"
 #include "ImageButtonSDL.h"
 #include "StringButtonSDL.h"
+#include "TextSDL.h"
 
 namespace ConsoleArt
 {

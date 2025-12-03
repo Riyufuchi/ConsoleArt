@@ -2,7 +2,7 @@
 // File       : ComponentSDL.h
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Feb 21, 2025
+// Last edit  : Dec 02, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,7 +10,8 @@
 #ifndef CONSOLEART_GUI_COMPONENTSDL_H_
 #define CONSOLEART_GUI_COMPONENTSDL_H_
 
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
+
 #include <functional>
 
 namespace sdl

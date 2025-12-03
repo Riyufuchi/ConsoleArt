@@ -2,7 +2,7 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Nov 25, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -14,15 +14,14 @@ namespace ConsoleArt
 ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new AsciiPrinterSDL(new NotifierSDL())), width(800), height(600)
 {
 	SDL_Init(SDL_INIT_VIDEO);
-	if (TTF_Init() == -1)
-	{
-		SDL_Log("ERROR: Failed to initialize SDL_ttf: %s", TTF_GetError());
-	}
-	this->window = SDL_CreateWindow(ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
-		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	this->window = SDL_CreateWindow(
+			ConsoleArt::GeneralTools::CONSOLE_ART_VERSION,
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
+			SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
 	setAppIcon();
-	this->renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	this->renderer = SDL_CreateRenderer(window, 0,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer)
 	{
 		isRunnable = false;
@@ -43,90 +42,88 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 	this->stateManager->addNewState(WindowState::EDIT_IMAGE, new EditImageStateSDL(winInfo, *buttons, *this, *stateManager));
 	this->stateManager->addNewState(WindowState::SHOW_IMAGE, new ImageStateSDL(winInfo, *this, *stateManager));
 	this->stateManager->addNewState(WindowState::SELECT_IMAGE, new SelectImageStateSDL(winInfo, *this, *stateManager, *buttons));
-	this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
+	//this->stateManager->addNewState(WindowState::ABOUT, new AboutStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::ASCII_CONVERTER, new AsciiConvertStateSDL(winInfo, *this, *stateManager, *buttons));
-	this->stateManager->addNewState(WindowState::WATERMARK, new WatermarkStateSDL(winInfo, *this, *stateManager, *buttons));
+	//this->stateManager->addNewState(WindowState::WATERMARK, new WatermarkStateSDL(winInfo, *this, *stateManager, *buttons));
 	this->stateManager->addNewState(WindowState::FILTER_IMAGE, new ImageFilterStateSDL(winInfo, *this, *stateManager));
-	this->stateManager->addNewState(WindowState::CONFIG, new ConfigStateSDL(winInfo, *this, *stateManager, *buttons));
+	//this->stateManager->addNewState(WindowState::CONFIG, new ConfigStateSDL(winInfo, *this, *stateManager, *buttons));
 }
 
 ControllerSDL::~ControllerSDL()
 {
 	delete buttons;
 	delete stateManager;
-	sdl::FontManagerSDL::getInstance().clear();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-	TTF_Quit();
 	SDL_Quit();
 }
 void ControllerSDL::run()
 {
 	if (!isRunnable)
-		return;
-	if (!buttons->isReady())
-		return;
+			return;
+		if (!buttons->isReady())
+			return;
 
-	#ifdef DEBUG
-		SDL_RendererInfo info;
-		SDL_GetRendererInfo(renderer, &info);
+		#ifdef DEBUG
+			SDL_RendererInfo info;
+			SDL_GetRendererInfo(renderer, &info);
 
-		int numRenderDrivers = SDL_GetNumRenderDrivers();
-		std::cout << "Available render drivers: " << numRenderDrivers << std::endl;
-		for (int i = 0; i < numRenderDrivers; ++i)
-		{
-			std::cout << "Driver " << i << ": " << info.name << std::endl;
-		}
-	#endif
-
-	//const int targetFPS = 360;
-	//const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
-	//unsigned int frameStart = 0;
-	//unsigned int frameTime = 0;
-
-	while (winInfo.keepRunning)
-	{
-		//frameStart = SDL_GetTicks();
-		// Handle events
-		SDL_GetMouseState(&winInfo.mouseX, &winInfo.mouseY);
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
+			int numRenderDrivers = SDL_GetNumRenderDrivers();
+			std::cout << "Available render drivers: " << numRenderDrivers << std::endl;
+			for (int i = 0; i < numRenderDrivers; ++i)
 			{
-				case SDL_QUIT: winInfo.keepRunning = false; break;
-				case SDL_WINDOWEVENT:
-					if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					{
-						winInfo.w = event.window.data1;
-						winInfo.h = event.window.data2;
-						SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
-						currentState->onWindowResize();
-					}
-				break;
-				default: currentState->handleTick(event); break;
+				std::cout << "Driver " << i << ": " << info.name << std::endl;
 			}
-		}
-		// Rendering
-		SDL_RenderClear(renderer); // Clear window
-		currentState->render(); // Render content
-		SDL_RenderPresent(renderer); // Present content
-		// Frame rate control
-		/*frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
-		if (frameTime < frameDelay)
+		#endif
+
+		//const int targetFPS = 360;
+		//const int frameDelay = 1000 / targetFPS; // Milliseconds per frame
+		//unsigned int frameStart = 0;
+		//unsigned int frameTime = 0;
+
+		while (winInfo.keepRunning)
 		{
-			SDL_Delay(frameDelay - frameTime); // Delay only if needed
+			//frameStart = SDL_GetTicks();
+			// Handle events
+			SDL_GetMouseState(&winInfo.mouseX, &winInfo.mouseY);
+			while (SDL_PollEvent(&event))
+			{
+				switch (event.type)
+				{
+					case SDL_QUIT: winInfo.keepRunning = false; break;
+					case SDL_WINDOWEVENT:
+						if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+						{
+							winInfo.w = event.window.data1;
+							winInfo.h = event.window.data2;
+							SDL_RenderSetLogicalSize(renderer, winInfo.w, winInfo.h);
+							currentState->onWindowResize();
+						}
+					break;
+					default: currentState->handleTick(event); break;
+				}
+			}
+			// Rendering
+			SDL_RenderClear(renderer); // Clear window
+			currentState->render(); // Render content
+			SDL_RenderPresent(renderer); // Present content
+			// Frame rate control
+			/*frameTime = SDL_GetTicks() - frameStart; // Calculate frame duration
+			if (frameTime < frameDelay)
+			{
+				SDL_Delay(frameDelay - frameTime); // Delay only if needed
+			}
+			else
+			{
+				SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
+			}*/
 		}
-		else
-		{
-			SDL_Log("Warning: Frame took too long! %u ms\n", frameTime);
-		}*/
-	}
 }
 void ControllerSDL::setAppIcon()
 {
 	if (!window)
 		return;
-	SDL_RWops* rw = SDL_RWFromConstMem(icon_png, icon_png_len);
+	/*SDL_RWops* rw = SDL_RWFromConstMem(icon_png, icon_png_len);
 	SDL_Surface* icon = IMG_Load_RW(rw, 1);
 	if (!icon)
 	{
@@ -135,13 +132,13 @@ void ControllerSDL::setAppIcon()
 	}
 
 	SDL_SetWindowIcon(window, icon); // Set the icon
-	SDL_FreeSurface(icon); // Free the surface (no longer needed)
+	SDL_FreeSurface(icon);*/ // Free the surface (no longer needed)
 }
 void ControllerSDL::setAppIcon(std::string iconPath)
 {
 	if (!window)
 		return;
-	SDL_Surface* icon = IMG_Load(iconPath.c_str());
+	/*SDL_Surface* icon = IMG_Load(iconPath.c_str());
 	if (!icon)
 	{
 		SDL_Log("Failed to load icon: %s", IMG_GetError());
@@ -149,7 +146,7 @@ void ControllerSDL::setAppIcon(std::string iconPath)
 	}
 
 	SDL_SetWindowIcon(window, icon); // Set the icon
-	SDL_FreeSurface(icon); // Free the surface (no longer needed)
+	SDL_FreeSurface(icon); */// Free the surface (no longer needed)
 }
 
 Controller::IndexDataType ControllerSDL::selectImageMenu()

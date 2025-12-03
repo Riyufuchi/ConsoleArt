@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -10,7 +10,6 @@
 #ifndef CONSOLEART_GUISDL_STATES_IMAGESTATESDL_H_
 #define CONSOLEART_GUISDL_STATES_IMAGESTATESDL_H_
 
-#include <SDL2/SDL_image.h>
 #include <functional>
 
 #include "../../../abstract/AbstractState.h"

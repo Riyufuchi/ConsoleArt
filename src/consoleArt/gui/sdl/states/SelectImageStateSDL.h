@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 03, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -20,7 +20,7 @@
 #include "StateSDL.h"
 #include "ContentPanelSDL.h"
 #include "StringButtonSDL.h"
-#include "StringSDL.h"
+#include "TextSDL.h"
 
 namespace ConsoleArt
 {
@@ -30,7 +30,6 @@ private:
 	int y;
 	ButtonBuilder& buttons;
 	sdl::ContentPanelSDL pane;
-	std::vector<std::unique_ptr<sdl::StringSDL>> imageNames;
 public:
 	SelectImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager, ButtonBuilder& buttons);
 	virtual ~SelectImageStateSDL();

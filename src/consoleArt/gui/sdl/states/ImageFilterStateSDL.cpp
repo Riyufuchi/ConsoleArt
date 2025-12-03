@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.cpp
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -17,11 +17,12 @@ ImageFilterStateSDL::ImageFilterStateSDL(sdl::WindowInfo& winInfo, Controller& c
 	int y = 0;
 	for (const std::string& text : FILTER_TEXTS)
 	{
-		pane.addComponent(y, new sdl::StringButtonSDL(
-				new sdl::StringSDL(text, FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { applyFilterEvent(text); }));
+		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_BASE, text, 32, BASE_TEXT_COLOR ),
+				HOVER_TEXT_COLOR, [&](){ applyFilterEvent(text); }));
 		y++;
 	}
-	pane.addComponent(y, new sdl::StringButtonSDL(new sdl::StringSDL("Back", FONT_BASE, 32, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR, [&]() { stateManager.switchState(WindowState::EDIT_IMAGE); }));
+	pane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_BASE, "Back", 32, BASE_TEXT_COLOR ),
+		HOVER_TEXT_COLOR, [&](){ stateManager.switchState(WindowState::EDIT_IMAGE); }));
 	onWindowResize();
 }
 

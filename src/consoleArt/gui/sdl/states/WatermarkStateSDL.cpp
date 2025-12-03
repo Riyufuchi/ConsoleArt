@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 08, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -78,8 +78,7 @@ void WatermarkStateSDL::selectWatermarkEvent()
 	controller.iterateImagesAsync([&](const Controller::VectorData& image)
 	{
 		Images::Image* imgCopy = image.imageUptr.get();
-		selectPane->addComponent(y, new sdl::StringButtonSDL(0, 0,
-		new sdl::StringSDL(image.imageUptr->getFilename(), FONT_SECONDARY, SIZE, BASE_TEXT_COLOR, renderer), HOVER_TEXT_COLOR,
+		selectPane->addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_SECONDARY, image.imageUptr->getFilename(), SIZE, BASE_TEXT_COLOR), HOVER_TEXT_COLOR,
 		[imgCopy, this]()
 		{
 			watermark = imgCopy;

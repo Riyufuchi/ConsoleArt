@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.h
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: ConsoleArt
 //==============================================================================
@@ -19,6 +19,7 @@
 // SDL
 #include "ContentPanelSDL.h"
 #include "StringButtonSDL.h"
+#include "TextSDL.h"
 
 namespace ConsoleArt
 {
