@@ -2,7 +2,7 @@
 // File       : ControllerTFD.cpp
 // Author     : riyufuchi
 // Created on : May 15, 2025
-// Last edit  : Nov 17, 2025
+// Last edit  : Dec 03, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,7 +14,6 @@ namespace consoleart
 
 ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(console)
 {
-	setenv("TINYFD_FORCE_XDG", "1", 1);
 	setMenu(new MenuTFD(this->console, [&]{ printHeader(); }));
 	setNotifier(new NotifierTFD());
 }
