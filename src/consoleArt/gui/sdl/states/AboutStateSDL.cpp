@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 03, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 04, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -20,7 +20,7 @@ AboutStateSDL::AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, S
 		string = std::string(line.begin(), line.end());
 		if (string.length() > 0)
 		{
-			pane.addComponent(y, new sdl::LabelSDL(string, FONT_PROF, SIZE, BASE_TEXT_COLOR, renderer));
+			pane.addComponent(y, new sdl::LabelSDL(string, FONT_PROF, 28, BASE_TEXT_COLOR, renderer));
 			y++;
 		}
 	}

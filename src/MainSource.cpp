@@ -2,7 +2,7 @@
 // Name        : MainSource.cpp
 // Author      : Riyufuchi
 // Created on  : Jul 13, 2020
-// Last Edit   : Dec 03, 2025
+// Last Edit   : Dec 04, 2025
 // Description : This is programs main
 //============================================================================
 
@@ -60,11 +60,6 @@ int main(int argc, char** argv)
 	systemConsole->setDefaultTextColor(consolelib::ColorUtils::getColor(consolelib::ColorPallete::APERTURE_ORANGE));
 
 	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
-
-	#ifdef _WIN32
-		systemConsole->out(consolelib::ColorUtils::getColor(consolelib::ColorPallete::UNIQUE),
-			"Disclaimer: Windows in not a primarily targeted platform.\nThis build is experimental and some features might not be available or work correctly.\n");
-	#endif
 
 	bool success = true;
 	std::string resultMsg = "";
