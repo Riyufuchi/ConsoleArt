@@ -62,24 +62,10 @@ This project started quite some time ago, the initial commit was on 13th of July
 
 | OS | Compiler |
 | :------: | :----------: |
-| Ubuntu | g++ 14.2.0 |
-| <s>Windows 10</s> | <s>MSVC v143</s> |
+| Ubuntu | g++ 15.2.0 |
+| Windows 10 | MSVC 19.50.35719.0 |
 
-### Using Makefile
-
-   ```bash
-   # SDL2
-   sudo apt install libgl-dev
-   sudo apt install libsdl2-dev
-   sudo apt install libsdl2-image-dev
-   sudo apt install libsdl2-ttf-dev
-   # ConsoleArt
-   git clone --branch master --single-branch https://github.com/Riyufuchi/ConsoleArt.git 
-   cd ConsoleArt
-   make
-   ```
-
-### Using CMake
+### CMake
 
    ```bash
    git clone https://github.com/Riyufuchi/ConsoleArt.git

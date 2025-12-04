@@ -48,11 +48,11 @@ add_library(ComponentSDL STATIC IMPORTED)
 # Point the IMPORTED target to the actual file
 if (WIN32)
 	set_target_properties(ConsoleLib PROPERTIES
-	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/libConsoleLib.lib
+	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/ConsoleLib.lib
 	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
 	
 	set_target_properties(ComponentSDL PROPERTIES
-	IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/libComponentSDL.lib
+	IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/ComponentSDL.lib
 	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
 else()
 	set_target_properties(ConsoleLib PROPERTIES
@@ -72,8 +72,14 @@ set(SDL_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL)
 add_library(SDL2 STATIC IMPORTED)
 
 if (WIN32)
+	add_library(SDL2_main STATIC IMPORTED)
+
 	set_target_properties(SDL2 PROPERTIES
 	IMPORTED_LOCATION ${SDL_LIB_DIR}/windows/x64/SDL2.lib
+	INTERFACE_INCLUDE_DIRECTORIES ${SDL_LIB_DIR})
+
+	set_target_properties(SDL2_main PROPERTIES
+	IMPORTED_LOCATION ${SDL_LIB_DIR}/windows/x64/SDL2main.lib
 	INTERFACE_INCLUDE_DIRECTORIES ${SDL_LIB_DIR})
 else()
 	set_target_properties(SDL2 PROPERTIES
@@ -93,17 +99,32 @@ file(GLOB_RECURSE APP_SOURCES
 
 add_executable(ConsoleArt ${APP_SOURCES})
 
+if (WIN32)
+	set_target_properties(ConsoleArt PROPERTIES WIN32_EXECUTABLE OFF)
+endif()
+
+
 # Link everything
 target_include_directories(ConsoleArt PRIVATE
 	${CONSOLE_LIB_DIR}/inc
 	${COMPONENT-SDL_LIB_DIR}/inc
+	${SDL_LIB_DIR}
 )
 
-target_link_libraries(ConsoleArt PRIVATE
+if (WIN32)
+	target_link_libraries(ConsoleArt PRIVATE
+	ConsoleLib
+	ComponentSDL
+	SDL2
+	SDL2_main
+)
+else()
+	target_link_libraries(ConsoleArt PRIVATE
 	ConsoleLib
 	ComponentSDL
 	SDL2
 )
+endif()
 
 # Copy assets folder into build directory
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
