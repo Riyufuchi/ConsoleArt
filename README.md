@@ -52,8 +52,10 @@ This project started quite some time ago, the initial commit was on 13th of July
 
     # Get the repository - how to is in section Git and Make
     # Build the PDF documentation
-    # (Makefile runs LaTeX twice so Table of Contents and references are correct)
-    make docs
+    # (CMake runs LaTeX twice so Table of Contents and references are correct)
+    cd latex-doc/
+    cmake ..
+    cmake --build . --target docs
    ```
 
 ## Compilation

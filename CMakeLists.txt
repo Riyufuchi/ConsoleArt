@@ -127,9 +127,28 @@ else()
 endif()
 
 # Copy assets folder into build directory
-file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
-
 if (WIN32)
-	file(COPY ${CMAKE_SOURCE_DIR}/libs/SDL/windows/x64 DESTINATION ${CMAKE_BINARY_DIR})
+	file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION "${CMAKE_BINARY_DIR}/Release")
+	file(COPY ${CMAKE_SOURCE_DIR}/libs/SDL/windows/x64/SDL2.dll DESTINATION "${CMAKE_BINARY_DIR}/Release")
+else()
+	file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 endif()
+
+#
+# Documentation
+#
+
+# Path to LaTeX source folder
+set(LATEX_DIR ${CMAKE_CURRENT_SOURCE_DIR}/latex-doc)
+set(MAIN_TEX ConsoleArt.tex)
+set(OUTPUT_PDF ${CMAKE_CURRENT_BINARY_DIR}/ConsoleArt.pdf)
+
+# Custom target to build docs
+add_custom_target(docs
+	COMMAND ${CMAKE_COMMAND} -E chdir ${LATEX_DIR} lualatex ${MAIN_TEX}
+	COMMAND ${CMAKE_COMMAND} -E chdir ${LATEX_DIR} makeglossaries ConsoleArt
+	COMMAND ${CMAKE_COMMAND} -E chdir ${LATEX_DIR} lualatex ${MAIN_TEX}
+	COMMAND ${CMAKE_COMMAND} -E chdir ${LATEX_DIR} lualatex ${MAIN_TEX}
+	COMMENT "Building PDF documentation with lualatex and makeglossaries"
+)
 
