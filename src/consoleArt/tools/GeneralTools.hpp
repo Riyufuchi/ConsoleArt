@@ -10,12 +10,12 @@
 #ifndef _CONSOLE_ART_GENERAL_TOOLS_HPP_
 #define _CONSOLE_ART_GENERAL_TOOLS_HPP_
 
+#include <ConsoleLib.h>
 #include <iostream>
 #include <string>
 
 #include "ConsoleUtils.h"
 #include "IConsole.hpp"
-#include "Library.h"
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
@@ -62,7 +62,7 @@ public:
 	static std::string usedLibraries()
 	{
 		std::stringstream info;
-		info << "Used libraries:\n" << consolelib::Library::aboutLibrary();
+		info << "Used libraries:\n" << consolelib::ConsoleLib::aboutLibrary();
 		std::string libs[] = {
 			"Name| Used for",
 			"stb| Complex images",

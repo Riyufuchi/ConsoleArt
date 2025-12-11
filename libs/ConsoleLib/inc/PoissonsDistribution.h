@@ -4,7 +4,7 @@
 // Created on : Nov 01, 2024
 // Last edit  : Dec 02, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
-// Description: ConsoleArt
+// Description: consoleart
 //==============================================================================
 
 #ifndef OTHER_POISSONSDISTRIBUTION_H_
@@ -26,6 +26,6 @@ public:
 	virtual bigDouble varX() override;
 };
 
-} /* namespace ConsoleArt */
+} /* namespace consoleart */
 
 #endif /* OTHER_POISSONSDISTRIBUTION_H_ */

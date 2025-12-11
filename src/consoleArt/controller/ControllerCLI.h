@@ -10,6 +10,7 @@
 #ifndef CONSOLEART_CONTROLLERCLI_H_
 #define CONSOLEART_CONTROLLERCLI_H_
 
+#include <ConsoleLib.h>
 #include <chrono>
 #include <thread>
 
@@ -18,8 +19,6 @@
 #include "UnixConsole.h"
 #include "DefaultConsole.h"
 #include "DataUtils.h"
-#include "Library.h"
-
 #include "../../other/ScheduleTracker.h"
 #include "../controller/Controller.h"
 #include "../cli/AsciiPrinterCLI.h"
