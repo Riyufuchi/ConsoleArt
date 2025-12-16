@@ -2,7 +2,7 @@
 // Name        : ImageBMP
 // Author      : Riyufuchi
 // Created on  : Jul 17, 2020
-// Last Edited : Nov 09, 2025
+// Last Edited : Dec 16, 2025
 // Description : This class is responsible for loading uncompressed 24-bit or 32-bit BMP image files.
 //               It provides functionality to read BMP files, including the file header, BMP information,
 //               and color data. The image must have the origin in the bottom left corner.
@@ -12,7 +12,7 @@
 
 namespace consoleartlib
 {
-ImageBMP::ImageBMP(std::string filename) : Image(filename, ImageType::BMP)
+ImageBMP::ImageBMP(const std::string& filename) : Image(filename, ImageType::BMP)
 {
 	loadImage();
 	image.width = bmp_info_header.width;

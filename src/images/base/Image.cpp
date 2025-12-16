@@ -2,7 +2,7 @@
 // File       : Image.cpp
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 20, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace consoleartlib
 {
-Image::Image(std::string filepath, ImageType format) : filepath(filepath)
+Image::Image(const std::string& filepath, ImageType format) : filepath(filepath)
 {
 	size_t xPos;
 	if ((xPos = filepath.find_last_of('/')) != std::string::npos)

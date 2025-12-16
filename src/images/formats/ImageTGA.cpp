@@ -2,7 +2,7 @@
 // File       : ImageTGA.cpp
 // Author     : riyufuchi
 // Created on : Nov 07, 2025
-// Last edit  : Nov 09, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,7 +14,7 @@
 namespace consoleartlib
 {
 
-ImageTGA::ImageTGA(std::string filename) : Image(filename, ImageType::TGA)
+ImageTGA::ImageTGA(const std::string& filename) : Image(filename, ImageType::TGA)
 {
 	loadImage();
 }

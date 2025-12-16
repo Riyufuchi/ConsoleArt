@@ -2,7 +2,7 @@
 // File       : ImageHDR.h
 // Author     : riyufuchi
 // Created on : Nov 07, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -20,7 +20,7 @@ class ImageHDR: public Image
 private:
 	std::vector<float> pixelDataHDR;
 public:
-	ImageHDR(std::string filename, bool convert = true);
+	ImageHDR(const std::string& filename, bool convert = true);
 	virtual ~ImageHDR();
 	PixelHDR getPixelHDR(int x, int y) const;
 	void setPixelHDR(int x, int y, PixelHDR newPixel);

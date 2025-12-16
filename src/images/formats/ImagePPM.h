@@ -2,7 +2,7 @@
 // File       : ImagePPM.h
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -30,8 +30,8 @@ private:
 		short maxColorVal{255};
 	} headerPPM;
 public:
-	ImagePPM(std::string filename);
-	ImagePPM(std::string filename, int width, int height);
+	ImagePPM(const std::string& filename);
+	ImagePPM(const std::string& filename, int width, int height);
 	~ImagePPM();
 	void virtualArtistLegacy();
 	// Overrides

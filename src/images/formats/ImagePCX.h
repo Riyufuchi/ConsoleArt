@@ -2,7 +2,7 @@
 // File       : ImagePCX.h
 // Author     : Riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -63,7 +63,7 @@ private:
 	static bool readVGA(std::ifstream& inf, PagePCX& pcx, const uint32_t end);
 	static void writePlanarPixalData(std::ofstream& stream, const std::vector<unsigned char>& pixelData);
 public:
-	ImagePCX(std::string filename);
+	ImagePCX(const std::string& filename);
 	~ImagePCX();
 	const HeaderPCX& getHeader() const;
 	PagePCX convertToPage() const;

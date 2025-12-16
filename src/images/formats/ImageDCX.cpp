@@ -2,7 +2,7 @@
 // File       : ImageDCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 13, 2025
-// Last edit  : Nov 16, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -12,14 +12,14 @@
 namespace consoleartlib
 {
 
-ImageDCX::ImageDCX(std::string filename) : Image(filename, ImageType::DCX), selectedPage(0)
+ImageDCX::ImageDCX(const std::string& filename) : Image(filename, ImageType::DCX), selectedPage(0)
 {
 	image.multipage = true;
 	image.planar = true;
 	loadImage();
 }
 
-ImageDCX::ImageDCX(std::string filename, int numberOfPages) : Image(filename, ImageType::DCX), selectedPage(0), numOfPages(numberOfPages)
+ImageDCX::ImageDCX(const std::string& filename, int numberOfPages) : Image(filename, ImageType::DCX), selectedPage(0), numOfPages(numberOfPages)
 {
 	pages.reserve(numberOfPages);
 }

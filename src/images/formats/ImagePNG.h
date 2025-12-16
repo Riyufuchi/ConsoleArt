@@ -2,7 +2,7 @@
 // File       : ImagePNG.h
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -21,8 +21,8 @@ namespace consoleartlib
 class ImagePNG: public Image
 {
 public:
-	ImagePNG(std::string filepath);
-	ImagePNG(std::string filepath, int width, int height, int channels);
+	ImagePNG(const std::string& filepath);
+	ImagePNG(const std::string& filepath, int width, int height, int channels);
 	~ImagePNG();
 	virtual consoleartlib::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, consoleartlib::Pixel newPixel) override;

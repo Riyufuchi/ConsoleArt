@@ -2,7 +2,7 @@
 // File       : ImageGIF.cpp
 // Author     : riyufuchi
 // Created on : Nov 06, 2025
-// Last edit  : Nov 25, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================

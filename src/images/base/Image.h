@@ -2,7 +2,7 @@
 // File       : Image.h
 // Author     : Riyufuchi
 // Created on : Nov 20, 2023
-// Last edit  : Nov 20, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: Abstract class for specific image formats
 //==============================================================================
@@ -72,7 +72,7 @@ protected:
 	TechnicalInfo technical;
 	std::vector<uint8_t> pixelData;
 public:
-	Image(std::string filepath, ImageType format = ImageType::UNKNOWN);
+	Image(const std::string& filepath, ImageType format = ImageType::UNKNOWN);
 	Image(Image&) = delete;
 	Image(Image&&) = delete;
 

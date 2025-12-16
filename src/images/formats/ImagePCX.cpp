@@ -2,7 +2,7 @@
 // File       : ImagePCX.cpp
 // Author     : riyufuchi
 // Created on : Nov 22, 2023
-// Last edit  : Nov 16, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -11,7 +11,7 @@
 
 namespace consoleartlib
 {
-ImagePCX::ImagePCX(std::string filename) : Image(filename, ImageType::PCX)
+ImagePCX::ImagePCX(const std::string& filename) : Image(filename, ImageType::PCX)
 {
 	this->paletteVGA = nullptr;
 	this->image.planar = true;

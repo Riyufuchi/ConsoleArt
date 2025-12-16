@@ -2,7 +2,7 @@
 // File       : ImageJPG.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -13,12 +13,12 @@
 
 namespace consoleartlib
 {
-ImageJPG::ImageJPG(std::string filepath) : Image(filepath, ImageType::JPG)
+ImageJPG::ImageJPG(const std::string& filepath) : Image(filepath, ImageType::JPG)
 {
 	loadImage();
 }
 
-ImageJPG::ImageJPG(std::string filepath, int width, int height, int channels) : Image(filepath, ImageType::JPG)
+ImageJPG::ImageJPG(const std::string& filepath, int width, int height, int channels) : Image(filepath, ImageType::JPG)
 {
 	image.width = width;
 	image.height = height;

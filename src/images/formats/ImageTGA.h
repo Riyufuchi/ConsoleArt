@@ -2,7 +2,7 @@
 // File       : ImageTGA.h
 // Author     : riyufuchi
 // Created on : Nov 07, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -18,7 +18,7 @@ namespace consoleartlib
 class ImageTGA: public Image
 {
 public:
-	ImageTGA(std::string filename);
+	ImageTGA(const std::string& filename);
 	virtual ~ImageTGA() = default;
 	virtual consoleartlib::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, consoleartlib::Pixel newPixel) override;

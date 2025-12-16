@@ -2,7 +2,7 @@
 // File       : ImageDCX.h
 // Author     : riyufuchi
 // Created on : Nov 13, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -30,8 +30,8 @@ private:
 	std::vector<ImageRange> ranges;
 	std::vector<ImagePCX::PagePCX> pages;
 public:
-	ImageDCX(std::string filename);
-	ImageDCX(std::string filename, int numberOfPages);
+	ImageDCX(const std::string& filename);
+	ImageDCX(const std::string& filename, int numberOfPages);
 	virtual ~ImageDCX();
 	virtual consoleartlib::Pixel getPixel(int x, int y) const override;
 	virtual void setPixel(int x, int y, consoleartlib::Pixel newPixel) override;

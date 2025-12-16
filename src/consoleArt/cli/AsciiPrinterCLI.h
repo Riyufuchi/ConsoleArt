@@ -17,6 +17,7 @@
 
 #include "../abstract/AbstractAsciiPrinter.h"
 #include "IConsole.hpp"
+#include "DataUtils.h"
 
 namespace consoleart
 {

@@ -2,7 +2,7 @@
 // File       : ImagePNG.cpp
 // Author     : riyufuchi
 // Created on : Feb 17, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -15,11 +15,11 @@
 
 namespace consoleartlib
 {
-ImagePNG::ImagePNG(std::string filepath) : Image(filepath, ImageType::PNG)
+ImagePNG::ImagePNG(const std::string& filepath) : Image(filepath, ImageType::PNG)
 {
 	loadImage();
 }
-ImagePNG::ImagePNG(std::string filepath, int width, int height, int channels) : Image(filepath, ImageType::PNG)
+ImagePNG::ImagePNG(const std::string& filepath, int width, int height, int channels) : Image(filepath, ImageType::PNG)
 {
 	technical.fileState =  FileState::VALID_IMAGE_FILE;
 	image.name = filepath;

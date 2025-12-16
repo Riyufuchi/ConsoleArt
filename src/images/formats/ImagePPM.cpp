@@ -2,7 +2,7 @@
 // File       : ImagePPM.cpp
 // Author     : riyufuchi
 // Created on : Mar 17, 2024
-// Last edit  : May 13, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -11,14 +11,14 @@
 
 namespace consoleartlib
 {
-ImagePPM::ImagePPM(std::string filename) : Image(filename, ImageType::PPM)
+ImagePPM::ImagePPM(const std::string& filename) : Image(filename, ImageType::PPM)
 {
 	loadImage();
 	image.width = headerPPM.width;
 	image.height = headerPPM.height;
 	image.file_type = 806;
 }
-ImagePPM::ImagePPM(std::string filename, int w, int h) : Image(filename, ImageType::PPM)
+ImagePPM::ImagePPM(const std::string& filename, int w, int h) : Image(filename, ImageType::PPM)
 {
 	headerPPM.width = w;
 	headerPPM.height = h;

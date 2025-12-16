@@ -2,7 +2,7 @@
 // File       : ImageHDR.cpp
 // Author     : riyufuchi
 // Created on : Nov 07, 2025
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 16, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,7 +14,7 @@
 namespace consoleartlib
 {
 
-ImageHDR::ImageHDR(std::string filename, bool convert) : Image(filename, ImageType::HDR)
+ImageHDR::ImageHDR(const std::string& filename, bool convert) : Image(filename, ImageType::HDR)
 {
 	loadImage();
 	if (convert && isLoaded())
