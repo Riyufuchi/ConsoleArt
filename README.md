@@ -72,8 +72,13 @@ This project started quite some time ago, the initial commit was on 13th of July
    ```bash
    git clone https://github.com/Riyufuchi/ConsoleArt.git
    cd ConsoleArt
-   # CMake
-   cmake -B build -S .
+   
+   # CMake for Linux, macOS, MinGW, Ninja (single-config)
+   cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+   cmake --build build
+   
+   # CMake for Visual Studio, Xcode, Ninja Multi-Config
+   cmake -S . -B build
    cmake --build build --config Release
    ```
 
