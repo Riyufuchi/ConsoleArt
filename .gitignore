@@ -7,6 +7,9 @@ build/
 test
 libs-git
 
+# QtCreator
+*.user
+
 # Eclipse
 .cproject
 .autotools

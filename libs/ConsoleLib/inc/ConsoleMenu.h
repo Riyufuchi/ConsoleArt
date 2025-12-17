@@ -2,7 +2,7 @@
 // File       : ConsoleCallbackMenu.h
 // Author     : riyufuchi
 // Created on : Mar 15, 2025
-// Last edit  : Apr 24, 2025
+// Last edit  : Dec 18, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consolelib
 //==============================================================================
@@ -11,6 +11,7 @@
 #define SRC_CONSOLEUTILS_CONSOLEMENU_H_
 
 #include <utility>
+
 #ifdef _WIN32
 	#include <conio.h>  // For _kbhit() and _getch() on Windows
 #else
@@ -31,6 +32,13 @@ namespace consolelib
 class ConsoleMenu
 {
 private:
+	enum class KeyType
+	{
+		UNKNOWN,
+		ENTER,
+		ARROW_UP,
+		ARROW_DOWN
+	};
 	IConsole& console;
 	std::vector<std::string>& menu;
 	std::function<void()> printHeader;
@@ -41,6 +49,7 @@ private:
 	void printMenu();
 	char getch();
 	void flushInputBuffer();
+	KeyType obtainKeyType();
 public:
 	ConsoleMenu(IConsole& console, std::vector<std::string>& menu, std::function<void()> printHeader);
 	virtual ~ConsoleMenu();
