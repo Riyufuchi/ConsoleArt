@@ -44,7 +44,7 @@ private:
 	std::function<void()> printHeader;
 	bool runMenu;
 	size_t highlightedOptionID;
-	char key;
+	unsigned char key;
 	void clearConsole();
 	void printMenu();
 	char getch();
