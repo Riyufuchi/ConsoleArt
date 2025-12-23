@@ -12,7 +12,7 @@
 
 #include <functional>
 
-#include "../../../../console_art/abstract/AbstractState.h"
+#include "../../../abstract/abstract_state.h"
 #include "consoleartlib/images/base/image.h"
 #include "consoleartlib/images/interfaces/ianimated.hpp"
 #include "consoleartlib/image_tools/image_tools.h"

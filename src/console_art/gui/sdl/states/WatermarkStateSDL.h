@@ -13,9 +13,9 @@
 #include <vector>
 #include <memory>
 
-#include "../../../../console_art/abstract/AbstractState.h"
-#include "../../../../console_art/tools/ButtonBuilder.h"
+#include "../../../../console_art/tools/button_builder.h"
 #include "../../../../console_art/tools/config_sdl.hpp"
+#include "../../../abstract/abstract_state.h"
 #include "consoleartlib/image_tools/image_tools.h"
 
 #include "component_sdl_lib/base/state_sdl.h"

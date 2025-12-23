@@ -14,9 +14,9 @@
 #include <thread>
 #include <string>
 
-#include "../../../../console_art/abstract/AbstractState.h"
-#include "../../../../console_art/tools/ButtonBuilder.h"
+#include "../../../../console_art/tools/button_builder.h"
 #include "../../../../console_art/tools/config_sdl.hpp"
+#include "../../../abstract/abstract_state.h"
 #include "component_sdl_lib/base/state_sdl.h"
 #include "component_sdl_lib/asset_tools/sprite_sheet_sdl.h"
 #include "component_sdl_lib/panels/content_panel_sdl.h"

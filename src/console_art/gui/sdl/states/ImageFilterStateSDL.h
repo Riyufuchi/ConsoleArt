@@ -12,8 +12,8 @@
 
 #include <future>
 
-#include "../../../../console_art/abstract/AbstractState.h"
 #include "../../../../console_art/tools/config_sdl.hpp"
+#include "../../../abstract/abstract_state.h"
 #include "consoleartlib/image_tools/filter.h"
 #include "../../../tools/general_tools.hpp"
 // SDL

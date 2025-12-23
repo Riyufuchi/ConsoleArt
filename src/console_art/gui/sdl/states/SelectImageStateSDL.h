@@ -13,8 +13,8 @@
 #include <vector>
 #include <memory>
 
-#include "../../../abstract/AbstractState.h"
-#include "../../../tools/ButtonBuilder.h"
+#include "../../../abstract/abstract_state.h"
+#include "../../../tools/button_builder.h"
 #include "../../../tools/config_sdl.hpp"
 
 #include "component_sdl_lib/base/state_sdl.h"

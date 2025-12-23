@@ -12,8 +12,8 @@
 
 #include <functional>
 
-#include "../../../abstract/AbstractState.h"
-#include "../../../tools/ButtonBuilder.h"
+#include "../../../abstract/abstract_state.h"
+#include "../../../tools/button_builder.h"
 
 #include "component_sdl_lib/base/state_sdl.h"
 #include "component_sdl_lib/panels/content_panel_sdl.h"

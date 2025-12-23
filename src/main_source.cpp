@@ -11,15 +11,14 @@
 #include <string.h>
 #include <map>
 
-#include "console_art/controller/ControllerCLI.h"
-#include "console_art/controller/ControllerSDL.h"
-#include "console_art/controller/ControllerTFD.h"
+#include "console_art/controller/controller_cli.h"
+#include "console_art/controller/controller_sdl.h"
+#include "console_art/controller/controller_tfd.h"
 #include "console_art/tools/general_tools.hpp"
-#include "other/ScheduleTracker.h"
-//
 #include "consolelib/consoles.hpp"
 #include "consolelib/tools/argument_parser.h"
 #include "consolelib/tools/console_tools.h"
+#include "other/schedule_tracker.h"
 
 
 using ParsedArguments = consolelib::argVector; // or consolelib::argMap

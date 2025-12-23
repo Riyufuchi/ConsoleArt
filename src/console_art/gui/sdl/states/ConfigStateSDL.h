@@ -14,8 +14,8 @@
 #include <memory>
 #include <ranges>
 
-#include "../../../abstract/AbstractState.h"
-#include "../../../tools/ButtonBuilder.h"
+#include "../../../abstract/abstract_state.h"
+#include "../../../tools/button_builder.h"
 #include "../../../tools/general_tools.hpp"
 #include "../../../tools/config_sdl.hpp"
 

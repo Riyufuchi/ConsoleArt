@@ -14,8 +14,8 @@
 #include <memory>
 #include <future>
 
-#include "../../../../console_art/abstract/AbstractAciiConversionState.h"
-#include "../../../tools/ButtonBuilder.h"
+#include "../../../abstract/abstract_ascii_conversion_state.h"
+#include "../../../tools/button_builder.h"
 #include "../../../tools/config_sdl.hpp"
 
 #include "component_sdl_lib/asset_tools/text_sdl.h"
@@ -25,7 +25,7 @@
 
 namespace consoleart
 {
-class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractAciiConversionState
+class AsciiConvertStateSDL: public sdl::StateSDL, private AbstractAsciiConversionState
 {
 private:
 	int y;

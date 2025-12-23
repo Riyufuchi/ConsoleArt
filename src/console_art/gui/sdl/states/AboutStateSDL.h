@@ -14,9 +14,9 @@
 #include <memory>
 #include <ranges>
 
-#include "../../../../console_art/abstract/AbstractState.h"
-#include "../../../../console_art/tools/ButtonBuilder.h"
 #include "../../../../console_art/tools/config_sdl.hpp"
+#include "../../../abstract/abstract_state.h"
+#include "../../../tools/button_builder.h"
 #include "../../../tools/general_tools.hpp"
 #include "component_sdl_lib/components/label_sdl.h"
 #include "component_sdl_lib/panels/content_panel_sdl.h"
