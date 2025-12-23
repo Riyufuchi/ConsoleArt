@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,10 +14,10 @@
 
 #include "../../../abstract/AbstractState.h"
 
-#include "../../../../images/base/Image.h"
-#include "../../../../images/interfaces/IAnimated.hpp"
+#include "consoleartlib/images/base/image.h"
+#include "consoleartlib/images/interfaces/ianimated.hpp"
 #include "StateSDL.h"
-#include "../../../imageTools/ImageTools.h"
+#include "consoleartlib/image_tools/image_tools.h"
 
 namespace consoleart
 {
@@ -47,7 +47,7 @@ private:
 public:
 	ImageStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager);
 	virtual ~ImageStateSDL();
-	virtual void handleTick(SDL_Event &event) override;
+	virtual void handleTick(SDL_Event& event) override;
 	virtual void onReturn() override;
 	virtual void render() override;
 	virtual void onWindowResize() override;

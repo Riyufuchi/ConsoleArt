@@ -2,7 +2,7 @@
 // File       : IMenu.h
 // Author     : Riyufuchi
 // Created on : Dec 19, 2023
-// Last edit  : Nov 19, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: This interface specifies all menus that must be implemented
 //==============================================================================
@@ -10,8 +10,8 @@
 #ifndef CONSOLEART_INTERFACES_IMENU_HPP_
 #define CONSOLEART_INTERFACES_IMENU_HPP_
 
-#include "../../images/base/Image.h"
-#include "ColorUtils.h"
+#include "consoleartlib/images/base/image.h"
+#include "consolelib/tools/color_tools.h"
 
 namespace consoleart
 {

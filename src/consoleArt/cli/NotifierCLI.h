@@ -2,7 +2,7 @@
 // File       : NotifierCLI.h
 // Author     : riyufuchi
 // Created on : Apr 28, 2024
-// Last edit  : May 16, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -12,7 +12,7 @@
 
 #include <mutex>
 
-#include "IConsole.hpp"
+#include "consolelib/consoles/iconsole.hpp"
 #include "../abstract/AbstractNotifier.h"
 
 namespace consoleart
@@ -20,12 +20,12 @@ namespace consoleart
 class NotifierCLI : public AbstractNotifier
 {
 	private:
-		consolelib::Color warning = consolelib::ColorUtils::getColor(consolelib::ColorPallete::UNIQUE);
-		consolelib::Color error = consolelib::ColorUtils::getColor(consolelib::ColorPallete::STRANGE);
-		consolelib::Color exception = consolelib::ColorUtils::getColor(consolelib::ColorPallete::COLLECTORS);
-		consolelib::Color taskDone = consolelib::ColorUtils::getColor(consolelib::ColorPallete::COMMUNITY);
-		consolelib::Color info = consolelib::ColorUtils::getColor(consolelib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
-		consolelib::Color notification = consolelib::ColorUtils::getColor(consolelib::ColorPallete::HAUNTED);
+		consolelib::Color warning = consolelib::color_tools::getColor(consolelib::ColorPallete::UNIQUE);
+		consolelib::Color error = consolelib::color_tools::getColor(consolelib::ColorPallete::STRANGE);
+		consolelib::Color exception = consolelib::color_tools::getColor(consolelib::ColorPallete::COLLECTORS);
+		consolelib::Color taskDone = consolelib::color_tools::getColor(consolelib::ColorPallete::COMMUNITY);
+		consolelib::Color info = consolelib::color_tools::getColor(consolelib::ColorPallete::CONSOLE_ART_UNIX_DEFAULT);
+		consolelib::Color notification = consolelib::color_tools::getColor(consolelib::ColorPallete::HAUNTED);
 		consolelib::IConsole* console;
 	protected:
 		std::mutex mutexPrintMessage;

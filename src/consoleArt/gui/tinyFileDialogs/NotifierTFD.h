@@ -2,7 +2,7 @@
 // File       : NotifierTFD.h
 // Author     : riyufuchi
 // Created on : May 16, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -11,7 +11,6 @@
 #define CONSOLEART_TINYFILEDIALOGS_NOTIFIERTFD_H_
 
 #include "../../abstract/AbstractNotifier.h"
-#include "DataUtils.h"
 
 extern "C"
 {

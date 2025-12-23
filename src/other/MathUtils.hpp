@@ -2,7 +2,7 @@
 // File       : MathUtils.hpp
 // Author     : riyufuchi
 // Created on : Jan 29, 2025
-// Last edit  : Nov 24, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2024, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,9 +14,10 @@
 #include <cmath>
 #include <vector>
 
-#include "BinomialDistribution.h"
-#include "Statistic.h"
-#include "RealNumber.h"
+#include "consolelib/math/distributions/binomial_distribution.h"
+#include "consolelib/math/statistic.h"
+#include "consolelib/math/types/real_number.h"
+#include "consolelib/tools/data_tools.h"
 
 namespace Math
 {
@@ -52,7 +53,7 @@ public:
 	}
 	static long double parseStringToLD(const std::string& s)
 	{
-		if (consolelib::DataUtils::isDouble(s))
+		if (consolelib::data_tools::isDouble(s))
 		{
 			return std::stold(s);
 		}
@@ -64,7 +65,7 @@ public:
 
 			while (std::getline(ss, token, '/'))
 			{
-				if (!consolelib::DataUtils::isDouble(token))
+				if (!consolelib::data_tools::isDouble(token))
 					return -1;
 				tokens.push_back(token);
 			}

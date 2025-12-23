@@ -2,7 +2,7 @@
 // File       : SheduleTracker.h
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -16,13 +16,13 @@
 #include <sstream>
 #include <iostream>
 
-#include "TimeUtils.h"
-#include "IConsole.hpp"
-#include "DefaultConsole.h"
-#include "ConsoleUtils.h"
-#include "ConsoleMenu.h"
 #include "../consoleArt/tools/GeneralTools.hpp"
 #include "../include/tinyfiledialogs.h"
+//
+#include "consolelib/consoles.hpp"
+#include "consolelib/tools/console_menu.h"
+#include "consolelib/tools/console_tools.h"
+#include "consolelib/tools/time_tools.h"
 
 namespace Other
 {
@@ -37,7 +37,7 @@ private:
 		EXIT
 	};
 	std::string filename;
-	std::vector<consolelib::TimeStamp> times;
+	std::vector<consolelib::time_tools::TimeStamp> times;
 	std::vector<std::string> menuTexts, dates;
 	consolelib::IConsole& console;
 	bool fileLoaded;

@@ -2,7 +2,7 @@
 // File       : SheduleTracker.cpp
 // Author     : Riyufuchi
 // Created on : Mar 26, 2024
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2024, Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -65,10 +65,10 @@ bool ScheduleTracker::addNewDataEntry()
 		std::cerr << "Error: Unable to open file for appending.\n";
 		return false;
 	}
-	std::string date = consolelib::TimeUtils::dateToString(consolelib::TimeUtils::todaysDate());
+	std::string date = consolelib::time_tools::dateToString(consolelib::time_tools::todaysDate());
 	file << line << ";" << date << std::endl; // Append line to file
 	std::cout << "Line appended to file successfully.\n";
-	consolelib::TimeStamp data;
+	consolelib::time_tools::TimeStamp data;
 	std::string strNum = line.substr(0, line.find(';'));
 	convertToLong(data.hours, strNum);
 	convertToLong(data.minutes, strNum = line.substr(line.find(';') + 1, line.length()));
@@ -111,7 +111,7 @@ bool ScheduleTracker::readFile()
 		return readFile(); // Second attempt and reading the file
 	}
 	std::string token;
-	consolelib::TimeStamp timeStamp;
+	consolelib::time_tools::TimeStamp timeStamp;
 	const int NUM_OF_ATTRIBUTES = 3;
 	int x = 0;
 	std::istringstream iss;
@@ -161,9 +161,9 @@ void ScheduleTracker::calculateAvgTime()
 	int days = 1;
 	size_t itemNum = 0;
 	std::pair<std::string, std::string> weekBound;
-	for (consolelib::TimeStamp& timeStamp : times)
+	for (consolelib::time_tools::TimeStamp& timeStamp : times)
 	{
-		minutes += consolelib::TimeUtils::convertToMinutes(timeStamp);
+		minutes += consolelib::time_tools::convertToMinutes(timeStamp);
 		days++;
 		itemNum++;
 		// If 7 days collected or it's the last item
@@ -187,7 +187,7 @@ void ScheduleTracker::calculateAvgTime()
 
 void ScheduleTracker::printHeader()
 {
-	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
+	consolelib::console_tools::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
 
 	switch (lastEvent)
 	{

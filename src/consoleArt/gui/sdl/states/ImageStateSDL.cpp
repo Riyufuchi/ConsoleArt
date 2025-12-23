@@ -2,7 +2,7 @@
 // File       : ImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 28, 2025
-// Last edit  : Nov 18, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -169,8 +169,8 @@ SDL_Texture* ImageStateSDL::convertImageToTexture()
 	// This program treats pallted PCX as standard 24-bit PCX
 	switch (IMAGE->getImageInfo().imageFormat)
 	{
-		case consoleartlib::ImageType::DCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved(((consoleartlib::ImageDCX&)*IMAGE).getSelectedPage()); break;
-		case consoleartlib::ImageType::PCX: imageRGBA = ImageUtils::ImageTools::convertPlanarPCXToInterleaved((consoleartlib::ImagePCX&)*IMAGE); break;
+		case consoleartlib::ImageType::DCX: imageRGBA = consoleartlib::image_tools::convertPlanarPCXToInterleaved(((consoleartlib::ImageDCX&)*IMAGE).getSelectedPage()); break;
+		case consoleartlib::ImageType::PCX: imageRGBA = consoleartlib::image_tools::convertPlanarPCXToInterleaved((consoleartlib::ImagePCX&)*IMAGE); break;
 		default: imageRGBA = IMAGE->getImageData(); break;
 	}
 

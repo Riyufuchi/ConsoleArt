@@ -1,8 +1,8 @@
 //============================================================================
 // Name        : MenuCLI
 // Author      : Riyufuchi
-// Created on  : 10.03.2023
-// Last Edit   : Mar 18, 2025
+// Created on  : Mar 10, 2023
+// Last Edit   : Dec 23, 2025
 // Description : Methods for menus in CLI
 //============================================================================
 #ifndef _MenuUtils_HPP_
@@ -12,9 +12,9 @@
 #include <vector>
 #include <map>
 
-#include "ColorUtils.h"
-#include "ConsoleUtils.h"
-#include "DefaultConsole.h"
+#include "consolelib/tools/color_tools.h"
+#include "consolelib/tools/console_tools.h"
+#include "consolelib/consoles/iconsole.hpp"
 
 #include "../interfaces/IMenu.hpp"
 

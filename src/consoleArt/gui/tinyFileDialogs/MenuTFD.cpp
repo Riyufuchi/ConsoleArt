@@ -2,7 +2,7 @@
 // File       : MenuTFD.cpp
 // Author     : riyufuchi
 // Created on : May 16, 2025
-// Last edit  : May 16, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -28,7 +28,7 @@ consolelib::Color MenuTFD::colorPicker()
 		return consolelib::Color{rgb[0], rgb[1], rgb[2]};
 	}
 
-	return consolelib::ColorUtils::getColor(consolelib::CONSOLE_ART_UNIX_DEFAULT);
+	return consolelib::color_tools::getColor(consolelib::CONSOLE_ART_UNIX_DEFAULT);
 }
 
 void MenuTFD::confConsoleTextColor()

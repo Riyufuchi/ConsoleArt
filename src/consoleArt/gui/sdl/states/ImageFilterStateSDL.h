@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.h
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -14,7 +14,7 @@
 
 #include "../../../abstract/AbstractState.h"
 #include "../../../tools/ConfigSDL.hpp"
-#include "../../../imageTools/Filter.h"
+#include "consoleartlib/image_tools/filter.h"
 #include "../../../tools/GeneralTools.hpp"
 // SDL
 #include "ContentPanelSDL.h"

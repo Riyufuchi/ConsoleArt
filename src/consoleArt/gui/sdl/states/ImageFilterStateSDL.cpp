@@ -2,7 +2,7 @@
 // File       : ImageFilterStateSDL.cpp
 // Author     : riyufuchi
 // Created on : May 24, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -45,11 +45,11 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 
 	switch (y)
 	{
-		case 0: return ImageUtils::Filter::matrixFilter(*controller.getSelectedImage());
-		case 1: return ImageUtils::Filter::purplefier(*controller.getSelectedImage());
-		case 2: return ImageUtils::Filter::purplefierSoft(*controller.getSelectedImage());
-		case 3: return ImageUtils::Filter::purplefierShading(*controller.getSelectedImage());
-		case 4: return ImageUtils::Filter::purplefierShadingSoft(*controller.getSelectedImage());
+		case 0: return consoleartlib::filter::matrixFilter(*controller.getSelectedImage());
+		case 1: return consoleartlib::filter::purplefier(*controller.getSelectedImage());
+		case 2: return consoleartlib::filter::purplefierSoft(*controller.getSelectedImage());
+		case 3: return consoleartlib::filter::purplefierShading(*controller.getSelectedImage());
+		case 4: return consoleartlib::filter::purplefierShadingSoft(*controller.getSelectedImage());
 		default:
 			controller.notifyUser(AbstractNotifier::MessageType::PROBLEM, "Error: Invalid filter selection!");
 		return false;

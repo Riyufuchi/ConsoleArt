@@ -2,7 +2,7 @@
 // File       : WatermarkStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 08, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -98,7 +98,7 @@ void WatermarkStateSDL::selectWatermarkEvent()
 
 void WatermarkStateSDL::applytWatermarkEvent()
 {
-	if (watermark && ImageUtils::ImageTools::signatureToImage(*controller.getSelectedImage(), *watermark))
+	if (watermark && consoleartlib::image_tools::signatureToImage(*controller.getSelectedImage(), *watermark))
 		controller.notifyUser(AbstractNotifier::SUCCESFUL_TASK, "Watermark successfully applied to the image.");
 }
 
