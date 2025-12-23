@@ -16,8 +16,9 @@
 
 #include "consoleartlib/images/base/image.h"
 #include "consoleartlib/images/interfaces/ianimated.hpp"
-#include "StateSDL.h"
 #include "consoleartlib/image_tools/image_tools.h"
+
+#include "component_sdl_lib/base/state_sdl.h"
 
 namespace consoleart
 {

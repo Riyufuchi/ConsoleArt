@@ -61,7 +61,7 @@ if (WIN32)
 	
 	set_target_properties(ComponentSDL PROPERTIES
 	IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/ComponentSDL.lib
-	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR})
 
 set_target_properties(ConsoleArtLib PROPERTIES
 IMPORTED_LOCATION ${GENERAL_LIB_DIR}/ConsoleArtLib/ConsoleArtLib.lib
@@ -73,7 +73,7 @@ else()
 	
 	set_target_properties(ComponentSDL PROPERTIES IMPORTED_LOCATION
 	${COMPONENT-SDL_LIB_DIR}/libComponentSDL.a
-	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR})
 
 set_target_properties(ConsoleArtLib PROPERTIES
 IMPORTED_LOCATION ${GENERAL_LIB_DIR}/ConsoleArtLib/libConsoleArtLib.a
@@ -123,7 +123,7 @@ endif()
 # Link everything
 target_include_directories(ConsoleArt PRIVATE
 	${CONSOLE_LIB_DIR}
-	${COMPONENT-SDL_LIB_DIR}/inc
+	${COMPONENT-SDL_LIB_DIR}
 	${SDL_LIB_DIR}
 )
 

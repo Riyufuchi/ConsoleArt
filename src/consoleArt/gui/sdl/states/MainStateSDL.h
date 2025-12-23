@@ -14,11 +14,11 @@
 #include <thread>
 #include <string>
 
-#include "StateSDL.h"
-#include "SpriteSheetSDL.h"
-#include "ContentPanelSDL.h"
-#include "ImageButtonSDL.h"
-#include "LabelSDL.h"
+#include "component_sdl_lib/base/state_sdl.h"
+#include "component_sdl_lib/asset_tools/sprite_sheet_sdl.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
+#include "component_sdl_lib/components/image_button_sdl.h"
+#include "component_sdl_lib/components/label_sdl.h"
 
 #include "../../../abstract/AbstractState.h"
 #include "../../../tools/ButtonBuilder.h"

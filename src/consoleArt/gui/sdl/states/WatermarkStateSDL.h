@@ -18,12 +18,12 @@
 #include "../../../tools/config_sdl.hpp"
 #include "consoleartlib/image_tools/image_tools.h"
 
-#include "StateSDL.h"
-#include "ContentPanelSDL.h"
-#include "LabelSDL.h"
-#include "ImageButtonSDL.h"
-#include "StringButtonSDL.h"
-#include "TextSDL.h"
+#include "component_sdl_lib/base/state_sdl.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
+#include "component_sdl_lib/components/label_sdl.h"
+#include "component_sdl_lib/components/image_button_sdl.h"
+#include "component_sdl_lib/components/string_button_sdl.h"
+#include "component_sdl_lib/asset_tools/text_sdl.h"
 
 namespace consoleart
 {

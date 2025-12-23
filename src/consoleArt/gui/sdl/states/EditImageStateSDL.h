@@ -15,9 +15,9 @@
 #include "../../../abstract/AbstractState.h"
 #include "../../../tools/ButtonBuilder.h"
 
-#include "StateSDL.h"
-#include "ContentPanelSDL.h"
-#include "ImageButtonSDL.h"
+#include "component_sdl_lib/base/state_sdl.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
+#include "component_sdl_lib/components/image_button_sdl.h"
 
 namespace consoleart
 {

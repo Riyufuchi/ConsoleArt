@@ -18,10 +18,10 @@
 #include "../../../tools/ButtonBuilder.h"
 #include "../../../tools/config_sdl.hpp"
 
-#include "TextSDL.h"
-#include "StateSDL.h"
-#include "ContentPanelSDL.h"
-#include "StringButtonSDL.h"
+#include "component_sdl_lib/asset_tools/text_sdl.h"
+#include "component_sdl_lib/base/state_sdl.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
+#include "component_sdl_lib/components/string_button_sdl.h"
 
 namespace consoleart
 {

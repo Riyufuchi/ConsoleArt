@@ -17,9 +17,9 @@
 #include "consoleartlib/image_tools/filter.h"
 #include "../../../tools/general_tools.hpp"
 // SDL
-#include "ContentPanelSDL.h"
-#include "StringButtonSDL.h"
-#include "TextSDL.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
+#include "component_sdl_lib/components/string_button_sdl.h"
+#include "component_sdl_lib/asset_tools/text_sdl.h"
 
 namespace consoleart
 {

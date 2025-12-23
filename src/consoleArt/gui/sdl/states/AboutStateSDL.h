@@ -19,8 +19,8 @@
 #include "../../../tools/general_tools.hpp"
 #include "../../../tools/config_sdl.hpp"
 
-#include "LabelSDL.h"
-#include "ContentPanelSDL.h"
+#include "component_sdl_lib/components/label_sdl.h"
+#include "component_sdl_lib/panels/content_panel_sdl.h"
 
 namespace consoleart
 {
