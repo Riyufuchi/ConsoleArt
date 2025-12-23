@@ -2,7 +2,7 @@
 // File       : ConfigSDL.hpp
 // Author     : riyufuchi
 // Created on : May 25, 2025
-// Last edit  : Jul 05, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -10,6 +10,7 @@
 #ifndef _CONSOLE_ART_CONFIG_SDL_HPP_
 #define _CONSOLE_ART_CONFIG_SDL_HPP_
 
+#include <SDL2/SDL.h>
 #include <string>
 
 namespace consoleart

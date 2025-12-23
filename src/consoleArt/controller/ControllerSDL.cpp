@@ -2,11 +2,15 @@
 // File       : ControllerSDL.cpp
 // Author     : riyufuchi
 // Created on : Feb 21, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
 
+//#define STB_IMAGE_IMPLEMENTATION
+#include "../../include/stb_image.h"
+//#define STB_IMAGE_WRITE_IMPLEMENTATION
+//#include "../../include/stb_image_write.h"
 #include "ControllerSDL.h"
 
 namespace consoleart

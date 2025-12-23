@@ -2,7 +2,7 @@
 // File       : AbstractAsciiPrinter.cpp
 // Author     : riyufuchi
 // Created on : Feb 25, 2025
-// Last edit  : Feb 25, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -15,7 +15,7 @@ AbstractAsciiPrinter::AbstractAsciiPrinter() : AbstractAsciiPrinter(nullptr)
 {
 }
 
-AbstractAsciiPrinter::AbstractAsciiPrinter(ImageUtils::AsciiConverter* converter) : converter(converter)
+AbstractAsciiPrinter::AbstractAsciiPrinter(consoleartlib::AsciiConverter* converter) : converter(converter)
 {
 }
 
@@ -23,7 +23,7 @@ AbstractAsciiPrinter::~AbstractAsciiPrinter()
 {
 }
 
-void AbstractAsciiPrinter::setTarget(ImageUtils::AsciiConverter* converter)
+void AbstractAsciiPrinter::setTarget(consoleartlib::AsciiConverter* converter)
 {
 	this->converter = converter;
 }

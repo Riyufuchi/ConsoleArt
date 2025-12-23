@@ -1,0 +1,35 @@
+//==============================================================================
+// File       : OtherUtils.hpp
+// Author     : riyufuchi
+// Created on : Oct 25, 2024
+// Last edit  : Dec 22, 2025
+// Copyright  : Copyright (c) 2024, riyufuchi
+// Description: consoleart
+//==============================================================================
+
+#ifndef CONSOLELIB_DISTRIBUTION_H_
+#define CONSOLELIB_DISTRIBUTION_H_
+
+#include <math.h>
+#include <cmath>
+
+namespace consolelib
+{
+using u_bigInt = long double; // temporary solution as precision errors might occur
+using bigDouble = long double;
+
+class Distribution
+{
+protected:
+	u_bigInt resultHolder;
+public:
+	Distribution();
+	virtual ~Distribution() = default;
+	u_bigInt factorial(int number);
+	bigDouble power(bigDouble number, int power);
+	virtual bigDouble distribute(int k) = 0;
+	virtual bigDouble ex() = 0; // Expected value
+	virtual bigDouble varX() = 0;
+};
+}
+#endif

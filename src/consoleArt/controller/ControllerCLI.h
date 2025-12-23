@@ -2,7 +2,7 @@
 // File       : ControllerCLI.h
 // Author     : riyufuchi
 // Created on : Dec 18, 2023
-// Last edit  : Nov 17, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -10,22 +10,22 @@
 #ifndef CONSOLEART_CONTROLLERCLI_H_
 #define CONSOLEART_CONTROLLERCLI_H_
 
-#include <ConsoleLib.h>
 #include <chrono>
 #include <thread>
 
-#include "ColorUtils.h"
-#include "ConsoleUtils.h"
-#include "UnixConsole.h"
-#include "DefaultConsole.h"
-#include "DataUtils.h"
 #include "../../other/ScheduleTracker.h"
 #include "../controller/Controller.h"
 #include "../cli/AsciiPrinterCLI.h"
 #include "../cli/MenuCLI.h"
 #include "../cli/NotifierCLI.h"
-#include "../imageTools/ImageTools.h"
-#include "../imageTools/Filter.h"
+// ConsoleLib
+#include "consolelib/tools/color_tools.h"
+#include "consolelib/tools/console_tools.h"
+#include "consolelib/tools/data_tools.h"
+#include "consolelib/consoles.hpp"
+// ConsoleArtLib
+#include "consoleartlib/image_tools/image_tools.h"
+#include "consoleartlib/image_tools/filter.h"
 
 namespace consoleart
 {

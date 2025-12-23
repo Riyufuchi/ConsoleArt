@@ -2,7 +2,7 @@
 // Name        : Controller.cpp
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 24, 2025
+// Last Edit   : Dec 23, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -41,15 +41,15 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 	argumentMethods["--binomial"] = [&](const auto& vector)
 	{
 		auto res = Math::MathUtils::binomialDistribution(vector);
-		consolelib::Output::configStream(16);
-		consolelib::Output::printResults<int, long double>(res);
+		consolelib::output::configStream(16);
+		consolelib::output::printResults<int, long double>(res);
 		isRunnable = false;
 	};
 	argumentMethods["--removeGray"] = [&](const auto&)
 	{
 		loadAllImagesAsync();
 		for (const VectorData& image : images)
-			ImageUtils::SimpleEdit::removeGrayFromTexture(*image.imageUptr.get());
+			consoleartlib::simple_edit::removeGrayFromTexture(*image.imageUptr.get());
 		isRunnable = false;
 	};
 	argumentMethods["--splitGIF"] = [&](const auto& vector)
@@ -74,7 +74,7 @@ Controller::Controller(std::string path, AbstractNotifier* notifier, IMenu* menu
 			if (baseLayer == nullptr || !baseLayer->isLoaded())
 				return;
 			for (const VectorData& image : images)
-				ImageUtils::SimpleEdit::overlayTextures(*baseLayer, *image.imageUptr.get());
+				consoleartlib::simple_edit::overlayTextures(*baseLayer, *image.imageUptr.get());
 			delete baseLayer;
 		}
 		isRunnable = false;
@@ -137,12 +137,12 @@ void Controller::configure(consolelib::argMap& config)
 	}
 }
 
-void Controller::convertImage(consoleartlib::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet)
+void Controller::convertImage(consoleartlib::Image* image, consoleartlib::AsciiConverter::CHAR_SETS charSet)
 {
 	if (image == nullptr || !*image || abstractAsciiPrinter == nullptr)
 		return;
-	ImageUtils::AsciiConverter ac(*image);
-	if (charSet == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+	consoleartlib::AsciiConverter ac(*image);
+	if (charSet == consoleartlib::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 		return;
 	ac.setCharSet(charSet);
 	messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(image->getFilename()));

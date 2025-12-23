@@ -2,7 +2,7 @@
 // File       : AsciiPrinterCLI.cpp
 // Author     : riyufuchi
 // Created on : Feb 25, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -97,13 +97,13 @@ void AsciiPrinterCLI::printCharColored()
 
 	auto renderLine = [&](int y)
 	{
-		auto u32line = consolelib::DataUtils::string_to_u32string(converter->getLine(y));
+		auto u32line = consolelib::data_tools::string_to_u32string(converter->getLine(y));
 		xChar = 0;
 		for (int x = 0; x < imageInfo.width; x++)
 		{
 			pixel = image.getPixel(x, y);
 
-			ch = consolelib::DataUtils::u32char_to_string(u32line[xChar]);
+			ch = consolelib::data_tools::u32char_to_string(u32line[xChar]);
 
 			console.out(pixel.red, pixel.green, pixel.blue, ch + ch);
 			xChar += 2;

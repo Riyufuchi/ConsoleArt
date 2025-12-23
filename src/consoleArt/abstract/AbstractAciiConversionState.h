@@ -1,8 +1,8 @@
 //==============================================================================
 // File       : AbstractAciiConversionMenu.h
 // Author     : riyufuchi
-// Created on : Mar 6, 2025
-// Last edit  : May 25, 2025
+// Created on : Mar 06, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -17,8 +17,8 @@ namespace consoleart
 class AbstractAciiConversionState : public AbstractState
 {
 protected:
-	std::vector<std::pair<ImageUtils::AsciiConverter::CHAR_SETS, std::string>> texts;
-	void convertImageEvent(ImageUtils::AsciiConverter::CHAR_SETS charSet);
+	std::vector<std::pair<consoleartlib::AsciiConverter::CHAR_SETS, std::string>> texts;
+	void convertImageEvent(consoleartlib::AsciiConverter::CHAR_SETS charSet);
 public:
 	AbstractAciiConversionState(Controller& controller, StateManager& stateManager);
 	virtual ~AbstractAciiConversionState();

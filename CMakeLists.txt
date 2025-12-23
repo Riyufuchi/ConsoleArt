@@ -51,24 +51,33 @@ set(COMPONENT-SDL_LIB_DIR ${GENERAL_LIB_DIR}/ComponentSDL)
 # Create an IMPORTED target for the .a file
 add_library(ConsoleLib STATIC IMPORTED)
 add_library(ComponentSDL STATIC IMPORTED)
+add_library(ConsoleArtLib STATIC IMPORTED)
 
 # Point the IMPORTED target to the actual file
 if (WIN32)
 	set_target_properties(ConsoleLib PROPERTIES
 	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/ConsoleLib.lib
-	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
+	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR})
 	
 	set_target_properties(ComponentSDL PROPERTIES
 	IMPORTED_LOCATION ${COMPONENT-SDL_LIB_DIR}/ComponentSDL.lib
 	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+
+set_target_properties(ConsoleArtLib PROPERTIES
+IMPORTED_LOCATION ${GENERAL_LIB_DIR}/ConsoleArtLib/ConsoleArtLib.lib
+INTERFACE_INCLUDE_DIRECTORIES ${GENERAL_LIB_DIR}/ConsoleArtLib)
 else()
 	set_target_properties(ConsoleLib PROPERTIES
 	IMPORTED_LOCATION ${CONSOLE_LIB_DIR}/libConsoleLib.a
-	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR}/inc)
+	INTERFACE_INCLUDE_DIRECTORIES ${CONSOLE_LIB_DIR})
 	
 	set_target_properties(ComponentSDL PROPERTIES IMPORTED_LOCATION
 	${COMPONENT-SDL_LIB_DIR}/libComponentSDL.a
 	INTERFACE_INCLUDE_DIRECTORIES ${COMPONENT-SDL_LIB_DIR}/inc)
+
+set_target_properties(ConsoleArtLib PROPERTIES
+IMPORTED_LOCATION ${GENERAL_LIB_DIR}/ConsoleArtLib/libConsoleArtLib.a
+INTERFACE_INCLUDE_DIRECTORIES ${GENERAL_LIB_DIR}/ConsoleArtLib)
 endif()
 
 #
@@ -113,13 +122,14 @@ endif()
 
 # Link everything
 target_include_directories(ConsoleArt PRIVATE
-	${CONSOLE_LIB_DIR}/inc
+	${CONSOLE_LIB_DIR}
 	${COMPONENT-SDL_LIB_DIR}/inc
 	${SDL_LIB_DIR}
 )
 
 if (WIN32)
 	target_link_libraries(ConsoleArt PRIVATE
+	ConsoleArtLib
 	ConsoleLib
 	ComponentSDL
 	SDL2
@@ -127,6 +137,7 @@ if (WIN32)
 )
 else()
 	target_link_libraries(ConsoleArt PRIVATE
+	ConsoleArtLib
 	ConsoleLib
 	ComponentSDL
 	SDL2

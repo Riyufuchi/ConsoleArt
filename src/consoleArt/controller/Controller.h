@@ -2,7 +2,7 @@
 // Name        : Controller
 // Author      : Riyufuchi
 // Created on  : Nov 15, 2022
-// Last Edit   : Nov 24, 2025
+// Last Edit   : Dec 23, 2025
 // Description : This class is controller for a main app functionality
 //============================================================================
 
@@ -19,20 +19,20 @@
 #include <thread>
 #include <memory>
 
-// consolelib
-#include "ArgumentParser.h"
-#include "Output.hpp"
-//Image utils
-#include "../imageTools/AsciiConverter.h"
-#include "../imageTools/SimpleEdit.h"
 //
-#include "../../images/formats/Formats.hpp"
 #include "../interfaces/IMenu.hpp"
 #include "../tools/GeneralTools.hpp"
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"
 #include "../../other/MathUtils.hpp"
+// ConsoleLib
+#include "consolelib/tools/argument_parser.h"
+#include "consolelib/output.hpp"
+// ConsoleArtLib
+#include "consoleartlib/image_tools/simple_edit.h"
+#include "consoleartlib/image_tools/ascii_converter.h"
+#include "consoleartlib/image_formats.hpp"
 
 namespace consoleart
 {
@@ -92,7 +92,7 @@ public:
 	consoleartlib::Image* loadImageAsync(const std::string& path);
 	consoleartlib::Image* loadImageAsync(const std::string& path, const std::string& extension);
 	void loadAllImagesAsync();
-	void convertImage(consoleartlib::Image* image, ImageUtils::AsciiConverter::CHAR_SETS charSet);
+	void convertImage(consoleartlib::Image* image, consoleartlib::AsciiConverter::CHAR_SETS charSet);
 	void iterateImagesAsync(std::function<void(const VectorNode& node)> actionOnImage);
 	void notifyUser(AbstractNotifier::MessageType messageType, const std::string& message);
 	void displayImageInfo(const consoleartlib::Image& image);

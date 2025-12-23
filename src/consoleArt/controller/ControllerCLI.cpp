@@ -2,7 +2,7 @@
 // Name        : ControllerCLI.cpp
 // Author      : Riyufuchi
 // Created on  : Dec 18, 2023
-// Last Edit   : Nov 17, 2025
+// Last Edit   : Dec 23, 2025
 // Description : This class is CLI controller for the main app
 //============================================================================
 
@@ -31,14 +31,14 @@ ControllerCLI::ControllerCLI(std::string path, consolelib::IConsole* console) : 
 	};
 	argumentMethods["--color"] = [&](const auto& vector)
 	{
-		if (vector.empty() || (!consolelib::DataUtils::isNumber(vector.at(0))))
+		if (vector.empty() || (!consolelib::data_tools::isNumber(vector.at(0))))
 		{
 			messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Missing or wrong argument " + vector.at(0) + " for --color\n");
 			return;
 		}
 		int colorID = std::stoi(vector.at(0)) - 1;
 		if (colorID >= 0 && colorID < consolelib::ColorPallete::COLOR_COUNT)
-			this->console->setDefaultTextColor(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(colorID)));
+			this->console->setDefaultTextColor(consolelib::color_tools::getColor(static_cast<consolelib::ColorPallete>(colorID)));
 	};
 	argumentMethods["--benchmark"] = [&](const auto& vector) { benchmark(vector); };
 	argumentMethods["--compare"] = [&](const auto& vector) { compareImages(vector); };
@@ -59,8 +59,8 @@ void ControllerCLI::benchmark(const std::vector<std::string>& vector)
 	consoleartlib::Image* img = loadImageAsync(image);
 	if (img == nullptr)
 		return;
-	ImageUtils::AsciiConverter ac(*img);
-	ac.setCharSet(ImageUtils::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
+	consoleartlib::AsciiConverter ac(*img);
+	ac.setCharSet(consoleartlib::AsciiConverter::CHAR_SETS::DETAILED_INVERTED);
 	ac.convertToASCII();
 	end = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -86,7 +86,7 @@ void ControllerCLI::compareImages(const std::vector<std::string>& vector)
 		messenger->messageUser(AbstractNotifier::MessageType::PROBLEM, "Loading of " + image2->getFilename() + " failed!\n");
 		return;
 	}
-	switch(ImageUtils::ImageTools::compareImages(*image1, *image2))
+	switch(consoleartlib::image_tools::compareImages(*image1, *image2))
 	{
 		case 1:
 			console->out("Image " + image1->getFilename() + " is bigger than " + image2->getFilename() + "\n");
@@ -124,7 +124,7 @@ void ControllerCLI::imageActionsSubmenu()
 			consoleartlib::Image* image = 0;//selectImage();
 			if (image == nullptr || !*image)
 				return;
-			ImageUtils::ImageTools::signatureToImage(*selectedImage, *image);
+			consoleartlib::image_tools::signatureToImage(*selectedImage, *image);
 		}
 		break;
 		case 2:
@@ -133,11 +133,11 @@ void ControllerCLI::imageActionsSubmenu()
 			option = menuInterface->imageFilterOptions();
 			switch (option)
 			{
-				case 0: res = ImageUtils::Filter::matrixFilter(*selectedImage); break;
-				case 1: res = ImageUtils::Filter::purplefier(*selectedImage); break;
-				case 2: res = ImageUtils::Filter::purplefierSoft(*selectedImage); break;
-				case 3: res = ImageUtils::Filter::purplefierShading(*selectedImage); break;
-				case 4: res = ImageUtils::Filter::purplefierShadingSoft(*selectedImage); break;
+				case 0: res = consoleartlib::filter::matrixFilter(*selectedImage); break;
+				case 1: res = consoleartlib::filter::purplefier(*selectedImage); break;
+				case 2: res = consoleartlib::filter::purplefierSoft(*selectedImage); break;
+				case 3: res = consoleartlib::filter::purplefierShading(*selectedImage); break;
+				case 4: res = consoleartlib::filter::purplefierShadingSoft(*selectedImage); break;
 				default: messenger->messageUser(AbstractNotifier::MessageType::WARNING, "Invalid filter selection [" + std::to_string(option) + "]\n"); break;
 			}
 			if (res)
@@ -167,7 +167,7 @@ void ControllerCLI::run()
 {
 	if (!isRunnable)
 	{
-		if(consolelib::ConsoleUtils::yesNo("Exit application? [Y/n]"))
+		if(consolelib::console_tools::yesNo("Exit application? [Y/n]"))
 			return;
 	}
 	IndexDataType lastIndex = 0;
@@ -190,7 +190,7 @@ void ControllerCLI::run()
 			case 3: imageActionsSubmenu(); break;
 			case 4:
 				console->enableCustomFG();
-				consolelib::ConsoleUtils::listFilesInFolder(workspacePath);
+				consolelib::console_tools::listFilesInFolder(workspacePath);
 				console->disableCustomFG();
 				break;
 			case 5: ((MenuCLI*)menuInterface)->confConsoleTextColor(); break;
@@ -224,7 +224,7 @@ Controller::IndexDataType ControllerCLI::selectImageMenu()
 		std::cout << index + 1 << ". " << images[index].imageUptr->getFilename() << std::endl;
 	}
 
-	int selectedIndex = consolelib::ConsoleUtils::getIntSafe(0, max) - 1;
+	int selectedIndex = consolelib::console_tools::getIntSafe(0, max) - 1;
 	if (selectedIndex == -1)
 		return 0;
 	std::cout << "\n";
@@ -261,14 +261,14 @@ void ControllerCLI::convertImageToAsciiEvent()
 	if (selectedImage == nullptr || abstractAsciiPrinter == nullptr)
 			return;
 	messenger->displayImageInfo(*selectedImage);
-	ImageUtils::AsciiConverter ac(*selectedImage);
+	consoleartlib::AsciiConverter ac(*selectedImage);
 	int option = 0;
 	bool again = true;
 	do {
 		if (option != -1)
 		{
 			option = menuInterface->charSetMenu();
-			if (option == ImageUtils::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
+			if (option == consoleartlib::AsciiConverter::CHAR_SETS::CHAR_SETS_COUNT)
 				return;
 			ac.setCharSet(option);
 			messenger->messageUser(AbstractNotifier::MessageType::NOTIFICATION, std::string("Started conversion of image: ").append(selectedImage->getFilename()));

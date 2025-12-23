@@ -2,7 +2,7 @@
 // File       : GeneralTools.hpp
 // Author     : riyufuchi
 // Created on : Nov 23, 2023
-// Last edit  : Nov 30, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) Riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -10,12 +10,12 @@
 #ifndef _CONSOLE_ART_GENERAL_TOOLS_HPP_
 #define _CONSOLE_ART_GENERAL_TOOLS_HPP_
 
-#include <ConsoleLib.h>
 #include <iostream>
 #include <string>
 
-#include "ConsoleUtils.h"
-#include "IConsole.hpp"
+#include "consolelib/consoles.hpp"
+#include "consolelib/console_lib.h"
+#include "consolelib/tools/console_tools.h"
 
 #define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
 
@@ -57,7 +57,7 @@ public:
 			"--noGUI| Starts application in pure CLI mode",
 			"--tfd| Starts application in CLI mode using TinyFileDialogs"
 		};
-		consolelib::ConsoleUtils::createManual(args, sizeof(args)/sizeof(args[0]));
+		consolelib::console_tools::createManual(args, sizeof(args)/sizeof(args[0]));
 	}
 	static std::string usedLibraries()
 	{
@@ -69,7 +69,7 @@ public:
 			"SDL2| GUI",
 			"TinyFileDialogs| Cross-platform dialogs"
 		};
-		info << "\n" << consolelib::ConsoleUtils::createTable(libs, sizeof(libs)/sizeof(libs[0]));
+		info << "\n" << consolelib::console_tools::createTable(libs, sizeof(libs)/sizeof(libs[0]));
 		return info.str();
 	}
 	static std::string aboutApplication()
@@ -98,7 +98,7 @@ public:
 					"GIF| 24; first frame only",
 					"HDR| 24, 32; basic implementation"
 				};
-		aboutStringStream << consolelib::ConsoleUtils::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
+		aboutStringStream << consolelib::console_tools::createTable(args, sizeof(args)/sizeof(args[0])) << "\n";
 		aboutStringStream << usedLibraries();
 		return aboutStringStream.str();
 	}
@@ -107,7 +107,7 @@ public:
 		for (int i = 0; i < consolelib::ColorPallete::COLOR_COUNT; ++i)
 		{
 			std::cout << i + 1 << ". ";
-			console.out(consolelib::ColorUtils::getColor(static_cast<consolelib::ColorPallete>(i)), consolelib::ColorUtils::colorPaletteNames[i]);
+			console.out(consolelib::color_tools::getColor(static_cast<consolelib::ColorPallete>(i)), consolelib::color_tools::colorPaletteNames[i]);
 			std::cout << "\n";
 		}
 	}

@@ -2,7 +2,7 @@
 // File       : AsciiPrinterCLI.h
 // Author     : riyufuchi
 // Created on : Feb 25, 2025
-// Last edit  : Mar 18, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -16,8 +16,8 @@
 #include <iostream>
 
 #include "../abstract/AbstractAsciiPrinter.h"
-#include "IConsole.hpp"
-#include "DataUtils.h"
+#include "consolelib/consoles/iconsole.hpp"
+#include "consolelib/tools/data_tools.h"
 
 namespace consoleart
 {

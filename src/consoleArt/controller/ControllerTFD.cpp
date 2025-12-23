@@ -2,7 +2,7 @@
 // File       : ControllerTFD.cpp
 // Author     : riyufuchi
 // Created on : May 15, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -20,7 +20,7 @@ ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(cons
 
 void ControllerTFD::printHeader()
 {
-	consolelib::ConsoleUtils::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::console_tools::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
 	static consoleartlib::Image* selectedImage = getSelectedImage();
 	if (selectedImage != nullptr)
@@ -49,7 +49,7 @@ void ControllerTFD::showAboutApplicationInfo()
 {
 	ControllerCLI::showAboutApplicationInfo();
 	console->out("Press enter to continue...");
-	consolelib::ConsoleUtils::waitForEnter();
+	consolelib::console_tools::waitForEnter();
 }
 
 } /* namespace consolelib */
