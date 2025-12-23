@@ -20,7 +20,7 @@ ControllerTFD::ControllerTFD(consolelib::IConsole* console) : ControllerCLI(cons
 
 void ControllerTFD::printHeader()
 {
-	consolelib::console_tools::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *console);
+	consolelib::console_tools::header("\n    " + std::string(consoleart::general_tools::CONSOLE_ART_VERSION) + "\n   ", *console);
 	console->out("\nSelected image: ");
 	static consoleartlib::Image* selectedImage = getSelectedImage();
 	if (selectedImage != nullptr)

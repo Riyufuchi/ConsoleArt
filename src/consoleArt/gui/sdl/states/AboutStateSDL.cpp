@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.cpp
 // Author     : riyufuchi
 // Created on : Mar 03, 2025
-// Last edit  : Dec 04, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -15,7 +15,7 @@ AboutStateSDL::AboutStateSDL(sdl::WindowInfo& winInfo, Controller& controller, S
 {
 	this->y = 0;
 	std::string string;
-	for (auto line : std::views::split(GeneralTools::aboutApplication(), '\n'))
+	for (auto line : std::views::split(general_tools::aboutApplication(), '\n'))
 	{
 		string = std::string(line.begin(), line.end());
 		if (string.length() > 0)

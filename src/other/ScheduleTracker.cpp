@@ -187,7 +187,7 @@ void ScheduleTracker::calculateAvgTime()
 
 void ScheduleTracker::printHeader()
 {
-	consolelib::console_tools::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", console);
+	consolelib::console_tools::header("\n    " + std::string(consoleart::general_tools::CONSOLE_ART_VERSION) + "\n   ", console);
 
 	switch (lastEvent)
 	{

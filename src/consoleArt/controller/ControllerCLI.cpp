@@ -155,7 +155,7 @@ void ControllerCLI::imageActionsSubmenu()
 
 void ControllerCLI::showAboutApplicationInfo()
 {
-	console->out(GeneralTools::aboutApplication());
+	console->out(general_tools::aboutApplication());
 }
 
 /*std::string command = "cd ";

@@ -21,7 +21,7 @@
 
 //
 #include "../interfaces/IMenu.hpp"
-#include "../tools/GeneralTools.hpp"
+#include "../tools/general_tools.hpp"
 #include "../abstract/AbstractNotifier.h"
 #include "../interfaces/IMenu.hpp"
 #include "../abstract/AbstractAsciiPrinter.h"

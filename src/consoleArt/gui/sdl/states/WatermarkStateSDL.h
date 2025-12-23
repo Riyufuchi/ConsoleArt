@@ -15,7 +15,7 @@
 
 #include "../../../abstract/AbstractState.h"
 #include "../../../tools/ButtonBuilder.h"
-#include "../../../tools/ConfigSDL.hpp"
+#include "../../../tools/config_sdl.hpp"
 #include "consoleartlib/image_tools/image_tools.h"
 
 #include "StateSDL.h"

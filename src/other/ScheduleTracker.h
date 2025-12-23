@@ -16,7 +16,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "../consoleArt/tools/GeneralTools.hpp"
+#include "../consoleArt/tools/general_tools.hpp"
 #include "../include/tinyfiledialogs.h"
 //
 #include "consolelib/consoles.hpp"

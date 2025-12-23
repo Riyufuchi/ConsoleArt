@@ -14,7 +14,7 @@
 #include "consoleArt/controller/ControllerCLI.h"
 #include "consoleArt/controller/ControllerSDL.h"
 #include "consoleArt/controller/ControllerTFD.h"
-#include "consoleArt/tools/GeneralTools.hpp"
+#include "consoleArt/tools/general_tools.hpp"
 #include "other/ScheduleTracker.h"
 //
 #include "consolelib/consoles.hpp"
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
 	systemConsole->setDefaultTextColor(consolelib::color_tools::getColor(consolelib::ColorPallete::APERTURE_ORANGE));
 
-	consolelib::console_tools::header("\n    " + std::string(consoleart::GeneralTools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
+	consolelib::console_tools::header("\n    " + std::string(consoleart::general_tools::CONSOLE_ART_VERSION) + "\n   ", *systemConsole);
 
 	bool success = true;
 	std::string resultMsg = "";
@@ -126,10 +126,10 @@ BootAction checkArgs(ParsedArguments& argPairs, consolelib::IConsole& console)
 		if (consolelib::ArgumentParser::contains(argPairs, arg.first))
 			switch (arg.second)
 			{
-				case DISPLAY_MANUAL: consoleart::GeneralTools::createManual(); return arg.second;
-				case TEST: consoleart::GeneralTools::colorTest(console); return arg.second;
-				case ABOUT: console.out(consoleart::GeneralTools::aboutApplication()); return arg.second;
-				case LIBRARY: console.out(consoleart::GeneralTools::usedLibraries()); return arg.second;
+				case DISPLAY_MANUAL: consoleart::general_tools::createManual(); return arg.second;
+				case TEST: consoleart::general_tools::colorTest(console); return arg.second;
+				case ABOUT: console.out(consoleart::general_tools::aboutApplication()); return arg.second;
+				case LIBRARY: console.out(consoleart::general_tools::usedLibraries()); return arg.second;
 				case SCHEDULE: Other::ScheduleTracker(console).run(); return arg.second;
 				default: abort(console);
 			}

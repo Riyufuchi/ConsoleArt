@@ -2,7 +2,7 @@
 // File       : SelectImageStateSDL.h
 // Author     : riyufuchi
 // Created on : Mar 03, 2025
-// Last edit  : Dec 03, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -16,7 +16,7 @@
 
 #include "../../../abstract/AbstractAciiConversionState.h"
 #include "../../../tools/ButtonBuilder.h"
-#include "../../../tools/ConfigSDL.hpp"
+#include "../../../tools/config_sdl.hpp"
 
 #include "TextSDL.h"
 #include "StateSDL.h"

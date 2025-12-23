@@ -15,7 +15,7 @@ namespace consoleart
 ImageFilterStateSDL::ImageFilterStateSDL(sdl::WindowInfo& winInfo, Controller& controller, StateManager& stateManager) : StateSDL(winInfo), AbstractState(controller, stateManager)
 {
 	int y = 0;
-	for (const std::string& text : FILTER_TEXTS)
+	for (const std::string& text : general_tools::FILTER_TEXTS)
 	{
 		pane.addComponent(y, new sdl::StringButtonSDL(new sdl::TextSDL(renderer, FONT_BASE, text, 32, BASE_TEXT_COLOR ),
 				HOVER_TEXT_COLOR, [&](){ applyFilterEvent(text); }));
@@ -36,7 +36,7 @@ bool ImageFilterStateSDL::applyFilter(const std::string& filter)
 
 	int y = 0;
 
-	for (const std::string& text : FILTER_TEXTS)
+	for (const std::string& text : general_tools::FILTER_TEXTS)
 	{
 		if (text == filter)
 			break;

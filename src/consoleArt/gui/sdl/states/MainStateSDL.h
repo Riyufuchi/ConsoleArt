@@ -2,7 +2,7 @@
 // File       : MainStateSDL.h
 // Author     : riyufuchi
 // Created on : Feb 26, 2025
-// Last edit  : Nov 21, 2025
+// Last edit  : Dec 23, 2025
 // Copyright  : Copyright (c) 2025, riyufuchi
 // Description: consoleart
 //==============================================================================
@@ -22,7 +22,7 @@
 
 #include "../../../abstract/AbstractState.h"
 #include "../../../tools/ButtonBuilder.h"
-#include "../../../tools/ConfigSDL.hpp"
+#include "../../../tools/config_sdl.hpp"
 
 namespace consoleart
 {

@@ -13,9 +13,9 @@
 #include <future>
 
 #include "../../../abstract/AbstractState.h"
-#include "../../../tools/ConfigSDL.hpp"
+#include "../../../tools/config_sdl.hpp"
 #include "consoleartlib/image_tools/filter.h"
-#include "../../../tools/GeneralTools.hpp"
+#include "../../../tools/general_tools.hpp"
 // SDL
 #include "ContentPanelSDL.h"
 #include "StringButtonSDL.h"

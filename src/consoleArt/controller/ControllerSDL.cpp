@@ -19,7 +19,7 @@ ControllerSDL::ControllerSDL() : Controller(new NotifierSDL(), nullptr, new Asci
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	this->window = SDL_CreateWindow(
-			consoleart::GeneralTools::CONSOLE_ART_VERSION,
+			consoleart::general_tools::CONSOLE_ART_VERSION,
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_SetWindowMinimumSize(window, 400, 300);
