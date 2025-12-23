@@ -11,10 +11,10 @@
 #include <string.h>
 #include <map>
 
-#include "consoleArt/controller/ControllerCLI.h"
-#include "consoleArt/controller/ControllerSDL.h"
-#include "consoleArt/controller/ControllerTFD.h"
-#include "consoleArt/tools/general_tools.hpp"
+#include "console_art/controller/ControllerCLI.h"
+#include "console_art/controller/ControllerSDL.h"
+#include "console_art/controller/ControllerTFD.h"
+#include "console_art/tools/general_tools.hpp"
 #include "other/ScheduleTracker.h"
 //
 #include "consolelib/consoles.hpp"
