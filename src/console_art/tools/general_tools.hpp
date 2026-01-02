@@ -17,7 +17,7 @@
 #include "consolelib/console_lib.h"
 #include "consolelib/tools/console_tools.h"
 
-#define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2025\n"
+#define _COPYRIGHT_HEADER "Riyufuchi (c) 2020 - 2026\n"
 
 #define _APP_NAME "ConsoleArt"
 #define _APP_VERSION "3.6"
